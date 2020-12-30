@@ -1,0 +1,54 @@
+
+
+<!-- begin: script -->
+      <script type="text/javascript" src="usuarios/Credencial.js" ></script>    
+      
+<!-- end:   script -->
+
+<!-- begin: style -->
+       <link rel="stylesheet" type="text/css" href="Credencial.css" />  
+<!-- end:   style -->
+
+
+
+<!-- begin: form -->
+<input type="hidden" id="sha" value="{sha}">
+<input type="hidden" id="md5" value="{md5}">
+       
+   <div style="text-align: center; width: 30%;min-width: 500px;border: solid 1px;margin: 20 auto ">
+       <table  id="credenciales" cellspacing="6" cellpadding ="0" border="0" style="margin: 0 auto" >
+        <tr><th colspan="2" class="titulo">Datos de la Credencial</th></tr>
+        <tr> <td> <label>Usuario:&nbsp;&nbsp;&nbsp;</label> </td><td><input type="text" id="usuario" name="usuario" value="{usuario}" onkeyup="checkAll()"></td>   </tr>
+        
+        <tr> <td> <label>Nombre a Mostrar:</label>  </td><td><input type="text" id="nombre" size="40" value="" onkeyup="checkAll()"> </td>   </tr> 
+        <tr> <td> <label>Cargo:</label>  </td><td><input type="text" id="cargo" size="40" value="" onkeyup="checkAll()"> </td>   </tr> 
+        <tr> 
+            <td colspan="2" style="text-align: center"> <input type="button" onclick="showMenu()" value="Volver">  
+                <input type="button" onclick="imprimirCredencial()" id="generar"  value="Generar Credencial" disabled>    
+            </td>
+        </tr>
+       </table>   
+   </div>       
+ 
+  
+<!-- end:   form -->
+
+<!-- begin: error -->
+<div class="passw_error"> Error: Verifique la contrase&ntilde;a. Los datos no coinciden.  <input type="button" onclick="javascript:self.close()" value="Cerrar">    </td></div>    
+<!-- end:   error -->
+
+ <img src="../img/logo_inmopy_small.jpg" height="60" width="300" class="logo">
+    <img src="../img/usuarios/no_image.jpg" class="imagen" ><br>
+
+<!-- begin: credencial -->
+<div class="marco">   
+    <span class="nombre">{nombre}</span><br>
+    <span class="nombre">{cargo}</span>
+    <div style="width: 98%;margin: 0 auto"><img src="{codigo_barras}" border="0" class="barras"></div>
+    <div class="nombre">{usuario}</div>
+</div>    
+<!-- end:   credencial -->
+
+      
+
+

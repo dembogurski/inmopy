@@ -1,0 +1,183 @@
+
+/* 
+    Created on : 24/11/2015, 08:21:41 AM
+    Author     : Ing.Douglas
+*/
+
+.fila_pedido{
+    cursor:pointer;
+    background-color: beige;
+}
+.minorista{
+    background-color: #D3D3EE;
+}
+
+.zebra0{
+    background-color: white;
+}
+.zebra1{
+    background-color: rgb(240,240,240);
+}
+.noedit{
+    background-color: white;
+}
+
+.guardando{
+    background-color: #3333FF;
+    color:white;
+}
+
+.cancelado{
+    background-color: orange;
+}
+.disponible{
+    background-color: #3333FF;
+    color:white;
+}
+.tracking{
+    background-color: #CC9900;
+    color:white;
+}
+.pendiente{
+    background-color: rgb(240,240,240);
+}
+.procesado{
+    background-color: #9999FF;
+}
+a{
+    text-decoration:none;
+}
+.anchorTitle {
+    /* border radius */
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 3px #e6e6e6;
+    -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    /* other settings */
+    background-color: #fff;
+    border: solid 2px orange;
+    color: #333;
+    display: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    max-width: 700px;
+    padding: 5px 7px;
+    position: absolute;
+    margin-left:40px
+}
+* html #anchorTitle {
+    /* IE6 does not support max-width, so set a specific width instead */
+    width: 300px;
+}
+.urge{
+    background-color: orange;
+}
+
+.area_trabajo{
+    width:auto;
+    height: auto;
+    background-color: rgb(255, 255, 224);
+    top:200px;
+    left:30%;
+    position:absolute;
+    cursor:move;
+    font-family: arial;
+    font-size:11px;
+    z-index: 1;
+    padding:2px;
+    border:solid gray 1px;
+    padding:2px;
+    display:none;
+}
+ .linea{
+    border-width:  0px  0px  2px  0px;    
+    border-style: solid;
+    border-color: orange;
+    background:lightyellow;
+ } 
+.selected{
+    background-color: rgb(221,221,255);
+}
+.botones{
+    margin: 0;
+    font-size: 10;
+    font-family: arial;
+    height:24px 
+}
+.input_cell{
+   border:0px solid white; 
+   width:100%;
+}
+#feedback { font-size: 1.4em; }
+#articulos .ui-selecting { 
+    background: #FECA40; 
+}
+#articulos .ui-selected { 
+    background: #F39814; color: white; 
+}
+#articulos { 
+    list-style-type: none;
+    margin: 0; 
+    padding: 0; 
+    width: 80%; 
+}
+#articulos li { 
+    margin: 2px; 
+    padding: 2px; 
+    font-size: 13; 
+    height: 16px; 
+}
+.mayorista{
+    background-color: #73AD21;  
+    color: white;  
+}  
+/*JACK*/
+hr{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    width: 99%;   
+    margin: 1px auto;
+}
+div#designs_container{
+    position: absolute;    
+    right: 3%;
+    top: 15px;
+    width: 325px;    
+    height: 70%;
+}
+div#designs_container:hover{    
+    cursor: move;
+}
+#patrones{
+    position: absolute;    
+    top: 0px;
+    right: 0px;
+    background-color: white;
+    height: 100%;
+    overflow-y: scroll;
+}
+img.patrones:hover{
+    cursor: pointer;
+    height: 148px;
+    width: 148px;
+}
+div#preview{
+    top: 0px;
+    left: 0px;
+    position: absolute;
+}
+input.data_err{
+    border: 1px solid red;
+}
+input.data_ok{
+    border: 1px solid green;
+}
+.porc_procesado{
+    background-color: #D3D3EE;
+    border: solid gray 1px;
+}

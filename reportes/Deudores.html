@@ -1,0 +1,65 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+</style>
+
+<script language="javascript">
+      
+   
+
+</script>
+
+</head>
+ 
+<!-- end:   header -->
+ 
+
+<!-- begin: head -->
+
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Deudores</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+   
+</table>
+
+<!--   &oacute;n -->
+
+<!-- end:   head -->    
+
+<!-- begin: cabecera --> 
+
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>Tipo</th><th>Cliente</th><th>RUC</th> <th>Ticket</th><th>Suc</th><th>Cuotas</th><th>Fecha de Factura</th><th>Vencimiento</th><th>Fecha.Ult.Pago</th><th>Dias de Atraso</th><th>Ult.Pago</th><th>Total Cuotas</th><th>Pagados</th><th>Folio Num</th><th>DocCur</th><th>Status</th></tr>
+
+<!-- end:   cabecera -->
+
+<!-- begin: data --> 
+
+
+<tr><td class="item">{Tipo}</td><td class="item">{Nombre}</td><td class="num">{RUC}</td> <td class="num">{Ticket}</td><td class="num">{Suc}</td><td class="num">{NroCuota}</td><td class="itemc">{fecha}</td><td class="itemc">{Vencimiento}</td><td class="itemc">{fecha_ult_pago}</td><td class="itemc">{DiasAtraso}</td><td class="ult_pago_{DocNum} itemc"></td><td class="num">{TotalCuota}</td><td class="num">{Pagado}</td><td class="item">{FolioNum}</td><td class="itemc">{DocCur}</td><td class="num">{Status}</td></tr>
+
+
+<!-- end:   data -->
+
+<!-- begin: corte -->   
+<tr>
+    <td colspan="7">&nbsp;</td>
+</tr>
+<!-- end:   corte  -->
+
+<!-- begin: footer -->   
+</table>  
+<!-- end:   footer  -->

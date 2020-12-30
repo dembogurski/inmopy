@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+Template de la clase NotasCredito.class.php
+-->
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="notas_credito/NotasCredito.css?_=5555555555" />   
+    <script type="text/javascript" src="notas_credito/NotasCredito.js?_=89879898989898989" ></script> 
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>             
+    <script>
+        var facturaContable = {fact_cont};
+    </script>  
+<!-- end:   header -->
+
+
+
+<!-- begin: titulo_nota_credito -->
+<input type="hidden" id="limite_detalles" value="{limite_detalles}">
+<input type="hidden" id="fecha_hoy" value="{fecha_hoy}">
+<input type="hidden" id="fecha_factura" value="{fecha_factura}"> 
+<input type="hidden" id="fuera_rango" value="{fuera_rango}"> 
+  
+<div class="titulo_nota_credito">Nota de Credito</div>
+<!-- end:   titulo_nota_credito -->
+
+<!-- begin: cabecera_nota_credito -->
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="codigo_cliente" value="">    
+    <label class="nota" style="display: none">N&deg; Nota Credito: </label> 
+    <input class="nota" type="text" readonly="readonly" disabled="disabled" id="nro_nota_credito" size="8"   style="display:none" value="">
+    <label id="label_ruc">R.U.C.:</label> <input type="text" id="ruc_cliente" onchange="buscarCliente(this)" size="20" maxlength="34" placeholder="Buscar Cliente" data-next="nombre_cliente"  >
+    <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="boton_generar" >
+    <label>Cat:</label>  <input type="text" id="categoria" size="3" readonly style="text-align: center" value="1"  >
+    <input class="moneda" type="text" id="moneda" size="3" readonly style="text-align: center;" value="G$" >
+    <img src="img/icon-arrow-right-b-32.png" class="currency" id="change_currency" style="margin:0px 0px -11px -14px;cursor:pointer;" title="Cambiar Moneda" onclick="cambiarMonedaFactura()" >
+    <br>
+    <label class="label">Clase:</label>
+    <select id="clase" >
+        <option value="Articulo" selected="selected">Devolucion Articulos</option>
+        <option value="Servicio" >Servicio</option>
+    </select>
+    
+    <label class="factura">Factura N&deg;: </label> 
+    <select class="factura" id="facturas"></select>  
+     
+    <input type="text" readonly="readonly" disabled="disabled" size="8" id="factura" style="display:none" value="">
+       
+     
+    <input id="boton_generar" onclick="crearNotaCredito()" style="display:none" type="button" value="Generar Nota de Credito" >&nbsp;&nbsp;<span id="msg"></span>
+    </div>
+    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer"  >
+     <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th> <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div> 
+ </div>   
+<!-- end:   cabecera_nota_credito -->
+
+
+<!-- begin: area_carga_servicio -->
+<div id="area_carga_servicios">
+    <table border="1" >
+        <label class="servicios">Servicios:</label> 
+        <select class="servicios" id="servicios"   onchange="selectService()" style="cursor: pointer">
+            {servicios}
+        </select> 
+        <br>
+        <label>Codigo:</label> 
+        <input type="text" id="service_cod" value="" size="8" readonly="readonly" onclick="showService()"  style="cursor: pointer" > 
+        <input type="text" id="service_desc" value="" size="50" onclick="showService()"> 
+        <label>Cantidad:</label> <input type="number" id="service_cant" class="service_data"  value="1"  step="1" min="0" max="10000" style="width: 40px" > 
+        <label>Precio:</label> <input type="text" id="service_precio" class="service_data" value="" size="10" style="text-align: right"     > 
+        <label>Subtotal:</label> <input type="text" id="service_subtotal" class="service_data" value="" size="14"  readonly="readonly" style="text-align: right"   > 
+        <input type="button" id="add_button" value="Agregar" style="font-size: 11px;font-weight: bolder" onclick="agregarDetalleServicio()" disabled="disabled" >
+        
+        <input type="text" id="service_um" value=""  size="6" style="display: none"   > 
+    </table>
+</div>
+<!-- end:   area_carga_servicio -->
+
+<!-- begin: area_carga_cab -->
+    <div id="area_carga" style="display:none" >
+        
+        <table id="detalle_factura" style="border-collapse: collapse" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th class="titulo_nc" colspan="11" style="background-color: lightgray">Detalle de Nota de Credito</th></tr>  
+            <tr class="titulo"><th class="codigo">Codigo</th><th class="codigo" style="{display}" >Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th> <th class="precio">Precio</th><th class="subtotal">Subtotal</th><th class="max_dev" style="{display}">Cant.Max.Dev.</th><th class="cant_dev" style="{display}">Cant. Dev.</th><th class="subtotal" style="{display}">Subtotal Dev.</th><th class="delete">*</th></tr>  
+            
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: area_carga_data -->
+<tr id="tr_{codigo}-{lote}" class="fila_nota_credito" ><td class="item codigo" >{codigo}</td><td class="item codigo_lote" >{lote}</td><td class="item">{descrip}</td><td class="num cantidad" id="cant_vend_{lote}">{cantidad}</td><td  class="itemc">{um_cod}</td> <td class="num" id="precio_venta_{lote}">{precio_neto}</td><td class="num">{subtotal}</td>
+                <td class="itemc" style="width:60px"><input type="text" id="dev_{lote}" data-codigo="{codigo}" data-lote="{lote}" data-precio="{pn}" data-um="{um_prod}" data-descrip="{descrip}" class="cant_dev num" size="8" maxlength="10" ></td><td style="width:120px" class="num subtotal_dev_" id="subtotal_dev_{lote}"></td><td class="itemc"></td></tr>
+<!-- end:   area_carga_data -->
+
+<!-- begin: area_carga_foot -->
+<tr class="tr_total_factura" style="font-weight: bolder"><td >&nbsp;Totales</td><td colspan="4" id="msg_det" style="text-align: center;font-size: 11" class="info"></td>  <td id="descuento_factura" style="text-align: right;" class="num">{TOTAL_DESC}</td><td style="text-align: right;" colspan="" id="total_factura" class="num">{TOTAL}&nbsp;Gs.</td><td style="{display}"></td><td style="{display}"></td><td style="text-align: right;{display}" class="num" id="total_dev"></td> </tr>
+        </table>  
+    </div>   
+<div style="text-align: center;margin-top: 6px;display:none" id="div_guardar"  >
+    <input type="button" value="  Volver al Menu  " onclick="showMenu()" id="atras" style="display:none">
+    <input type="button" value="  Finalizar  " disabled="disabled" id="finalizar" onclick="finalizar()">
+    <span id="NCGenMov"><label for="generarMovimientoCaja" style="background:orange;padding:4px" >Generar Movimiento de Caja (Salida de Efectivo): </label>
+        <select id="generarMovimientoCaja" style="height:24px;font-weight:bolder;font-size:16px" onchange="setBackground()">
+            <option value="No" style="background:green">No</option>
+            <option value="Si" style="background:red">Si</option>
+        </select> 
+    </span>
+    <input type="button" value="  Imprimir Comprobante   " onclick="imprimirNotaCredito()" id="imprimir" class="print" style="display:none">
+    
+    <label style="display:none" class="print">Seleccione Nota de Credito:</label> 
+        <select class="print" id="tipo_fact" data-next="tipo_factura" onchange="getNotasCreditoContables()" style="height: 26px;display:none" >
+            <option>Pre-Impresa</option>
+            <option>Manual</option>            
+        </select>
+    <select class="print" id="nota_credito_contable" data-next="tipo_factura" style="font-weight: bold;height: 26px;display:none"> </select>  
+     <input type="button" value="  Imprimir Nota de Credito   " onclick="imprimirNotaCreditoLegal()" id="imprimir_nc_legal" class="print" style="display:none">
+</div>
+<label>Notas:</label><textarea id="notas" rows="2" cols="36" readonly="readonly">{notas}</textarea>
+<script>preConfigurar();</script>
+<!-- end:   area_carga_foot -->   
+
+
+
+<div class="titulo_nota_credito">Nota de Credito</div>
+<!-- end:   titulo_nota_credito -->
+
+<!-- begin: cabecera_nota_credito_existente -->
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="codigo_cliente" value="">    
+    <label class="nota" >N&deg;: </label> 
+    <input class="nota" type="text" readonly="readonly" disabled="disabled" id="nro_nota_credito" size="8" id="nro_nota" value="{nro_nota}">
+    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" id="ruc_cliente" value="{ruc}" readonly="readonly"   maxlength="34"    size="12">
+    <label>Cliente:</label>   <input type="text" id="nombre_cliente" readonly="readonly" size="46" value="{cliente}"  > 
+    <label class="factura">Factura N&deg;: </label>  
+    <input type="text" readonly="readonly" disabled="disabled" size="8" id="factura"   value="{factura}">
+    <input class="moneda" type="text" id="moneda" size="3" readonly style="text-align: center;" value="{moneda}"   >
+    <label class="clase">Clase: </label> <input type="text" readonly="readonly" id="clase" value="{clase}" style="text-align: center">
+     &nbsp;&nbsp;<span id="msg"></span>
+     
+    </div>       
+</div>   
+<!-- end:   cabecera_nota_credito -->

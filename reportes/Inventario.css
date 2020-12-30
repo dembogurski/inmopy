@@ -1,0 +1,53 @@
+#ArtColor{
+   display:none;
+}
+#ArtColor+label{
+   border:solidgray1px;
+   padding:3px;
+   border-radius:7px;
+   background-color:gray;
+   color:lightblue;
+}
+#ArtColor+label::after{
+   content:'No';
+   margin-left:5px;
+   font-weight:bold;
+}
+#ArtColor+label:hover{
+   cursor:pointer;
+}
+#ArtColor:checked+label{
+   background-image:linear-gradient(to bottom,gray,lightgreen,gray);
+   border-color:green;
+   color:darkblue;
+}
+#ArtColor:checked+label:after{
+   content:'Si';
+}
+div.listaPeriodosInventario{
+   display: block;
+   position: absolute;
+   top: 90%;
+   background-color: white;
+}
+div.listaPeriodosInventario table{
+   border-collapse: collapse;
+}
+div.listaPeriodosInventario table tr:hover{
+   cursor: pointer;
+   background-color: wheat;
+}
+div.listaPeriodosInventario table th, div.listaPeriodosInventario table td{
+   border: solid 1px gray;
+   padding: 1px 3px;
+}
+div.listaPeriodosInventario p{
+   width: auto;
+   background-color: lightgray;
+   border-top: 1px solid gray ;
+   border-left: 1px solid gray ;
+   border-right: 1px solid gray ;
+   padding: 0 3px;
+   font-weight: 400;
+   border-radius: 3px 3px 0 0 ;
+}

@@ -1,0 +1,140 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="productos/HistorialLote.css?_=666" />
+    <script type="text/javascript" src="productos/HistorialLote.js?_=666" ></script> 
+<!-- end:   header -->
+
+
+<!-- begin: body -->
+<input type="hidden" id="images_url" value="{images_url}">
+<div>
+       
+     <table style="border:solid gray 1px;margin: 10px auto; width:auto;padding: 10px;background-color: white" >        
+         <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Historial de Articulos y Lotes</th></tr>
+         <tr style="display: none" >
+             <td><label>Historial:</label> </td> <td><input type="checkbox" id="traer_historial" checked > <label for="traer_historial"> Completo </label></td>             
+         </tr>
+        <tr>
+            <td style="width: 15%"><label>Codigo:</label> </td> 
+            <td  colspan="2">
+                <input title="Ingrese aqui el codigo del lote" type="text" size="12" id="lote" maxlength="36" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder" >&nbsp;
+                <img src="img/keypad32.png" border="0" onclick="showKeyPad()" style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                <span id="msg"></span>    
+            </td>
+        </tr>     
+        <tr>
+            <td><label>Articulo:</label> </td> 
+            <td> 
+                <input type="text" size="8" id="codigo"   style="color:black;text-align: left" readonly="readonly" >     
+                
+                <label>Manejado x Lotes</label> <input type="text" size="3" id="mnj_x_lotes"   style="color:black;text-align: center" readonly="readonly" > 
+            </td> 
+            <td rowspan="5" style="width: 35%"><img id="img" alt="" src="img/no_image.png" onclick="verImagen()" width="160" style="cursor: pointer"  ></td>
+        </tr>
+        <tr >
+            <td>
+                <label>Ubicaci&oacute;n:</label> 
+            </td> 
+            <td> 
+                <input id="ubicacion" type="text" size="22" style="color:black;text-align: center" readonly="readonly" >   
+                <img src="img/in_green.png" alt="" style="height: 22px;margin-bottom: -4px;cursor: pointer" onclick="historialUbicaciones()" >
+            </td>     
+        </tr>
+        <tr>
+            <td>
+                <label>Suc:</label> <input type="checkbox"  id="only_suc" onclick="buscarDatos()">*
+            </td> 
+            <td> 
+                <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" > 
+                
+                <label>Padre:</label> <input type="text" size="12" id="padre"   style="color:black;text-align: left" readonly="readonly" >              
+            </td>
+        </tr>
+        <tr>
+            <td><label>Stock:</label> </td> <td> <input type="text" size="10" id="stock"   style="color:black;text-align: right" readonly="readonly" ><input type="text" size="4" id="um_prod"  style="color:black;text-align: center" readonly="readonly" ></td>
+        </tr>
+         
+        <tr>
+            <td><label>Gramaje:</label></td><td><input type="text" size="10" id="gramaje"  style="color:black;text-align: right" readonly="readonly" >
+                <label>Precio 1 Gs.:&nbsp;</label> <input type="text" size="14" id="precio"  style="color:black;text-align: center" readonly="readonly" >
+            </td>
+        </tr> 
+        <tr>
+            <td><label>Ancho:</label></td><td><input type="text" size="10" id="ancho"  style="color:black;text-align: right" readonly="readonly" >
+            <label>Estado Venta:</label> <input type="text" size="14" id="estado_venta"  style="color:black;text-align: center" readonly="readonly" >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Codigo Color Fabrica:</label></td><td><input type="text" size="16" id="color_cod_fabric"  style="color:black;text-align: left" readonly="readonly" >
+                <label>Color:</label> <input type="text" size="26" id="color"  style="color:black;text-align: left" readonly="readonly" >
+            </td>
+        </tr>
+        <tr>
+             <td><label>Descripci&oacute;n:</label> </td> <td colspan="2"> <input type="text" id="descrip"  style="color:black;width:99%" readonly="readonly" ></td>
+        </tr>
+        <tr>
+            <td style="text-align: center" colspan="4">
+                <input type="button"   id="stock_comp"  disabled="disabled"  style="font-size: 12;color:black"  value="Estado"  onclick="buscarStockComprometido()" >
+                <input type="button"   id="fracciones"  disabled="disabled"  style="font-size: 12;color:black"  value="Fracciones"  onclick="fracciones()" >
+                <div class="ordenProcesamiento">
+                    <input type="button" id="ordenProcesamiento"  disabled="disabled"  style="font-size: 12;color:black"  value="Ver Orden de Procesamiento"  onclick="verOrdenProcesamiento()" >
+                    <div id="extraInfo"></div>
+                </div>   
+                <input type="button"   id="imprimir"  disabled="disabled"  style="font-size: 12;color:black"  value="Historial"  onclick="historial()" >
+               <!-- <input type="button"   id="audit"   style="font-size: 12;color:black;display:{display_audit}"  value="Auditoria de Lote"  onclick="auditar()" > -->
+                
+            </td>
+        </tr>
+    </table> 
+</div>
+
+
+<div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:relative"></div>    
+
+<div style="text-align: center;border:solid gray 1px;width:80%;margin: 0 auto;background: white">
+    <table border="0" style="margin: 0 auto;width: 99.8%;border:white 0px "  >
+    <tr class="grafico_fallas" style="display: none" >
+                <td colspan="4" class="titulo error" style="text-align: center;font-size: 12px;">Fallas registradas en este tejido</td>
+        </tr>
+        <tr class="grafico_fallas" style="display: none">
+            <td colspan="2" id="min_mts" style="font-family: arial;font-weight: bolder;font-size: 9">0</td>
+            <td colspan="2" id="max_mts" style="font-family: arial;font-weight: bolder;font-size: 9;text-align: right" ></td>
+        </tr>    
+            <tr class="grafico_fallas" style="display: none">
+                <td colspan="4" >
+                    <div id="total_mts" >
+                        <div id="total_vender">
+                            
+                        </div>
+                    </div> 
+                </td>
+            </tr>
+             
+    </table>        
+</div>
+
+
+<div style="text-align: center;">
+    <table   class="fracciones" border="1" >
+        <tr class="titulo"> <th colspan="12">Fracciones</th>  </tr>
+        <tr>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Codigo</th>
+            <th>Lote</th>
+            <th>Cantidad</th>
+            <th>Um</th>
+            <th>Motivo</th>
+            <th>Tara</th>
+            <th>Gramaje</th>
+            <th>Ancho</th>
+            <th>Kg</th>
+        </tr>
+    </table>
+</div>
+<!-- end:   body -->
+
+ 
+
+ 

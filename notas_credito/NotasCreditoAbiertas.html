@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="notas_credito/NotasCredito.css" />   
+    <script type="text/javascript" src="notas_credito/NotasCredito.js?_=1503348442441" ></script> 
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>      
+<!-- end:   header -->
+
+<!-- begin: nota_credito_cab -->
+
+<div>
+    <input type="button" value="Nueva Nota Credito" onclick=genericLoad("notas_credito/NotasCredito.class.php") style="margin-left: 80%">
+</div>
+
+<div id="verificar" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center">
+    <label>Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24" value=""><br>
+     
+    <input type="button"   value="Cancelar" onclick=javascript:$("#verificar").fadeOut()>    <input type="button"   value="Aceptar"  onclick="autorizar()"> <br>
+    <span id="msg_pw"></span>
+</div> 
+
+<table id="ventas" border="1"  cellspacing="0" cellpadding="0" style="margin: 14 auto;border-collapse: collapse"   >
+    <tr class="titulo_factura"><th colspan="15">Notas de Credito Abiertas o Pendientes de Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 7%">N&deg;</th>
+        <th style="width: 7%">Cod.Cli</th>
+        <th style="width: 7%">CI/RUC</th>
+        <th style="width: 24%">Cliente</th>
+        <th style="width: 7%">Usuario</th>
+        <th style="width: 8%">Req. Autorizai&oacute;n</th>
+        <th style="width: 6%">Autorizado Por</th>         
+        <th style="width: 4%">Factura</th>
+        <th style="width: 4%">Fecha</th>
+        <th style="width: 4%">Suc</th>
+        <th style="width: 6%">Tipo</th>
+        <th style="width: 6%">Total</th>
+        <th style="width: 4%">Moneda</th>
+        <th style="width: 4%">Estado</th>
+        <th style="width: 2%"></th>
+    </tr>
+<!-- end:   nota_credito_cab -->
+
+<!-- begin: nota_credito_data -->
+<tr id="nc_{nro}" data-factura="{factura}" class="detalle_nc{clase}" data-moneda="{moneda}" >
+    <td class="itemc clicable" >{nro}</td>
+    <td class="itemc clicable">{cod_cli}</td> 
+    <td class="item clicable"  title="Seleccionar">{ruc}</td> 
+    <td class="item cliente clicable" title="Seleccionar">{cliente}</td> 
+    <td class="itemc">{usuario}</td>  
+    <td class="itemc">{req_auth}</td>
+    <td class="itemc">{autorizado_por}</td>
+    <td class="item">{factura}</td> 
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{tipo}</td> 
+    <td class="itemc">{total}</td> 
+    <td class="itemc">{moneda}</td> 
+    <td class="itemc" style="background-color: {color}">{estado}</td> 
+    <td class="itemc"><img src="img/trash_mini.png" style="cursor:pointer" onclick="eliminarNotaCredito({nro})"></td> 
+</tr> 
+<!-- end:   nota_credito_data -->
+
+
+<!-- begin: nota_credito_foot noeaval --> 
+</table>
+ 
+<script>   preConfigurar();  </script>
+<!-- end:   nota_credito_foot -->

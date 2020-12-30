@@ -1,0 +1,794 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../css/reportes.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js"></script>
+    <style>
+        th {
+            padding: 0;    
+            margin: 0;
+        }
+        
+        td p,
+        th p {
+            margin: 0;
+        }
+        
+        th p.user {
+            font-size: 12px;
+            text-align: center;
+            text-transform: capitalize;
+        }
+        
+        th p.date {
+            font-size: 10px;
+            font-weight: 100;
+        }
+        .lote{
+            cursor: pointer;
+            color: blue;    
+            border:solid black 1px;
+        }
+        .anchorTitle {
+
+            -moz-border-radius: 1px 8px 8px 8px;
+            -webkit-border-radius: 1px 8px 8px 8px;
+            border-radius: 1px 8px 8px 8px;    
+            -moz-box-shadow: 2px 2px 3px #e6e6e6;
+            -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+            box-shadow: 2px 2px 3px #e6e6e6;     
+            background-color: #fff;
+            border: solid 2px orange;
+            color: #333;
+            display: none;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1;
+            max-width: 300px;
+            padding: 5px 7px;
+            position: absolute;
+            margin-left:30px
+        }   
+        .anchorTitleObs {
+
+            -moz-border-radius: 1px 8px 8px 8px;
+            -webkit-border-radius: 1px 8px 8px 8px;
+            border-radius: 1px 8px 8px 8px;    
+            -moz-box-shadow: 2px 2px 3px #e6e6e6;
+            -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+            box-shadow: 2px 2px 3px #e6e6e6;     
+            background-color: #F5DA81;
+            border: solid 2px gray;
+            color: #333;
+            display: none;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1;
+            max-width: 400px;
+            padding: 5px 7px;
+            position: absolute;
+            margin-left:30px
+        }   
+        .prioridad{
+            cursor:pointer;
+        }
+        .marked{
+            background-color: #3498db;
+        }
+        .obs{
+            color: red;
+            font-weight: bolder;
+        }
+        #toolbar{
+            background-color: #F5DA81;
+            width: 310px;
+            position: absolute;
+        } 
+        .preview{
+            background-color: greenyellow;
+            text-align: right;
+        }
+        .preview td{
+            padding-right: 36px;
+        }
+        #operadores{
+            position:absolute;
+            text-align:left;
+            background: #F5DA81;
+            margin-top: 2px; 
+            padding-left: 4px;
+            list-style-type: none;
+        }
+        #operadores li:hover{
+            background-color: orange;
+            cursor: pointer;
+        }
+        .Obs{
+            font-weight: bolder;
+        }
+        .fabiana{
+            background-color: #369;
+            color:white;
+            border:solid gray 1px;
+            border-radius: 2px;
+            font-weight: bolder;
+            font-family: cambria;
+        }
+        .rosaura{
+            background-color: #e056fd;             
+             border:solid gray 1px;
+            border-radius: 2px;
+            font-weight: bolder;
+            font-family: cambria;
+        }
+        .yanina{
+            background-color: #ff7979;         
+            border:solid gray 1px;
+            border-radius: 2px;
+            font-weight: bolder;
+            font-family: cambria;
+        }
+        .Mabel{
+            background-color: #1E52A9;   
+            color:white;
+            border:solid gray 1px;
+            border-radius: 2px;
+            font-weight: bolder;
+            font-family: cambria;
+        }
+        .douglas{
+            background-color: white;   
+            color:black;
+            border:solid gray 1px;
+            border-radius: 2px;
+            font-weight: bolder;
+            font-family: cambria;
+        }  
+        .fecha_hora{
+            font-family: cambria;
+            font-size: 11px;
+        }
+    </style>
+    <script>
+        
+        var ventana;
+        var down = false;
+        var rango1 = 0;
+        var rango2 = 0;
+        var counter = 0;    
+        var permiso_prioridad = "";
+        var permiso_asignar_operador = "";
+        var operadores_maq;
+        
+        $(function() {
+         $("tr.datos").each(function() {
+            var usuario = $(this).data("usuario");
+            if($("select#usuarios option#"+usuario).length === 0){
+               $("<option>",{
+                  "id":usuario,
+                  "value":usuario,
+                  "text":usuario 
+               }).appendTo("select#usuarios");
+            }
+            $(document).mousedown(function() {
+            down = true;
+            }).mouseup(function() {
+               setTimeout("down = false;",1200);    
+            });
+         });
+         setAnchorTitle();
+         setAnchorTitleObs();
+         
+         
+         
+        /*  
+        $("#estado").change(function(){
+            var e = $(this).val();
+            if(e !== "Pendiente" ){
+                $("#cambiar_estado").prop("disabled",false);  
+            }else{
+                $("#cambiar_estado").prop("disabled",true);  
+            }
+        }); */
+        $("#operador").change(function(){
+             var o = $(this).val();
+             if(o === ""){
+                 $("#asignar_operador").val("Des-Asignar");
+             }else{
+                 $("#asignar_operador").val("Asignar");
+             }
+        });
+        
+        permiso_prioridad = $("#permiso_prioridad").val();
+        permiso_asignar_operador = $("#permiso_asignar_operador").val();
+         if(permiso_prioridad === "vem" || permiso_asignar_operador === "vem"){
+            $("#toolbar").draggable(); 
+         } 
+         
+         if(permiso_asignar_operador === "vem" ){
+             var opers = $("#operador").html().replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>');
+             $("#operador").html(opers); 
+             $(".permiso_asignar_operador").fadeIn();
+         }else{
+             $(".permiso_asignar_operador").fadeOut();
+         }
+         if(permiso_prioridad === "vem"){
+             $(".permiso_prioridad").fadeIn();
+         }else{
+             $(".permiso_prioridad").fadeOut();
+         }
+         $("select > option:nth-child(even)").css("background", "#F0F0F5"); // Color Zebra para los Selects  
+         
+         var names = $(".operador").map( function(){ return $(this).html() ;});
+         operadores_maq = uniques(names);
+         var tr = $(".en_transito");
+         $(".en_transito").remove();
+         $("#orden_proc tr:last").before(tr);
+        });
+
+        function sumar(target) {
+           // console.log(target);
+         $("tr.datos").hide();
+            var target = (target=='todos')?'':'.'+target;
+            var totalRollos = 0;
+            var totalPiezas = 0;
+            var totalMetros = 0;
+            $("tr"+target+".datos").each(function() {
+                  totalRollos += eval($($(this).find('td.rollos')).text());
+                  totalPiezas += eval($($(this).find('td.piezas')).text());
+                  totalMetros += eval(($(this).find('td.metros')).text());
+            });
+            $("#totalRollos").text(totalRollos.toFixed(0));
+            $("#totalPiezas").text(totalPiezas.toFixed(2));
+            $("#totalMetros").text(totalMetros.toFixed(2));
+            $("tr"+target+".datos").show();
+        }
+        function  historial(lote){
+           //var lote = $("#lote").val();
+
+           var url = "../productos/HistorialMovimiento.class.php?lote="+lote+"&suc=00";
+           var title = "Historial de Movimiento de Lote";
+           var params = "width=980,height=480,scrollbars=yes,menubar=yes,alwaysRaised = yes,modal=yes,location=no";
+
+           if(!ventana){        
+               ventana = window.open(url,title,params);
+           }else{
+               ventana.close();
+               ventana = window.open(url,title,params);
+           } 
+       }    
+       function showToolbar(){
+           var selected = $(".marked").length;
+           if(selected > 0){
+               $("#toolbar").fadeIn();
+           }else{
+               $("#toolbar").fadeOut();
+           }
+       }
+       
+// Funcion para verificar seleccion automatica o individual     
+function rowClick(obj){   
+    if(permiso_prioridad === "vem" || permiso_asignar_operador === "vem"){
+        var multiple = $("#auto_select").is(":checked");
+        //$(".obs").removeClass("obs");
+        if(multiple){        
+            var c = $(obj).attr("data-codigo");
+            if( $(obj).hasClass("marked")){
+                $(".cod_"+c).removeClass("marked");
+            }else{
+                $(".marked").removeClass("marked");
+                $(".cod_"+c).addClass("marked"); 
+            }    
+        }else{
+            if( $(obj).hasClass("marked")){
+                $(obj).removeClass("marked");
+            }else{
+                $(obj).addClass("marked");
+            }
+        }
+        checkSelection(); 
+    }
+}       
+function checkSelection(){
+   var selecteds = $(".marked").length;
+   if(selecteds > 0){
+       
+       $("#toolbar").fadeIn();
+       var pos = $(".marked").offset();
+       $("#toolbar").animate({top:pos.top - ($("#toolbar").height()+10),left: pos.left - 300 });
+       var prioridad = parseInt($(".marked").html());
+       $("#n_prior").val(prioridad);
+       
+       
+   }else{
+       $("#toolbar").fadeOut();
+   }
+}      
+function setAnchorTitle() {
+     $('.codigo[title!=""]').each(function() {
+         var a = $(this);
+         a.hover(
+             function() {
+                 showAnchorTitle(a, a.data('title'));
+             },
+             function() {
+                 hideAnchorTitle();
+             }
+         ).data('title', a.attr('title')).removeAttr('title');
+     });
+ }
+ function setAnchorTitleObs() {
+     $('.obs[title!=""]').each(function() {
+         var a = $(this);
+         a.hover(
+             function() {
+                 showAnchorTitleObs(a, a.data('title'));
+             },
+             function() {
+                 hideAnchorTitleObs();
+             }
+         ).data('title', a.attr('title')).removeAttr('title');
+     });
+ }
+
+ function showAnchorTitle(element, text) {
+     var offset = element.offset();
+     $('#anchorTitle').css({
+         'top': (offset.top + element.outerHeight() - 1 ) + 'px',
+         'left': offset.left + 'px'
+     }).html(text).show();
+ }
+
+ function hideAnchorTitle() {
+     $('#anchorTitle').hide();
+ }
+function showAnchorTitleObs(element, text) {
+    console.log(text);
+    var arr = text.split("<br>");
+    arr.shift();
+    var ntext = "";    
+    
+    arr.forEach(function(e){
+       console.log(e);   
+       if(e.indexOf("[") > -1){
+          var c1 = e.indexOf("["); 
+          var c2 = e.indexOf("]"); 
+          var fecha_hora  = e.substring(c2+1,100); 
+          var nombre = e.substring(c1+1,c2);
+          ntext += "<label class='"+nombre+"'>  "+nombre+"  </label> <span class='fecha_hora'>"+fecha_hora+"</span><br>";
+       }else{
+          var obs = e.replace("Obs:",""); 
+          ntext += "<label class='Obs'>Obs:</label> <span class='fecha_hora'>"+obs+"</span><br><br>"; 
+       }
+    });    
+    
+    var offset = element.offset();
+     $('#anchorTitleObs').css({
+         'top': (offset.top + element.outerHeight() - 1 ) + 'px',
+         'left': offset.left - 120 + 'px'
+     }).html(ntext).show();
+ }
+
+ function hideAnchorTitleObs() {
+     $('#anchorTitleObs').hide();
+ }
+ function cambiarEstado(){
+     
+     var selecteds = $(".marked").length; 
+     var id_ent = $(".marked").attr("data-id_ent"); 
+     if(selecteds > 0){
+         var estado = $("#estado").val();
+         var codigo = $(".marked").parent().find(".codigo").html();
+       var lotes = new Array();
+       $(".marked").each(function(){
+           var lote = $(this).parent().find(".lote").html();  
+           lotes.push(lote);
+       }); 
+       var usuario = $("#usuario").val(); 
+       lotes = JSON.stringify(lotes);
+       $.ajax({
+        type: "POST",
+        url: "Fraccionamientos.class.php",
+        data: {"action":"cambiarEstado",codigo:codigo,lotes:lotes,estado:estado,id_ent:id_ent,usuario:usuario}, 
+        async:true,
+        dataType: "json",
+        beforeSend: function(){
+            $("#cambiar_estado").val("- - -");
+            $("#cambiar_estado").prop("disabled",true);
+        },
+        success: function(data){  
+            $("#cambiar_estado").val("Cambiar");
+            $("#cambiar_estado").prop("disabled",false);
+        }
+    });
+         
+   }else{
+       alert("Seleccione un articulo");
+   }    
+      
+ }
+ function cambiarPrioridad(){
+  var prior = parseInt($("#n_prior").val());   
+  var selecteds = $(".marked").length;
+  var id_ent = $(".marked").attr("data-id_ent"); 
+  
+   if(selecteds > 0){
+       var codigo = $(".marked").parent().find(".codigo").html();
+       var lotes = new Array();
+       $(".marked").each(function(){
+           var lote = $(this).parent().find(".lote").html();  
+           lotes.push(lote);
+       }); 
+       console.log(codigo);
+       console.log(lotes);
+       lotes = JSON.stringify(lotes);
+       $.ajax({
+        type: "POST",
+        url: "Fraccionamientos.class.php",
+        data: {"action":"cambiarPrioridad",codigo:codigo,lotes:lotes,prioridad:prior,id_ent:id_ent}, 
+        async:true,
+        dataType: "json",
+        beforeSend: function(){
+            $(".preview > td").html("Cambiando prioridad...  <img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+        },
+        success: function(data){  
+            $(".preview > td").html("Prioridad cambiada  <img src='../img/ok.png' width='16px' height='16px' >"); 
+            var trs = $(".marked").parent().clone();
+            $(".marked").parent().remove();
+            $(".preview").after(trs);
+            $(".marked").html(prior);
+            //$(".marked").css("background","greenyellow");
+            setTimeout(function(){
+                $(".preview").slideUp().remove();;           
+            },3000);
+            $("#msg").html(""); 
+        }
+    });
+         
+   }else{
+       alert("Seleccione un articulo");
+   }    
+ }
+ 
+ function preview(){
+     var prior = parseInt($("#n_prior").val());
+     var selected = parseInt($(".marked").html());
+     $(".preview").remove();
+     
+     var exist = $(".prior_"+prior).length;
+     
+     var target = $(".prior_"+prior).last();
+     
+     var tr = "<tr class='preview'><td colspan='13'>Insertar aqui <img src='../img/l_arrow.png' style='padding-left:80px;margin-bottom:-6px;margin-right:-80px'> </td></tr>";
+     
+     if(prior > selected){  console.log(prior +"  > "+ selected);
+         if(exist > 0){ console.log(   "  exist "+ exist);
+            $(".prior_"+prior).last().parent().after(tr);
+            target = $(".prior_"+prior).last();
+         }else{  console.log(   " NO exist "+ exist);
+             
+            //selected = parseInt($(".prior_"+i).last().html()); 
+            for(var i = prior; i >= selected; i--) {
+                 console.info("1th for: "+i+"   prior: "+prior+"     selected: "+selected);
+                 if($(".prior_"+i).length > 0){                     
+                     $(".prior_"+i).last().parent().after(tr); 
+                     target = $(".prior_"+i).last();
+                     break;
+                 }
+            } 
+         }
+     }else{
+         if(exist > 0){
+             $(".prior_"+prior).first().parent().before(tr);
+             target = $(".prior_"+prior).first();
+             
+         }else{
+             // Buscar la menor
+             var tmp = prior + 1;
+             //console.log(tmp +"   "+ selected);
+             if(tmp === selected){   
+                 $(".prior_"+tmp).first().parent().before(tr);
+                  target = $(".prior_"+tmp).first();
+                  //console.log(tmp +"   "+ selected);
+             }else{
+                var found = false;
+                for(var i = tmp; i < selected; i++){
+                    console.info("2d for: "+i+"   tmp "+tmp+"     selected: "+selected);
+                   if($(".prior_"+i).length > 0){
+                       $(".prior_"+i).first().parent().before(tr);
+                       target = $(".prior_"+i).first();
+                       found = true;
+                       break;
+                   }
+                }
+                if(!found){
+                    $(".prior_"+selected).first().parent().before(tr);
+                    target = $(".prior_"+selected).first();
+                }
+             }
+         }         
+     }
+     var pos = target.offset();
+     $('html, body').animate( {  'scrollTop': pos.top - 120   });    
+     $("#toolbar").animate({top:pos.top - ($("#toolbar").height()+50),left: pos.left - 120 });
+     
+ }
+ 
+ function asignarOperador(){
+    var oper = $("#operador").val();
+   var selecteds = $(".marked").length;
+   var id_ent = $(".marked").attr("data-id_ent"); 
+   
+   if(selecteds > 0){
+       var codigo = $(".marked").parent().find(".codigo").html();
+       var lotes = new Array();
+       $(".marked").each(function(){
+           var lote = $(this).parent().find(".lote").html();  
+           lotes.push(lote);
+       }); 
+       
+       lotes = JSON.stringify(lotes);
+       $.ajax({
+        type: "POST",
+        url: "Fraccionamientos.class.php",
+        data: {"action":"asignarOperador",codigo:codigo,lotes:lotes,operador:oper,id_ent:id_ent}, 
+        async:true,
+        dataType: "json",
+        beforeSend: function(){
+            $(".marked").prev().html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+        },
+        success: function(data){  
+            $(".marked").prev().html("<b>"+oper+"</b>"); 
+        }
+    });
+         
+   }else{
+       alert("Seleccione un articulo");
+   } 
+ }
+ 
+ function addObs(){
+   var obs = $("#obs").val();
+   var selecteds = $(".marked").length;
+   var id_ent = $(".marked").attr("data-id_ent"); 
+   var usuario = $("#usuario").val();
+   
+   if(selecteds > 0){
+       var codigo = $(".marked").parent().find(".codigo").html();
+       var lotes = new Array();
+       $(".marked").each(function(){
+           var lote = $(this).parent().find(".lote").html();  
+           lotes.push(lote);
+       }); 
+       
+       lotes = JSON.stringify(lotes);
+       if(obs.length > 3){
+       $.ajax({
+        type: "POST",
+        url: "Fraccionamientos.class.php",
+        data: {"action":"addObs",codigo:codigo,lotes:lotes,obs:obs,id_ent:id_ent,usuario:usuario}, 
+        async:true,
+        dataType: "json",
+        beforeSend: function(){
+            $("#obs").val("Guardando observacion...");
+        },
+        success: function(data){  
+            $(".marked").each(function(){  
+               var t = $(this).data("title");
+               t += "<br>["+usuario+"] >Ahora: <br> Obs: "+obs+" ";
+               $(this).data("title",t);
+            }); 
+            $(".marked").addClass("obs"); 
+            $(".marked").removeClass("marked"); 
+            setAnchorTitleObs();
+            $("#obs").val("");
+        }
+    });
+   }else{
+       alert("Agregue una Observacion mas larga...");
+   }  
+   }else{
+       alert("Seleccione un articulo");
+   }     
+ }
+ // Dibujar
+ var showOper = false;
+ function operadores(){
+    // operadores
+    if(!showOper){
+        $(".fila_oper").remove();
+        showOper = true;
+        $("#operadores").append("<li class='fila_oper'>Todos</li>");
+        operadores_maq.forEach(function(o){ 
+            $("#operadores").append("<li class='fila_oper'>"+o+"</li>");
+        });
+        $("#operadores").fadeIn();
+        $(".fila_oper").click(function(){
+            var op = $(this).html();
+            showOper = false; 
+            $("#operadores").fadeOut();
+            if(op!="Todos"){
+               totalizar(op);
+            }else{
+                $(".datos").fadeIn();
+                sumarTodo();
+            }
+        });
+    }else{
+        showOper = false;
+        $("#operadores").fadeOut();
+    }
+ }
+ function totalizar(operador){
+     
+     $(".datos:not([class*="+operador+"]").fadeOut();
+     $("."+operador).fadeIn();
+     var tiempo_estimado = 0;
+     $(".estim_"+operador).each(function(){
+         var t = parseFloat($(this).html());
+         tiempo_estimado+=t;
+     });
+      
+     mostrarTiempoTotal(tiempo_estimado);
+ }
+ function sumarTodo(){
+      var tiempo_estimado = 0;
+     $("[class*=estim_]").each(function(){
+         var t = parseFloat($(this).html());
+         tiempo_estimado+=t;
+     });
+      mostrarTiempoTotal(tiempo_estimado);        
+ }
+ function mostrarTiempoTotal(tiempo_estimado){
+  if(tiempo_estimado > 60){
+         tiempo_estimado = (tiempo_estimado / 60).toFixed(2);
+         $("#horas_minutos").html("horas");
+     }else{
+         $("#horas_minutos").html("minutos");
+     }     
+     
+     $("#total_tiempo_estim").html(tiempo_estimado);    
+ }
+ function uniques(arr) {
+    var a = [];
+    for (var i=0, l=arr.length; i<l; i++)
+        if (a.indexOf(arr[i]) === -1 && arr[i] !== '')
+            a.push(arr[i]);
+    return a;
+}
+    </script>
+    <div id="anchorTitle" class="anchorTitle"></div>
+    <div id="anchorTitleObs" class="anchorTitleObs"></div>
+    <input type="hidden" id="permiso_prioridad" value="[onshow.permiso_prioridad]">
+    <input type="hidden" id="permiso_asignar_operador" value="[onshow.permiso_asignar_operador]">
+    <input type="hidden" id="usuario" value="[onshow.usuario]">    
+    
+        <div id="toolbar" style="display:none">
+            <table border="0" style="width: 249">
+                <tr style="background:">
+                    <td colspan="2"><b>Auto Seleccion:</b></td>
+                    <td><input id="auto_select" type="checkbox" checked="checked"></td>
+                </tr>
+                
+                <tr class="permiso_prioridad">
+                    <td><b>Prioridad:</b></td><td><input type="number" id="n_prior" size="5" style="width:80px" onclick="preview()"></input></td>
+                    <td>
+                        <input type="button" value="Cambiar" style="font-size:10px" onclick="cambiarPrioridad()">
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Estado:</b></td>
+                    <td>
+                        <select id="estado" >
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Procesado">Procesado</option>  
+                            <option value="Vendido">Suspendido</option>
+                            <option value="Remitido">Remitido</option>                     
+                            <option value="Vendido">Vendido</option>                                   
+                        </select>
+                    </td>
+                    <td>
+                        <input type="button" id="cambiar_estado"  onclick="cambiarEstado()" value="Cambiar" style="font-size:10px" >
+                    </td>
+                </tr>
+                
+                <tr class="permiso_asignar_operador">
+                    <td><b>Operador:</b></td>
+                    <td>
+                        <select id="operador">[onshow.maquinistas]</select>
+                    </td>
+                    <td>
+                        <input type="button" id="asignar_operador" value="Asignar" style="font-size:10px" onclick="asignarOperador()"  >
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Obs:</b></td>
+                    <td>
+                        <textarea id="obs" cols="18" rows="3"></textarea>
+                    </td>
+                    <td>
+                        <input type="button" id="add_obs" value="Agregar" style="font-size:10px" onclick="addObs()"  >
+                    </td>    
+                </tr> 
+                
+            </table>
+        </div>    
+</head>
+
+<body>
+    <div id="main-body">
+        <div id="example">
+            <p style="text-align:center; color:#F00">Huvo un problema en la comunucaci&acute;n con el Servidor, contacte al departamento Informatico de persistir el problema.<br /> [onshow;block=p;when [var.sql_ok]=0]</p>
+            <table border="1" id="orden_proc" cellpadding="2" cellspacing="0" style="margin-left:auto; margin-right:auto;border-collapse: collapse">
+                <tr>
+                    <td colspan="13" style="text-align: center">
+                        <table style="width:100%">
+                            <tr>
+                                <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th>
+                                <th style="width: 70%;" colspan="3">Reporte de Fraccionamientos Pendientes</th>
+                                <th style="width: 15%;" rowspan="2">
+                                    <p class="user">[onshow.usuario]</p>
+                                    <p class="date">[onshow..now;frm='dd-mm-yyyy hh:nn:ss'] </p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                    <p>Per&iacute;odo [onshow.desde;frm='dd-mm-yyyy'] a [onshow.hasta;frm='dd-mm-yyyy']</p>
+                                </th> 
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <tr class="title-section2" style="background-color: rgb(221, 218, 205);">
+                    <th>Usuario</th>
+                    <th>Fecha</th>                     
+                    <th>Codigo</th>
+                    <th>Articulo</th>
+                    <th>Lote</th>
+                    <th>Color</th>                    
+                    <th>Presentacion</th>
+                    <th>Ubic</th>                   
+                    <th>Metros</th>     
+                    <th>Piezas</th>  
+                    <th>Tiempo Prom.</th> 
+                    <th>Tiempo Estim.</th> 
+                    <th>Operador
+                       <img src="../img/filtro16x.png" onclick="operadores()" style="margin-bottom:-2px;cursor: pointer" >
+                           <ul id="operadores" style="display:none"></ul>   
+                    </th>  
+                    <th>Prioridad</th>                      
+                </tr>
+                <tr class="[data.operador] datos [data.en_transito]" data-usuario="[data.usuario]" style="background-color:white;">
+                    <td class="itemc" >[data.usuario;block=tr]</td>
+                    <td class="itemc">[data.fecha]</td>
+                    <td class="itemc codigo" title="<b>Ref:</b> [data.id_ent] <br> <b>Invoice:</b>[data.invoice] &nbsp;&nbsp; <b>Fecha:</b> [data.fecha_ent] <br> <b>Prov:</b>[data.proveedor]">[data.codigo]</td>
+                    <td class="item codigo">[data.articulo]</td>
+                    <td class="lote codigo itemc" title="Historial" onclick="historial([data.lote])" >[data.lote]</td>
+                    <td class="color item">[data.color]</td>
+                    <td align="center" class="presentacion">[data.presentacion]</td> 
+                    <td class="ubic itemc">[data.ubic]</td>
+                    <td class="metros num" >[data.metros]</td>
+                    <td class="piezas itemc" data-prom="[data.prom]">[data.piezas]</td> 
+                    <td class="itemc" >[data.prom]</td> 
+                    <td class="itemc estim_[data.operador]" >[data.tiempo]</td> 
+                    <td class="operador itemc" >[data.operador]</td> 
+                    <td title="[data.obs]" onclick="rowClick(this)" data-id_ent="[data.id_ent]" data-codigo="[data.id_ent]_[data.codigo]" class="prior_[data.prioridad] prioridad td_[data.i] cod_[data.id_ent]_[data.codigo] itemc [data.class_obs]">[data.prioridad]</td>                     
+                </tr>
+                <tr>
+                    <td colspan="10"><b>Total:</b></td>           
+                    <td id="total_tiempo_estim" style="font-weight:bolder;text-align: center;"></td> 
+                    <td colspan="2" id="horas_minutos" style="text-align:center"></td> 
+                </tr>
+            </table>
+            <p style="text-align:center;">Se encontraron [data.#] registros en total.</p>
+            
+        </div>
+    </div>
+</body>
+
+</html>

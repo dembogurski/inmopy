@@ -1,0 +1,92 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="finanzas/PlanCuentas.css?_=6666666666666666" />
+    <script type="text/javascript" src="finanzas/PlanCuentas.js?_=00000000000000000" ></script>
+<!-- end:   header -->
+
+<!-- begin: form -->
+<table   style="margin:0.5cm 2px 2px 2px;padding: 0;width: 99%;border-width: 0px" >
+    <tr>
+        <td    id="editable_form">
+            <div class="titulo" style="font-size: 11px;text-align: center">Info detallada de cuenta de mayor</div>
+            <table border="0" style="margin:0;padding: 0;width: 99%" class="editable_form">
+                <tr>
+                    <td>Cuenta de Mayor</td><td colspan="3"><input id="cuenta" type="text" size="20" class="cta_input" readonly="readonly" required="required">*</td>
+                </tr>
+                <tr>
+                    <td>Nombre</td><td colspan="3"><input id="nombre" type="text" size="40" class="cta_input" readonly="readonly" required="required" style="width: 96%">*</td>
+                </tr>
+                <tr>
+                    <td>Moneda</td><td><select id="cta_moneda" class="cta_input" disabled="disabled">{monedas}</select></td>
+                    <td>Sucursal</td><td>
+                        <select id="cta_suc" class="cta_input" disabled="disabled">
+                            <option value="*">* - Todas</option>
+                            {sucursales}
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Tipo</td>
+                    <td>
+                        <select id="cta_tipo" class="cta_input" disabled="disabled">                            
+                            <option value="D">Deudor</option>
+                            <option value="A">Acreedor</option>
+                        </select>
+                    </td>
+                    <td>Asentable</td>
+                    <td>
+                        <select id="cta_asentable" class="cta_input" disabled="disabled">                            
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </td>     
+                </tr>
+                <tr>
+                    <td>Nivel</td><td><input id="nivel" class="cta_input" type="text" size="6" style="text-align: center"  required="required" disabled="disabled" >*</td>
+                    <td>Estado</td><td>
+                        <select id="cta_estado" class="cta_input" disabled="disabled">                            
+                            <option value="Activa">Activa</option>
+                            <option value="Inactiva">Inactiva</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    
+                </tr>
+                
+                <tr>
+                    <td colspan="4" style="text-align: center">
+                        <input type="button" value="Modificar" id="modificar" onclick="modificar()" >
+                        <input type="button" value="Nueva Cuenta" id="nuevo" onclick="nuevaCuenta()" >
+                        <input type="button" value="Aceptar" onclick="aceptar()" id="aceptar" disabled="disabled" >
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center" colspan="4" id="msg"></td>
+                </tr>
+            </table>
+        </td>
+        
+        <td style=" width: 60%;border: solid gray 1px;vertical-align: top;background: white" >
+            <div id="cuentas" style="overflow-y:scroll;width: 98%;height: 760px;">
+                
+            </div>
+        </td>
+        <td style="width: 8%;border: solid gray 2px;box-shadow: 3px -3px #888888;vertical-align: top" id="master_acc" >
+<!-- end:   form -->        
+        
+            
+
+<!-- begin: cuenta_nivel_1 -->
+<div class="cta_nivel1" data-cta_num="{cuenta_nivel_1}" > 
+    <div class="manija"></div>
+    {nombre_cuenta_nivel_1}  
+</div>  
+<!-- end:   cuenta_nivel_1 -->
+
+<!-- begin: foot -->
+        </td>
+    </tr>
+</table>
+<!-- end:   foot -->

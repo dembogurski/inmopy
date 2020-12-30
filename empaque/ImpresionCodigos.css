@@ -1,0 +1,23 @@
+
+/* 
+    Created on : 19/10/2015, 04:37:06 PM
+    Author     : Ing.Douglas
+*/
+
+[readonly]{
+    background-color: rgb(250, 250, 250);
+    font-size: 14px;
+    font-family: tahoma;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.cuidados{
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    border: solid black 1px;
+    margin: 10px;
+}
+.medidas{
+    display:none
+}

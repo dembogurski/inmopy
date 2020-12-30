@@ -1,0 +1,80 @@
+
+<!-- begin: headers -->
+<!DOCTYPE html>
+<html>    
+    <head>
+     <meta charset="UTF-8">
+    
+        <link rel="stylesheet" type="text/css" href="../barcodegen/barcode_printer_{tam}.css?1212122" /> 
+        <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+        <script type="text/javascript" src="../barcodegen/barcode_printer.js" ></script>
+
+        <input type="hidden" id="printer" value="{printer}">
+        <input type="hidden" id="silent_print" value="{silent_print}">
+        <input type="hidden" id="auto_close_window" value="{auto_close_window}">
+        <input type="hidden" id="marginTop" value="{marginTop}">
+        <input type="hidden" id="marginBottom" value="{marginBottom}">
+        <input type="hidden" id="marginLeft" value="{marginLeft}">
+        <input type="hidden" id="marginRight" value="{marginRight}">
+        <input type="hidden" id="scaling" value="{scaling}">
+    </head>
+    <input type="hidden" id="ip" value="{ip}">
+<!-- end:   headers -->
+
+<!-- begin: etiqueta_6x4_cuidados -->
+<div class="etiqueta_6x4_cuidados etiqueta" data-name="etiqueta_6x4_cuidados" {margin} >   
+    <img border="0" src="{image}" style="width: 58mm;height: 38mm"  > 
+</div>
+</html>
+<!-- end:   etiqueta_6x4_cuidados -->
+
+   
+<!-- begin: etiqueta_10x5_cuidados -->
+<div class="etiqueta_10x5_cuidados etiqueta" data-name="etiqueta_10x5_cuidados"  {margin}  >   
+    <img border="0" src="{image}"  style="width: 80mm;height: 42mm"  > 
+</div>
+</html>
+<!-- end:   etiqueta_10x5_cuidados -->
+
+
+
+<!-- begin: etiqueta_poliamida_continua_4cm -->
+<div class="contenedor" > 
+     <div class="etiq_head">
+        {medidas}
+        Composición:<br>
+        {tipo}
+        Confeccionado por:
+        Corporación 
+        Textil S.A.<br>
+        RUC: 80001404-9
+    </div>
+    <img border="0" src="{image}" class="{etiqueta_cuidados_continua_3cm}" >      
+    <div class="etiq_foot">
+        Hecho en Paraguay
+        <br>
+        ............................
+    </div>
+    
+</div>
+</html>
+<!-- end:   etiqueta_poliamida_continua_4cm -->
+
+
+<!-- begin: config_popup -->
+
+    <table border="0" class="config_popup">
+        <tr>
+            <td></td><td><img class="arrow_up arrow" src="../img/arrow-up.png" onclick=setMargin("top","-") ></td><td></td>  <td> </td>          
+        </tr>
+        <tr>
+            <td><img class="arrow_left arrow" src="../img/arrow-left.png" onclick=setMargin("left","-") ></td><td></td><td><img class="arrow_right arrow" src="../img/arrow-right.png" onclick=setMargin("left","+") ></td>            
+        </tr>
+        <tr>
+            <td></td><td><img class="arrow_down arrow" src="../img/arrow-down.png" onclick=setMargin("top","+") ></td><td></td> <td> </td>           
+        </tr>
+    </table> 
+
+<!-- end:   config_popup -->
+
+

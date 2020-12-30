@@ -1,0 +1,20 @@
+
+/* 
+    Created on : 06/09/2019, 10:49:34 AM
+    Author     : Doglas
+*/
+
+.star{
+    width: 16px;
+    margin-bottom: -3px
+}
+.negrita{
+   font-weight: bolder;
+}
+
+.flag{
+    background-color: #ebebeb
+}
+.Principal{
+    background-color: #fbeed5;
+}

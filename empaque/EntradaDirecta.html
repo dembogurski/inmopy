@@ -1,0 +1,209 @@
+<!-- begin: headers -->
+<!DOCTYPE html>
+
+      <link rel="stylesheet" type="text/css" href="empaque/EntradaDirecta.css" /> 
+      <link rel="stylesheet" type="text/css" href="css/datatables.css" />  
+      <script type="text/javascript" src="empaque/EntradaDirecta.js?_=111111111111111111110000000000000000" ></script>
+      <script type="text/javascript" src="proveedores/Proveedores.js" ></script>
+      <script type="text/javascript" src="js/datatables.min.js" ></script> 
+      <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script> 
+      <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js" ></script> 
+      
+      <script>  
+          colores = {colores}; 
+          designs = {designs}; 
+      </script>
+<!-- end:   headers -->
+
+ 
+ 
+
+
+<!-- begin: titulo_entrada -->
+
+<div class="titulo_factura">Entrada de Mercader&iacute;as</div>
+<div id="designs_container">
+    <div style="text-align: right;width:400px;position:fixed"><img src="img/close.png" onclick="hideDesigns()"></div>
+</div>
+ 
+
+<!-- end:   titulo_entrada -->
+
+<!-- begin: cabecera_nueva_entrada -->
+<input  type="hidden" id="estado"  size="10"   value="{estado}" >
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="codigo_proveedor" value="P000183">
+    
+    <select id="tipo_doc_sap" style="display:none"> 
+        <option value="OIGN">Entrada Directa</option>
+    </select>
+    <label class="timbrado">Timbrado:</label>  <input type="text" id="timbrado"   size="18" class="editable timbrado"    value=""  >    
+    <br>
+    <label>N&deg; Ref: </label> <input type="text" size="7"  readonly id="ref" value=""> 
+    <label style="display:none">N&deg; Ped: </label> <input type="text" size="7"  readonly="readonly" id="n_nro" value="" style="display:none"> 
+    <label>C.I./R.U.C.:</label> <input type="text" id="ruc_proveedor" class="check editable"  size="20" maxlength="34" value="80001404-9" onchange="buscarProveedor(this)" placeholder="Buscar Proveedor" data-next="nombre_prov"  >
+    <label>Proveedor:</label>   <input type="text" id="nombre_proveedor" class="check editable" size="46" value="CORPORACION TEXTIL S.A." onchange="buscarProveedor(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="boton_generar" ><br>
+    
+    <input  type="text" id="invoice" class="check editable" size="16" style="text-align: left;display:none" value=""  >
+    <label>Fecha Documento:</label><input id="fecha"  type="text" class="check editable" size="10" value="{hoy}">
+    <label>Moneda:</label> <select  id="moneda" >{monedas}</select>   
+    <input type="text" id="cotiz"  size="6" class="check editable"   style="text-align: center;display:none"  value="1"  >
+        
+    <select id="pais" class="check" style="display: none" ><option  value="CN">China</option></select>
+    <label>Ubicacion:</label> <select  id="suc" >{sucursales}</select>   
+    
+    <label class="nacional"  style="display:none" >Copiar de Pedidos:</label><input  style="display:none" type="checkbox" class="nacional" id="check_copy_from_pedidos" onclick="copyFromPedidos()" >
+    <label class="internacional" style="display:none" >Copiar de Invoice:</label><input   type="checkbox" class="internacional" id="copy_from_invoice" onclick="copyFromInvoice()" style="display:none">
+    
+    <label style="display:none">Copiar de Detalle:</label><input  style="display:none" type="checkbox" id="copy_detail" >
+    &nbsp;<input id="boton_generar" onclick="crearPedidoCompra()"  type="button" value="Generar Entrada" >&nbsp;<span id="msg"></span>
+    </div>
+    
+    <div id="ui_proveedores" title="Lista de Proveedores" style="display:none; cursor: pointer"  >
+     <table id="lista_proveedores" cellspacing="0" cellpadding ="0" border="1" >
+        <tr><th colspan="4" class="titulo">Proveedores</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Proveedor</th>   </tr>
+     </table>       
+    </div> 
+     
+ </div>   
+<!-- end:   cabecera_nueva_entrada -->
+
+<!-- begin: area_carga_cab -->
+    <div id="area_carga" >
+        <table border="0" style="margin:0;padding: 0">
+            <tr>
+                <td>
+        <label>Codigo:&nbsp; </label> <input type="text" id="codigo" value="" tabindex="1" placeholder="Codigo Articulo" style="font-weight: bolder" data-info="Busque aqui" class="editable requerido"> 
+                   
+        <label>Um Art:</label> <input type="text" id="um" class="itemc requerido" size="7" data-um_prod="" readonly >
+        <img src="img/icon-arrow-right-b-32.png" id="change_um" style="margin:0px 0px -11px -14px;cursor:cursor;opacity:0 " title="Cambiar Unidad de Medida de Venta" >
+        
+        
+        <span id="msg_codigo"></span> <br>
+        
+        <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;width:40%;"  >
+            <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:0 56;width: 100%;background: white" >
+                <tr><th colspan="5" class="titulo">Articulos</th></tr>
+                <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>   <th style="width: 20%">Sector</th> <th style="width: 50%">Nombre Comercial</th> <th style="width: 10%">Ancho</th> <th style="width: 10%">Precio</th>   </tr>
+            </table>       
+        </div>  
+        
+        <label>Descrip:</label> <input type="text" id="descrip" size="118" class="requerido" readonly > 
+        <label>Img:</label><input type="text" tabindex="2" size="20" id="img" value="0/0" title="Puede copiar la imagen de otro lote y pegar aqui" >  <img  src="img/nocamera_32.png" onclick="sinFoto()" style="cursor:pointer;margin-bottom:-6px;width:28px" >  <br>
+        
+        <label>Color:</label> &nbsp;&nbsp;&nbsp;<input type="text" tabindex="2" size="20" class="requerido" id="color" value="" > 
+        <label style="display:none">Cod.Color:</label> <input  style="display:none" type="text" size="6" maxlength="5" tabindex="3" class="requerido" id="catalogo" value="0" > 
+        <label style="display:none">-</label> <input style="display:none" type="text" size="4" tabindex="4"  maxlength="4" class="requerido" id="cod_color" value="0" > 
+        <label>Combinaci&oacute;n Color:</label> <input type="text" size="20" tabindex="5"  maxlength="30" class="requerido" id="color_comb" value="" > 
+        <label style="display:none">N&deg; Te&ntilde;ido:</label> <input style="display:none" type="text" size="4"  maxlength="30" tabindex="6" id="nro_lot_fab" value="1" >
+        <label>Dise&ntilde;o:</label> <input type="text" size="30" class="requerido"  maxlength="30" tabindex="6" id="design" value="" >
+        <input type="button" value="..." onclick="selectDesigns()" style="height:22px;font-size:9;font-weight: bold">
+        <br>
+        
+        <label>Um:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+        <select id="umc" style="height: 24px" tabindex="8" onchange="setUm()">
+            <option class="c_metros" value="Mts">Mts</option>
+            <option class="c_metros" value="Kg">Kg</option>
+            <option class="c_metros" value="Yds">Yds</option>
+            <option class="c_unid" value="Unid">Unid</option>    
+        </select> 
+        <label class="umgroup">Ancho</label> <input type="text" id="ancho" class="itemc umgroup requerido numero" tabindex="9" size="11"  onkeypress="return onlyNumbers(event)"  >
+        <label class="umgroup">Gramaje:</label> <input type="text" id="gramaje" class="itemc umgroup requerido numero" tabindex="10" size="11"  onkeypress="return onlyNumbers(event)" >&nbsp;
+        <label>Precio Compra: &nbsp; </label> <input type="text" class="num numero requerido" tabindex="11" id="precio" size="10" maxlength="14"  data-info="Precio de Costo" onkeypress="return onlyNumbers(event)" onchange="actualizarCantidades(1)">                
+        <label >Piezas:  </label> <input type="button"   id="piezas" tabindex="12"  value="0" style="height: 24px;padding: 0;width: 28" onclick="showContextMenu()" > 
+        <label>Cantidad:  </label> <input type="text" class="num requerido" id="cantidad"  readonly="readonly" data-next="add_code" size="8"  > 
+        
+        <label>SubTotal:  </label> <input type="text" class="num requerido" id="subtotal" size="14"  readonly  > 
+         
+        <input type="button" id="add_code" value="    Insertar    "  onclick="addCode()" class="insert" tabindex="13" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Detalle" >
+        <input type="button" id="update" value="    Actualizar    "  onclick="update()"  class="edit" style="height:22px;font-size:9;font-weight: bold;display:none"  >
+        <input type="button" id="update" value="    Cancelar    "  onclick="cancelarUpdate()"  class="edit" style="height:22px;font-size:9;font-weight: bold;display:none"  >
+         
+        
+        <div class="edit_bale" id="edit_bale" >
+        <table border="0" cellspacing="0" cellpadding="0" style="width: 145px">
+            <tr class="titulo"><th colspan="2">Cantidades</th></tr>
+             
+            <tr>
+                <td colspan="2">
+                    <textarea id="cantidades" class="requerido" cols="10" rows="16" style="width: 100%" onkeypress="return onlyNumbers(event)" onkeyup="actualizarCantidades(0)" placeholder="Ingrese aqui las cantidades una debajo de otra" ></textarea>
+                </td>
+            </tr>
+           
+            <tr>
+                <td><input type="button" id="cancel" onclick="closeCantPopup()"  value="Cancelar" style="font-size:10px;font-weight: bolder"></td>
+                <td style="text-align: right"><input type="button" id="save_bale"  value=" Aceptar " onclick="controlarDatos()" style="font-size:10px;font-weight: bolder"></td>
+            </tr>
+
+        </table>
+        </div>
+         </td>
+                <td id="td_img"></td>
+            </tr>
+        </table> 
+ </div>            
+           
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: detalle -->                   
+        <table id="detalle_entrada" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th colspan="19" style="background-color: lightgray">Detalle de Entrada</th></tr>  
+            <tr class="titulo">
+                <th>Store N&deg;</th>
+                <th>Bale</th>
+                <th>Codigo</th>
+                <th>Lote</th>
+                <th>Descripcion</th>                
+                <th>Color</th>
+                <th title="Combinacion de Color">Color Comb.</th>
+                <th title="Codigo de Catalogo">Cod.Cat</th>
+                <th title="N&deg; Te&ntilde;ido">N&deg;T.</th>
+                <th>Ancho</th>
+                <th>Gramaje</th>
+                <th>Dise&ntilde;o</th>                 
+                <th>Um</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th> 
+                <th title="Unidad de Medida del Articulo">Um.Art.</th>
+                <th title="Cantidad Calculada">Cant.Calc.</th>
+                <th>*</th>
+            </tr>  
+         </table>   
+<!-- end:   detalle -->  
+
+<!-- begin: area_carga_foot -->
+
+    <div style="width: 99%;text-align: right"><label><b>Total:</b></label><input type="text" value="0" id="total_entrada" style="text-align: right;margin-right: 2" readonly="readonly"></div>
+        
+      <table id="footer" border="0"  cellspacing="4" cellpadding="0" style="min-width: 60%;margin:0 0 30 39%">
+          <tr style="font-weight: bolder"> <td class="titulo" style="width: 70%">Notas</td> <td  class="titulo" style="display:none" >Gastos</td></tr>    
+        <tr>
+            <td id="notes" style="vertical-align: top">
+                <textarea id="inv_obs" cols="16" rows="5" style="width: 100%;height: 100%" onchange="updateNotes()">{coment}</textarea>
+                <div id="msg_bottom" style="text-align: center;margin-top: 20px"></div>
+                <div style="width: 100%;text-align: center;margin-top: 20px">
+                    <input type="button" value="Generar Lotes" onclick="controlarDatosServer()" id="generar_lotes" class="control">    
+                    <input type="button" value="  Crear Entrada " title="Una vez Cerrada no hay vuelta atras" class="control" onclick="finalizar()" id="finalizar" disabled="disabled">                   
+                </div>
+                
+                <div style="width: 100%" id="msg_obs"></div>
+            </td>
+            <td >
+                <table border="0" id="expenses" style="width: 100%;display: none" >
+                    <th>Gasto</th><th>Valor</th>
+                </table> 
+            </td>
+        </tr>
+     </table>
+   
+<!-- end:   area_carga_foot -->
+
+
+
+ 
+ 
+

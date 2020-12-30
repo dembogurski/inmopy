@@ -1,0 +1,82 @@
+<!-- begin: head noeval -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Reporte de Ventas Clietne Agupada</title>
+   <style>
+      table{
+         margin:0 auto;
+         border-collapse: collapse;
+      }
+      th,td{
+         padding: 1px;
+         border: solid 1px gray;
+      }
+      .hide{
+         display:none;
+      }
+      p{
+         margin:0 0 1px;
+         padding:0 2px 2px 2px;        
+      }
+   </style>
+</head>
+<body>
+<!-- end: head -->
+
+<!-- begin: cab -->
+   <table>
+      <thead>
+         <tr>
+            <th colspan="12"> 
+      <p style="background: #dddacd">Reporte de Ventas a Clientes Agrupada</p>
+               <p>Fecha de {desde} a {hasta}</p>
+            </th>
+         </tr>
+         <tr>
+            <th class="{show_suc}">Suc</th>
+            <th class="{show_usuario}">Vendedor</th>
+            <th class="{show_cliente}">Cliente</th>
+            <th class="{show_cliente}">CodCli</th>
+            <th class="{show_cat}">Cat</th>
+            <th class="{show_codigo}">Codigo</th>
+            <th class="{show_codigo}">Articulo</th>
+            <th class="{show_color}">Color</th>
+            <th>Metros</th>
+            <th>Efectivo</th>
+         </tr>
+      </thead>
+      <tbody>
+<!-- end: cab -->
+
+<!-- begin: body -->
+         <tr>
+            <td class="suc {show_suc} itemc">{suc}</td>
+            <td class="usuario {show_usuario} itemc">{usuario}</td>
+            <td class="cliente {show_cliente} item">{cliente}</td>
+            <td class="cod_cli {show_cliente}  itemc">{cod_cli}</td>
+            <td class="cat {show_cat} itemc">{cat}</td>
+            <td class="codigo {show_codigo} itemc">{codigo}</td>
+            <td class="articulo {show_codigo}  item">{articulo}</td>
+            <td class="color {show_color} item">{color}</td>
+            <td class="metros num">{metros}</td>
+            <td class="mov num">{mov}</td>
+         </tr>
+<!-- end: body -->
+<!-- begin: foot -->
+      </tbody>
+      <tfoot>
+         <tr>
+            <td colspan="{colspam}"></td>
+            <td>{sum_mts}</td>
+            <td>{sum_mov}</td>
+         </tr>
+      </tfoot>
+   </table>
+</body>
+</html>
+<!-- end: foot -->

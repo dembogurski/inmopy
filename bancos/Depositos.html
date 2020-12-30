@@ -1,0 +1,53 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="bancos/Depositos.css" />     
+    <script type="text/javascript" src="bancos/Depositos.js" ></script>   
+<!-- end:   header -->
+
+<!-- begin: form -->
+<div style="text-align: center; width: 50%;min-width: 480px;border: solid 1px;margin: 20 auto ">
+        
+    <table id="deps" border="0"  cellspacing="6" cellpadding="0" style="margin:0 auto; width: 94%"   >
+        <tr class="titulo" ><th colspan="4" style="text-align: center">Depositos en Cuenta Corriente o Caja de Ahorro</th></tr>
+        <td>Suc:</td><td><input type="text" value="" readonly="readonly" size="6" id="suc_actual" class="itemc" ></td>
+            <td>Caja de la Fecha:</td><td><input id="cj_fecha" type="text" size="10" value="{hoy}" class="fecha sencible itemc"></td>
+        </tr>
+        <tr>
+            <td>Banco:</td>
+            <td><select id="bancos" onchange="setCuenta()" class="sencible" >
+                    <option value="">Seleccione</option>
+                    {bancos}
+                </select> </td>
+            <td>Cuenta:</td>
+            <td><select id="cuenta" class="sencible">{cuentas}</select></td>
+        </tr>
+        <tr>
+            <td>Monto Existente:</td>
+            <td><input type="text" size="14" class="num" readonly="readonly" id="efectivo" ></td>
+            <td>N&deg; de Deposito:</td>
+            <td><input type="text" class="num  modificable" size="14"  id="nro_dep" ></td> 
+        </tr>
+        <tr>
+            <td>Monto a Depositar:</td>
+            <td><input id="monto_dep" class="num  modificable" type="text" onkeypress="return onlyNumbers(event)" size="14" value=""></td>
+            <td>Cotizacion:</td>
+            <td><input id="cotiz" class="itemc modificable" type="text" onkeypress="return onlyNumbers(event)" size="8" value=""></td>
+        </tr>
+        
+        <tr>
+            <td>Fecha Deposito:</td>
+            <td><input id="fecha_dep" class="fecha itemc" type="text" size="10" value="{hoy}"></td>
+            <td></td>
+            <td><input type="button" id="aceptar" value="Depositar" disabled="disabled" style="width:50%" onclick="registrarDeposito()"></td>
+        </tr>
+    </table> 
+</div>
+<div style="text-align: center" id="msg"></div>
+<div style="text-align: center" id="div_depositos">
+    <table id="depositos" border="1" style="margin:0 auto;border-collapse: collapse;width: auto;min-width: 50%;">
+        <tr><th colspan="10" style="background-color: #E1E8F7">Movimientos de la Fecha</th></tr>
+        <tr class="titulo">
+            <th>ID</th><th>Banco</th><th>Cuenta</th><th>Moneda</th><th>Fecha</th><th>Hora</th><th>Concepto</th><th>Entrada</th><th>Salida</th><th>Estado</th>
+        </tr>
+    </table>
+</div>
+<!-- end:   form -->

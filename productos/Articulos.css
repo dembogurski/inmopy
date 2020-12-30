@@ -1,0 +1,149 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.form{
+    z-index: 10;   
+    background-color: rgb(80,80,80);
+    position: absolute;
+}
+
+.form_table{
+    margin: 1cm auto;
+    background-color: white;
+    width: auto;
+    border-radius: 4px;
+    padding: 4px;
+}
+.form_title{
+    background-color: #DDDACD;
+    border-radius: 2px
+}
+.form_label{
+    font-weight: bolder;
+}
+.form_text .form_password .form_tel .form_email .form_checkbox {
+    text-align: left;
+    margin-left: 2px;
+}
+.form_number{
+    text-align: right;
+    margin-right: 2px;        
+}
+.form_date .form_hora .form_select .form_db_select{
+    text-align: center;
+}
+.form_textarea {
+    width: 100%;
+}
+
+.list_container { 
+   margin: 1cm auto;
+   max-width: 1280px
+}
+
+.db_tablename{
+    width:100%;
+    border-collapse:collapse
+}
+
+#articulos tr th {
+    height: 10px;
+    font-size: 14px;
+} 
+
+#articulos tr td {
+    height: 10px;
+    font-size: 14px;
+}
+ 
+.edit{
+   	cursor:pointer;
+	width:16px
+}
+.itemc{
+	text-align:center
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+.form_table input:not([disabled]):not([type="button"]):focus, textarea:focus, select:focus {
+    background-color: #fffccc;
+}
+
+.form_table option:nth-child(even) {
+  background-color: white;
+}
+
+.form_table option:nth-child(odd) {
+  background-color: #dfe6e9;
+}
+
+.PRI{
+    color: orangered
+}
+.toolbar {
+   float: right;
+   padding-left: 40px;
+}
+.error{
+    color:red
+}
+.technical_info{
+    border:solid gray 1px;
+    color:green;    
+    font-size: 12px;
+    background: aliceblue;
+    display: none;
+}
+
+.required{
+    border:solid red 1px;
+} 
+
+.selected_getUsosNoAsignados,.selected_getUsosAsignados{
+    background-color: lightskyblue;
+}
+
+.upper{
+    text-transform: uppercase;
+}
+
+#lista_articulos{
+    display:none;
+    padding: 6px; 
+    border-radius: 3px;
+    border: 1px solid gray; 
+    background: rgb(247, 241, 227);
+    height:370px;
+    overflow-y: scroll    
+}
+#tabs-produccion {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.input_lista_mat{
+    border:0px;
+    height: 18px;
+    width: 40px;
+}
+.precio_venta{
+    width:96%;
+    border:solid white 0px;
+    height: 20px
+}
+
+.referencia{
+    background-color: lightskyblue;
+    
+}

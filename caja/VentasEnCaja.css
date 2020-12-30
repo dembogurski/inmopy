@@ -1,0 +1,97 @@
+
+/* 
+    Created on : 05/05/2015, 03:43:57 PM
+    Author     : Ing.Douglas
+*/
+#imprimir_factura:disabled{
+    background-color: lightgrey;
+}
+#ventas{
+    border-collapse: collapse;
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   
+{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}   
+
+.printer_button{
+  background-image:url(../img/printer-01_32x32.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 34px;
+  width: 44px;
+  background-position:center; 
+}
+.ticket_button{
+  background-image:url(../img/ticket.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 32px;
+  width: 26px;
+  background-position:center; 
+}
+
+.moneda_factura{
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    font-weight: bolder;
+    color:green;
+}
+.venta_encaja{   
+    height: 24px;
+}
+ 
+.lb_pago:hover{
+    background-color: lightskyblue;
+    cursor: pointer;    
+} 
+.limite_credito{
+    display: none;
+}
+.retencion{
+    display: none;
+}
+
+[aria-disabled="true"] a#tab_tarjetas:hover:before{
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+    color: rgba(0, 0, 0, 1);
+    background: rgba(0, 0, 0, 0.4);
+    content: 'Elimine el descuento para cobro con tarjeta';
+    font-weight: 900;
+    background-color: white; 
+}
+#cambios_chaco{
+    position: absolute;   
+    display: none;
+}
+.popup_print{
+    background-color: #FFFFCC;
+    border: solid gray 1px;
+    width: 500px;
+    border-radius: 3px;
+    position:relative;
+    margin:0 auto;
+    padding: 4px;
+}

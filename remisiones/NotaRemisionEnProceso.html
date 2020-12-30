@@ -1,0 +1,77 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="remisiones/NotaRemision.css?_=1514486570886" />
+    <script type="text/javascript" src="remisiones/NotaRemisionEnProceso.js?_=1514486570886" ></script>   
+    
+    <div id="dialog-confirm" title="Eliminar Registro?" style="display: none;margin-top: 6px ">
+      <span class="ui-icon ui-icon-alert" style="float:left; margin:6 7px 20px 0;" ></span><span id="alert_msg">&iquest;Esta seguro que desea eliminar este registro&quest;</span> 
+    </div>
+    
+    <div id="control">
+        <label>Cod. Lote: </label> <input type="text" id="blote" value="" size="10" tabindex="4" class="control b" style="font-weight: bolder;color:green" >
+        <label> &nbsp;&nbsp;Peso Kg: &nbsp;  </label> <input type="text" size="8" tabindex="5" class="num control b" id="bkg_env" style="font-weight: bolder;color:green" placeholder="Presione C"  >  <!-- onkeypress="return onlyC(event,this.id,true)" -->
+        <input type="button" id="getKg" value="...." onclick=leerDatosBalanza("bkg_env",true)> 
+        
+        <input type="button" id="guardar" value="Aceptar" onclick="recibirLote()" tabindex="6" disabled="disabled">
+        &nbsp;&nbsp;&nbsp;<label>Tipo: </label><span id="btipo"></span>&nbsp;&nbsp;&nbsp;<img src="img/arrow-up.png" width="36" height="32" onclick="ocultarControl()" style="cursor: pointer;"  class="rotate" title="Ocultar esta Ventana"> 
+        <br>
+        
+        <label>Descrip:&nbsp;&nbsp;&nbsp;&nbsp;</label> <input type="text" id="bdescrip" value="" size="73"  class="control b" style="color:blue" readonly="readonly"><br>
+        
+        <label>Tara:&nbsp;&nbsp;</label> <input type="text" id="btara" class="itemc control b" size="5"  readonly >
+        <label>Ancho:</label> <input type="text" id="bancho" class="itemc control b" size="4"  readonly >
+        <label>Gramaje:</label> <input type="text" id="bgramaje" class="itemc control b" size="6"  readonly="readonly" > 
+        <label>Cant:</label> <input type="text" id="bcant" class="itemc control b" size="6"  readonly="readonly" >
+        <label>Cant.Calc:</label> <input type="text" id="bcant_calc" class="itemc control b" size="6"  readonly="readonly" ><label>&nbsp;</label><br>
+        <div id="msg_blote" style="color:red;text-align: center;font-size: 14px;heigth:36px"></div>
+    </div>
+    
+    <input type="hidden" id="porc_tolerancia_remsiones" value ="{porc_tolerancia_remsiones}">
+<!-- end:   header -->
+
+<!-- begin: remision_existente_cab -->
+ <div style="margin:6 auto;font-weight: bolder;background-color: lightgray;text-align: center;font-size: 13">Nota de Remision</div>
+
+<div style="margin: 10 10 10 10;border: solid gray 0px">
+    <label>N&deg;:</label><input type="text" value="{nro}" id="nro_remito" size="6" readonly="readonly" >
+    <label>Origen:</label><input type="text" value="{origen}" id="origen" size="20" readonly="readonly" > 
+    <label>Fecha:</label><input type="text" id="fecha" value="{fecha}" size="10" readonly="readonly" class="itemc"> 
+    <label>Usuario:</label><input type="text" id="fecha" value="{usuario}" size="16" readonly="readonly" class="itemc" > 
+    <label>IP Balanza:</label><input type="text" id="ip" value="localhost" size="16"  class="itemc editable"   >
+    <span id="msg"></span> 
+    <p id="transportadora"><span>Transportadora:</span> {transportadora}, <span>Nro. Levante:</span> {nro_levante}</p>
+</div>
+<!-- end:   remision_existente_cab -->
+
+
+<!-- begin: area_carga_cab -->
+    <div id="area_carga" >
+          
+        <table id="detalle_remito" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th colspan="10" style="background-color: lightgray">Detalle de Nota de Remision</th></tr>  
+            <tr class="titulo"><th class="codigo">Cod.Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th><th>Tara</th><th>Gramaje</th><th>Ancho</th><th class="kg_env">Kg Env.</th><th class="kg_rec">Kg Rec.</th><th>Cant.Calc.Env.</th></tr>  
+            
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: area_carga_data -->
+<tr  id="tr_{lote}" class="fila {encontrado}" data-kgdesc="{kg_desc}" data-tipo="{es_rollo}" data-codigo="{codigo}"><td onclick="procesarLote({lote})" class="item codigo_lote {estado}" >{lote}</td><td class="item descrip">{descrip}</td><td class="num cantidad">{cant}</td><td  class="itemc um">{um}</td><td  class="itemc tara" >{tara}</td><td  class="num gramaje">{gramaje}</td><td  class="num ancho">{ancho}</td><td class="num kg_env">{kg_env}</td><td class="num kg_rec">{kg_rec}</td><td class="num cant_calc">{cant_calc_env}</td></tr>  
+<!-- end:   area_carga_data -->
+
+<!-- begin: area_carga_foot -->
+    <tr class="tr_total_remito" style="font-weight: bolder"><td >&nbsp;Totales</td><td colspan="7" id="msg_det" style="text-align: center;font-size: 11" class="info"></td> </tr>
+    <tr style="font-weight: bolder"><td >&nbsp;Env.Obs.:</td><td colspan="7" id="obs_env" style="text-align: left;font-size: 11">{obs_env}</td> </tr>
+        </table>  
+        
+        <div style="float:left;width:38%;border:solid 0px gray;"><label>Obs:</label><textarea id="obs_rec" cols="46" rows="3" onchange="saveObs()"  class="editable">{obs_rec}</textarea></div>
+        <div style="padding-top: 4px;text-align: center;float: right;width:60%;border:solid 0px gray;margin-right:10px"> 
+           <img src="img/refresh-32.png" title="Recargar esta Remision" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick="cargarNotaRemisionEnProceso({nro})">  
+           <input type="button" id="puntear" onclick="controlar()" style="font-weight: bolder;margin-top:16px" value="Control y Pesaje"   > 
+           <input type="button" id="finalizar" onclick="imprimir()" style="font-weight: bolder" value=" Imprimir "   >
+           <input type="button" id="finalizar" onclick="cerrarRemito()" style="font-weight: bolder" value=" Finalizar "  >
+        </div>
+    </div>   
+<div class="info" id="msg_control" style="text-align: center"></div>
+<!-- end:   area_carga_foot -->
+
+

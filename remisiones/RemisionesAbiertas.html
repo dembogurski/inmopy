@@ -1,0 +1,56 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="remisiones/RemisionesAbiertas.css" />
+    <link rel="stylesheet" type="text/css" href="js/jquery-ui/jquery-ui.css?_=e33333333333333333333333" />
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js?_=999" ></script> 
+    <script type="text/javascript" src="remisiones/RemisionesAbiertas.js" ></script>   
+<!-- end:   header -->
+
+
+<!-- begin: remitos_abiertos_cab -->
+<div style="margin:6 auto;font-weight: bolder;background-color: lightgray;text-align: center;font-size: 13">Remisiones de Abiertas &nbsp;&nbsp; Sucursal: &nbsp; {suc}</div>
+
+<div style="height: 420px;width:90%;overflow-y: auto;margin: 10 auto">    
+
+<div style="margin:4px auto;text-align: center">
+    <label for="tejidos" style="cursor: pointer;font-weight: bolder">Tejidos</label> <input  type="radio" class="tipo" name="tipo" id="tejidos" value="Tejidos" {TejidosChequed}> 
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="insumos" style="cursor: pointer;font-weight: bolder">Insumos</label>  <input  type="radio" class="tipo" name="tipo" id="insumos" value="Insumos" {InsumosChequed}>
+</div>
+    
+<table id="remisiones" border="1"  cellspacing="0" cellpadding="0"    >
+    <tr class="titulo_factura"><th colspan="9">Remisiones de Abiertas &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 10%">N&deg;</th>
+        <th style="width: 10%">Fecha</th>
+        <th style="width: 10%">Hora</th>
+        <th style="width: 10%">Usuario</th>
+        <th  style="width: 10%">Origen &rArr;Destino</th> 
+        <th style="width: 4%">Items</th>
+        <th style="width: 26%">Obs</th>
+        <th style="width: 10%">Estado</th> 
+        <th style="width: 10%">*</th> 
+    </tr>
+<!-- end:   remitos_abiertos_cab -->
+
+<!-- begin: remitos_abiertos_data -->
+<tr id="rem_{nro}" class="remision_abierta" >
+    <td class="itemc clicable">{nro}</td>
+    <td class="itemc clicable">{fecha}</td> 
+    <td class="itemc clicable" >{hora}</td> 
+    <td  class="itemc clicable" >{usuario}</td> 
+    <td class="itemc clicable">{suc}&rArr;{suc_d}</td>   
+    <td class="itemc clicable">{items}</td> 
+    <td class="item clicable">{obs}</td>  
+    <td class="itemc clicable">{estado}</td> 
+    <td class="itemc" style="width: 30px" id="eliminar_{nro}">{eliminar}</td> 
+</tr> 
+<!-- end:   remitos_abiertos_data -->
+
+
+<!-- begin: remitos_abiertos_foot --> 
+</table>
+</div>
+<div style="text-align: center">
+    <input type="button" value="Nueva Nota de Remision"  onclick=genericLoad("remisiones/NuevaNotaRemision.class.php") >
+</div>
+<!-- end:   remitos_abiertos_foot -->

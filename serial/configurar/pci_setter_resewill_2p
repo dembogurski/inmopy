@@ -1,0 +1,6 @@
+#!/bin/bash
+
+/bin/setserial /dev/ttyS2 port 0xec00 uart 16550A irq 21
+/bin/setserial /dev/ttyS3 port 0xe880 uart 16550A irq 21
+chown apache /dev/ttyS2
+chown apache /dev/ttyS3

@@ -1,0 +1,237 @@
+/* 
+    Created on : 04/01/2016, 04:43:44 PM
+    Author     : Ing.Douglas
+*/
+#msg{
+    padding:3px;
+    border-radius: 3px;
+}
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+td.FR::after{
+    content: ' FR';
+    color: red;
+    font-weight: 900;
+    text-shadow: -1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff; 
+}
+#cabecera{
+    padding: 4px; 
+    display: inline;
+}
+#detalle_remito {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+
+#area_carga{ 
+    padding-left: 0px;
+    padding-top: 2px;
+}
+tr.procesado{
+    color: blue;
+    font-weight: 900;
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+.rotate:hover{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+} 
+#control{    
+    background-color: #fcefa1;
+    top:60px;
+    left:1px;
+    position:absolute;
+    cursor:move;
+    font-family: arial;
+    font-size:11px;
+    z-index: 1;
+    padding:2px;
+    border:solid gold 1px;
+    padding:2px;
+    position: fixed;
+    display: none;
+    width: 820px;
+    height: 136px;
+}
+
+
+
+
+#control td >  label{  
+    font-size:18px;
+}
+#control td > input{
+    color:black;   
+    font-size:18px;
+}
+#control td > span{
+    color:black;   
+    font-size:18px;
+}
+ 
+.fila{
+    background-color: white;
+}
+.encontrado{
+    background-color: #73AD21;
+    color:white;     
+}
+.tabla_stock_comprometido{ 
+    border-collapse: collapse;
+    border:solid gray 1px;    
+}
+.tabla_stock_comprometido td{
+    margin: 0 4px;
+    padding:3px; 
+}
+td.codigo_lote{
+    position: relative;
+}
+
+td.codigo_lote:hover{
+    cursor: pointer;    
+    color: black;
+    font-weight: 900;    
+}
+tr[id^="tr_"]{
+    counter-increment: codigos;
+}
+td.codigo_lote::before{
+    content: counter(codigos, decimal);
+    counter-increment: section;
+    color: white;
+    background: gray;
+    margin-right: 4px;
+    padding: 0 3px 0 3px;
+}
+div#message{
+    position: fixed;
+    bottom: 125px;
+    left: 35px;
+    background-color: lightslategray;    
+    display: block;
+    min-width: 350px;
+    padding: 5px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+}
+table.tabla_mover{   
+    margin: auto;
+    width: 100%;
+}
+table.tabla_mover *{    
+    text-align: center;
+    padding: 0px 2px;
+}
+table.tabla_mover button#cerrar_mover{
+    cursor: pointer;
+    background: url("../js/jquery-ui/images/ui-icons_cd0a0a_256x240.png") no-repeat scroll 0 0 transparent;
+    background-position: -33px -193px;
+    font-size: 0;
+    height: 16px;
+    width: 16px;
+    border: none;
+}
+select#btipo{
+    font-size: 14px;
+    height: 18px;
+}
+*[data-actualizado='actualizado']{
+    margin-left: 5px;
+    background-color: orange;
+}
+*[data-actualizado='stock']{
+    margin-left: 5px;
+    background-color: red;
+}
+section#nr_tramsportadora{
+    border: dotted 1px darkseagreen;
+    padding: 0 3px;
+    max-width: 950px;
+}
+section#nr_tramsportadora :not(li){
+    display: inline-block;
+    vertical-align: middle;
+    
+}
+div.transportadora, div.transportadora input{
+    position: relative;
+    width: 205px;
+    display: none;
+}
+
+div.transportadora ul{    
+    list-style: none;
+    position: absolute;
+    background-color: wheat;
+    padding-left: 0px;
+    left: 3px;
+    width: 100%;
+    z-index: 1;
+}
+div.transportadora ul li{
+    margin: 1px 0;
+}
+div.transportadora ul li:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+div.transportadora ul li:hover:before{
+    content: '|';
+    font-weight: 900;
+    margin-right: 3px;
+}
+p#transportadora span{
+    font-weight: 900;
+}
+
+.sin_paquete{
+    background-color: orange;
+}
+.sound{
+    display: none;
+}
+
+#clientes{
+    background-color: wheat;
+    padding-left: 4mm;
+    margin-left: 100mm;
+    border:solid gray 1px;    
+}
+#clientes li{    
+    cursor: pointer;
+    margin: 1mm 4mm 1mm 4mm;
+}
+#clientes li:hover{
+    background-color: lightskyblue;
+}
+.area_carga{
+    display: none;
+}

@@ -1,0 +1,37 @@
+{
+  "00":{
+    "planos":[
+      {"codigo":"A","Template":"DepositoA"},
+      {"codigo":"B","Template":"DepositoB"},
+      {"codigo":"C","Template":"DepositoC"}
+    ]
+  },
+  "01":{
+    "planos":[
+      {"codigo":"PB","Template":"PlantaBaja2D"},
+      {"codigo":"PA","Template":"PlantaAlta2D"} 
+    ]
+  },
+  "02":{
+    "planos":[
+      {"codigo":"PB","Template":"PlantaBaja2D"}
+    ]
+  },
+  "04":{
+    "planos":[
+      {"codigo":"PB","Template":"PlantaBaja2D"}
+    ]
+  },
+  "05":{
+    "planos":[
+      {"codigo":"PB","Template":"PlantaBaja2D"}
+    ]
+  },
+  "06":{
+    "planos":[
+      {"codigo":"PB","Template":"PlantaBaja2D"},
+      {"codigo":"PA","Template":"PlantaAlta2D"} 
+    ]
+  }
+}
+ 

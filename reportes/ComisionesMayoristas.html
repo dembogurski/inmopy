@@ -1,0 +1,298 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script>
+   <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+    .comis{
+        background-color: #F0F0F5;
+    }
+    .devs{
+        color:red;
+    }
+    .cols{
+        display:none;
+    }
+    .negativo{
+        color:red;
+    }
+    #popup_caja{
+        border:solid gray 1px;
+        background-color: #D3D3EE;
+        margin:100px auto;
+        position:absolute;        
+    }
+    #popup_caja input, #popup_caja select{
+        font-size: 16px;
+    }
+    option {
+        font-size: 16px;
+    }
+    .anchorTitle {
+    /* border radius */
+    -moz-border-radius: 8px 0px 8px 8px;
+    -webkit-border-radius: 8px 0px 8px 8px;
+    border-radius: 8px 0px 8px 8px;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 3px #e6e6e6;
+    -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    /* other settings */
+    background-color: #fff;
+    border: solid 2px orange;
+    color: #333;
+    display: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    max-width: 700px;
+    padding: 5px 5px;
+    position: absolute;
+    margin:-1px -5px 1px -160px
+}
+</style>
+
+<script language="javascript">
+      
+     var master = new Array();
+    
+     $(document).ready(function(){
+          $("#msg").html("");
+          $("#popup_caja").draggable();
+          $("select > option:nth-child(even)").css("background","#F0F0F5"); // Color Zebra para los Selects
+          setAnchorTitle();
+     }); 
+     
+     function showCols(){
+        if($("#show_cols").is(":checked")){
+            $(".cols").fadeIn();
+        }else{
+           $(".cols").fadeOut(); 
+        } 
+     }
+     function hideNegatives(){
+        if($("#hide_neg").is(":checked")){
+            $(".negativo").slideUp();
+        }else{
+            $(".negativo").slideDown();
+        }  
+     }
+     function checkUncheck(){
+         if($("#check_all").is(":checked")){
+            $(".check").prop("checked",true);
+        }else{
+            $(".check").prop("checked",false);
+        }  
+        verificarMarcados();
+     }
+     function ocultarNoSeleccionados(){
+        if($("#hide_not_checked").is(":checked")){
+            $(".check").each(function(){
+              var ch = $(this).prop("checked");
+            if(!ch){
+              $(this).parent().parent().slideUp();
+            }
+        });
+        }else{
+            $(".check").each(function(){
+            var ch = $(this).prop("checked");
+            if(!ch){
+              $(this).parent().parent().slideDown();
+            }
+        });
+        } 
+                 
+     }
+     function verificarMarcados(){
+         master = new Array();
+         var checkeds = $(".check:checked").length;
+         if(checkeds > 0){
+             $("#caja").fadeIn();
+             var total_cobrar =0;
+             $(".check:checked").each(function(){
+                 var factura = parseInt($(this).attr("id").substring(6,60));
+                 var comis = parseFloat( $("#comis_"+factura).html().replace(".","").replace(".","").replace(",",".") );
+                 var devs = parseFloat( $("#dev_"+factura).html().replace(".","").replace(",",".") );
+                 total_cobrar+=comis;
+                 var datos = {Factura:factura,Comis:comis,Devs:devs};
+                 master.push(datos);
+             });
+             var formated_total = (total_cobrar).format(2, 3, '.', ',');
+             $("#total_cobrar").html(formated_total);
+             $("#comis_actual").val(formated_total);             
+         }else{
+             $("#caja").fadeOut();
+             $("#total_cobrar").html("0,00");
+             $("#comis_actual").val("0,00");
+         }
+         
+     }
+     function centrarPopup(){
+        var dw = $(document).width();
+
+        var w = $("#popup_caja").width();
+        var calc = (dw / 2) - (w / 2)
+        $("#popup_caja").offset({left:calc})
+    }
+     function irCaja(){
+         centrarPopup();
+         $("#popup_caja").slideDown();
+     }
+     function cancelarPago(){
+         $("#popup_caja").slideUp();
+     }
+     function pagar(){
+         $(".botones").prop("disabled",true);
+         var valor = parseFloat($("#comis_actual").val().replace(".","").replace(",",".") );
+         var cheque = $("#comis_cheque").val();
+         var banco = $("#comis_banco option:selected").text();
+         var cuenta = $("#comis_cuenta").val();
+         var usuario  = $("#usuario").val();
+         var facturas = JSON.stringify(master);
+         var msg = "";
+         var error = false;
+         if(valor <= 0 || master.length === 0){
+             error = true;
+             msg+="Elija al menos una Factura para pagar\n";
+         }
+         if(cheque.length < 3){
+             error = true;
+             msg+="Debe ingresar el Nro de Cheque\n";
+         }
+         if(cuenta.length < 3){
+             error = true;
+             msg+="Debe ingresar el Nro de cuenta\n";
+         }
+         
+         if(!error){
+         
+            $.ajax({
+               type: "POST",
+               url: "ComisionesMayoristas.class.php",
+               data: {"action":"pagarComisiones",valor:valor,cheque:cheque,banco:banco,cuenta:cuenta,usuario:usuario, facturas:facturas }, 
+               async:true,
+               dataType: "json",
+               beforeSend: function(){
+                  $("#msg").html('Procesando...<img src="../img/activity.gif" width="70" height="6" alt="Procesando">'); 
+                  $(".check:checked").parent().html("<img class='loading' src='../img/loading_fast.gif' width='16px' height='16px' >");
+               },
+               success: function(data){
+                   if(data.Mensaje == "Ok"){
+                      $(".loading").attr("src","../img/ok.png");         
+                      $("#msg").html('El pago ha sido procesado con exito!'); 
+                   }else{
+                      $("#msg").html(data);  
+                   }
+               }
+           });
+       }else{
+           alert(msg);
+           $(".botones").prop("disabled",false);
+       }         
+     }
+ function setAnchorTitle() {
+     $('img[title!=""]').each(function() {
+         var a = $(this);
+         a.hover(
+             function() {
+                 showAnchorTitle(a, a.data('title'));
+             },
+             function() {
+                 hideAnchorTitle();
+             }
+         ).data('title', a.attr('title')).removeAttr('title');
+     });
+ }
+
+ function showAnchorTitle(element, text) {
+     var offset = element.offset();
+     $('#anchorTitle').css({
+         'top': (offset.top + element.outerHeight()) + 'px',
+         'left': offset.left - 200 + 'px'
+     }).html(text).show();
+ }
+
+ function hideAnchorTitle() {
+     $('#anchorTitle').hide();
+ }    
+</script>
+
+</head>
+
+
+
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+<input type="hidden" id="usuario" value="{user}">
+<div id="anchorTitle" class="anchorTitle"></div>
+ 
+<div id="popup_caja" style="display:none">
+    <table border="0" style="width:100%;font-size: 18">
+        <tr class="titulo"><th colspan="2" style="background: rgb(221, 218, 205);border:solid gray 1px">Caja</th></tr>
+        <tr>
+            <td><b>Pago actual:  </b></td><td> <input type="text" style="text-align:right;padding-right: 2px" id="comis_actual" value="" size="16" readonly="readonly">  </td>
+        </tr> 
+        <tr>
+            <td><b>Cheque N&deg;:</b></td><td> <input type="text" id="comis_cheque" value="" size="16">  </td>
+        </tr>
+        <tr>
+            <td><b>Banco:</b></td><td> <select id="comis_banco">{bancos}</select>  </td>
+        </tr>
+        <tr>
+            <td><b>Cuenta N&deg;:</b></td><td> <input type="text" id="comis_cuenta" value="" size="16">  </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="button" value="Cancelar" onclick="cancelarPago()"  class="botones">
+                <input type="button" value="  Pagar  " onclick="pagar()" class="botones">
+            </td>
+        </tr>
+    </table>
+</div>
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/{logo}" height="{altura}"></th> 
+        <th style="width: 70%;">Reporte Comisiones Vendedores Externos</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc} &nbsp;&nbsp;Vendedor: {vendedor} </td></tr>
+</table>
+<div>
+    <label>Mostrar Fecha y Cliente</label><input type="checkbox" id="show_cols" onclick="showCols()"> 
+    <label>Ocultar Negativos y Pagados</label><input type="checkbox" id="hide_neg" onclick="hideNegatives()">  
+    <label>Ocultar No Marcados</label><input type="checkbox" id="hide_not_checked" onclick="ocultarNoSeleccionados()">  
+    
+    <span id="msg"> &nbsp;&nbsp;&nbsp; Cargando...<img src="../img/activity.gif" width="70" height="6" alt="Cargando"> </span>
+</div>
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th rowspan="2">Ref.</th><th rowspan="2" class="cols">Factura</th><th rowspan="2">Total</th><th rowspan="2" class="cols">Fecha</th><th rowspan="2" class="cols">Cliente</th>
+             
+         <th  rowspan="2">Subtotal 2.5%</th><th rowspan="2">Subtotal 5%</th>         
+         <th  rowspan="2">Comis. 2.5%</th><th  rowspan="2">Comis.5% </th> <th  rowspan="2" >Total Comisi&oacute;n</th><th  rowspan="2" >Devoluciones</th><th rowspan="2">Cobrado</th><th rowspan="2">% Cob.</th><th rowspan="2">Pagado</th><th rowspan="2">Comis./%</th><th id="proceder"><img id="caja" title="Ir a Caja" src="../img/medios_pago.png" style="display:none;cursor:pointer" width="20" onclick="irCaja()"></th></tr>
+    <tr class="report_header">   <th><input type="checkbox" id="check_all" onclick="checkUncheck()" ></th></tr>
+<!-- end:   head -->    
+
+
+<!-- begin: data --> 
+ 
+<tr id="fact_{factura}" class="{tipo}" ><td class="item">{factura}</td><td class="item cols">{fact_legal}</td><td class="num">{total_factura}</td><td class="itemc cols">{fecha}</td><td class="item cols" data-cod_cli="{cod_cli}">{cliente}</td> <td class="num">{Subtotal2p5}</td><td class="num">{Subtotal5}</td><td  class="num comis">{Comis2p5}</td><td class="num comis">{Comis5}</td><td class="num" style="font-weight: bolder">{subtotal}</td><td class="num devs" id="dev_{factura}">{devoluciones}</td><td class="num">{cobrado}</td><td class="num">{porc_cobrado}%</td><td class="num">{pagado}</td><td class="num" id="comis_{factura}">{comis_corresp}</td><td class="itemc">{selectable_check}</td></tr>
+ 
+<!-- end:   data -->
+
+
+<!-- begin: footer -->      
+ 
+<tr><td class="itemc"> <b>{count}</b></td> <td class="cols"></td><td class="cols"></td> <td class="cols"></td><td colspan="5"></td>  <td class="num"><b>{total_comis_ventas}</b></td> <td colspan="4"></td><td class="num" style="font-weight: bolder" id="total_cobrar"></td> </tr>
+</table>  
+
+<!-- end:   footer  -->

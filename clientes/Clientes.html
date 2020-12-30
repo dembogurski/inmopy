@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+
+     
+<!-- end:   header -->
+
+
+<!-- begin: abm -->
+<link rel="stylesheet" type="text/css" href="clientes/Clientes.css?_=000000000000000" /> 
+<script type="text/javascript" src="clientes/Clientes.js?_=66666666666666666" ></script>
+
+<div id="anchorTitle" class="anchorTitle"></div>
+
+<div id="abm_cliente" title="Registro de Clientes">
+ 
+    <table  cellspacing="2" cellpadding ="0" border="0" style="width: 100%"  >
+        <tr><th colspan="2" class="titulo">Registro de Clientes</th></tr>
+        <tr>
+            <td>
+                <select id="tipo_doc" data-next="ruc" >
+                   <option value="C.I.">C.I./R.U.C. Paraguay</option>
+                   <option value="D.N.I.">D.N.I. Argentina</option>
+                   <option value="R.G.">C.I. Brasil</option>
+                   <option value="C.I. Diplomatica">Cedula Diplomatica</option>
+                   <option value="Pasaporte">Pasaporte</option>          
+                   <option value="Otro">Otro</option>            
+                </select>   
+            </td>
+            <td> <input type="text" data-required=true placeholder="CI o RUC" class="numpad" id="ruc" data-msg="" data-next="nombre" size="16" maxlength="13" onblur="checkRUC($(this))"  >*<br><span id="msg_ruc" class="error"></span> </td></tr>
+        <tr><td><label>Nombre:</label></td> <td> <input id="nombre" data-required=true class="keyboard" data-next="tel" placeholder="Nombre del Cliente" onchange="checkNombre($(this))" onblur="checkNombre($(this))" type="text" size="60" maxlength="60" style="text-transform: uppercase;" >*<br><span  id="msg_nombre"  class="error"></span> </td></tr>        
+        <tr><td><label>Telefono:</label></td> <td> <input id="tel" data-required=true class="numpad" data-next="fecha_nac" placeholder="000-000000" onchange="checkTel($(this))" onblur="checkTel($(this))" type="tel" size="24" maxlength="40" >*<br><span id="msg_tel" class="error"></span> </td></tr>
+        <tr><td><label>Fecha Nac:</label></td> <td> <input id="fecha_nac" class="numpad" data-next="pais" type="text" maxlength="10" size="10" placeholder="dd/mm/aaaa" onchange="checkDate($(this))" onblur="checkDate($(this))" ><br><span id="msg_fecha" class="error"></span>  </td></tr>
+        <tr><td><label>Pais Residencia:<label></td>
+        <td>
+            <select id="pais" data-next="tipo_cliente" >
+                <option value="PY">Paraguay</option>    
+                <option value="BR">Brasil</option>    
+                <option value="AR">Argentina</option>    
+                <option value="BO">Bolivia</option>   
+                <option value="PE">Peru</option> 
+                <option value="UY">Uruguay</option>    
+                <option value="Cl">Chile</option>    
+                <option value="VE">Venezuela</option>   
+                <option value="CO">Colombia</option>  
+                <option value="EC">Ecuador</option> 
+                <option value="Otro">Otro</option> 
+            </select> 
+            <label style="display:none">Tipo Cliente:<label>
+                    <input type="text" id="tipo_cliente" data-next="ciudad" value="Local" size="10" readonly="readonly"  style="display:none" >                                             
+            </td>
+        </tr>
+        <tr><td><label>Ciudad:<label></td> <td> <input id="ciudad" class="keyboard" data-next="dir" placeholder="Ciudad en la que vive" type="text" size="30" maxlength="60" > </td></tr>
+        <tr><td><label>Direcci&oacute;n:<label></td> <td> <textarea class="keyboard" placeholder="" id="dir"  data-next="ocupacion" cols="36" rows="2" ></textarea> </td></tr> 
+        <tr><td><label>Ocupaci&oacute;n:<label></td> 
+                        <td> <select id="ocupacion">                     
+                            <option value="Particular">Particular</option>        
+                            <option value="Estudiante" title="Del Rubro Textil <br>">Estudiante (Del Rubro Textil)</option>      
+                            <option value="Decorador" title="Clubes<br>Eventos<br>Insitucionales<br>Entidades Publicas y Privadas">Decorador</option>                              
+                            <option value="Confeccionista" title="Sastrero<br>Cortinero<br>Fabricante<br>Artesano">Confeccionista</option> 
+                            <option value="Tapicero" title="De Sillones<br>Colchoneria<br>Autos<br>Termos<br>Regalos Empresariales">Tapicero</option>   
+                            <option value="Tienda" title="Comerciante<br>Boutique">Tienda</option>                                  
+                        </select>
+                        </td></tr> 
+        <tr>
+            <td>  <label>Situaci&oacute;n:<label></td>
+            <td>
+                <select id="situacion">                     
+                    <option value="Dependiente">Dependiente</option>        
+                    <option value="Independiente">Independiente</option>        
+                </select> 
+            </td>
+        </tr>                  
+        <tr><td style="text-align: center;height: 26px" colspan="2" id="msg_cliente" class="error"></td></tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <input type="button" value="Cancelar" onclick=javascript:$("#abm_cliente").fadeOut() > 
+                <input type="button" id="registrar" value="Aceptar" onclick="registrarCliente()" disabled="disabled">
+            </td>
+        </tr>
+    </table>
+</div>     
+<script>  configurar();  </script>
+<!-- end:   abm -->

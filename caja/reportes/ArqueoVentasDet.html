@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+<link rel="stylesheet" type="text/css" href="arqueoVentasDet.css?_=1499200127463" /> 
+<link rel="stylesheet" type="text/css" href="../../js/jquery-ui/jquery-ui.css" /> 
+<script type="text/javascript" src="../../js/jquery-1.11.2.min.js" ></script>
+<script type="text/javascript" src="../../js/jquery-ui/jquery-ui.min.js" ></script>
+<script type="text/javascript" src="../../js/reportes.js" ></script>
+<script type="text/javascript" src="arqueoVentasDet.js?_=1530553100585" ></script>
+
+<style>
+    .pagos{
+        border:solid gray 1px;
+        width: 100%;
+        border-collapse:collapse;
+        margin:0;
+        padding:0;
+    }
+    .pagos td{
+      width:14%;
+      margin:0;
+      padding:0;
+      height: 22px;
+    }
+    .pagos th{
+      width:14%;
+      margin:0;
+      padding:0;
+      height: 100%;
+      font-size:10px;    
+      height:25px;
+      background:lightgray;
+    }
+    .cancelar_pagos{
+        display:none;
+    }
+</style>    
+
+<!-- end:   header -->
+
+<!-- begin: error -->
+<div class="error"><p>Error al procesar la petici&oacute;n</p></div>
+<!-- end:   error -->
+
+<!-- begin: facturas_head -->
+ 
+
+<div style="visibility: hidden;" class="loader">Loading...</div>
+<table border="1" cellspacing="0" cellpadding="0">
+<thead>
+<tr>
+<th colspan="{colspan}"> Datos de Facturaci&oacute;n </th>
+<th colspan="3"> Totales </th>
+<th colspan="5"> Detalle de Pago </th>
+<th>
+    <input disabled="disabled" type="button" id="verif" value="Verificado" onclick="verif_ventas()" />
+    <label class="cancelar_pagos" >  Cancelar Pagos:</label> <input type="checkbox" class="cancelar_pagos"  onclick="cancelarPagos()">   
+    <input type="button" class="cancelar_todos" style="display:none" value="Cancelar Todos"  onclick="cancelarTodos()"> 
+    
+</th>
+ 
+</tr>
+<tr>
+<th class="factura">Fact</th>
+<th class="factura" {show_fecha}>Fecha</th>
+<th class="factura">Pref.Pago</th>
+<th class="factura">Moneda</th>
+<th class="factura">TotalB</th>
+<th class="factura">Descuento</th>
+<th class="factura">Factura</th>
+<th class="verif">Verif</th>
+<th class="detPago"> Pagos </th>
+<th class="detPago">Efectivo</th>
+<th class="detPago">Cheque</th>
+<th class="detPago">Tarjetas</th>
+<th class="detPago">Cuota</th>
+<th class="detPago">Res</th>
+<th><label for="todos">Todo </label><input id="todos" onchange="verif()" type="checkbox" /></th>
+ 
+</tr>
+</thead>
+<tbody>
+<!-- end:   facturas_head -->
+
+<!-- begin: facturas_body -->
+<tr class="table_data factura_{f_nro}" data-fact="{f_nro}"  >
+<td class="item">{f_nro}</td>
+<td class="item" {show_fecha}>{fecha_cierre}</td>
+<td class="itemc">{tipo}</td>
+<td class="itemc">{moneda}</td>
+<td class="num">{n_total_bruto}</td>
+<td class="num">{n_total_desc}</td>
+<td class="num">{n_total}</td>
+<td class="{c_tot_verif}">{tot_verif}</td>
+<td class="num pagos_mysql_{f_nro}">{suma}</td>
+<td class="num {verif_efectivo}"><div class="edit" onclick="edit($(this))" data-target="efectivo">{efectivo}</div></td>
+<td class="num {verif_cheques}"><div class="edit" onclick="edit($(this))" data-target="cheques_ter">{cheques}</div></td>
+<td class="num {verif_convenio}"><div class="edit" onclick="edit($(this))" data-target="convenios">{convenio}</div></td>
+<td class="num {verif_cuotas}"><div class="edit cuota_{f_nro}" onclick="edit($(this))"  data-target="cuotas">{cuotas}</div></td>
+<td class="num {verif_reserva}"><div id="resContainer"><span {resClass} id="resMonto">{reserva}</span><span id="resData">{resData}</span></div></td>
+<td class="{control}">{control}<input id="{f_nro}" class="unitario" type="checkbox" onchange="checkVerif()" {disabled} /></td>
+ 
+</tr>
+<!-- end:   facturas_body -->
+
+<!-- begin: facturas_foot -->
+</tbody>
+</table>
+<!-- end:   facturas_foot -->
+
+
+<!-- begin: reservas_head -->
+<table border="1" cellspacing="0" cellpadding="0">
+<thead>
+<tr>
+<th colspan="6"> Datos de Reserva </th>
+<th colspan="3"> Totales </th>
+<th colspan="2"> Detalle de Pago </th>
+</tr>
+<tr>
+<th class="factura">Nro.</th>
+<th class="factura">Cli-RUC</th>
+<th class="factura">Cli-Nombre</th>
+<th class="factura">Estado</th>
+<th class="factura">Total</th>
+<th class="factura">Se&ntilde;a m&iacute;nima</th>
+<th class="factura">Se&ntilde;a</th>
+<th class="verif">Verif</th>
+<th class="detPago"> Pagos </th>
+<th class="detPago">Efectivo</th>
+<th class="detPago">Convenio</th>
+</tr>
+</thead>
+<tbody>
+<!-- end:   reservas_head -->
+
+<!-- begin: reservas_body -->
+<tr class="table_data">
+<td class="item">{nro_reserva}</td>
+<td class="item">{ruc_cli}</td>
+<td class="item">{cliente}</td>
+<td class="item">{estado}</td>
+<td class="num">{valor_total_ref}</td>
+<td class="num">{minimo_senia_ref}</td>
+<td class="num">{senia_entrega_ref}</td>
+<td class="{c_tot_verif}">{tot_verif}</td>
+<td class="num">{suma}</td>
+<td class="num {verif_efectivo}">{efectivo}</td>
+<td class="num {verif_convenio}">{convenio}</td>
+</tr>
+<!-- end:   reservas_body -->
+
+<!-- begin: reservas_foot -->
+</tbody>
+</table>
+<div id="editor_container">
+      <div id="editor_header"><button id="editor_close" onclick="cerrarEditor()">Cerrar</button></div>
+      <div id="editor"></div>
+      <div id="editor_foot"><button id="editor_save" onclick="guardar()" disabled >Guardar Cambios</button></div>
+</div>
+
+<script>
+	var bancos = {bancos};
+	var convenios = {convenios};
+</script>
+<!-- end:   reservas_foot -->
+
+
+
+<!-- begin: end -->
+</html>
+<!-- end:   end  -->

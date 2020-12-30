@@ -1,0 +1,94 @@
+
+<!-- begin: header -->
+     <link rel="stylesheet" type="text/css" href="empaque/ImpresionCodigos.css?_=11111111" />
+    <script type="text/javascript" src="empaque/ImpresionCodigos.js?_=00000000000000" ></script>  
+<!-- end:   header -->
+
+<!-- begin: body -->
+<input type="hidden" id="images_url" value="{images_url}">
+<div>
+    <table style="border:solid gray 1px;margin: 30 auto; width:60%;padding: 10px;background-color: white" >
+        <tr>
+            <td style="width: 15%"><label>Codigo Lote:</label> </td> 
+            <td  colspan="2">
+                <input title="Ingrese aqui el codigo para Imprimir" type="text" size="12" id="lote" maxlength="36" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder" >&nbsp;
+                <span id="msg"></span>    
+            </td>
+        </tr>
+        <tr>
+            <td><label>Articulo:</label> </td> <td> <input type="text" size="8" id="codigo"   style="color:black;text-align: left" readonly="readonly" ></td> 
+            <td rowspan="5" style="width: 50%"><img id="img" alt="" src="img/no_image.png" style="display:none;cursor: pointer"    width="160" ></td>
+        </tr>
+        <tr>
+            <td>
+                <label>Suc:</label> 
+            </td> 
+            <td> 
+                <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" >                
+            </td>
+        </tr>
+        <tr>
+            <td><label>Stock:</label> </td> <td> <input type="text" size="10" id="stock"   style="color:black;text-align: right" readonly="readonly" ><input type="text" size="4" id="um"  style="color:black;text-align: center" readonly="readonly" ></td>
+        </tr>
+         
+        <tr>
+            <td><label>Gramaje:</label></td><td><input type="text" size="10" id="gramaje"  style="color:black;text-align: right" readonly="readonly" ></td>
+        </tr> 
+        <tr>
+            <td><label>Ancho:</label></td><td><input type="text" size="10" id="ancho"  style="color:black;text-align: right" readonly="readonly" ></td>
+        </tr>
+        <tr>
+             <td ><label>Descripci&oacute;n:</label> </td> <td colspan="2"> <input type="text" id="descrip"  style="color:black;width:99%" readonly="readonly" ></td>
+        </tr>
+        <tr>
+            <td style="text-align: center" colspan="3">                  
+                <input type="button"  class="botones"  id="imprimir"  disabled="disabled"  style="font-size: 12;color:black"  value="Imprimir codigo de Barras"  onclick="imprimirCodigoBarras()" >
+                 
+                &nbsp;<label  style="display:{stacks}">Mas Opciones de Impresion</label><input type="checkbox" id="print_stacks" style="display:{stacks}" onclick="showForm()" >
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="text-align: center" colspan="3">                  
+                Tama&ntilde;o: <select id="tamanho">
+                    <option value="6x4">6x4</option>
+                    <option value="10x5">10x5</option>
+                    <option value="100% Algodon">Poliamida 100% Algodon</option>
+                    <option value="100% Poliester">Poliamida 100% Poliester</option>
+                    <option value="50% Poliester 50% Algodon">Poliamida 50% Poliester 50% Algodon</option>
+                </select>
+                <label class="medidas">Incluir Medidas:</label><input class="medidas" type="text" size="12" id="medidas">
+                <input type="button"  class="botones"  id="imprimir_etiq_cuidados"  disabled="disabled"  style="font-size: 12;color:black"  value="Etiqueta de Cuidados"    >
+            </td>
+        </tr>
+        
+        <tr >
+            <td id="stacks" colspan="3" style="display:none">
+                <label>N&deg; Stack  Inical:</label>  <input type="text" id="stack_ini" value="" size="4" >
+                <label>N&deg; Stack  Final:</label>  <input type="text" id="stack_fin" value="" size="4" >
+                <input type="button" onclick="printStacks()" value="Imprimir Stacks">
+                <label for="silent_print">Impresi&oacute;n directa</label> <input type="checkbox" id="silent_print">
+                <label for="auto_close_window">Cerrar Ventana Post Impresion</label> <input type="checkbox" id="auto_close_window">
+            </td>
+        </tr>
+    </table>  
+    
+     
+    
+    <table border="1" cellpadding="0" cellspacing="0" style="margin: 20px auto;background-color: white;border-collapse: collapse">
+        <tr>
+            <th colspan="5" class="titulo"> Impresion Rapida de Etiquetas de Cuidado </th>
+        </tr>
+        <tr>
+            <td><img width="140" src="img/etiquetascuidados/1-ALG_POL_LAVADO_MAQUINA.jpg" onclick=imprimirEtiquetaCuidados("1-ALG_POL_LAVADO_MAQUINA.jpg") class="cuidados"></td>
+            <td><img width="140" src="img/etiquetascuidados/2-100_PORC_ALGODON_LAVADO_MAQUINA.jpg" onclick=imprimirEtiquetaCuidados("2-100_PORC_ALGODON_LAVADO_MAQUINA.jpg") class="cuidados"></td>
+            <td><img width="140" src="img/etiquetascuidados/3-100_PORC_SINTETCO_LAVADO_MANUAL.jpg" onclick=imprimirEtiquetaCuidados("3-100_PORC_SINTETCO_LAVADO_MANUAL.jpg") class="cuidados"></td>
+            <td><img width="140" src="img/etiquetascuidados/4-100_SINTETICO_LAVADO_MAQUINA.jpg" onclick=imprimirEtiquetaCuidados("4-100_SINTETICO_LAVADO_MAQUINA.jpg") class="cuidados"></td>
+            <td><img width="140" src="img/etiquetascuidados/5-100_SINTETICO_LAVADO_MANUAL_EN_SECO.jpg" onclick=imprimirEtiquetaCuidados("5-100_SINTETICO_LAVADO_MANUAL_EN_SECO.jpg") class="cuidados"></td>
+        </tr>
+    </table>
+    
+</div>
+
+
+<!-- end:   body -->

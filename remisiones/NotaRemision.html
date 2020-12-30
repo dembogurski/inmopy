@@ -1,0 +1,223 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="remisiones/NotaRemision.css?_=e33333333333333333333333" />
+    
+    <script type="text/javascript" src="remisiones/NotaRemision.js?_=999" ></script>   
+    
+    <div id="dialog-confirm" title="Eliminar Registro?" style="display: none;margin-top: 6px ">
+      <span class="ui-icon ui-icon-alert" style="float:left; margin:6 7px 20px 0;" ></span><span id="alert_msg">&iquest;Esta seguro que desea eliminar este registro&quest;</span> 
+    </div>
+    
+    <div id="control">         
+        <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse" >
+            <tr>
+                <td>                 
+                    <label>Lote: </label> <input type="text" id="blote" value="" size="8" tabindex="4" class="control b" style="font-weight: bolder;color:green" >
+                    <label>Kg:</label> <input type="text" size="6" tabindex="5" class="num control b" id="bkg_env"   style="font-weight: bolder;color:green"   > 
+                    <input type="button" id="getKg" value="...." onclick=leerDatosBalanza("bkg_env",true)> 
+
+                    <input type="button" id="guardar" value="Guardar" onclick="actualizarYGuardar()" tabindex="6" disabled="disabled">
+                    <label class="btipo">Tipo: </label><select class="btipo" id="btipo" onchange="changeControlTipe()"><option value="Rollo">Rollo</option><option value="Pieza">Pieza</option></select><img src="img/arrow-up.png" width="36" height="32" onclick="ocultarControl()" style="cursor: pointer;"  class="rotate" title="Ocultar esta Ventana"> 
+                    <input type="button" id="actualizarKGDesc" value="Actualizar Kg" onclick="actualizarKGDesc()" tabindex="6" style="display:none">
+                </td>
+            </tr>
+        <tr>
+            <td>
+               <label>Descrip:</label> <input type="text" id="bdescrip" value="" size="70"  class="control b" style="color:blue" readonly="readonly"><br>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:820px">
+                <label>Tara:</label> <input type="text" id="btara" class="itemc control b" size="5"  readonly >
+                <label>Ancho:</label> <input type="text" id="bancho" class="itemc control b" size="4"  readonly >
+                <label>Gramaje:</label> <input type="text" id="bgramaje" class="itemc control b" size="6"  readonly="readonly" > {mobile_cr}
+                <label>Cant:</label> <input type="text" id="bcant" class="itemc control b" size="6"  readonly="readonly" >
+                <label>Cant.Calc:</label> <input type="text" id="bcant_calc" class="itemc control b" size="6"  readonly="readonly" > 
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 32px"><div id="msg_blote" style="color:red;text-align: center;font-size: 14px;heigth:36px;width: 80%"></div></td>
+        </tr>
+        <tr>
+            <td>
+              <div style="width: auto;background-color: lightskyblue;font-size: 24px;margin-top: 1px;float:left;margin-left:-2px;position:relative" >           
+                <label style="font-size: 24">Paquete:</label>
+                <input style="font-size: 24" type="button" value="  <  " onclick=setPaquete("-") class="bale">
+                <input style="font-size: 24;text-align: center" readonly="readonly"  type="text" size="2" value="1" id="paquete" >
+                <input style="font-size: 24" type="button" value="  >  " onclick=setPaquete("+")  class="bale">
+                
+                <span id="punteados" style="font-size: 24"></span> <span id="msg_paq"></span>    
+                <img src="img/printer-02_32x32.png" onclick="imprimirPaquete()" style="margin-bottom:-6px;margin-left:10px"  class="bale">
+            </div>   
+            </td>
+        </tr>
+         </table>
+    </div>
+   
+    <div id="message" style="display:none"></div>    
+    <input type="hidden" id="_rem_origen" value="{_rem_origen}"/>
+    <input type="hidden" id="_rem_destino" value="{_rem_destino}"/>
+    <input type="hidden" id="porc_tolerancia_remsiones" value ="{porc_tolerancia_remsiones}">
+     
+<!-- end:   header -->
+
+
+<!-- begin: remision_cab -->
+<input type="hidden" id="remision_existente" value="false">
+<div style="margin:6 auto;font-weight: bolder;background-color: lightgray;text-align: center;font-size: 13">Nueva Nota de Remision</div>
+<div id="tabs" style="height: auto;min-width: 900px">
+<ul>
+        <li><a href="#tabs-area_carga" class="modif">Area Carga</a></li>
+        <li><a href="#tabs-transporte" class="modif" >Transporte</a></li>
+        <li><a href="#tabs-config" class="modif" >Configuracion</a></li>
+    </ul>
+    <div id="tabs-area_carga" style="height: 112px">    
+<div style="margin: 4px 4px 2px 2px;border: solid gray 0px">
+    <label>N&deg;:</label><input type="text" value="" id="nro_remito" size="6" readonly="readonly" >
+    <label>Destino:</label>
+    <select id="suc" class="editable" >
+        <option></option>
+        {sucursales}
+    </select>
+    <input type="button" id="generar_remito" value="Generar Remision" onclick="generarNotaRemision()" style="display: none">
+     
+    <span id="msg"></span> 
+</div>
+<!-- end:   remision_cab -->
+
+
+<!-- begin: remision_existente_cab -->
+<input type="hidden" id="remision_existente" value="true">
+<div style="margin:6 auto;font-weight: bolder;background-color: lightgray;text-align: center;font-size: 13">Nota de Remision</div>
+ 
+<div id="tabs" style="height: auto;min-width: 900px">
+    <ul>
+        <li><a href="#tabs-area_carga" class="modif">Area Carga</a></li>
+        <li><a href="#tabs-transporte" class="modif" >Transporte</a></li>
+        <li><a href="#tabs-config" class="modif" >Configuracion</a></li>
+    </ul>
+    <div id="tabs-area_carga" style="height: 112px">
+<div style="margin: 4px 4px 2px 2px;border: solid gray 0px">
+    <label>N&deg;:</label><input type="text" value="{nro}" id="nro_remito" size="6" readonly="readonly" >
+    <label>Destino:</label>
+    <select id="suc" disabled="disabled" >
+        {destino}
+    </select>
+    <label>Fecha:</label><input type="text" id="fecha" value="{fecha}" size="10" readonly="readonly" class="itemc"> 
+    <label>Usuario:</label><input type="text" id="fecha" value="{usuario}" size="16" readonly="readonly" class="itemc" > 
+    
+    <span id="msg"></span> 
+</div>
+<!-- end:   remision_existente_cab -->
+
+
+<!-- begin: area_carga_cab -->
+      <div id="area_carga" style="display: none;" class="area_carga">
+        <label>Codigo:&nbsp; </label> <input type="text" id="lote" value=""  class="editable" maxlength="24" size="14" data-next="kg_env"   tabindex="1" placeholder="Codigo Barras" style="font-weight: bolder" data-info="Puntee aqui el codigo de barras" onkeypress="return onlyNumbersAndCaptureKg(event,this.id)" onchange="buscarDatosDeCodigo()"> 
+        <img src="img/keypad32.png" border="0" onclick="showKeyPad()" style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+        
+        <label style="display:none">Codigo Sis.:&nbsp; </label> <input type="text" id="codigo" class="dato" value="" size="14" placeholder="Codigo Sistema" readonly style="display:none" >         
+        <label>Stock:</label> <input type="text" style="text-align: right" class="dato" value="" id="stock" size="14" data-stock="0"   readonly="readonly" > <span id="stock_compr"></span>
+        <label>UM:</label> <input type="text" id="um" class="itemc dato" size="7" data-um_prod="" readonly > 
+        <label>Ancho:</label> <input type="text" id="ancho" class="itemc dato" size="11"  readonly >
+        <label>Gramaje:</label> <input type="text" id="gramaje" class="itemc dato" size="11"  readonly="readonly" >&nbsp;        
+        <span id="msg_codigo"></span> <br>
+        
+        <div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:absolute"></div> 
+        
+        <label>Descrip:</label> <input type="text" id="descrip" size="103" class="dato" readonly > <br>        
+        <label>Tara: &nbsp;&nbsp;&nbsp;&nbsp;</label> <input type="text" class="num numeros dato" id="tara"  data-next="kg_env" size="8"  readonly="readonly"  placeholder="Gramos"> 
+        <label {show_ubic}>&nbsp;Ubic: &nbsp;</label><input {show_ubic} type="text" id="ubic" maxlength="9" size="9" readonly />
+        <label>&nbsp;Peso Kg:  </label> <input type="text"  class="num numeros dato editable" id="kg_env" data-next="add_code" tabindex="2" onkeypress="return onlyC(event,this.id,false)" size="8" placeholder="Presione c" style="font-weight: bolder" > 
+        <input type="button" id="capturar" value="..."  onclick=leerDatosBalanza("kg_env",false) tabindex="3" style="height:22px;font-size:9;font-weight: bold" data-info="Capturar Peso de la Balanza" >
+        
+        
+        <input type="text" id="cant_calc" class="itemc dato" size="11"  readonly="readonly" style="display:none" >
+        <input type="text" id="cant_inicial" class="itemc dato" size="11"  readonly="readonly" style="display:none" >
+        <label>Kg.Desc.: </label><input type="text" id="U_kg_desc" class="itemc dato" size="8"  readonly="readonly" >
+        <input type="button" id="add_code" value="    Insertar    "  onclick="agregarCodigoARemito()" tabindex="4" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Detalle" > 
+        <img src="img/balanza1.png" onclick="controlar()" style="margin-bottom: -6px;margin-left:10px;cursor:pointer"> 
+        </div>
+    </div>
+    <div id="tabs-transporte" style="height: 112px">
+        <section id="nr_tramsportadora">
+            <label for="transportadora">Transp:</label>
+            <input type="text" id="transportadora" onkeyup="buscarTransportadora()" onchange="getDatosTransporte()" onclick="mostrarOcultarLista()"  placeholder="Transportadora" value="{transportadora}">
+            <label for="nro_chapa">N&deg; Chapa:</label>
+            <input type="text" id="nro_chapa" value="{nro_chapa}" size="10">
+            <img src="img/icon-arrow-right-b-32.png" onclick="getDatosTransporte()"   style="cursor:pointer;width: 16px">
+            <label for="nro_levante">Nro. Levante:</label>
+            <input type="text" id="nro_levante" placeholder="Nro. Levante" value="{nro_levante}">
+            <label for="cod_cli">Cliente:</label>
+            <input type="text" id="cod_cli" size="7" placeholder="Cod. Cli" value="{cod_cli}" onchange="buscarCliente()">
+            <label for="nota_rem_legal" onclick="getFacturasContables()" >Rem N&deg;:</label>
+            <select id="nota_rem_legal" data-next="tipo_factura" style="font-weight: bold;height: 26px;width:60px"> </select>
+            <div class="transportadora" style="display: none"> 
+                <ul id="transportadoras">{transportadoras}</ul>
+            </div>
+            <br>
+            <label for="chofer">Chofer:</label>
+            <input type="text" style="width: 208px" id="chofer" value="{chofer}" size="24">
+            <label for="ci_chofer">CI:</label>
+            <input type="text" id="ci_chofer" value="{ci_chofer}" size="8">
+            <img src="img/icon-arrow-right-b-32.png" onclick="getDatosChofer()"   style="cursor:pointer;width: 16px">
+            <button onclick="guardarTransportadora()"><img src="img/save_.png" /></button>&nbsp;&nbsp;&nbsp;
+            
+            <input type="button" id="imprimir_nota_rem" onclick="imprimirNotaRemLegal()" value="Imprimir Nota Remision" style="margin-left:60px">
+            <input type="hidden" id="transp_ruc" value="{transp_ruc}">
+            <input type="hidden" id="transp_rua" value="{transp_rua}">
+        </section>
+        <div>
+            <ul id="clientes" style="position:absolute"></ul> 
+        </div> 
+      </div> 
+    <div id="tabs-config" style="height: 112px">
+        <label>IP Balanza:</label><input type="text" id="ip" value="localhost" size="16"  class="itemc editable"   >
+    </div>  
+</div>     
+    <table id="detalle_remito" class="area_carga" border="1"  cellspacing="0" cellpadding="0" width="99%" style="display:none"  >
+           
+            <tr><th colspan="10" style="background-color: lightgray">Detalle de Nota de Remision, Leyenda:<span data-actualizado="actualizado">Datos Actualizado</span><span data-actualizado="stock"> Diferencia de Stock | Stock Cero </span></th></tr>  
+            <tr class="titulo"><th class="codigo">Cod.Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th><th>Tara</th><th>Gramaje</th><th>Ancho</th><th class="kg_env">Kg Env.</th><th>Cant.Calc.Env.</th><th class="delete">*</th></tr>  
+            
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: area_carga_data -->
+<tr {actualizado}  id="tr_{lote}" class="fila {id_det}"  data-codigo="{codigo}" data-kgdesc="{kg_desc}" data-tipo="{es_rollo}" data-cant_inicial="{cant_inicial}"><td class="item codigo_lote" >{lote}</td><td class="item descrip">{descrip}</td><td class="num cantidad">{cant}</td><td  class="itemc um">{um}</td><td  class="itemc tara" >{tara}</td><td  class="num gramaje">{gramaje}</td><td  class="num ancho">{ancho}</td><td class="num kg_env" data-punteado="{punteado}">{kg_env}</td><td class="num cant_calc">{cant_calc_env}</td><td class="itemc"><img class="del_det trash" title="Borrar Esta Pieza" style="cursor:pointer" src="img/trash_mini.png" onclick=delDetRemito("{id_det}");></td></tr>  
+<!-- end:   area_carga_data -->
+
+<!-- begin: area_carga_foot -->
+    
+    <tr class="tr_total_remito" style="font-weight: bolder"><td >&nbsp;Totales</td><td colspan="7" id="msg_det" style="text-align: center;font-size: 11" class="info"></td> </tr>
+  </table>  
+        
+    <div style="float:left;width:19%;border:solid 0px gray;" class="area_carga"><label>Obs:</label><textarea id="obs" cols="46" rows="3" onchange="saveObs()"  class="editable">{obs}</textarea></div>
+        <div style="padding-top: 4px;text-align: center;float: right;width:80%;border:solid 0px gray;margin-right:10px" class="area_carga"> 
+           <img src="img/refresh-32.png" title="Recargar esta Remision" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick="cargarNotaRemision({nro})">  
+           <input type="button" id="puntear" onclick="controlar()" style="font-weight: bolder;margin-top:16px" value="Control y Pesaje"   > 
+           <input type="button" onclick="bucarRemisionesSimilares()" style="font-weight: bolder"  value="Mover no Procesados"/>
+           <input type="button" id="imprimir" onclick="imprimir()" style="font-weight: bolder" value=" Imprimir "   >
+           <input type="button" id="finalizar" onclick="finalizarRemito()" style="font-weight: bolder" value=" Finalizar "  >
+           {codigo_finalizar_directo}
+        </div>
+  
+
+<div class="info" id="msg_control" style="text-align: center"></div>
+
+<audio class="found sound" controls preload="none">
+   <source src="files/sounds/beep-07.wav?_=00000000000" type="audio/wav">               
+</audio>
+
+<audio class="not_found sound" controls preload="auto">
+   <source src="files/sounds/beep-05.wav" type="audio/wav" >       
+</audio>
+
+<audio class="pesar sound" controls preload="auto">
+   <source src="files/sounds/button-4.wav" type="audio/wav" >       
+</audio>
+ 
+<!-- end:   area_carga_foot -->
+
+
+
+

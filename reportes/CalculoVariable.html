@@ -1,0 +1,225 @@
+<!-- begin: header noeval -->
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+    <script type="text/javascript" src="../js/functions.js" ></script>
+    <style>
+        .tabla{
+            border-collapse: collapse;
+            width:100%
+        }
+        .bold{
+            font-weight: bolder;
+        }
+        td{
+            padding: 4px;
+        }
+        .numero{
+            text-align: right;
+        }
+        .totales td{
+            font-weight: bolder;
+        }
+        .cabecera{
+            background-color: #dddacd;
+        }
+        .alerta{
+            background: #FDD1C5 url(../img/important.png) center no-repeat;
+            background-position: 10px 50%; /* x-pos y-pos */
+            text-align: left;
+            padding: 10px 20px 10px 55px;
+            border: 2px solid #FBAB95;
+            color:#000000;   
+        }
+        .cobra{
+            color:green;
+            font-weight: bolder;
+        }
+        .no_cobra{
+            color:red;
+            font-weight: bolder;
+        }
+    </style>
+    
+    <script language="javascript">        
+        var flag = false;
+        
+        function calcPremio(){
+            var sueldo_contable = parseFloat( $("#sueldo_contable").val().replace(/\./g, '') );
+            var premio_cobrar = parseFloat($("#premio_cobrar").text().replace(/\./g, '') );
+            
+            var sf = (sueldo_contable).format(0, 3, '.', ',') ;
+            $("#sueldo_contable").val(sf);
+            var premio_cobrarf = (premio_cobrar - sueldo_contable).format(0, 3, '.', ',') ;
+            $("#premio_acreditar").val(premio_cobrarf); 
+            if(premio_cobrar - sueldo_contable <= 0){
+                $("#premio_acreditar").removeClass("cobra");
+                $("#premio_acreditar").addClass("no_cobra"); 
+            }else{
+               $("#premio_acreditar").removeClass("no_cobra"); 
+               $("#premio_acreditar").addClass("cobra");
+            }
+        }
+        $(document).ready(function(){
+            
+           var  base_aux = $("#base_aux").val();
+           var  variable_aux = $("#variable_aux").val();
+           var  meta_normal_aux = $("#meta_normal_aux").val();
+           var  meta_ofertas_aux = $("#meta_ofertas_aux").val();
+           
+            
+           $("#meta").html(base_aux);
+           $("#variable").html(variable_aux);
+           $("#meta_normal").html(meta_normal_aux);
+           $("#meta_ofertas").html(meta_ofertas_aux);
+           
+        });   
+        function getVentasXUnidad(){
+            var vendedor = $("#vendedor").val();
+            var desde = $("#desde").val();
+            var hasta = $("#hasta").val();
+            var total = 0;
+            $.ajax({
+                type: "POST",
+                url: "CalculoVariable.class.php",
+                data: {"action":"getComisionPorUnidad",usuario:vendedor,"desde":desde,"hasta":hasta}, 
+                async:true,
+                dataType: "json",
+                beforeSend: function(){
+                    $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                    $(".fila_com").remove();
+                },
+                success: function(data){   
+                    for(var i in data){ 
+                       var descrip = data[i].descrip;
+                       var cant = parseFloat(data[i].cant); 
+                       var comision = data[i].comision; 
+                       var cat = data[i].cat; 
+                       var subtotal = cant * comision;  
+                       total += subtotal;
+                       var com = (comision).format(0, 3, '.', ',') ;
+                       var subt = (subtotal).format(0, 3, '.', ',') ;
+                       $("#ventas_x_unid").append("<tr class='fila_com'><td class='item'>"+descrip+"</td><td  class='itemc'>"+cat+"</td><td class='numero'>"+cant+"</td><td class='numero'>"+com+"</td><td class='numero'>"+subt+"</td></tr>");
+                    }   
+                    var total_comis = (total).format(0, 3, '.', ',') ;
+                    $("#ventas_x_unid").append("<tr class='fila_com'><td class='item' colspan='4'>Total:</td><td class='numero'>"+total_comis+"</td></tr>");
+                    $("#msg").html(""); 
+                }
+            });            
+        }
+        function showHideVentasXUnidad(){
+            if(flag){
+                flag = false;
+                $("#ventas_x_unid").fadeOut();
+            }else{
+                flag = true;
+                $("#ventas_x_unid").fadeIn();
+                getVentasXUnidad();
+            }
+        }
+    </script>
+  
+<!-- end:   header -->
+
+<!-- begin: user_data -->
+
+<input type="hidden" id="vendedor" value="{vendedor}">
+<input type="hidden" id="desde" value="{desde_eng}">
+<input type="hidden" id="hasta" value="{hasta_eng}">
+
+<table class="tabla" border="1">
+    <tr>
+        <td rowspan="2"><img src="../img/logo_small.png"></td>
+        <td colspan="4" style="text-align:center;font-weight: bolder;font-size: 18;color:#0092ef" > Calculo de Comisiones por Ventas </td>
+        <td rowspan="2" style="text-aling:center;font-size: 9px"> {user} - {time} </td>
+    </tr>
+    <tr>
+        <td style="text-align:center" colspan="4"><b>Periodo:</b>&nbsp;{desde}&nbsp;<b>&harr;</b>&nbsp;{hasta}</td>
+    </tr>
+    <tr>
+        <td class="bold">Nombre:</td><td>{nombre}</td><td class="bold">C.I.:</td><td>{doc}</td><td class="bold">Fecha Cont:</td><td>{fecha_cont}</td>
+    </tr>
+    <tr>
+        <td class="bold">Tipo:</td><td>{tipo_vend}</td><td class="bold">Sueldo Fijo:</td><td class="numero">{sueldo_fijo}</td><td class="bold">Variable:</td><td class="numero" id="variable">{variable}</td>        
+    </tr>
+    <tr>
+        <td class="bold">Meta:</td><td class="numero" id="meta">{meta}</td><td class="bold" >Meta P/Normales:</td><td class="numero" id="meta_normal">{meta_normal}</td><td class="bold">Meta P/Ofertas:</td><td class="numero" id="meta_ofertas">{meta_ofertas}</td>        
+    </tr>
+</table>
+<!-- end:   user_data -->
+
+<!-- begin: logros_x_cat_h -->
+<table class="tabla" border="1" style="margin-top: 10px;{display}">
+    <tr class="cabecera">
+        <th>Cat</th><th>Ofertas</th><th>Normales</th><th>Dev.Ofertas</th><th>Dev.Normales</th><th>Agrup.Ofertas</th><th>Agrup.Normales</th><th>Totales</th>
+    </tr>
+ 
+<!-- end:   logros_x_cat_h -->
+
+<!-- begin: logros_x_cat_data -->
+ 
+    <tr>
+        <td class="itemc">{cat}</td><td class="num">{ofertas}</td><td class="num">{normales}</td><td class="num">{dev_ofertas}</td><td class="num">{dev_normales}</td> {agrup_cols}  
+    </tr>
+ 
+<!-- end:   logros_x_cat_data -->
+
+<!-- begin: logros_x_cat_f -->
+<tr class="totales">
+    <td class="itemc">*</td><td class="num">{tofertas}</td><td class="num">{tnormales}</td><td class="num">{tdev_ofertas}</td><td class="num">{tdev_normales}</td><td class="num">{tagrup_ofertas}</td><td class="num">{tagrup_normales}</td><td class="num">{total_agrup}</td>
+</tr>
+</table> 
+
+<img src="../img/more_detail_.png" title="Ver detalle de ventas por Unidad" onclick="showHideVentasXUnidad()" style="margin-top:4px;cursor:pointer">
+
+<table class="tabla" border="1" id="ventas_x_unid" style="display:none;margin-top: 6px;width:80%">
+    <tr class="cabecera"><th colspan="5" >Comisiones de Ventas por Unidad</th></tr>
+    <tr><th>Articulo</th><th>Cat</th><th>Cantidad</th><th>Comision</th><th>Subtotal</th></tr>
+</table>
+<!-- end:   logros_x_cat_f -->
+ 
+
+<!-- begin: cuadro_conv_h -->
+<table class="tabla" border="1" style="margin-top: 10px;width:80%">
+    <tr><th colspan="3">Cuadro de Conversion</th><th colspan="3">Valores Convertidos en Base a Coeficientes</th></tr>
+    <tr class="cabecera"><th>Cat</th><th>Meta</th><th>Coef. Conv</th>  <th>Ofertas</th>  <th>Normales</th><th>Totales</th></tr> 
+<!-- end:   cuadro_conv_h -->
+
+<!-- begin: cuadro_conv_data -->
+<tr><td>{agrup}</td><td class="numero">{meta_conv}</td><td class="numero">{coef}</td> <td class="numero">{ofertas_conv}</td><td class="numero">{normales_conv}</td><td class="numero">{totales_conv}</td></tr> 
+<!-- end:   cuadro_conv_data -->
+
+<!-- begin: cuadro_conv_f -->
+<tr class="totales">
+    <td colspan="3">Totales</td><td class="num">{subtotal_ofertas}</td><td class="num">{subtotal_normales}</td><td class="num cobra">{subtotal_oferta_y_normal}</td>
+</tr>
+<tr class="totales">
+    <td colspan="3">Logros en % S/Metas</td><td class="num">{logro_ofertas}%</td><td class="num">{logro_normales}%</td><td class="num">{logro_total}%</td>
+</tr>
+<tr class="totales">
+    <td colspan="3">Premios a Cobrar</td><td class="num">{premio_ofertas}</td><td class="num">{premio_normales}</td><td class="num">{premio_total}</td>
+</tr>
+<tr class="totales">
+    <td colspan="5">Total a Cobrar Sueldo Fijo + Variable</td><td class="num" id="premio_cobrar">{total_cobrar}</td>
+</tr>
+<tr class="totales">
+    <td colspan="5">Sueldo Contable</td><td class="num"><input type="text" size="12" class="numero" id="sueldo_contable" value="{sueldo_contable}" onchange="calcPremio()" style="border:0px"></td>
+</tr>
+<tr class="totales">
+    <td colspan="5">Premio a Acreditar</td><td class="num"><input class="numero {cobra}" type="text" id="premio_acreditar" size="12" value="{premio_acreditar}" readonly="readonly"  style="border:0px"></td>
+</tr>
+</table>
+<input class="premio_acred"  value="{premio_acreditar}" type="hidden">
+<!-- end:   cuadro_conv_f -->
+  
+
+<!-- begin: alerta -->
+<div class="alerta">  {err_msg}  </div>
+<!-- end:   alerta -->
+
+<!-- begin: data_aux -->
+<input type="hidden" id="base_aux" value="{meta_aux}">
+<input type="hidden" id="variable_aux" value="{variable_aux}">
+<input type="hidden" id="meta_normal_aux" value="{meta_normal_aux}">
+<input type="hidden" id="meta_ofertas_aux" value="{meta_ofertas_aux}">
+<!-- end:   data_aux -->
+

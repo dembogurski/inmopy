@@ -1,0 +1,91 @@
+<!-- begin: header -->
+<link rel="stylesheet" type="text/css" href="productos/InventarioProducto.css?_=?_=0000000000000" />
+<script type="text/javascript" src="productos/InventarioProducto.js?_=?_=6666666666668" ></script> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+   var imgURI = "{images_url}";
+   var id_inv = "{id_inv}";
+   var fechaIni = "{fechaIni}";
+   var responceData="";
+   var filteredData="";
+</script>
+<div id="inv_contenedor">
+   <div class="inv_titulo"><h1>Inventario de Productos</h1></div>
+   <div class="inv_cuerpo">      
+         <div id="inv_photoContainer">
+               <img id="inv_photo" onerror="invNoImagen()"/>               
+               <input class="inv_subirImagen" id="inv_subirImagen" onchange="inv_lotesSimilares()" name="inv_subirImagen" type="file" accept="image/*" capture="camera">
+               <label for="inv_subirImagen"><img src="img/SLRCameraX40.png" height="32px" width="32px"></label>               
+         </div>
+<!-- end: header -->
+
+<!-- begin: body -->
+
+<div class="inv_line">
+      <div class="inv_infoBlock" style="display:none" id="inv_cab">Inventario Iniciado <span id="inv_fechaIni">{fechaFormat}</span></div>
+   </div>
+<div class="inv_line" style="text-align: right; margin: 7px;">
+   <div class="inv_block"><a class="inv_link" title="Iniciar Nuevo Proceso de Inventario" style="display:none" id="inv_nuevo" href="javascript:inv_nuevo()">Iniciar</a></div>
+   <div class="inv_block"><a class="inv_link" title="Finalizar Proceso de Inventario" style="display:none" id="inv_fin" href="javascript:inv_fin()">Finalizar</a></div>
+   <div class="inv_block"><a class="inv_link" id="inv_reportes" href="javascript:inv_reportes()">Reportes</a></div>
+   <div class="inv_block"><a class="inv_link" id="inv_manual" href="docs/inventario/" target="_blank">Manual</a></div>
+   <div class="inv_block"><a class="inv_link" id="inv_historial" href="javascript:inv_historial()">Historial</a></div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><label for="inv_lote">Lote:</label><input type="text" size="8" id="inv_lote" onchange="buscarDatosDeCodigo($(this))" /></div>
+   <div class="inv_block"><label for="inv_Codigo">Codigo:</label><input  type="text" size="5" id="inv_Codigo" class="inv_load_data" readonly/></div>
+   <div class="inv_block"><label for="inv_estado_venta">Estado Venta:</label><input  type="text" size="12" id="inv_estado_venta" class="inv_load_data"  style="text-align: center" readonly/></div>   
+   <div class="inv_block"><button id="inv_update" onclick="inv_actualizar()"><img src="img/update16.png" /></button></div>
+</div>
+<div class="inv_line">
+   <div class="inv_infoBlock"  id="inv_Descrip" class="inv_load_data"></div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><label for="inv_Stock">Stock:</label><input type="text" id="inv_Stock" title="Numeros positivo con hasta 2 desimales" class="inv_load_data" size="8" onchange="inv_ajustarStock($(this))" /></div>
+   <div class="inv_block"><label for="inv_Ancho">Ancho:</label><input type="text" id="inv_Ancho"  size="3" class="inv_load_data" onchange="inv_actualizarGramaje($(this))" onblur="inv_actualizarGramaje($(this))"/></div>
+   <div class="inv_block"><label for="inv_UM">UM:</label><input type="text" id="inv_UM" class="inv_load_data" size="3" readonly/></div>
+   <div class="inv_block"><label for="inv_Tipo">Tipo:</label><input type="text" id="inv_Tipo" class="inv_load_data" onclick="cambiarTipo($(this))" size="3" readonly/> <label>Ubic:</label> <input type="text" id="inv_U_ubic" readonly="readonly" > </div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><label for="inv_Gramaje">Gramaje:</label><input type="text" id="inv_Gramaje" class="inv_load_data" size="8" readonly/></div>
+   <div class="inv_block"><label for="inv_Tara">Tara:</label><input type="text" id="inv_Tara" class="inv_load_data" size="5" onchange="inv_actualizarGramaje()" onblur="inv_actualizarGramaje()"/></div>
+   <div class="inv_block"><label for="inv_Kg_calc">Kg_Calc:</label><input type="text" id="inv_Kg_calc" class="inv_load_data" size="5" readonly/></div>
+   <div class="inv_block" style="display:none;" ><label for="inv_U_kg_desc">kg_Desc:</label><input type="text" id="inv_U_kg_desc" class="inv_load_data" size="5" readonly/></div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><label for="inv_ip">IP Balanza:</label><input type="text" size="8" id="inv_ip" value="localhost" ></div>
+   <div class="inv_block"><label for="inv_leerBalanza">Kg:</label><input type="text" id="inv_Kg" size="5" onchange="inv_verifKg($(this).val())" /></div>   
+   <div class="inv_block"><label for="inv_registros">Reg. Ant.:</label><button id="inv_registros" onclick="inv_verRegistrosAnteriores()"><span id="inv_reg">0</span></button>xSuc<input title="Mostrar solo registros de Inventarios de esta Sucursal" id="xsuc" onclick="inv_registrosAnteriores()" type="checkbox" checked="checked"></div>   
+</div>
+
+<div class="inv_line">
+   <div id="inv_iniciar_info" style="text-align: center;" class="_error">A&uacute;n no Inicio un <b>Proceso de inventario</b> para esta Sucursal!</div>
+   <div class="inv_infoBlock" id="inv_kgMsj"></div>
+</div>
+<div class="inv_line">
+      <div class="inv_infoBlock">
+            <div id="inv_inventariados"></div>
+            <div id="inv_progreso"></div>         
+      </div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><button class="inv_actionButton" id="inv_leerBalanza" onclick="inv_leerBalanza()">Leer Balanza <img src="img/balanza1.png" /> </button></div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><div class="inv_actionButton"><input id="in_checkbox" type="checkbox" onchange="inv_actalizarKgDesc($(this))"><label for="in_checkbox">Actualizar Kg Desc</label></div></div>
+</div>
+<div class="inv_line">
+   <div class="inv_block"><button class="inv_actionButton" id="inv_save" onclick="inv_guardar()" disabled>Guardar <img src="img/save-mini.png" /></button></div>
+</div>
+<!-- end: body -->
+
+<!-- begin: footer -->
+   <div id="inv_msj"></div>
+   <div id="inv_info"></div>
+   </div>
+</div>
+<script>
+   invInicializar();
+   var inv_reg;
+</script>
+<!-- end: footer -->

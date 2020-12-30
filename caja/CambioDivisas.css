@@ -1,0 +1,163 @@
+#cambioDivisas, #cambioDivisas td, #cambioDivisas th{
+    border: none;
+    background-color: white;
+}
+#cambioDivisas th{
+    background-color: #DDDACD;
+    height: 20px;
+    color: black;
+    font-size: 20px;    
+    letter-spacing: 7px; 
+}
+#cambioDivisas{     
+    border: 2px solid darkgrey;  
+    min-width: 45%; 
+}
+#operaciones p {
+    line-height:16pt;   
+    background: lightgray;
+    text-indent: 11px;
+}
+#operaciones p:nth-child(odd) {
+    background: lightyellow;
+}
+.operaciones p.caja{
+    text-align: center;
+    font-weight: 900;
+    color: #393F4C; 
+    border: 1px solid black;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    margin: 3px 35px;
+    height: 26px;
+    font-size: 20px;
+    background:#fffccc;
+
+height: 26px;
+}
+#salida,#entrada{
+    float: right;   
+    margin-right: 25%;
+}
+#procesar{
+    text-align: right;    
+    padding-right: 15px;
+}
+fieldset{
+    vertical-align: middle;
+    padding-bottom: 13px;    
+}
+input#cambioFecha[data-err='si']{
+    border: 1px solid red;    
+}
+#cd_loader{
+    float: right;
+}
+.err{
+    font-size: 14px;
+    color: red;
+    text-align: center;
+}
+.err::after{
+    content: '\26a0';
+    color: gray;
+    margin-left: 5px;
+    font-weight: 900;
+    font-size: 18px;
+    text-shadow: 1px 1px yellow;
+}
+#info_ch{
+    color: blueviolet;    
+    text-align: center;
+}
+input#cant_entrada,input#cant_salida{
+    border: 1px dotted darkolivegreen;
+    background: lightyellow;
+    text-align: right;
+}
+input[id^=com]:not([readonly]):focus ,input[id^=ch]:not([readonly]):focus{
+    background-color: lightsteelblue;
+}
+input[data-status=error]{
+    color: red;
+}
+[readonly]{
+    cursor: not-allowed;
+}
+.salida::before{
+    content: '\2039';
+    font-size: 20px;
+    font-weight: 900;
+    margin-right: 5px;
+    color: red;    
+    text-shadow: 1px 1px darkred;
+}
+.entrada::before{
+    content: '\203A';
+    font-size: 20px;
+    font-weight: 900;
+    margin-right: 5px;
+    color: green;
+    text-shadow: 1px 1px darkgreen;
+}
+.seleccione::before{
+    content: 'Operaci\00f3n: ';
+    font-size: 14px;
+    font-weight: 400;
+    color: blue;
+    text-shadow: 1px 1px darkgreen;
+}
+.ajuste::before{
+    content: '\b1';
+    font-size: 24px;
+    font-weight: 900;
+    color: green;
+    margin: 0 3px;
+    text-shadow: 1px 1px darkgreen;
+}
+
+table{
+    margin: 17 auto;
+}
+input{
+    vertical-align: bottom;
+}
+input,td,option,select.moneda{
+    font-size: 18px;
+    padding: 2px;
+}
+select.moneda{
+    margin-left: 12px;
+}
+select.moneda option img{    
+    margin: 0 5px -1 0;        
+}
+p{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+fieldset{
+    color: red;
+    border: 1px dotted darkgray;
+}
+fieldset legend{
+    color: darkgreen;
+    margin-left: 25px;
+}
+input[type=checkbox]{
+    display: none;
+}
+input[type=checkbox] + label{ 
+    display:inline-block;
+    margin:-1px 2px 0 0;
+    vertical-align:middle;    
+    cursor:pointer;    
+    width:32px;
+    height:32px;
+    background:url(/inmopy/img/lockt.png) -33px top no-repeat;
+}
+input[type=checkbox]:checked + label{    
+    background:url(/inmopy/img/lockt.png) left top no-repeat;
+}

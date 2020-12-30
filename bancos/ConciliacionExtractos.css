@@ -1,0 +1,40 @@
+
+/* 
+    Created on : 09/03/2017, 10:14:33 AM
+    Author     : Ing.Douglas
+*/
+
+#preview{
+    border-collapse: collapse;
+    border: solid gray 1px;
+    margin: 0 auto;
+    min-width: 50%;
+}
+.fila_extracto{
+    background-color: white;
+}
+.error{
+    border:solid red 1px;
+}
+
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   
+{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}

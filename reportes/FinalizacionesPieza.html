@@ -1,0 +1,114 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+    <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+    .entrada{
+       background: green;
+       color: white;
+       font-weight: bolder;
+       text-align: right; 
+    }
+    .salida{
+       background:orangered;
+       color: white;
+       font-weight: bolder;
+       text-align: left;
+    }
+    
+</style>
+
+<script language="javascript">
+     
+     var hist  = [];
+    
+     $(document).ready(function(){
+         $("#loading").html("Ok");
+     });
+     
+      
+     function showHistorialLote(codigo,lote,suc){
+        var img = $("#loteimg_"+lote).attr("src");
+        if(img == '../img/add.png'){
+             $("#loteimg_"+lote).attr("src","../img/substract.png");
+             var url = "productos/HistorialMovimiento.class.php?codigo="+codigo+"&lote="+lote+"&suc="+suc+"";
+                
+              
+             $.ajax({
+                type: "POST",
+                url: "../Ajax.class.php",
+                data: {"action": "loadUrl", url: url},
+                async: true,
+                dataType: "html",
+                beforeSend: function () {
+                    $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                },
+                complete: function (objeto, exito) {
+                    if (exito == "success") {                          
+                        var result = $.trim(objeto.responseText);   
+                        $(".hist_"+lote).html(result);
+                    }
+                },
+                error: function () {
+                    $(".hist_"+lote).html("Ocurrio un error en la comunicacion con el Servidor...");
+                }
+            }); 
+            $("#hist_"+lote).slideDown(); 
+              
+              
+        }else{
+            $("#loteimg_"+lote).attr("src","../img/add.png");    
+            $("#hist_"+lote).slideUp();        
+        } 
+    }
+     
+</script>
+
+</head>
+
+
+
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Finalizaciones de Pieza</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc_d} &nbsp;&nbsp;Vendedor: {vendedor} &nbsp;&nbsp; <span id="loading"><img src="../img/loading_fast.gif"></span></td></tr>
+</table>
+     
+<!-- end:   head -->    
+
+<!-- begin: cabecera --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>*</th><th>Usuario</th><th>Codigo</th><th>Lote</th><th>Descripci&oacute;n</th><th>Fecha</th><th>Hora</th><th>TipoDoc</th><th>Cant. Ini.</th><th>Tolerancia</th><th>Cant. Final</th><th>Faltante</th><th>Costo</th><th>Descuento</th></tr>
+<!-- end:   cabecera -->
+
+<!-- begin: data --> 
+ 
+<tr id="id_{id}" ><td><img id="loteimg_{lote}" style="cursor:pointer" src="../img/add.png" height="12" width="12" onclick=showHistorialLote("{codigo}","{lote}","{suc_d}")></td><td class="item">{usuario}</td><td class="item" id="cod_{lote}"  >{codigo}</td><td class="item">{lote}</td><td class="item">{descrip}</td><td class="itemc">{fecha}</td><td class="itemc">{hora}</td><td  class="item">{tipo_doc}</td><td class="num">{cant_ini}</td><td class="num">{tol}</td><td class="num">{cant_final}</td><td class="num">{exceso}</td><td class="num">{costo}</td><td class="num">{descuento}</td></tr>
+<tr id="hist_{lote}" style="display:none" >
+    <td class="hist_{lote}" colspan="14"></td>
+</tr>
+<!-- end:   data -->
+
+
+<!-- begin: footer --> 
+ 
+<tr><td colspan="2"><b>Cant.:</b>{count}</td><td colspan="11"></td><td class="num"><b>{total}</b></td></tr>
+</table>  
+
+<!-- end:   footer  -->

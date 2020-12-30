@@ -1,0 +1,170 @@
+
+/* 
+    Created on : 18/12/2018, 08:46:33 AM
+    Author     : Ing.Douglas
+*/
+
+#toolbar{
+    display:none;
+    min-height: 400px;
+}
+.prop{
+   font-size: 16px;
+   font-weight: bolder;
+   background-color: #dcdde1; 
+   border:solid gray 1px;
+}
+.cont{
+   font-size: 16px;
+   font-weight: bolder;
+   background-color: #f7f1e3; 
+   border:solid gray 1px;
+}
+.cuadrante{
+    border-collapse: collapse;    
+}
+
+.wrapper{
+    border-collapse: collapse; 
+}
+
+.temporadas {
+    border-collapse: collapse;
+    width: 100%
+}
+.temporadas_bloque {
+    border-collapse: collapse;
+    width: 90%
+}
+.resumen_x_articulo{
+    border-collapse: collapse;
+    width: 1000px
+}
+.resumen_x_articulo_det{
+   border-collapse: collapse;
+    width: 1000px
+}
+.fila_temp{
+    font-size: 12px;
+    font-family: cambria;
+    cursor:pointer         
+}
+.current_temp{
+    background-color: greenyellow;
+}
+.art_temp{
+    background-color: #ffc520
+}
+.resumen_content{
+    background-color: #a3b0c9
+}
+.def_x_temp{
+    background-color: greenyellow
+}
+.cuad_content{
+    background-color: white;
+    font-size: 12px
+}
+.num{
+    text-align: right;
+    margin-right: 2px;
+    font-size:12px;
+}
+.item{
+    text-align: left;
+    margin-left: 2px;
+    font-size:12px;
+}
+.itemc{
+    text-align: center;    
+    font-size:12px;
+}
+.titulo_contenido{
+    background-color: #ecf0f1
+}
+.titulo{
+   background-color:  #dddacd
+}
+#content_table{
+    width:600px;
+    border-collapse:collapse
+}
+#content_table td{
+    padding-left: 2px;
+    padding-right: 2px;
+     
+}
+.last_col{
+    width:0px;
+    border:solid white;
+    border-left: 1px solid gray;
+}
+.fila_cap{
+    font-size: 12px;
+}
+.fecha,.desde{
+    text-align: center
+}
+#msg{
+    margin: 0 auto;
+    position: absolute;
+    width: 100%;
+    text-align: center; 
+    display:none;
+    background-color: #faf2cc;
+}
+#altura{
+   position: absolute;
+   top: 20%;
+   transform: rotate(90deg);    
+   width: 224px;
+   margin-left: -92px;
+} 
+
+.selected_code{
+   background-color: #F5DA81; 
+}
+
+.resumen:hover{
+    background-color: #F5DA81;
+}
+.arrow{
+    cursor: pointer;
+}
+.lotes_remitir_container, .lotes_pedir_container{
+    display:none;
+    position: absolute;
+    width: 42%;
+    margin-left: -200px;
+    z-index: 100;  
+    border: 1px solid gray;
+}
+.lotes_remitir, .lotes_pedir{ 
+    height: 10cm;
+    overflow-y: scroll;  
+    background-color: whitesmoke
+}
+#tabla_remision, #tabla_pedidos{
+    border-collapse: collapse;
+    background-color: whitesmoke;
+    width: 98%; 
+}
+.bar{
+   text-align: right;
+   padding-right: 40px;
+   background-color: whitesmoke;
+}
+.resaltar{
+    background-color: #ffc520;
+}
+
+.copy_temp:hover{
+    background-color: #ffc520;
+}
+.pendientes{
+    cursor: pointer;
+} 
+.pendientes:hover{
+    background-color:green;
+    border-radius:6px
+} 

@@ -1,0 +1,154 @@
+
+/* 
+    Created on : 16/01/2017, 09:56:43 AM
+    Author     : Ing.Douglas
+*/
+[readonly]{
+    background-color: rgb(250, 250, 250);
+    font-size: 14px;
+    font-family: tahoma;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+#fp option{
+    font-size: 16px;
+}
+
+.falla{
+    height: 24px
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+} 
+#total_mts{
+    border-top:solid black 1px;
+    border-bottom:solid black 1px;
+    border-right: dashed black 2px;
+    border-left: dashed black 2px;
+    height: 42px;
+    width: 100%;
+    background-color: lightgray;  
+    margin-top: 2px;
+}
+
+#total_vender{
+    background-color: orange;
+    height: 98%;
+    width: 0;
+    border-right: dashed black 2px;
+}
+.falla_indic{
+    border-radius: 4px;
+    background: white;
+    font-weight: bolder;
+    font-size: 11px;
+    font-family: arial;
+    position: absolute;
+    margin-top: 12px;
+    padding:2px;
+    border:solid gray 1px;
+    margin-left: -20px;
+}
+.falla_pos{
+    font-weight: bolder;
+    font-size: 10px;
+    font-family: arial;
+    position: absolute;
+    margin-top: -17px;
+    padding: 0px;
+    border: solid gray 0px;
+    margin-left: -22px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+datalist {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: -23px;
+    padding-top: 0px;
+}
+option {
+    width: 2ex;
+    display: flex;
+    justify-content: center;
+    height: 42px;
+    align-items: end;
+    /*background-image: url(../img/tick.png);*/
+    height: 4ex;
+    background-position-y: -15px;
+    background-position-x: center;
+    z-index: -1;
+}
+
+.slider::-moz-range-thumb {
+    width: 23px;
+    height: 25px;
+    border: 0;
+    /*background:  url(../img/tick.png);*/
+    cursor: pointer;
+}
+
+.slider-wrapper {
+    display: inline-block;
+    width: 20px;
+    height: 150px;
+    padding: 0;
+}
+
+.grafico_fallas{
+    max-width: 1024px
+}
+
+.datalist_opt {
+    width: 4px;
+}
+.Normal{
+    color:black;  
+    background-color: #4cd137;
+}
+.Arribos{
+    color:white;  
+    background-color: #fbc531;
+}
+.Oferta{
+    color:white; 
+    background-color: #00a8ff;    
+}
+.Retazo{
+    color:white;
+    background-color: #AD8BFE;
+}
+.Promocion{
+    color:black; 
+    background-color: orange;
+}
+.FP{
+    color:white; 
+    background-color: #c23616;  
+}
+.Bloqueado{
+    color:black; 
+    background-color: #006600; 
+}

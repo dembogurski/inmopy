@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="notas_credito.css" />  
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" />  
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>  
+    <script type="text/javascript" src="../js/reportes.js" ></script>      
+     
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+
+<table class="report_cab" border="0" cellspacing="2" cellpadding="2" style="width: 100%"> 
+    <tr>
+        <th style="width: 60%;border: solid 1px black"  >
+            <img src="../img/logo_inmopy.png" height="64" width="220"><br>
+            <label style="font-size: 10px">Casa Central: Avda Irrazabal E/Gral. Bruguez - Tel: 202747</label>
+        </th> 
+        
+        <th style="width: 40%;border: solid 1px black;text-align: left;padding-left: 20px" >
+            <label style="font-size: 18px">Nota de Credito</label>
+            <br>
+            <label style="font-size: 18px">N&deg;&nbsp;{nro_nota}</label>
+            <br>
+            Sucursal: {suc}
+            <br> 
+            <small><small>{user}-{time}</small></small><br>
+            <small><small>(No valido como comprobante legal)</small></small>
+        </th>        
+    </tr>  
+</table>
+
+ <table class="report_header" border="0" cellspacing="2" cellpadding="0" style="width: 100%;margin-top: 6px;border: solid 1px black;font-size: 12px;height: 40px">
+        <tr class="report_header"  >
+            <td style="width: 20%;padding-left: 2px">Nombre o Raz&oacute;n Social:</td><td style="width: 30%">{cliente}</td><td style="width: 10%;padding-left: 2px">R.U.C.:</td><td style="width: 40%;padding-left: 2px">{ruc}</td>
+        </tr>
+        <tr  >
+            <td style="padding-left: 2px">Fecha de Emisi&oacute;n:</td><td>{fecha}</td><td style="padding-left: 2px">Ref. de Venta:</td><td>{factura}</td>
+        </tr>
+ </table>   
+
+ 
+<table border="1" cellspacing="0" cellpadding="0" class="report_header" style="margin-top: 10px" >
+     
+    <tr class="report_header">
+        <th>Codigo</th>
+        <th>Descripci&oacute;n</th>
+        <th>UM</th>
+        <th>Cantidad</th>
+        <th>Precio Unit.</th>
+        <th>SubTotal</th>        
+    </tr>
+     
+<!-- end:   head -->
+ 
+ 
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{codigo}</td>
+        <td class="item">{descrip}</td>
+        <td class="itemc">{um_prod}</td>
+        <td class="num">{cantidad}</td>
+        <td class="num">{precio_unit}</td>
+        <td class="num">{subtotal}</td>        
+    </tr>
+<!-- end:   data -->
+
+
+
+<!-- begin: foot -->
+<tr>
+    <td colspan="5" style="font-size: 11px;"><label>TOTAL A ACREDITAR {moneda}:&nbsp;</label>{letras}&nbsp;~~~~~~</td>
+    <td style="font-size: 12px;" class="num"><b>{moneda}.&nbsp;{total}</b></td>
+</tr>
+</table>
+
+<div style="text-align: center;margin-top: 40px" contenteditable="true">
+    <label style="color:red">Motivo de devoluci&oacute;n:</label>___________________________________________________________________
+</div>
+
+<!-- end:   foot -->

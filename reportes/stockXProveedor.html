@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Reporte de Stock por Proveedor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+    <script type="text/javascript" src="stockXProveedor_reporte.js?_=1530909262362" ></script> 
+    <script>
+        var listaDeCompras = [onshow.compras];
+    </script>
+    <style>
+       table:not(#cabecera){
+            border-collapse: collapse;
+            margin: 0 auto;
+            min-width: 420px;
+        }
+        tr.cab th{
+            background-color: lightgray;
+            border: solid 1px black;
+        }
+        td{
+            padding: 0;
+            margin: 0;
+            border: solid 1px black;
+        }
+        td{
+            padding: 0 3px;
+        }
+        th p{
+            white-space: nowrap;
+            font-family: "Trebuchet MS";
+            font-size: 12px;
+            margin: 0;
+            padding: 0 7px;
+        }
+        .hide{
+            display: none;
+        }
+        tr.inProcess{
+            background-color: gray;
+        }
+        tr.processed{
+            background-color: lightsteelblue;
+        }
+        td table{
+            width: 100%;    
+        }
+        input.filtroReporte{
+            display: none;
+        }
+        input.filtroReporte+label:hover{
+            cursor: pointer;
+        }
+        input.filtroReporte+label{
+            border: solid 1px gray;
+            border-radius: 5px;
+            padding: 0 2px;
+            color: darkgray;
+        }
+        input.filtroReporte:checked+label{
+            color: darkgreen;
+        }
+        div#progreso{
+            height: 14px;
+            width: 100%;
+            background-color: lavender;
+            display: block;
+            text-align: center;
+            position: relative;
+        }
+        div#barra_progreso{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 14px;
+            background-color: rgba(128,128,128,0.5);
+            width: 0%;
+        }
+        span#progreso_info{
+            font-size: 12px;
+            vertical-align: top;
+            font-weight: lighter;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        img#reporte_loader{
+            display: none;
+        }
+        th.linea{
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <input class="mainParams" type="hidden" id="desde" value="[onshow.desde]">
+    <input class="mainParams" type="hidden" id="hasta" value="[onshow.hasta]">
+    <input class="mainParams" type="hidden" id="select_suc" value="[onshow.target_suc]">
+    <input class="mainParams" type="hidden" id="sector" value="[onshow.sector]">
+    <input class="mainParams" type="hidden" id="articulo" value="[onshow.articulo]">
+   <table id="reporte">
+      <tr>
+         <td colspan="9">
+            <table id="cabecera">
+               <tr>
+                  <th style="width: 15%" colspan="2" rowspan="2"><img src="../img/logo_small.png"></th>
+                  <th style="width: 70%; white-space: nowrap;" colspan="5">Stock por Proveedor</th>
+                  <th style="font-size: 18px;width: 15%" colspan="2" rowspan="2">[onshow.usuario]</th>
+               </tr>
+               <tr>
+                  <th colspan="7">
+                     <p>Suc: [onshow.target_suc]</p>
+                     <p>[onshow.proveedorNombre]</p>
+                  </th>
+                  <th colspan="2" rowspan="2">
+                      <img id="reporte_loader" height="16" width="16" src="../img/loader.gif">
+                  </th>
+               </tr>
+               <tr>
+                   <th colspan="7" class="linea">
+                       Agrupado Por:
+                       <input type="checkbox" class="filtroReporte" data-target="Lote" id="xlote" onchange="filtrar()">
+                       <label for="xlote">Lote</label>
+                       <input type="checkbox" class="filtroReporte" data-target="Articulo" id="xarticulo" checked onchange="filtrar()">
+                       <label for="xarticulo">Articulo</label>
+                       <input type="checkbox" class="filtroReporte" data-target="Color" id="xcolor" onchange="filtrar()">
+                       <label for="xcolor">Color</label>
+                       <input type="checkbox" class="filtroReporte" data-target="Suc" id="xsuc" onchange="filtrar()">
+                       <label for="xsuc">Suc</label>
+                    </th>
+               </tr>
+               <tr>
+                   <th colspan="7" class="linea">
+                       Filtrar:
+                       Stok lote: <select id="filtroStock" onchange="verificarFiltro()">
+                           <option value=">" selected>></option>
+                           <option value="<"><</option>
+                           <option value="entre">entre</option>
+                        </select>
+                        <input type="text" id="filtroVal01" size="2" onchange="filtrar()" value="0">
+                        y
+                        <input type="text" id="filtroVal02" size="2" onchange="filtrar()" value="100" disabled>
+                        &nbsp;, Color:
+                        <select id="filtroColor" onchange="filtrar()">
+                            <option value="%" selected>Todos</option>
+                        </select>
+                   </th>
+               </tr>
+               <tr>
+                   <th colspan="9">
+                       <div id="progreso">
+                        <div id="barra_progreso"></div>
+                        <span id="progreso_info"></span>
+                       </div>
+                   </th>
+               </tr>
+            </table>
+         </td>
+      </tr>
+        <tr>
+            <td class="reporte_lista">
+
+            </td>
+        </tr>
+   </table>
+   <table style="display: none">
+        <tr class="DocEntry_cab">
+                <th>DocEntry</th>
+                <th>Invoice</th>
+                <th>Fecha</th>
+                <th>Origen</th>
+                <th>Obs.</th>
+                <th>Estado</th>
+            </tr>
+            <tr class="DocEntry" id="DocEntry_[compra.DocEntry]">
+                <td align="right">[compra.DocEntry;block=tr]</td>
+                <td align="right">[compra.NumAtCard]</td>
+                <td align="left">[compra.fecha]</td>
+                <td align="left">[compra.U_Pais_Origen]</td>
+                <td align="left">[compra.Comments]</td>
+                <td align="left">[compra.U_Estado]</td>
+            </tr>
+   </table>
+</body>
+</html>

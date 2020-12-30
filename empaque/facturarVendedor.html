@@ -1,0 +1,76 @@
+<table id="fact2vendedorForm">
+   <tr>
+      <th colspan="4">
+         <div class="tableHeader">
+            Facturar a Vendedor/a, Ticket: <span id="f2v_ticket"></span>
+            <button  id="f2v_close" onclick="$($(this).closest('table')).remove()">X</button>
+         </div>
+      </th>
+   </tr>
+   <tr>
+      <!--
+      <td>Salida</td>
+      -->
+      <td>
+         <label for="loteSalida">lote:</label>
+         <input id="loteSalida" size="11" type="text" disabled>
+      </td>
+      <td>
+         <label for="cantSalida">Cant</label>
+         <input id="cantSalida" size="6" type="text">
+      </td>
+      <td>
+         <div class="En_caja">
+            <input onchange="f2v_accion($(this).is(':checked'))" type="checkbox" id="eliminar">
+            <label for="eliminar">Accion</label>
+         </div>
+         <div class="Cerrada">
+            <!--
+            <input onchange="f2v_accion($(this).is(':checked'))" type="checkbox" id="todo">
+            <label for="todo">Devolver</label>
+            -->
+         </div>
+      </td>
+   </tr>
+   <tr class="f2v_entrada">
+      <!--
+      <td>Entrada</td>
+      -->
+      <td>
+         <label for="loteEntrada">Lote:</label>
+         <input id="loteEntrada" onchange="f2v_verifLote($(this).val())" size="11" type="text">
+      </td>
+      <td>
+         <label for="cantEntrada">Cant</label>
+         <input id="cantEntrada" size="6" type="text">
+      </td>
+      <td rowspan="2">
+         <div id="informacion"></div>
+      </td>
+   </tr>
+   <tr class="f2v_entrada">
+      <td></td>
+      <td>
+         <label for="precioEntrada">Precio:</label>
+         <input id="precioEntrada" size="6" type="text">
+      </td>
+      <td>
+         <label>Falla:</label>
+         <div class="fallaEntrada">
+            <select id="fallaEntrada"></select>
+            <input id="cantFallaEntrada" size="3" type="text">
+         </div>
+      </td>
+      <td>
+         <div id="informacion"></div>
+      </td>
+   </tr>
+   <tr>
+      <td colspan="4" class="advertencias"></td>
+   </tr>
+   <tr>
+      <td colspan="4" align="center">
+         <button id="f2v_aplicar" onclick="f2v_aplicar()">Aplicar<img src="img/save-mini.png" /></button>
+      </td>
+   </tr>
+</table>

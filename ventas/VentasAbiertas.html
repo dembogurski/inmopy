@@ -1,0 +1,46 @@
+<!-- begin: header -->   .
+    <link rel="stylesheet" type="text/css" href="ventas/FacturaVenta.css?_=444444444" />   
+    <script type="text/javascript" src="ventas/ventas_abiertas.js?_=44545455ssss" ></script>          
+<!-- end:   header -->
+
+
+<!-- begin: ventas_abiertas_cab -->
+ 
+<table id="ventas" border="1"  cellspacing="0" cellpadding="0"  style="border-collapse: collapse"  >
+    <tr class="titulo_factura"><th colspan="10">Facturas de Abiertas de: &nbsp;{usuario} &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 7%">N&deg;</th>
+        <th style="width: 7%">Fecha</th>
+        <th style="width: 7%">Vendedor</th>
+        <th style="width: 7%">CI/RUC</th>
+        <th style="width: 24%">Cliente</th>
+        <th  style="width: 3%">Cat</th>
+        <th style="width: 7%">Total Bruto</th>    
+        <th style="width: 7%">Descuento</th>
+        <th style="width: 7%">Total Neto</th>
+        <th style="width: 10%">Estado</th>   
+    </tr>
+<!-- end:   ventas_abiertas_cab -->
+
+<!-- begin: ventas_abiertas_data -->
+<tr id="fact_{nro}" class="venta_abierta{clase}" >
+    <td class="itemc" >{nro}</td>
+    <td class="itemc">{fecha}</td> 
+    <td class="itemc">{vendedor}</td> 
+    <td class="item clicable"  title="Seleccionar">{ruc}</td> 
+    <td  class="item cliente clicable" title="Seleccionar">{cliente}</td> 
+    <td class="itemc">{cat}</td> 
+    <td class="num clicable">{total_bruto}</td>
+    <td class="num">{total_desc}</td> 
+    <td class="num clicable" style="font-weight: bolder">{total_neto}</td>
+    <td class="itemc estado_factura">{estado}&nbsp;<img class="eliminar" src="img/trash.png" onclick="eliminarFactura({nro})" style="display:none"> </td> 
+</tr> 
+<!-- end:   ventas_abiertas_data -->
+
+
+<!-- begin: ventas_abiertas_foot --> 
+</table>
+
+<div style="text-align: center">
+    <input type="button" value="Nueva Orden de Venta"  onclick=genericLoad("ventas/NuevaVenta.class.php") >
+</div>
+<!-- end:   ventas_abiertas_foot -->

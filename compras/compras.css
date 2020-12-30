@@ -1,0 +1,234 @@
+
+/* 
+    Created on : 19/09/2015, 10:29:12 AM
+    Author     : Ing.Douglas
+*/
+ .fixed-table-container {
+    width: 100%;
+    height: 92%;
+    border: 0px solid black;
+    margin: 0;
+    background-color: white;
+    /* above is decorative or flexible */
+    position: relative; /* could be absolute or relative */
+    padding-top: 20px; /* height of header */
+}
+
+.fixed-table-container-inner {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+	margin-top: 15px;
+}
+
+.header-background {     
+    height: auto; /* height of header */
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.tabla {
+  width: 100%; 
+  border-collapse: collapse;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+ 
+
+.lista_invoices {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco    
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+.producto{
+    background-color: white;
+}
+.noedit{
+    background-color: #FFFFEF;
+}
+.filter{
+    font-family: arial;
+    font-size: 10px;
+    height:20px
+}
+
+.input{
+    border:solid white 0px;
+    width: 100%;
+    height: 20px;
+    padding: 0 3px 0 0;
+    margin: 0px;
+    text-align: right;
+}
+.input:active{
+  border:1px solid #CCCCFF;
+}
+.print{
+    background-image: url('../img/barcode.png');
+    background-repeat: no-repeat;
+    border:1px solid gray;
+    text-align: center;
+    width: 26px;
+    height:20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.print:hover{
+    background-color: green;
+    cursor:pointer;
+} 
+.print:focus{
+    background-color: green;
+    cursor:pointer;
+} 
+.printed{   
+    border:1px solid gray;
+    text-align: center;
+    width: 26px;
+    cursor: pointer;
+    height:20px;
+    font-weight: bolder;    
+    margin: 0;
+}
+.printed:hover{
+    background-color: orange;
+    cursor:pointer;
+} 
+.printed:focus{
+    background-color: orange;
+    cursor:pointer;
+} 
+
+.obs{
+     position: absolute;
+     top: 0;
+     z-index: 10;
+     background:#ffc;
+     padding:5px;
+     border:1px solid #CCCCCC;
+     text-align:center;
+     font-weight:bold;
+
+     width: 50%;
+     height: auto;
+     margin-top: 0px;
+     margin-left: 48%;
+     margin-right: 2%;  
+ }  
+    
+.tmp_obs{
+    background-color: #E0F3FF;
+}
+.complete{
+    background-color: #E0F3FF;
+}
+.parcial_complete{
+    background-color:  #CC9900; 
+}
+.save{
+    background-image:url("../img/save-mini.png");
+    background-repeat: no-repeat; 
+    background-position: center; 
+    text-align: center;
+    width: 18px;
+    height:18px;
+}
+
+.first_found{
+   background-color: #CCFFFF; 
+   border:solid gray 1px; 
+}
+.second_found{
+    background-color: yellowgreen; 
+    border:solid gray 1px; 
+}
+#search_bar{
+    width:300px;
+    height: auto;
+    background-color: #fcefa1;
+    top:30px;
+    left:45%;
+    position:absolute;
+    cursor:move;
+    font-family: arial;     
+    font-size:11px;
+    z-index: 1;
+    padding:2px;
+    border:solid gold 1px;
+    padding:2px;
+    display:none;
+}
+#filter_bar{
+    width:auto;
+    height: auto;
+    background-color: white;    
+    font-family: arial;
+    font-size:11px;
+    z-index: 1;
+    padding:0px;
+    border:solid gray 1px;   
+    padding:0px;
+    margin:-10px -10px 1px -15px
+}
+#filter_bar input,#filter_bar select{
+    font-size: 9px;
+}
+#filter_bar select{
+    margin: 0;
+    padding: 0;
+    height: 18px;
+}
+.observ:hover{
+    background-color: #CC9900;
+}
+.setPhoto{
+    background-color: #A9C4DF;
+}
+.img_viewer{
+     position: absolute;
+     top: 0;
+     z-index: 10;
+     background:#ffc;
+     padding:5px;
+     border:1px solid #CCCCCC;
+     text-align:center;
+     font-weight:bold; 
+     width: auto;
+     height: auto;
+     display:none;
+ } 
+ 
+ .msg_info{
+    background-color: #0092ef;
+    color:white;
+    font-size: 11px;    
+    padding: 2px 4px 2px 4px; 
+    display: none;
+}
+
+.error_field{
+   border:solid red 2px; 
+}
+.totales{
+    border-collapse: collapse;
+    width: 100%;
+}
+.touch_filter{
+    font-size: 12px;
+    padding: 5px 2px 5px 2px
+}
+tr.current{
+    border: dotted 2px blue;
+}

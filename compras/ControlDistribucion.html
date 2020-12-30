@@ -1,0 +1,70 @@
+
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="compras/control_distribucion.css" />
+    <link rel="stylesheet" type="text/css" href="css/image_efects.css" />
+    <script type="text/javascript" src="compras/control_distribucion.js" ></script>  
+ 
+<!-- end:   header -->
+
+<!-- begin: body -->
+<input type="hidden" id="images_url" value="{images_url}">
+<div>
+       
+     <table style="border:solid gray 1px;margin: 10 auto; min-width:80%;padding: 4px;background-color: white" border="0" >
+         <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Control de Distribucion</th></tr>
+        <tr>
+            <td style="width: 12%"><label>Codigo Lote:</label> </td> 
+            <td  colspan="2">
+                <input title="Ingrese aqui el codigo del Lote" type="text" size="12" id="lote" maxlength="36" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder" >&nbsp;
+                <img src="img/keypad32.png" border="0" onclick=showKeyPad("lote") style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                <span id="msg"></span>    
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Articulo:</label> 
+            </td> 
+            <td style="width: 70%" colspan="2"> <input type="text" size="8" id="codigo"   style="color:black;text-align: left" readonly="readonly" >
+                <label>Descrip:</label><input type="text" id="descrip"  style="color:black;width:74%" readonly="readonly" >
+            </td> 
+            
+        </tr>
+        <tr>
+            <td>
+                <label>Suc:</label> 
+            </td> 
+            <td> 
+                <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" >  
+                <label>Gramaje:</label><input type="text" size="10" id="gramaje"  style="color:black;text-align: right" readonly="readonly" >   
+                <label>Ancho:</label><input type="text" size="10" id="ancho"  style="color:black;text-align: right" readonly="readonly" >      
+            </td>
+            <td rowspan="4" style="width: 18%;text-align: center"><img id="img" alt="" src="img/no_image.png" style="display:none"  width="160" ></td>
+        </tr>
+        <tr>
+            <td>
+                <label>Stock:</label> </td> <td> <input type="text" size="10" id="stock" style="color:black;text-align: right" readonly="readonly" >
+                <input type="text" size="4" id="um"  style="color:black;text-align: center" readonly="readonly" >                
+            </td>
+        </tr>         
+         
+        <tr>
+            <td style="vertical-align: top"><label>Orden de Distribuci&oacute;n:</label></td> 
+             <td> 
+             <table id="cortes" style="border:solid gray 1px;margin: 3px; min-width:40%;padding: 0;border-collapse: collapse" border="1" >
+                <tr class="titulo"><th>Lote</th><th>Cantidad</th><th>Presentacion</th><th>Destino</th></tr>
+            </table>
+             </td>
+        </tr>       
+        
+    </table>
+    
+</div>
+
+<div  style="text-align: center">
+    
+</div>
+<!-- end:   body -->
+
+ 
+

@@ -1,0 +1,225 @@
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="produccion/Fabrica.css?_=6666666666666666" />            
+    <script type="text/javascript" src="produccion/Fabrica.js?_=6666666666666" ></script>
+<!-- end:   headers -->
+
+<!-- begin: cabecera_emision -->
+<input type="hidden" id="images_url" value="{images_url}">
+<div class="titulo" style="text-align: center">Fabrica de Manteles en Produccion</div>
+<div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;display:none"> </div>
+<!-- end:   cabecera_emision -->
+
+
+
+<!-- begin: emision_cab -->
+
+<table class="orden orden_{nro_orden}" border="1" style="margin: 20px auto" >
+    <tr  class="titulo" ><th>N&deg;</th><th>Cliente</th><th style="width: 10%">Usuario</th><th>Fecha</th><th>N&deg; Emision</th><th  colspan="4">Finalizar:</th></tr>
+        <tr style="background-color: lightskyblue"> <td class="itemc">{nro_orden}</td> <td>{cliente}</td><td  class="itemc">{usuario}</td> <td  class="itemc">{fecha}</td>  
+            <th style="background-color: white" class="nro_emision" id="emis_{nro_emis}" data-nro_orden="{nro_orden}">{nro_emis}</th> 
+            <th id="popup_{nro_emis}"  style="background-color: white" colspan="4">                
+                 <input type="button" id="finalizar_{nro_emis}"  value="Finalizar" onclick="finalizarEmision({nro_emis},{nro_orden})" style="font-size: 11px; ">
+            </th> 
+        </tr>      
+        <tr> <th>Codigo</th><th>Descripcion</th><th>Dise&ntilde;o</th><th>Cantidad</th><th>Medida</th><th>Req. Mts</th><th>% Asignado.</th><th>Asignado a:</th><th>Procesar</th>  </tr>
+<!-- end:   emision_cab -->
+
+
+<!-- begin: emision_det -->
+<tr style="background-color: white" id="tr_{nro_emis}_{codigo}" data-tipo="{tipo_design}"> <td class="item codigo_ped_{nro_orden}" data-anchor="{anchor}"  >{codigo}</td> <td class="item descrip_{codigo}">{descrip}</td><td class="itemc" style="padding: 2px"><img class="img_linea imagen_{nro_orden}_{id_det}" src="{design}" width="64" onclick=cargarImagenLote("{img}",this) data-img="{img}" ></td><td class="num fabricar_{nro_emis}">{cantidad}</td> <td class="itemc">{medida}</td> <td class="req_{nro_emis} num" data-nro_orden="{nro_orden}">{mts}</td> <td id="porc_asign_{nro_emis}_{id_det}" class="porc_asign" data-nro_emis="{nro_emis}" data-id_det="{id_det}" data-codigo="{codigo}"  data-cant="{cantidad}"></td><td class="itemc" >{asign}</td>  <td class="itemc"><input id="proc_{nro_emis}_{id_det}" style="{display}" type="button" value="Procesar" onclick=procesarLotes("{codigo}","{nro_emis}","{nro_orden}","{id_det}")> {mensaje}  </td></tr>
+<!-- end:   emision_det -->
+
+
+
+<!-- begin: emision_foot -->
+<tr>
+    <td style="font-weight: bolder">Obs:</td><td colspan="8">{obs}</td>
+</tr>
+    </table>
+
+<div style="height: 40px">&nbsp; </div>
+<!-- end:   emision_foot -->
+
+
+
+<!-- begin: area_emision --> 
+<div id="confec_background">
+<div id="confec_popup" >
+    <input type="hidden" id="cant_fabricar"  value="">   
+    <input type="hidden" id="nro_emision"  value="">   
+    <input type="hidden" id="nro_orden"  value="">
+    <input type="hidden" id="nro_orden_id_det" value="0">
+    <input type="hidden" id="codigo_ref" value="">
+    <input type="hidden" id="anchor" value="">
+    <input type="hidden" id="codigo" value="">
+    <input type="hidden" id="medida" value="">
+    <input type="hidden" id="rendimiento" value="">
+    <input type="hidden" id="tipo_design" value="">
+    <input type="hidden" id="id_prod_ter" value="0">
+    
+    <table  border="0" style="width: 100%;border:solid gray 1px;margin: 0 auto;background-color: white;" class="confec_form" >
+        <tr><th colspan="5" class="titulo">Area de Confeccion</th></tr>
+        <tr> 
+            <th colspan="2" style="border:solid black 1px" ><label style="font-size: 28">N&deg;: </label><span class="nro_emision_area_confec" style="font-size: 30px;color:blue;font-weight:bolder"></span></th>
+            
+            <th colspan="2" style="text-align: center; ">
+                <label style="font-size: 24">Articulo: </label><span class="articulo" style="font-size: 26px;color:blue;font-weight:bolder"></span>
+                <img src="img/printer-01_32x32.png" onclick="imprimirCodigoRef()" style="margin:2px 1px -4px 30px;width:28px;cursor:pointer">
+            </th> 
+            <th><img id="img_ref" class="img_linea" src="img/no_image.png" width="50"></th>
+        </tr>
+    <tr>
+        <td rowspan="9" style="width: 40px;vertical-align: top">
+            <img src="img/arrow-back.png" class="generar" onclick="cerrarPopup()" style="cursor:pointer" title="Volver al Menu">
+        </td>
+        <td  style="font-size: 22px;font-weight: bolder;width: 16%"> Lote: </td><td> <input  style="font-size: 20px;color:blue" type="text" id="lote"  size="12"> 
+         <img src="img/keypad32.png" border="0" onclick=showKeyPad("lote") style="margin:0 0 -8px -8px;width:26px;heigth:26px;cursor: pointer" title="Teclado Numerico" >   
+        </td>
+        <td colspan="2" style="font-size: 22px;font-weight: bolder; "> Stock:  <input type="text" id="stock" style="text-align: center;font-size: 20px" size="10" readonly="readonly"> </td> 
+    </tr>
+     <tr>
+         <td><b>Descrip:</b></td><td colspan="3"> <input type="text" id="descrip" style="width:80%" readonly="readonly"> </td>
+    </tr>
+    <tr>
+        <td><b>Color:</b></td><td> <input type="text" id="color" size="36" readonly="readonly">  </td><td><b>Dise&ntilde;o:</b><input type="text" id="design" size="20" readonly="readonly"></td>  
+    </tr>
+    <tr>
+        <td><b>Cantidad Cortes de <span class="span_medida"></span>&nbsp;Mts.:</b></td><td> <input type="text" class="numeric" id="cortes" onchange="calcAjuste()"  size="10">
+            <img src="img/keypad32.png" border="0" onclick=showKeyPadCortes("cortes") style="margin:0 0 -8px -8px;width:26px;heigth:26px;cursor: pointer" title="Teclado Numerico" >   
+            <span id="calc" style="font-size: 16px"></span>
+        </td>
+        <td colspan="2"><b>Corte de Otra Medida:</b> <input class="numeric" type="text" id="add_cant_om" size="4"> 
+            <img src="img/keypad32.png" border="0" onclick=showKeyPadOM("add_cant_om") style="margin:0 0 -8px -8px;width:26px;heigth:26px;cursor: pointer" title="Teclado Numerico" > 
+            <img src="img/add.png" onclick="agregarArticuloOM()" style="margin:2px 1px -4px 2px;width:26px;cursor:pointer"> 
+        </td>
+         
+    </tr>
+    <tr class="articulo_om">
+        <td>
+            <b>Cortes de Otra Medida: </b></td><td colspan="3">  
+            <div id="codigo_om" style="width: 80%;border:solid gray 1xp;height: auto;min-height:28px ;background-color:#CCC;float:left"> </div> 
+            <img src="img/printer-01_32x32.png"  onclick="imprimirCodigoOM()" style="margin:2px 1px -4px 20px;width:26px;cursor:pointer"> 
+        </td>        
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="4">
+            <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;width:48%;max-width: 90%"  >     
+                <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:1px;width: 135%;background: white" >
+                   <tr><th colspan="7" class="titulo">Articulos</th></tr>
+                   <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>  <th style="width: 60%">Descripcion</th> <th style="width: 30%">Medidas (Largo x Ancho)</th> </tr>
+                </table>       
+             </div>            
+        </td>
+    </tr>
+    <tr class="articulo_om">
+        <td><b>&Sigma; otros Articulos:</b></td><td><input type="text" id="cant_om" class="numeric" size="4" disabled="disabled" >Mts</td>  
+    </tr>
+     
+    <tr>
+        <td> <span class="span_ajuste" style="font-weight: bolder">Ajuste:</span></td> <td><input type="text" class="numeric" id="diff" size="10" readonly="readonly"> </td>
+        <td>
+            <input type="button" value=" Agregar Cortes " id="agregar" onclick="agregarCortes()" disabled="disabled">
+            <input type="button" value=" Generar Producto Terminado " id="generar_prod_ter" onclick="generarProductoTerminado()" style="display:none" >
+            <input type="button" value=" Imprimir Producto Terminado " id="imprimir_lotes" onclick="imprimirReciboProduccion()" style="display:none" >
+            
+            <span style="display:none">  Mostrar detalles de Cortes <input type="checkbox" id="detailed" onclick="mostrarOcultarDetalles()" > </span>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 24px;text-align: center" colspan="4">
+            <span id="msg"></span>
+        </td>
+    </tr>
+</table>
+    <div style="height:260px;overflow-y: auto" id="container_design">
+    <table border="1" id="detalle_asign" style="border:solid gray 1px;margin: 0 auto; width:100%;padding: 6px;background-color: white;border-collapse: collapse" >
+        <tr><th colspan="13" class="titulo">Lotes Asignados</th></tr>
+        <tr style="background-color: lightskyblue"><th>Codigo</th><th>Lote</th><th>Descripcion</th><th>Color</th><th>Dise&ntilde;o</th><th>Mts</th><th>Medida</th><th>Cortes</th><th>Ajuste</th><th>*</th><th></th><th></th></tr>
+    </table>    
+    </div>    
+</div>
+
+<div id="imgPopUpConfec">
+    <div id="imgPopUpConfecContainer">
+        <button onclick="cerrarImgPopUp()"><img src="img/close.png" alt=""></button>
+        <img height="300px" width="450px" src="" class="imagen" onerror="noImage($(this))" alt="">
+    </div>
+</div>
+</div>
+<!-- end:   area_emision -->
+
+<!-- begin: recibo_produccion_ui -->
+   <table  border="0" style="width: auto;border:solid gray 1px;margin: 0 auto;background-color: white;min-width: 60%;margin-top: 10px" class="nro_emision_ui" >
+        <tr>             
+            <th colspan="2" class="titulo" style="font-size: 20px">Recibo de Produccion</th>             
+        </tr>
+        <tr>
+            <td style="font-size: 28">Ingrese el N&deg; de Emision:</td>
+            <td><input id="nro_emision" type="text" style="font-size: 28px;text-align: center " size="6" maxlength="8" onchange="buscarEmision()" >  </td>
+        </tr>
+        <tr><td colspan="2" id="msg"></td></tr>
+        
+        <tr>
+            <td colspan="2">
+                <table border="0" class="datos_orden" style="width: 100%;height:30px">
+                    
+                </table>
+            </td>
+        </tr>
+   </table>     
+  
+<div style="text-align: center;">
+    <table class="planilla" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border:solid gray 1px;margin: 30px auto;min-width:60%">
+        <tr><th style="background-color: lightskyblue" colspan="9">Planilla de Cortes</th></tr>
+        <tr class="titulo"><th>N&deg</th><th>Usuario</th><th>Fecha</th><th>Codigo</th><th>Lote</th><th>Descrip</th><th>Dise&ntilde;o</th><th>Unidades</th><th>Imprimir</th></tr>
+    </table>
+</div>
+
+<!-- end:   recibo_produccion_ui -->
+
+
+
+
+<!-- begin: barcode_headers -->
+<!DOCTYPE html>
+<html>    
+    <head>
+     <meta charset="UTF-8">
+    
+        <link rel="stylesheet" type="text/css" href="barcodegen/barcode_printer_{tam}.css?1495554340615" /> 
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
+        <script type="text/javascript" src="barcodegen/barcode_printer.js" ></script>
+
+        <input type="hidden" id="printer" value="{printer}">
+        <input type="hidden" id="silent_print" value="{silent_print}">
+        <input type="hidden" id="marginTop" value="{marginTop}">
+        <input type="hidden" id="marginBottom" value="{marginBottom}">
+        <input type="hidden" id="marginLeft" value="{marginLeft}">
+        <input type="hidden" id="marginRight" value="{marginRight}">
+        <input type="hidden" id="scaling" value="{scaling}">
+    </head>
+<!-- end:   barcode_headers -->
+
+<!-- begin: etiqueta_6x4 -->
+<div id="ticket" {margin}>
+  
+<div style="border: solid black 0x;margin-bottom:0px;margin-top: 0">
+    <table border="0" style="border-collapse: collapse">
+        <tr>
+             <td style="font-size: 34px;text-align: center" ><b>{codigo}</b>  </td>
+        </tr>
+        <tr>
+             <td style="font-size: 34px;text-align: center" ><b> {medidas}m.</b></td>
+        </tr>
+        <tr><td style="font-size: 12px;text-align: center">{usuario}</td></tr>
+   </table>
+</div>
+ 
+</div>
+</html>
+<script language="javascript"> 
+    self.print();
+</script>
+    
+<!-- end:   etiqueta_6x4 -->

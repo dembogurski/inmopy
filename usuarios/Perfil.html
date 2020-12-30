@@ -1,0 +1,99 @@
+<!-- begin: head -->
+        <script src="usuarios/perfil.js"></script>
+        <link rel="stylesheet" href="usuarios/UserManager.css">      
+        <img id="ajaxLoader" src="img/loadingt.gif" />
+        <div id="popUp"></div>
+<!-- end:   head --> 
+
+<!-- begin: users_list_h -->
+        <div id="contenedor">
+            <div id="lista">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="titulo" colspan="3"><h3>Usuario {usuario}</h3></th>
+                        </tr>
+                       
+                        <tr>
+                            <td>Usuario</td>
+                            <td>Apellido</td>
+                            <td>Nombre</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- end: users_list_h -->   
+
+<!-- begin: urers_list -->
+<tr id="{user_nick}" class="list"><td class="usuario">{user_nick}</td><td class="apellido">{user_apellido}</td><td class="nombre">{user_nombre}</td></tr>
+<!-- end:   urers_list -->
+
+<!-- begin: users_list_f -->
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+<!-- end:   users_list_f -->
+ 
+
+<!-- begin: ch_passw_form -->
+<table class="form">
+    <tr><th colspan="2"><h3>Combiar contrase&ntilde;a de: <span id="ch_usu">{usuario}</span></h3></th></tr>
+    <tr><td class="label"><label for="o_passw">Contrase&ntilde;a vieja: </label></td><td><input title="Escriba su vieja contrase&ntilde;a" id="o_passw" onchange="checkOldPassw(this.id)" onfocus="msj(this.id)" type="password"/><span class="err_op"></span></td></tr>
+    <tr><td class="label"><label for="n_passw">Contrase&ntilde;a nueva: </label></td><td><input title="Escriba la nueva contrase&ntilde;a" id="chn_passw" onfocus="msj(this.id)" type="password"/></td></tr>
+    <tr><td class="label"><label for="rpn_passw">Vuelva a escribir: </label></td><td><input title="Vuelva a escribir la contrase&ntilde;a nueva" id="chrp_passw" onfocus="msj(this.id)" type="password"/><span class="err_p"></span></td></tr>
+    <tr><td class="foo" colspan="2"><span class="inf_msj"></span><span class="msj"></span></td></tr>
+    <tr><td class="foo" colspan="2"><input type="button" value="Volver" onclick="volver(1)" /><input id="chp" disabled="" type="button" value="Guardar" onclick="checkValuesChPassw()"/></td></tr>
+</table>
+<!-- end: ch_passw_form -->
+<!-- begin: r_table_h -->
+<table id="rest_table" class="form">
+    <tr><th colspan="2"><h3>Usuario: <span id="usuario">{user}</span></h3></th><th rowspan="3" style="vertical-align: top;background:#EAEAE8;padding-top:0px"><img width="60px" src="img/usuarios/{foto}.jpg"></th></tr>
+<!-- end:   r_table_h -->
+
+<!-- begin: r_table_b -->
+<tr><td class="label"><label for="{id}">{label}</label></td><td><input data-key="{id}" maxlength="{max_l}" size="{max_s}" data-changed="no" data-err="no" onkeyup="verif(this.id)" id="{id}" type="text" value="{content}" /><span class="error"></span></td></tr>              
+<!-- end:   r_table_b -->
+
+<!-- begin: r_table_f -->
+<tr>
+    <td colspan="2" class="foo">
+        <input type="button" value="Volver" onclick="volver()" />
+        <input type="button" value="Guardar" id="action" onclick="updateUser()" disabled />
+        <input type="button" value="Cambiar Contrase&ntilde;a" onclick="changePassw()" /> 
+    </td>
+</tr> 
+</table >
+<!-- end:   r_table_f -->
+
+<!-- begin: h_grupos -->
+<table class="form">
+    <tr><th><h3>Usuario: <span id="ch_usu">{user}</span></h3></th></tr>
+<!-- end: h_grupos -->
+
+<!-- begin: grupos -->
+<tr><td><input id="{id}" onchange="saveG(this.id)" type="checkbox" {checked} /><label class="group" for="{id}">{grupo}</label></td></tr>
+<!-- end: grupos -->
+
+<!-- begin: f_grupos -->
+<tr><td class="foo"><input type="button" value="Volver" onclick="volver(1)" /></td></tr>
+</table>
+<!-- end: f_grupos -->
+
+<!-- begin: h_sucs -->
+<table class="form">
+    <tr><th><h3>Usuario: <span id="ch_usu">{user}</span></h3></th></tr>
+<!-- end: h_sucs -->
+
+<!-- begin: sucs -->
+<tr><td><input id="{id}" type="checkbox" {checked} onchange="saveSuc(this.id)" /><label class="suc" for="{id}">{suc}</label></td></tr>
+<!-- end: sucs -->
+
+<!-- begin: f_sucs -->
+<tr><td class="foo"><input type="button" value="Volver" onclick="volver(1)" /></td></tr>
+</table>
+<!-- end: f_sucs -->
+
+<!-- begin: footer -->        
+    </body>
+</html>
+<!-- end:   footer --> 

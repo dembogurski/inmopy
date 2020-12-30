@@ -1,0 +1,210 @@
+
+/* 
+    Created on : 10/10/2016, 04:12:40 PM
+    Author     : Ing.Douglas
+*/
+@media print{
+    .impresora{
+        display: none;
+    }
+}
+.estante{
+    min-width: 60px;
+    height: 28px;
+}
+.label_tipo{
+    cursor: pointer;
+}
+div#ubicar{
+    text-align: center; 
+    width: 80%;
+    min-width: 480px;
+    border: solid 1px;
+    margin: 20 auto;
+   
+}
+table#ubic_table{
+    width: 100%;
+}
+div#titulo_ubic{
+    text-align: left;
+    width: 40%;
+    height: 20px;  
+    min-width: 480px;
+    margin: 0 0 16px 60px;
+    font-size:28px;   
+    color:black;
+    font-weight:bolder;
+}
+div#ubicacion_div{
+    text-align: center;
+    width: 60%;
+    height: 380px;  
+    min-width: 480px;
+    border:0px solid black;
+    margin: 20px 0 4px 4px;
+    float:left;
+}
+div#area_trab_div{
+    float:right;
+    border:0px solid black; 
+    margin:17px auto;
+    width: 38%;
+}
+#ubic_table td, #ubic_table label, #ubic_table option, #ubic_table select{
+   font-size: 18px;
+   font-family: times new roman;
+}
+.cuadrante{
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    font-size: 12px;
+    background-color: beige; 
+    border-style:inset;
+    border-width: 0 0 4px 4px;
+}
+
+.cuadrante:hover{      
+    background-color: gold;       
+    font-size: 14px; 
+    cursor:pointer;       
+}
+.cuadbarcode{
+    background-color: beige; 
+}
+
+.sector_div{
+    -webkit-perspective:200px;
+    -moz-perspective:200px;
+     perspective:200;
+}
+.sector{    
+     transform: rotateX(30deg);
+     -moz-transform: rotateX(30deg);
+     -webkit-transform: rotateX(30deg);
+}
+.ident_fila{
+    margin-left: -40px;
+    display:block;
+    position: absolute;
+    width: 40px;
+}
+.ident_col{
+    margin-top: 36px;
+    display:block;
+    position: absolute;
+    width: 40px;
+    margin-left:10px;
+}
+.cuadrante-selected{
+    border-width:1px 1px 6px 6px;    
+    border-style: inset;
+    background-color: greenyellow;
+}
+
+.sector-selected{
+   border:solid black 2px;
+   background-color: greenyellow;
+   border-style: double;
+}
+#area_trab td, #area_trab input{
+    font-size: 18px;
+}
+ 
+.dialog{
+    color:black;
+    font-weight: bolder;
+    font-size: 18px;
+}
+.dialog_red{
+    color:red;
+    font-weight: bolder;
+    font-size: 18px;
+}
+.cuad_content{
+    background-color: white;
+}
+
+
+@media only screen and (max-width: 120px) {    
+    div#ubicar,div#ubicacion_div{
+        text-align: center;     
+        width: 92%;        
+        min-width: 0px;
+        border: solid 0px;
+        margin: 0 auto 25px;
+        height: auto;
+    }
+    
+    div#ubicacion_div table{
+        width: 100% !important;
+        display: block;        
+    }
+    div#ubicar select, div#ubicar select option{
+        width: 90%;
+        text-align: center;
+    }
+    div#area_trab_div{
+        float: left;
+        margin: 0;
+        padding: 0;
+        min-width: 0px;
+        width: 92%;
+    }
+    div#area_trab_div *, div#ubicar *{
+        font-size: 12px;
+    }
+    div#titulo_ubic{
+        min-width: 140px;
+    }
+    div#cuad_content{
+        width: 100%;
+        margin: 0;
+        padding: 1px;
+        display: block;
+        background-color: lightblue;        
+        height: auto;
+    }
+    input#codigo{
+        width: 80px !important;
+    }
+    input#descrip{
+        width: 58% !important;
+    }
+}
+.utilizado{
+    background-color: lightskyblue;
+}
+.accion{
+    cursor: pointer;
+}
+.pallet_head{
+    text-align:center;
+    font-weight:bolder;
+    font-size:20px;
+    background-color: white;
+    color:black;
+}
+.vacio{
+    height: 22px;
+    border-color:white;
+    background-color: white;        
+}
+.resume  {
+    margin-left: 10px;
+    font-size: 18px;
+}
+.resume b {    
+    font-size: 18px;
+}     
+.stock_comprometido{
+    border-collapse: collapse;
+    padding: 4px;    
+}
+.stock_comprometido td{
+    padding: 0 4px 0 4px;
+}
+.alert{
+    background-color: orangered;
+}

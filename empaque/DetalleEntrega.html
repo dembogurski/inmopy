@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+        
+      
+      <script language="javascript">
+            
+           
+      </script>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="user" value="{user}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Nota de Entrega</th>
+        <th style="font-size: 8px;width: 15%;text-align: center" rowspan="2"> <label style="font-family: arial;font-size: 14"><b> Ref.:</b>{factura} </label><br> <br>  {user}-{time}</th> 
+    </tr> 
+    <tr>
+        <td>
+            <table border="0" style="border-collapse:collapse;width:100%;font-family: arial;font-size: 12">
+                <tr><td><b>Cliente:</b></td><td> {cliente} </td> <td><b>RUC: </b></td><td> {ruc} </td></tr>
+                <tr><td><b>Fecha:</b></td><td> {fecha} </td> <td><b>Preparador: </b></td><td>{user} </td></tr> 
+            </table>
+        </td>
+    </tr>
+    
+   
+</table>
+
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Codigo</th>
+        <th>Lote</th>
+        <th>Descripci&oacute;n</th>
+        <th>UM</th>
+        <th>Cantidad</th>
+        <th>Precio</th>       
+        <th>SubTotal Gs</th>
+        <th>Env.</th>        
+        <th>Rec.</th>        
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{codigo}</td>
+    <td class="item">{lote}</td>
+    <td class="item">{descrip}</td>
+    <td class="itemc">{um}</td>
+    <td class="num">{cantidad}</td>
+    <td class="num">{precio}</td>
+    <td class="num">{subtotal}</td>
+    <td class="itemc"><img src="../img/ok.png"></td>
+    <td class="itemc"></td>
+</tr>   
+<!-- end:   data -->
+ 
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="6">Total {cant} piezas</td>    
+    <td class="num">{total} Gs</td>
+    <td colspan="2"></td>  
+</tr> 
+</table>    
+ 
+<div style="text-align: center;height: 30px;margin-top: 20px">Firma Preparador:__________________________&nbsp;Firma Recepcionista:__________________________</div>
+<div style="text-align: center;height: 18px"> Aclaracion Firma:__________________________&nbsp;  &nbsp;Aclaracion Firma:&nbsp;&nbsp;&nbsp;&nbsp;__________________________ </div>
+<!-- end:   foot  -->
+
+  

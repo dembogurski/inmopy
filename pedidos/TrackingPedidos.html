@@ -1,0 +1,32 @@
+
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="pedidos/tracking_pedidos.css" />   
+    <script type="text/javascript" src="pedidos/tracking_pedidos.js" ></script>
+      
+<!-- end:   headers -->
+ 
+
+<!-- begin: filters -->
+<div style="margin: 10 auto;text-align: center">
+    <div class="titulo" style="font-weight: bolder;font-size: 14px;margin-bottom: 10px" >Herramienta para Seguimiento de Pedidos de Compras</div>
+       
+    <label  >Desde:</label><input type="text" size="10" value="{hoy}" id="desde" >
+    <label  >Hasta:</label><input type="text" size="10" value="{hoy}" id="hasta" >
+    
+    <label style="display:{filtrar_todos_los_usuarios}">Mostrar de Todos los Usuarios:</label><input style="display:{filtrar_todos_los_usuarios}" type="checkbox" id="usuarios" >
+    
+    <input type="button" value="Aceptar" onclick="buscarPedidos()"><span id="msg"></span>
+</div>
+<!-- end:   filters -->
+
+
+<!-- begin: pedidos_nacionales -->
+<div id="anchorTitle" class="anchorTitle"></div>
+
+<table border="1" id="nacionales" style="border:1px solid gray;border-collapse: collapse;width: 80%;margin:4 auto" class="nac">
+    <tr><th colspan="16" style="background-color: lightgray">Pedidos para Compras Nacionales</th></tr>  
+    <tr class="titulo">
+        <th>N&deg;</th><th>Obs</th><th>Usuario</th><th>Suc</th><th>Fecha</th><th>Codigo Art.</th><th>Lote</th><th>Descripci&oacute;n</th><th>Color</th><th>Cantidad</th><th>Um</th><th>Precio Venta</th><th>Mayorista</th><th>Urge</th><th>Obs</th><th>Estado</th>
+    </tr>
+</table>
+<!-- end:   pedidos_nacionales -->

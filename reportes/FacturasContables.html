@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../css/reporte_defaults.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="main-body">
+        <div id="example">
+            <p style="text-align:center; color:#F00">Huvo un problema en la comunucaci&acute;n con el Servidor, contacte al departamento Informatico de persistir el problema.<br /> [onshow;block=p;when [var.sql_ok]=0]</p>
+            <table border="1" cellpadding="2" cellspacing="0" style="margin-left:auto; margin-right:auto;">
+                <tr>
+                    <td colspan="9">
+                        <table>
+                            <tr>
+                                <th style="width: 15%" colspan="2" rowspan="2"><img src="../img/logo_small.png"></th>
+                                <th style="width: 70%;" colspan="5">Reporte de Facturas Contables</th>
+                                <th colspan="2" rowspan="2"><p style="font-size: 18px;width: 100%">[onshow.usuario]</p><a style="font-size: 10px;vertical-align: top;" href="[onshow.downloadURL]"><img src="../img/spreadsheet.png" style="vertical-align: top;"> Descargar</a></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5">Suc: [onshow.suc], Per&iacute;odo [onshow.desde;frm='dd-mm-yyyy'] a [onshow.hasta;frm='dd-mm-yyyy']</th>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="title-section2" style="background-color:#CACACA;">
+                    <th>Suc</th>
+                    <th>Factura</th>
+                    <th>Ticket</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>RUC-Cli</th>
+                    <th>Cliente</th>
+                    <th>Tipo-Doc</th>
+                    <!-- <th>Doc</th> -->
+                    <th>Tipo-Fact</th>
+                </tr>
+                <tr style="background-color:#F0F0F0;">
+                    <td align="center">[data.suc;block=tr]</td>
+                    <td align="left">[data.fact_nro]</td>
+                    <td align="left">[data.f_nro]</td>
+                    <td align="center">[data.fecha_cierre;frm='dd-mm-yyyy']</td>
+                    <td align="right">[data.total;frm='0.000,00']</td>
+                    <td align="left">[data.ruc_cli]</td>
+                    <td align="left">[data.cliente]</td>
+                    <td align="left">[data.tipo_fact]</td>
+                    <!-- <td align="left">[data.tipo_doc]</td> -->
+                    <td align="left">[data.tipo]</td>
+                </tr>
+
+            </table>
+            <p style="text-align:center;">Se encontraron [data.#] registros.</p>
+        </div>
+    </div>
+</body>
+
+</html>

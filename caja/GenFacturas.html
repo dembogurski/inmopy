@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+ 
+
+<!-- begin: header noeval -->
+   
+<script type="text/javascript" src="caja/GenFacturas.js?_=00000000000000000000000" ></script>
+<style>
+input.f_nro:disabled{
+  color: black;
+  border:none;
+  background:none;
+  text-align:center;
+}
+tr.ticketInfo table{
+  margin: 5px auto;
+  width: 80%;
+  border-collapse: collapse;
+}
+tr.ticketInfo table td,tr.ticketInfo table th{
+  border: 1px solid black;
+  padding: 1px 3px;
+}
+tr.ticketInfo table th{
+  background-color: lightseagreen;
+}
+</style>
+<!-- end:   header -->
+
+
+<!-- begin: body -->
+   <div style="text-align: center; width: 40%;min-width: 600px;border: solid 1px;margin: 20 auto ">
+       <table  id="gen_factura" cellspacing="6" cellpadding ="0" border="0" style="margin: 0 auto;min-width:80%" >
+        <tr><th colspan="2" class="titulo">Area de Carga de Documentos Contables</th></tr>
+        <tr> <td> <label>Usuario: </label> </td><td><input type="text" id="usuario" name="usuario" value="{usuario}" readonly ></td>   </tr>
+        <tr>
+            <td><label>Tipo de Documento:</label> </td>
+            <td>
+               <select id="tipo_doc" data-next="moneda">  
+                    <option>Factura</option>
+                    <option>Factura Conformada</option>
+                    <option>Nota de Credito</option>
+                    <option>Recibo</option>
+                    <option>Recibo Termico</option>                    
+                    <option>Nota de Remision</option>
+                </select> 
+            </td>
+        </tr>
+        <tr>
+            <td><label>Moneda:</label> </td>
+            <td>
+               <select id="moneda" data-next="pdvs">  
+                     {monedas}
+                </select> 
+            </td>
+        </tr>
+        <tr> <td> <label>Punto de Expedici&oacuten:</label>  </td>
+            <td>
+                <label>Tipo:</label> 
+                <select id="tipo" data-next="fecha_venc">  
+                    <option>Pre-Impresa</option>
+                    <option>Manual</option>
+                    <option>Termico</option>
+                </select> 
+            </td>  
+        </tr>                    
+        <tr> <td> <label>Establecimeinto </label> </td><td><input type="text" id="estab" size="4" name="estab" value="{estab}" readonly > <label>Punto Exp:</label> <input type="text" id="pdvs" data-next="tipo" size="5" readonly="readonly"> </td> </tr> 
+        <tr class="area_carga"><td><label>Fecha Vencimiento:</label></td> <td> <input id="fecha_venc" data-next="timbrado" type="text" maxlength="10" size="10" placeholder="dd/mm/aaaa" onchange="checkDateVenc()" ><br><span id="msg_fecha" class="error"></span>  </td></tr>
+
+                    
+                    <tr class="fila_timbrado"> 
+                        <td> <label>Timbrado:</label>  </td>
+                        <td><input type="text" id="timbrado" size="10" maxlength="8" name="timbrado" value=""  data-next="inicial"  ></td>
+                    </tr>   
+                    <tr class="area_carga"> <td> <label>N&deg; Inicial:</label>  </td><td><input type="text"  id="inicial" data-next="cantidad"  size="8" style="text-align: right" value="0" onchange="calcNroFinal()" > </td>   </tr>
+                    <tr class="filtrar" style="display:none"> <td> <label>N&deg; <span id="selected_doc_type"></span>:</label>  </td><td><input type="text"  id="nro_factura" size="8" style="text-align: right" value="" > </td>   </tr>
+                    <tr class="area_carga"> <td> <label>Cantidad:</label>  </td><td><input type="text" id="cantidad" data-next="generar" size="8" value="0" style="text-align: right" onchange="calcNroFinal()" > 
+                <label>&nbsp;N&deg; Final:</label><input type="text" id="final" size="8" value="0" readonly=""  style="text-align: right">
+            </td>   </tr> 
+        <tr> 
+            <td colspan="2" style="text-align: center"> <input type="button" onclick="showMenu()" value="Volver">  
+                <input type="button" onclick="filtrar()" id="filtrar"  value="Filtrar Documentos" > 
+                <input type="button" onclick="generarFacturas()" id="generar"  value="Generar Documentos" disabled>  
+                <input type="button" onclick="showMenu()" id="cerrar"  value=" Cerrar " disabled> 
+            </td>
+        </tr>
+       </table>   
+   </div>     
+
+<br>
+
+<div id="msg" style="text-align: center"></div>
+<br>
+    <div id="facturas"  style="display:none;text-align: center" >
+     <table id="facturas_contables" cellspacing="0" cellpadding ="0" border="1" style="min-width: 80%;margin: 0 auto;border-collapse: collapse" >
+        <tr><th colspan="10" class="titulo">Documentos Contables</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 5%">N&deg;</th> <th style="width: 5%">Ticket</th>  <th style="width: 5%">Suc</th> <th style="width: 5%">PDV</th><th style="width: 5%">Tipo</th> <th style="width: 10%">Usuario</th><th style="width: 10%">Vencimiento</th> <th style="width: 10%">Estado</th><th style="width: 25%">Motivo de Anulaci&oacute;n</th><th style="width: 10%">*</th> </tr>
+        <tr class="tr_fact_legal">
+            <td class="itemc factura"><span class="nro"></span></td> 
+            <td class="itemc factura"><input class="f_nro ticket" onchange="verificarTicket($.trim($(this).val()))" value="" disabled="disabled" /></td>
+            <td class="itemc"><span class="itemc suc"></span> </td>
+            <td class="itemc"><span class="pdv"></span></td> 
+            <td class="itemc"><span class="tipo tipo_fact"></span></td>
+            <td class="itemc"><span class="usuario"></span></td> 
+            <td class="itemc"><span class="venc"></span></td>
+            <td title="Cambiar Estado" class="itemc celda_estado" style="cursor:pointer" onclick="rotarEstado()"><span class="estado"></span></td>
+            <td class="item"> <input type="text" class="motivo_anul"  style="width:98%;"  value="" disabled /></td>
+            <td class="itemc"><input type="button" class="aplicarCambios" onclick="cambiarEstado()" value=" Aplicar "  style="height:24px"/></td>
+        </tr>
+     </table>       
+    </div> 
+<!-- end:   body -->

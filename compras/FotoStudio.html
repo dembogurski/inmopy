@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="compras/FotoStudio.css" />   
+    
+    <link rel="stylesheet" type="text/css" href="lib/easyzoom/easyzoom.css" />  
+    
+    
+    <script type="text/javascript" src="compras/FotoStudio.js?_=1529086744073134" ></script>        
+    <script src="lib/easyzoom/easyzoom.js"></script>
+<!-- end:   header -->
+
+
+<!-- begin: body -->
+<input type="hidden" id="base64" value=""  style="display:none"    >
+<input type="hidden" id="thumnail64" value=""  style="display:none"    >     
+<input type="hidden" id="images_url" value="{images_url}">
+<input type="hidden" id="id_det" value=""  style="display:none"    >
+
+<div style="background-color: lightgray; text-align: center;font-size: 16px" > Captura de Imagen </div>
+
+<div  style="margin-top: 10px;">
+    <table   style="text-align: left; width: 99%;border-collapse: collapse" border="1" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="2" >
+                <table border="0" style="margin: 4px;padding: 4px;width:90%"  >         
+                    <td style="height:33px"> 
+                        <label style="text-align: left; font-size: 20px;">Lote:</label>          
+                    </td>
+                    <td style="width:20% "><input type="text" size="14"  value="{lote}" data-next="ancho"  id="lote" onchange="buscarDatosLote()"  style="text-align: right;color:green;font-size: 20px;padding-right: 6px" tabindex="1"></td>
+                    <td  ><label>Padre:</label> </td>
+                    <td style="width: 60px"> <input type="text" size="8"  value="" class="datos" id="padre" readonly="readonly" style="text-align: center" >
+                        <img src="img/l_arrow.png" onclick="buscarPadre()" style="cursor:pointer;width:24px">
+                    </td>
+                    <td>  <label>Stock:</label></td><td style="width:45% "><input type="text" size="8"  value="" class="datos" id="stock" readonly="readonly" style="text-align: center" > <input type="text" size="4"  value=""  class="datos" id="um" style="text-align: center" readonly="readonly" >
+                    <label>Kg. Desc:</label><input type="text" class="datos num" size="5" readonly="readonly" value=""  id="kg_desc" >
+                    </td>
+                    <td style="width: 40%"><span style="color: green; font-size: 16px;padding-left: 8px" id="msg"></span></td>        
+                    </tr>
+                    <tr class="lote_data">
+                        <td><label>Descrip</label></td>
+                        <td colspan="3"><input type="text" size="80"  value="" class="datos"  id="descrip" readonly="readonly" style="width: 99%" ></td>
+                    </tr>
+                    <tr>
+                        <td><label>Color:</label></td><td><input type="text" size="22" class="datos"  value="" readonly="readonly"  id="color" ></td>
+                        <td ><label>Dise&ntilde;o:</label></td><td colspan="4"><input type="text" class="datos" size="22" readonly="readonly" value=""  id="design" > 
+                            <label>Gr.Calc:</label><input type="text" class="datos num" size="6" readonly="readonly" value=""  id="gr_calc" >
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    <tr>
+       
+    <tr>
+        <td  style="text-align: center; vertical-align: top;height: 100% ">
+            <div id="tabs" style="height: 100%">
+                 <ul>
+                     <li><a href="#area_trab" >Area de Trabajo</a></li>
+                    <li><a href="#config"  >Configuracion</a></li>             
+                 </ul>
+                <div id="area_trab" style="height: 100%"> 
+                    <table border="0" style="margin: 4px auto;padding: 4px">
+                        <tr>
+                          <td> 
+                              <label>Ancho:</label></td><td><input type="text" size="8"  value=""  id="ancho" data-next="gramaje_m" class="datos" onchange="controlar()" onkeypress="return onlyNumbers(event)" >
+                              <img  class="keypad" src="img/keypad32.png" border="0" onclick=showKeyPad("ancho") class="datos" style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer;text-align: right" title="Teclado Numerico" >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                              <label>Gramaje Muestra:</label></td><td><input type="text" size="8"  value=""  id="gramaje_m" class="datos" data-next="capturar" onchange="controlar()"  onkeypress="return onlyNumbers(event)" >
+                              <img  class="keypad" src="img/keypad32.png" border="0" onclick=showKeyPad("gramaje_m")  style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer;text-align: right" title="Teclado Numerico" >
+                          </td>
+                        </tr>
+                         
+                        <tr style="border: solid gray 1px">
+                            <td colspan="2" style="text-align: center;height: 45px">
+                                <input type="button" class="buttons" id="capturar" value="    Tomar Foto    "  onclick="tomarFoto()" disabled="disabled" data-next="guardar" >
+                                <input type="button" class="buttons" id="guardar"  value="   Guardar    "   onclick="actualizarDatos()" disabled="disabled" data-next="lote" > 
+                                <img src="img/barcode.png" id="imprimir" onclick="imprimirCodigoBarras()" height="26" style="margin:0px 0px -6px 10px;display:none;cursor:pointer">                       
+                            </td>                            
+                        </tr>  
+                         
+                    </table>
+                    <div id="info_lotes" style="text-align: center;font-size:16px;margin-bottom:4px;color:blue"></div> 
+                    <table id="lotes_identicos" border="1" style="margin: 0 auto;padding: 4px;border-collapse: collapse;display:none;width:100%"  >
+                        <tr class="titulo"><th>Lote</th><th>Cant</th><th>N&deg; Te&ntilde;ido</th><th>Color.Desc.</th><th>Obs</th><th>Img</th><th><input  type="checkbox" checked="checked" onclick="checkAll()" ></th></tr>
+                    </table>
+                </div>
+                    <div id="config" style="height: 100%">
+                        <label title="Direccion de IP de la computadora que tiene conectada la camara">IP Camara:</label>
+                        <input type="text" size="16"  value="localhost"  id="ip" onchange="getCamList()" >
+                        <label>Camara:</label>  <select id="camera"></select> <br>  <br>                       
+                        <label title="">Tomar datos de Precarga:</label> <input type="checkbox" checked="checked" id="datos_precarga">
+                    </div>                
+                </div>     
+        </td>
+        <td  style="height: 100%;width:70%;;vertical-align: top;margin:0 auto;text-align: center">
+            <div style="width:200px;margin:-17px auto;text-align: center;background-color: white;border:solid gray 1px;border-radius: 3px 3px 0 0px" >Previsualizaci&oacute;n de Imagen</div>
+            <div id="image_preview" class="easyzoom easyzoom--overlay easyzoom--with-thumbnails empty" style="width: 660px;margin:0 auto ">
+                
+            </div>
+            <div style="width: 100%;overflow-x: auto;height: 90px" >
+                <ul class="thumbnails empty">
+                    
+                </ul>
+            </div>
+        </td>
+    </tr>
+</table> 
+   
+</div>
+
+    
+<!-- end:   body -->
+

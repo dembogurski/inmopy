@@ -1,0 +1,19 @@
+
+# udev controla lo que ocurre cuando se conecta un dispositivo a la computadora en linux
+# monitorea las acciones que realiza udev al conectar o desconectar un dispositivo 
+udevadm monitor
+
+# recarga las reglas 
+udevadm control --reload-rules
+
+# con lsusb encontrar el numero de bus y dispositivo
+# Ej.: Bus 003 Device 010: ID 04b0:042f Nikon Corp.
+# ejecutar el siguiente comando donde los últimos dos digitos deben coincidir con en numero de bus y dispositivo
+udevadm info -a -p $(udevadm info -q path -n /dev/bus/usb/003/010)
+
+# editar /etc/udev/rules.d/60-raw.rules
+# agregar ATTRS{idVendor}=="1d6b", ATTRS{idProduct}=="0002", OWNER="apache",GROUP="apache", MODE="0777"
+# donde los datos ATTRS{idVendor}, y ATTRS{idProduct} deben coinsidir con los datos obtenidos en udevadm info -a -p $(udevadm info -q path -n /dev/bus/usb/003/010)
+# ejecutar  udevadm test /devices/pci0000:00/0000:00:14.0/usb3/3-1 debe coincidir con los datos mostrados por udevadm monitor and conectar el dispositivo
+
+# fin

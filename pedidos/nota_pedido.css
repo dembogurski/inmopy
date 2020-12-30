@@ -1,0 +1,57 @@
+
+/* 
+    Created on : 24/02/2015, 11:43:23 AM
+    Author     : Ing.Douglas
+*/
+
+
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+#cabecera{
+    padding: 4px; 
+    display: inline;
+}
+#notas_pedido,#lista_articulos {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: white; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin: 10px auto;    
+    min-width: 70%;
+}
+ 
+#lista_clientes tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;
+}
+ 
+#ui_clientes{
+    padding-left: 4px;
+}
+#lista_clientes{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 46%;
+}
+#cli_data{
+    padding-left: 4px;
+}
+.tr_cli_data{
+     background-color: #F0F0F0; //Casi blanco
+} 
+.ui-autocomplete { 
+    max-height: 200px; 
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.input_err{
+    border:solid red 1px;
+}

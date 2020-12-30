@@ -1,0 +1,189 @@
+
+/* 
+    Created on : 08-jun-2020, 8:18:35
+    Author     : Doglas
+*/
+
+
+#imprimir_recibo:disabled{
+    background-color: lightgrey;
+}
+.titulo_cuotas{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+#lista_cuotas ,#lista_notas_credito {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 10px;
+    margin-bottom: 10px; 
+    width: 100%
+}
+#pie  {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999; 
+}
+#msg_intereses{
+    border: solid gray 1px;
+    border-radius: 0 6px 6px 0;
+    background-color: orange;
+    color: black;
+    font-size: 12px;
+    font-family: georgia monospace;
+    font-weight: bold;
+    height: 36px;
+    padding: 10px;
+    display: none;
+}
+#detalle_intereses{
+    display: none;
+    background-color: white;
+    border: solid gray 1px;
+    position: absolute;
+    z-index: 100;
+    width: auto;
+}
+.popup_caja{
+    position: absolute;
+    top: 80px;
+    z-index: 1;
+    background:whitesmoke;
+    padding:2px;
+    border:1px solid gray;
+    text-align:center;
+    font-weight:bold;
+    min-width: 82%;
+    min-height: 400px;
+    height: auto;
+    margin-top: 80px; 
+    margin-left: 9%;
+    //margin-right: 9%;  
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   
+{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}   
+
+.printer_button{
+    background-image:url(../img/printer-01_32x32.png);
+    background-repeat:no-repeat;
+    border: 0 solid grey;
+    cursor: pointer;
+    height: 34px;
+    width: 44px;
+    background-position:center; 
+}
+.ticket_button{
+    background-image:url(../img/ticket.png);
+    background-repeat:no-repeat;
+    border: 0 solid grey;
+    cursor: pointer;
+    height: 32px;
+    width: 26px;
+    background-position:center; 
+}
+
+#lista_convenios, #lista_cheques {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+.pendiente{
+    background-color: lightskyblue;
+} 
+button#buscarCheque{
+    background-image: url(../img/find.png);
+    font-size: 0;
+    height: 21px;
+    width: 21px;
+    background-size: 16px 16px;
+    vertical-align: top;
+    margin-top: 2px;
+}
+div#tipoCobro{
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+div#tipoCobro li{
+    list-style: none;
+    text-align: left;
+}
+
+.retencion{
+    display: none;
+}
+
+.xCuota{
+    background-color: orange;  
+}
+
+.xFactura{
+    background-color: green;
+}
+#diff_table td {
+    padding: 6px;
+}
+
+
+.ok{
+    margin-left:15px;
+    position: absolute;
+}
+
+#alerta_intereses{
+    display: none;  
+    border-radius: 3px;
+    border: solid red 1px;
+    background-color: white;
+    color: red;
+    font-weight: bolder;
+    margin: 4px 10px;
+    padding: 4px;
+    font-family: console arial;
+    font-size: 14px;
+        
+}
+.boton_reconciliar{
+    font-size: 16px;
+    font-weight: bolder;
+    font-family: console;
+    padding: 20px 40px 20px 40px;
+    margin: 60px;
+}

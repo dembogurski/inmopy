@@ -1,0 +1,303 @@
+.si {
+    background-color: lightgreen;
+    text-align: center;
+    font-weight: 900;
+    font-variant: small-caps;
+}
+
+.no {
+    background-color: lightblue;
+    text-align: center;
+    font-weight: 900;
+    font-variant: small-caps;
+}
+
+.si input {
+    display: none;
+}
+
+[class^=error] input{
+    display: none;
+}
+
+[class^=error] {
+    background-color: lightblue;
+    color: red;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.total {
+    font-weight: 900;
+}
+
+.eq,
+.diff {
+    text-align: center;
+    font-weight: 900;
+}
+
+.eq {
+    color: darkgreen;
+}
+
+.diff {
+    color: red;
+}
+
+table {
+    margin: 2px auto;
+    border-collapse: separate;
+    empty-cells: show;
+}
+
+th,
+td {
+    padding: 1px 5px 0px 3px;
+}
+
+thead tr th.factura {
+    background-color: darkgray;
+    border: 1px solid lightgray;
+    padding: 3px 7px;
+}
+
+thead tr th.verif {
+    background-color: lightslategrey;
+    border: 1px solid lightgray;
+    padding: 3px 7px;
+    background: -webkit-linear-gradient(left, darkgray, darkkhaki);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left, darkgray, darkkhaki);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left, darkgray, darkkhaki);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(left, darkgray, darkkhaki);
+    /* Standard syntax */
+}
+
+thead tr th.detPago {
+    background-color: darkkhaki;
+    border: 1px solid lightgray;
+    padding: 3px 7px;
+}
+
+tr td {
+    border: 1px solid darkgray;
+}
+
+.table_data:hover {
+    background-color: lightgray;
+}
+
+#verif {
+    margin-left: 17px;
+    font: italic bold 12px/15px Georgia, serif;
+    cursor: pointer;
+}
+
+#verif:not([disabled="disabled"]) {
+    color: darkgreen;
+}
+
+#verif[disabled="disabled"] {
+    color: darkgray;
+    cursor: not-allowed;
+}
+
+div#resContainer {
+    position: relative;
+}
+
+div#resContainer * {
+    margin: 0;
+    padding: 0;
+}
+
+span#resMonto:hover {
+    cursor: pointer;
+}
+
+span#resMonto:hover+span#resData {
+    display: block;
+}
+
+span#resData {
+    position: absolute;
+    top: 0px;
+    right: 110%;
+    background-color: white;
+    display: none;
+}
+
+span#resData table {
+    border-collapse: collapse;
+    width: 250px;
+}
+
+.resaltar {
+    color: blue;
+    font-weight: 900;
+}
+
+.edit {
+    text-decoration: underline;
+    color: blue;
+}
+
+.edit:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+div#editor_container{
+    position: fixed;
+    top: 15%;
+    left: 0px;
+    display: block;
+    background-color: brown;
+    -webkit-border-radius: -radius: 5px;    
+    -moz-border-radius: 5px;    
+    border-radius: 5px;
+    display: none;
+}
+div#editor_header{
+    height: 17px;
+    width: 100%;
+    text-align: center;
+}
+div#editor_foot{
+    margin: 3px;
+    text-align: center;
+}
+
+div#editor_header button#editor_close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0px;
+    height: 16px;
+    width: 16px;
+    border: none;
+    background: url("../../js/jquery-ui/images/ui-icons_2e83ff_256x240.png") no-repeat scroll 0 0 transparent;
+    background-position: -32px -192px;
+    background-color: lightgray;
+    -webkit-border-radius: -radius: 5px;    
+    -moz-border-radius: 5px;    
+    border-radius: 5px;
+}
+div#editor_header button#editor_close:hover{
+    cursor: pointer;
+    background: url("../../js/jquery-ui/images/ui-icons_cd0a0a_256x240.png") no-repeat scroll 0 0 transparent;
+    background-position: -32px -192px;
+    background-color: lightgray;
+}
+div#editor {    
+    background-color: lightgray;
+    padding: 5px 15px;    
+}
+
+div#editor table {
+    border: none;
+}
+
+div#editor table th {
+    background-color: darkgray;
+    color: white;
+    font-size: 12px;
+}
+
+div#editor table td,
+div#editor table th {
+    border: 1px solid black;
+    padding: 1px 3px;
+}
+div#editor input[data-row='benef']{
+    width: 250px;
+}
+div#editor input.edit_data[readonly]:hover {
+    cursor: url("../../img/edit.cur"), auto;
+    background-color: gray;
+}
+div#editor input[data-error="true"] {
+    border: solid 1px red;
+}
+
+.id_concepto {
+    display: none;
+}
+
+.id_concepto {
+    display: none;
+}
+
+input.edit_data[readonly] {
+    color: black;
+    border: none;
+    background: none;
+}
+
+.loader {
+    position: fixed;
+    top: 10px;
+    right: 25px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    border-bottom: 16px solid #3498db;
+    width: 16px;
+    height: 16px;
+    font-size: 0px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+/* CSS3 */
+
+/* The whole thing */
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+/* Each of the items in the list */
+.custom-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF;
+}

@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20/03/2015, 05:19:34 PM
+    Author     : Ing.Douglas
+*/
+
+.titulo_grupo{
+   text-align: center;
+   background: lightgray;
+   font-family: sans-serif;
+   font-size: 14px;
+}
+
+#tabla_grupos{ 
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 60%;
+    margin: 12 auto;
+}
+#tabla_grupos tr:hover td,#tabla_permisos  tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;
+}
+

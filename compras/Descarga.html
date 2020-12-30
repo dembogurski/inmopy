@@ -1,0 +1,355 @@
+<!-- begin: headers -->
+<!DOCTYPE html>
+      <script type="text/javascript" src="js/datatables.min.js" ></script> 
+      <link rel="stylesheet" type="text/css" href="compras/Descarga.css?_=3333" />
+      <link rel="stylesheet" type="text/css" href="css/datatables.css" />  
+      <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js" ></script>
+      <script type="text/javascript" src="compras/Descarga.js?_=88888888888888888888" ></script>
+      <script language="javascript">
+           
+      </script>
+<!-- end:   headers -->
+
+
+<!-- begin: search_bar -->
+<input type="hidden" id="DocEntry" value="{DocEntry}">
+<input type="hidden" id="estado" value="{estado}">
+<input type="hidden" id="tipo_doc" value="{tipo_doc}">
+
+<div id="designs_container">
+    <div style="text-align: right;width:400px;position:fixed"><img src="img/close.png" onclick="hideDesigns()"></div>
+</div>
+
+<div id="img_viewer" class="img_viewer"></div>
+
+<div id="modif_gram" class="modif_gram">
+    <div style="text-align: center;background-color: orange;margin-bottom:10px"><b>Modificar Gramaje</b></div>
+    <label>Gramaje Actual:</label><input type="text" readonly="readonly" style="text-align: right" size="8" id="actual_gramaje"><br>
+    <label>Nuevo Gramaje:</label><input type="text" style="text-align: right"   size="8" id="nuevo_gramaje">
+    <div style="text-align: center"> 
+       <input type="button" value="Cancelar" onclick="cancelarModificarGramaje()"><input type="button" value="Modificar" onclick="modificarGramaje()">    
+    </div>
+</div>
+
+<div id="search_bar" style="width: auto; height: auto; margin: 0 auto">  
+    <table border="0" cellspacing="0" cellpadding="0" style="width: 101%;margin: 0 auto">          
+        <tr>
+            <td>
+                <label title="Presione F3 o Ctrl+F para Buscar">Buscar:</label>  <input title="Presione F3 o Ctrl+F para Buscar" class="filter" type="text" id="search_q" size="30" placeholder="Mar/Bulto o Color Desc. (F3)" > 
+                <input title="Presione F3 o Ctrl+F para Buscar" type="button" id="buscar" value="Buscar" onclick="buscar()" disabled="disabled" style="margin: 0;font-size: 10;font-family: arial;height:24px "  /> 
+                &nbsp;<img src="img/refresh-32.png" title="Recargar Imagenes" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick="sincronizarImagenesFaltantes()">
+            </td> 
+            <td style="text-align: center">
+                <input type="button" value="  <  " style="font-weight: bolder" onclick="resAnt()"/>  
+                <span id="index">0</span>   
+                <input type="button" value="  >  " style="font-weight: bolder" onclick="resSig()"/>    
+            </td>
+            <td style="width: 15%;text-align: center" >
+                <img id="fracc" src="img/add.png"  onclick="fraccionarUI()" style="display: none">
+            </td>
+        </tr> 
+        <tr>
+            <td colspan="3" style="text-align: center;height: 30px" >
+                <span id="msg_filter" style="font-size: 12px;"></span>
+                <span id="msg" style="font-size: 12px;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><input type="checkbox" id="porCompletar" checked/><label for="porCompletar">Filtrar s&oacute;lo por completar</label> &nbsp; <label>Tec.Num.</label> <input type="checkbox" id="num_keyb" checked="checked"> 
+                &nbsp;&nbsp; <label for="editar">Habilitar Edici&oacute;n datos </label>   <input type="checkbox" id="editar" onclick="editarDatos()">
+                <label for="etiqueta_cuidados">Imprimir Etiq. cuidados </label> <input type="checkbox" id="etiqueta_cuidados"  >
+            </td>            
+        </tr>        
+        <tr>
+            <td colspan="3" style="border-top: solid gray 1px" >
+                <label>Qty. Ticket:</label> <input type="text" class="search_imput" id="bqty_ticket" value="" size="6" onchange="setQtyTicket()" onclick=showKeyPad("bqty_ticket") onfocus=showKeyPad("bqty_ticket") >
+                <label>Kg:</label> <input type="text" id="bkg_desc" size="6" class="search_imput" onchange="setKg()" onclick=showKeyPad("bkg_desc") onfocus=showKeyPad("bkg_desc")> 
+                <img id="img_balanza" height="28" src="img/balanza1.png" onclick="capturarKg()"  style="margin-bottom: -8px;cursor:pointer;text-align: center" >
+                <label>Ancho:</label> <input type="text" id="bancho" class="search_imput" size="6" onchange="setAncho()"  onclick=showKeyPad("bancho") onfocus=showKeyPad("bancho")>
+                <label>Gramaje:</label> <input type="text" id="bgramaje_m" class="search_imput" size="6" onchange="setGramaje()"  onclick=showKeyPad("bgramaje_m") onfocus=showKeyPad("bgramaje_m")>
+                <img src="img/save.png" height="36" onclick="saveCurrentLine()" style="margin-bottom: -10px;cursor: pointer" id="save_img"  >  &nbsp;&nbsp;
+                <img src="img/barcode.png" onclick="imprimirLoteEntrada()" style="margin-bottom: -8px;cursor: pointer"  width="36" height="28" id="print_barcode"  >                
+            </td>
+        </tr>
+    </table>   
+    
+  <table id="toolbox" border="0" cellspacing="0" cellpadding="0" style="width: 100%;margin: 0 auto;display:none;background-color: rgb(250,250,250);color:black;padding:4px;border:solid gray 1px;"  >
+        <tr>
+            <th colspan="2">Modificar datos</th>             
+        </tr>
+        <tr>
+            <td>Articulo:</td>
+            <td><input type="text" id="b_articulo" size="40" placeholder="Buscar articulo">
+                <img src="img/loading.gif" class="loading_articulo" style="margin-left:-28px;margin-bottom:-5px;display:none" width="18" height="18" >
+            </td>
+        </tr>
+        <tr>
+            <td>Design:</td>
+            <td>
+                <input type="text" id="design" size="14" placeholder="Design">
+                <input type="button" value="..." onclick="selectDesigns($(this))" data-target = "design" style="height:22px;font-size:9;font-weight: bold">   
+            </td>
+        </tr>
+        
+        <tr>
+            <td>Color:</td>
+            <td>
+                <input type="text" id="bcolor" size="30" placeholder="Color">     
+                <img src="img/loading.gif" class="loading_color" style="margin-left:-28px;margin-bottom:-5px;display:none" width="18" height="18" >
+            </td>
+        </tr>
+        <tr>
+            <td>Color Comb:</td>
+            <td>
+                <input type="text" id="bcolor_comb" size="30" placeholder="Combinacion de Color">                 
+            </td>
+        </tr>
+        <tr>
+            <td>Color Desc.:</td>
+            <td>
+                <input type="text" id="bfab_color_cod" size="20" maxlength="20" placeholder="Cod. Color Fab.">                   
+            </td>
+        </tr>
+        <tr>
+            <td>Store No:</td>
+            <td>
+                <input type="text" id="bstoreno" size="6" maxlength="10" placeholder="Store No">                      
+            </td>
+        </tr>
+        <tr>
+            <td>Bag:</td>
+            <td>
+                <input type="text" id="bbag" size="6"  maxlength="10" placeholder="N&deg Bulto">                 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <input type="button" value="Cancelar" onclick="cancelarEdicion()">
+                <input type="button" id="bguardar" value=" Guardar " onclick="actualizarDatos()">
+                <input type="button" value="Limpiar" onclick="limpiarForm()">
+            </td>
+        </tr>   
+    </table>  
+</div>
+
+<div id="fracc_form" class="fracc_form"  style="display:none;text-align: center;background-color: #D3D3EE;position: absolute;z-index: 10">
+    <div style="width: 99%;float:left"><label style="font-weight:bolder;">Fraccionar</label></div><div style="width: 1%;float:right"><img style="margin-top: -16px;margin-right: -16px" src="img/close.png" onclick="cerrarFracForm()"></div><br>
+    <div style="background: lightgray;background: lightgray;border-top:solid gray 1px;text-align:left;margin:0 4px">
+    <label style="font-weight:bolder">Lote:</label><span id="fracc_lote" class="fracc_data"></span><br>
+    <label style="font-weight:bolder">Cant:</label><span id="fracc_cant" class="fracc_data"></span>
+    </div>
+    <textarea cols="20" rows="8" id="fracciones" class="fracc_data" onkeyup="sumarFracciones()"></textarea>
+    <div style="border:solid gray 1px;text-align: center" >
+        <label style="font-weight:bolder">Suma:</label><span id="fracc_suma"></span>
+        <input type="button" value="Fraccionar" id="button_frac" onclick="fraccionar()" disabled="disabled" >
+    </div>
+</div>
+
+<div id="obs" class="obs"  style="display:none;text-align: center">
+     <label style="font-weight:bolder">Agregar Observaci&oacute;n</label><br>
+     <textarea cols="70" rows="3" id="observ" maxlength="200" onkeyup="contarCaracteres()"></textarea><br>   
+     
+     <input type="button" id="cancel" onclick="closeObs()"  value="Cancelar" style="font-size:11px;font-weight: bolder">   
+     <input type="button" id="save_obs" value="Guardar" onclick="saveObs()" style="font-size:11px;font-weight: bolder">
+     <label style="font-size: 10px;color:red" id="rest"></label>
+</div>
+
+<input type="hidden" id="images_url" value="{images_url}"> 
+<div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;display:none"></div>    
+ 
+
+<!-- end:   search_bar -->
+
+<!-- begin: rolls -->
+
+    
+<div id="tabs" style="height: 80px;display: none" >
+    <input type="hidden" id="nro_compra" value="{nro_compra}">
+    <ul>
+       <li><a href="#filtros">Filtros</a></li>
+       <li><a href="#compra">Datos de Compra</a></li>
+       <li><a href="#hardware" id="tab_tarjetas">Hardware</a></li>
+       <li><a href="#software">Configuraci&oacute;n</a></li>         
+    </ul>
+    <div id="filtros" >
+        <table border="0" id="filter_bar" >    
+            <tr>
+                <td>
+                    <label>Art:</label><select   id="filtro_articulo" onchange="getDesigns()" ><option class="touch_filter" value="%">Todos</option>{option_articulos}</select>
+                    <label>Design:</label>
+                    <select class="filter"   id="filtro_desing" onchange="getStoreNo()" ><option value="%">Todos</option></select>  
+                       <img id="loading_design" src="img/loading.gif" style="width: 16px;height: 16px;margin-left: -30px;margin-bottom:-4px;display:none">
+                    <label>St:</label><select class="filter" id="filtro_mar" onchange="getColorDesc()" ><option value="%">Todos</option></select>
+                    <img id="loading_store" src="img/loading.gif" style="width: 16px;height: 16px;margin-left: -30px;margin-bottom:-4px;display:none">
+                    <label>Color.Desc.</label>
+                    <select  class="filter"  id="q_color_desc" onchange="getColorCom()" > <option value="%">Todos</option>  </select>
+                    <img id="loading_color_desc" src="img/loading.gif" style="width: 16px;height: 16px;margin-left: -30px;margin-bottom:-4px;display:none">
+                    <label>Color.Com.</label><select  id="q_color_com"  ><option class="touch_filter" value="%">Todos</option></select>  
+                    <img id="loading_color_com" src="img/loading.gif" style="width: 16px;height: 16px;margin-left: -30px;margin-bottom:-4px;display:none">
+                    <input type="button" value="     Filtrar     " onclick="filtrar()"  style="margin: 0;font-size: 10;font-family: arial;height:24px "/>
+                        
+                     
+                    <label style="margin-left: 80px">Kg Minimo:</label>    <input style="height: 16;font-size: 9px;margin-bottom: 2px;text-align: right" size="5" type="text" id="min_kg_desc" value="0.500">
+                        <a href="javascript:modificarGramajeUI()">Modif. Gramaje</a> &nbsp;&nbsp;   
+                    <label for="solo_faltantes">Sin proc:</label><input type="checkbox" id="solo_faltantes" >&nbsp;<label for="reply">Replicar:</label><input type="checkbox" id="reply" checked="checked">
+                    <span style="position:absolute"><img src="img/find.png" onclick="mostrarBarraBusqueda()" style="cursor: pointer;margin-top:-60px"></span>
+                      
+                    <span id="filter_msg"></span>                    
+                     
+                </td> 
+            </tr>
+        </table>  
+    </div>
+    <div id="compra" style="text-align: left;margin:0">
+        <b>N&deg; </b> {nro_compra}<b>&nbsp;&nbsp;&nbsp;Proveedor:</b> {cardname}<b>&nbsp;&nbsp;&nbsp;Invoice:</b> {invoice}<b>&nbsp;&nbsp;&nbsp;Estado:</b> <a onmouseover="mostrarBotonFinalizar()" style="color:{color};text-decoration:none;cursor: pointer">{estado}</a>
+        <input type="button" id="cerrar" value="Finalizar Descarga" style="display:none" onclick="finalizar()" >
+        <input type="hidden" value="{origen}" id="origen">
+        <span class="msg_info" id="msg_cab"></span>
+        <input type="button" id="cerrar_descarga" value="Confirme Finalizar Descarga" style="display:none" onclick="recepcionCompleta()" >
+        <input type="button" id="set_no_recibido" value="Marcar como No Recibidas" style="display:none" onclick="noRecibida()" > 
+        <div style="text-align: center" id="info"></div>
+    </div>    
+    <div id="hardware" style="text-align: left;"> 
+         <b>IP Balanza</b><input type="text" size="15"  id="ip"  style="border:solid lightgray 1px;text-align: center;" onchange="setCoockie()" value="localhost">&nbsp;&nbsp;&nbsp;
+         <b>Impresoras</b><select id="printers" onchange="cambiarImpresora()"></select> &nbsp;&nbsp;&nbsp;
+         <b>Impresi&oacute;n directa</b> <input type="checkbox" id="silent_print">&nbsp;&nbsp;&nbsp;
+         <b><label for="auto_close_window">Cerrar Ventana Post Impresion</label></b> <input type="checkbox" id="auto_close_window">
+    </div>  
+    <div id="software" style="text-align: left;"> 
+        <table border="0" style="font-size: 12px">
+            <tr>
+                <td> <b>Tama&ntilde;o letras</b></td><td> <div id="fuente" style="width:30mm"></div> </td>
+                <td>&nbsp;&nbsp;<label id="font">12</label>&nbsp;&nbsp;&nbsp;&nbsp;   <b>Tama&ntilde;o Imagenes&nbsp;&nbsp;</b></td><td> <div id="imagenes" style="width:30mm"></div> </td>
+                <td><b>Tama&ntilde;o campos de entrada:</b></td><td> <div id="inputs" style="width:30mm"></div>       </td>
+            </tr>
+        </table> 
+    </div>         
+</div>
+    <div class="fixed-table-container">
+    <div class="header-background"> 
+          <table border="1"  cellspacing="0" cellpadding="0" style="border-collapse: collapse;width:99%" id="packing_head"  > 
+                <tr id="cabecera" style="font-size:12px;background-color: lightgray;height: 30px">
+                    <th class="design art_max"   >Articulo </th>
+                    <th class="design des_max"   >Design </th>
+                    <th class="design sto_max"   >Tienda </th>
+                    <th class="design" >Bag</th> 
+                    <th class="design" >Color Desc.</th>
+                    <th >Color Comercial</th>    
+                    <th class="design" >Precio</th>
+                    <th class="design" style="padding-left:2px;padding-right: 2px">UM</th>
+                    <th class="design" >Lote</th>     
+                    <th class="design" >E.Quty</th>
+                    <th style="width:3%" >Q.Ticket</th>
+                    <th style="width:4%" >Kg Real</th>   
+                    <th style="width:3%" >Ancho</th>   
+                    <th style="width:3%" >Gramaje</th>
+                    <th style="width:3%" >Tara</th>
+                    <th style="width:4%"> <img src="img/printer_mini.png" style="width: 24px"></th>                    
+                    <th style="width:2%">Obs</th>
+                    <th style="width:2%" class="itemc"><img src="img/save-mini.png" style="width: 24px" onclick="guardarTodo()" ></th>
+                </tr>
+          </table>
+      </div> 
+         
+      <div class="fixed-table-container-inner">        
+        <table border="1"  cellspacing="0" cellpadding="0" class="tabla"  > 
+            <thead>
+                <tr id="cabecera_inv" style="font-size:0px;height: 0px;">
+                    <th class="design art_max" ></th>
+                    <th class="design des_max" ></th>
+                    <th class="design sto_max" ></th>
+                    <th class="design" ></th> 
+                    <th class="design" ></th>
+                    <th ></th>    
+                    <th class="design" ></th>
+                    <th class="design" style="padding-left:2px;padding-right: 2px"></th>
+                    <th class="design" ></th>     
+                    <th class="design" ></th>
+                    <th style="width:3%" ></th>
+                    <th style="width:4%" ></th>  
+                    <th style="width:3%" ></th> 
+                    <th style="width:3%"></th> 
+                    <th style="width:3%" ></th>
+                    <th style="width:4%" ></th>                     
+                    <th style="width:2%" ></th>
+                    <th style="width:2%" class="itemc" ></th>
+                </tr>
+            </thead>
+            <tbody id="productos" >
+
+            </tbody>
+        </table>
+      </div>
+        
+  </div>
+<div id="totales"  >
+            <table border="1" class="totales" cellspacing="0" cellpadding="0"   > 
+                <tr> 
+                    <td style="font-weight: bolder">Recibidos:</td>
+                    <td style="width: 15mm">Metros:</td> <td class="num"  id="tMts"></td>
+                    <td style="width: 15mm">Kilos:</td>  <td class="num"  id="tKgs"></td>
+                    <td style="width: 15mm">Yardas</td>  <td class="num"  id="tYds"></td>
+                    <td style="width: 15mm">Unid:</td>   <td class="num"  id="tUnid"></td>
+                </tr>
+            </table>
+        </div>
+<audio class="not_found sound" controls preload="auto">
+           <source src="files/sounds/beep-05.wav" type="audio/wav">       
+  </audio>
+<!-- end:   rolls -->
+
+
+
+
+
+<!-- begin: heada -->
+<br><br><br>
+<div  style="background-color: lightgray;text-align: center;margin:8px 0 ">Entrada de Mercader&iacuteas Abiertas</div>
+
+ <div style="margin: 0 10px">
+<table id="lista_invoicesa" class="lista_invoices" border="1"  cellspacing="0" cellpadding="0"    style="margin: 0 auto;min-width: 90%;border-collapse:collapse"  >
+           
+    <thead>
+      <tr class="titulo" >
+          <th style="width: 5%">N&deg;</th>
+          <th style="width: 10%">Invoice</th>
+          <th style="width: 5%">Suc</th>
+          <th style="width: 5%">Usuario</th>
+          <th style="width: 5%">Cod.Prov.</th>
+          <th style="width: 25%">Proveedor</th>
+          <th style="width: 10%">Fecha</th>
+          <th style="width: 5%">Moneda</th>
+          <th style="width: 10%">Tipo</th>
+          <th style="width: 5%">Origen</th>
+          <th style="width: 5%">SAP Doc</th>
+          <th style="width: 5%">Estado</th>          
+      </tr>  
+    </thead>
+    <tbody>
+<!-- end:   heada -->
+
+<!-- begin: linea -->
+<tr id="{id}" style="cursor: pointer;background-color: white"  data-nro_pedido="{n_nro}" onclick="abrirCompra({id})" > 
+    <td class="itemc clicable" >{id}</td>
+    <td class="itemc clicable" >{invoice}</td>  
+    <td class="itemc clicable" >{suc}</td>  
+    <td class="itemc clicable" >{usuario}</td>  
+    <td class="item clicable"  >{cod_prov}</td> 
+    <td class="item clicable" >{proveedor}</td> 
+    <td class="itemc clicable" >{fecha}</td> 
+    <td class="itemc clicable" >{moneda}</td>
+    <td class="itemc" >{origen}</td>
+    <td class="itemc" >{pais_origen}</td>
+    <td class="itemc" >{sap_doc}</td> 
+    <td class="itemc" >{estado}</td>     
+</tr>
+<!-- end:   linea -->
+
+
+<!-- begin: foota -->
+</tbody>
+  </table>
+     </div>
+        
+<!-- end:   foota -->
+

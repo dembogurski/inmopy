@@ -1,0 +1,201 @@
+/* 
+    Created on : 22/02/2016, 03:10:11 PM
+    Author     : Ing.Douglas
+*/
+
+[readonly]{
+    background-color: rgb(250, 250, 250);
+    font-size: 14px;
+    font-family: tahoma;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+span.label{
+    color: blue;
+}
+tr.uno td{
+    background-color: wheat;
+}
+tr.dos td{
+    background-color: lightcyan;
+}
+input[type="checkbox"]#traer_historial{
+   display: none;
+}
+input[type="checkbox"]#traer_historial ~ label[for]{
+    font-size: 0;
+}
+input[type="checkbox"]#traer_historial ~ label[for]:hover{
+    cursor: pointer;   
+    
+}
+input[type="checkbox"]#traer_historial ~ label[for]::after{
+    font-size: 14px;
+    border: solid 1px lightgray;
+    padding: 1px 7px;
+    border-radius: 5px;
+    background: lightgray; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(lightgray, gray); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(lightgray, gray); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(lightgray, gray); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(lightgray, gray);
+}
+input[type="checkbox"]#traer_historial ~ label[for]:hover:after{
+    background: -webkit-linear-gradient(lightyellow, gray); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(lightyellow, gray); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(lightyellow, gray); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(lightyellow, gray);
+}
+input[type="checkbox"]#traer_historial:checked ~ label[for]::after{
+    content: "Completo";
+    
+}
+input[type="checkbox"]#traer_historial:not(:checked) ~ label[for]::after{
+    content: "Solo mi Sucursal";        
+}
+select#suc{
+    padding: 0;
+    margin: 0;
+    background-color: wheat;
+    border: solid 1px gray;
+}
+div.ordenProcesamiento{
+    position: relative;
+    display: inline-block;
+}
+div.ordenProcesamiento table.ordenProc{
+    position: absolute;
+    border-collapse: collapse;
+    background-color: white;
+    width: 600px;
+    left: -115%;
+    margin-top: 14px;
+}
+.ordenProc th{
+    background-color: #dddacd;
+}
+div.ordenProcesamiento table.ordenProc td, div.ordenProcesamiento table.ordenProc th{
+    border: solid 1px gray;
+    padding: 0 3px;
+}
+
+.fracciones{
+    display:none;
+    margin: 0 auto;
+    border-collapse: collapse;        
+}
+.fraccion td {
+    padding: 0 4px 0 4px; 
+    background-color: white;
+}
+
+#total_mts{
+    border-top:solid black 1px;
+    border-bottom:solid black 1px;
+    border-right: dashed black 2px;
+    border-left: dashed black 2px;
+    height: 42px;
+    width: 100%;
+    background-color: lightgray;  
+    margin-top: 2px;
+}
+
+#total_vender{
+    background-color: orange;
+    height: 98%;
+    width: 0;
+    border-right: dashed black 2px;
+}
+.falla_indic{
+    border-radius: 4px;
+    background: white;
+    font-weight: bolder;
+    font-size: 11px;
+    font-family: arial;
+    position: absolute;
+    margin-top: 12px;
+    padding:2px;
+    border:solid gray 1px;
+    margin-left: -20px;
+}
+.falla_pos{
+    font-weight: bolder;
+    font-size: 10px;
+    font-family: arial;
+    position: absolute;
+    margin-top: -17px;
+    padding: 0px;
+    border: solid gray 0px;
+    margin-left: -22px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+datalist {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: -23px;
+    padding-top: 0px;
+}
+
+.no_mnj_x_lotes{
+    display:none;
+}
+.item{
+    padding-left: 2px;
+    font-size: 12px;
+    font-family: cambria;
+}
+.itemc {
+    text-align: center;
+    font-size: 12px;
+    font-family: cambria;
+}
+.num{
+    text-align: right;
+    padding-right: 2px;
+    font-size: 12px;
+    font-family: cambria;
+}
+.Normal{
+    color:black;  
+    background-color: #4cd137;
+}
+.Arribos{
+    color:white;  
+    background-color: #fbc531;
+}
+.Oferta{
+    color:white; 
+    background-color: #00a8ff;    
+}
+.Retazo{
+    color:white;
+    background-color: #AD8BFE;
+}
+.Promocion{
+    color:black; 
+    background-color: orange;
+}
+.FP{
+    color:white; 
+    background-color: #c23616;  
+}
+.Bloqueado{
+    color:black; 
+    background-color: #006600; 
+}
+
+.tabla_stock_comprometido{ 
+    border-collapse: collapse;
+    border:solid gray 1px;;
+    margin: 0 auto;
+}
+.tabla_stock_comprometido td{
+    margin: 0 4px;
+    padding:3px; 
+}  

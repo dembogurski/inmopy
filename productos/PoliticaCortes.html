@@ -1,0 +1,63 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="productos/PoliticaCortes.css?_=33333333333" />   
+    <script type="text/javascript" src="productos/PoliticaCortes.js"></script>
+<!-- end:   header -->
+
+<!-- begin: suc_head -->
+<div id="dialog-confirm" title="Copiar Politicas">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Se copiar&aacute;n y/o reemplazar&aacute;n todas las politicas de corte de <span id="pol_from"></span> a <span id="pol_to"></span>?</p>
+</div>
+<div class="polHeader">
+    <p><h2>Politicas de Corte</h2></p>
+    Sucursal: 
+    <select id="pol_suc">
+<!-- end:   suc_head -->
+
+<!-- begin: suc_body -->
+        <option value="{suc}">{suc}-{nombre}</option>
+<!-- end:   suc_body -->
+
+<!-- begin: suc_footer -->     
+    </select>
+    <input type="button" value="Obtener" onclick="getPol()"/>
+    Referencia: 
+    <select id="pol_ref" onchange="getPolRef()">{pol_ref_suc}</select>    
+    Copiar de:
+    <input class="copyAll" id="copyAll" type="button" value="" onclick="copyAllPol_()" disabled/>     
+    <img id="pol_loader" src="img/loader_transparent.gif" height="16" width="16" style="visibility: hidden;" />
+</div>
+<!-- end:   suc_footer -->
+    
+<!-- begin: data_head -->
+<table cellspacing="0" cellpadding="0" border="1">
+    <thead>
+        <tr class="titulo" >
+            <th>Cod.</th>
+            <th>Nombre</th>
+            <th title="Unidad de Medida">U.M.</th>
+            <th>Presentacion</th>
+            <th>Suc.</th>
+            <th>Politica</th>
+            <th class="copyAll">Pol ref</th>
+        </tr>
+    </thead>        
+    <tbody id="dataTable">
+<!-- end:   data_head -->
+
+<!-- begin: data_body -->
+        <tr id="col_{ItemCode}">      
+            <td>{ItemCode}</td>
+            <td>{ItemName}</td>
+            <td title="Unidad de Medida">{InvntryUom}</td>
+            <td  style="text-align: center"><label id="press_{ItemCode}" onclick=savePress("{ItemCode}")></label></td>       
+            <td class="suc"></td>
+            <td><input id="{ItemCode}" maxlength="2" size="2" class="pol" onchange="savePol($(this))"/></td>
+            <td id="ref_{ItemCode}" class="pol_ref"></td>
+        </tr>
+    
+<!-- end:   data_body -->
+
+<!-- begin: data_footer -->
+    </tbody>
+</table>
+<!-- end:   data_footer -->

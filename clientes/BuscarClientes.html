@@ -1,0 +1,165 @@
+<!-- begin: header -->
+<link rel="stylesheet" type="text/css" href="clientes/BuscarClientes.css?_=ssssssssssssss" /> 
+<script type="text/javascript" src="js/jquery.maskedinput.min.js?_=666666666666666666666" ></script>   
+<script type="text/javascript" src="clientes/BuscarClientes.js?_=eeeeeeeeeeee" ></script>
+<script>
+      var bc_url = "{url}";
+</script>
+<!-- end: header -->
+   
+<!-- begin: body -->
+
+<div id="bc_body">
+    <table id="bc_cliente" style="margin: 0 auto">
+      <thead>
+         <tr><th colspan="4">Buscar cliente</th></tr>
+         <tr><th colspan="4">
+            Buscar: <div id="bc_buscar_containter">
+               <input type="text" id="bc_buscar" placeholder="COD, RUC/CI o Nombre" onclick="bc_mostrarlista()" onkeyup="bc_callBuscarCliente()">
+               <div id="bc_loader" style="display:none"></div>
+               <ul id="bc_lista_clientes"></ul>
+            </div>
+         </th></tr>
+      </thead>
+      <tbody>
+          <tr><td class="cb_label">C&oacute;digo:</td><td style="width: 30%"><input  class="cb_datos" style="width: 90%" id="cod_cli" type="text" disabled ></td><td class="cb_label">Categor&iacute;a:</td><td>
+                  <select class="cb_datos" onchange="bc_verificarCambios()" id="cat" style="width: 34%" {canModCat}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>          
+                        <option value="6">6</option>            
+                        <option value="7">7</option>            
+                  </select>
+                  </td></tr>
+                  <tr><td colspan="4" align="center">Registrado por: <small id="registradoPor"></small></td></tr>
+         <tr><td class="cb_label">Nombre:</td><td colspan="3"><input  class="cb_datos" onchange="bc_verificarCambios()" id="nombre" type="text"></td></tr>
+         <tr><td class="cb_label">Telefono:</td><td colspan="3"><input class="cb_datos" onchange="bc_verificarCambios()" id="tel" type="text"></td></tr>
+         <tr><td class="cb_label">Doc Tipo:</td><td colspan="3">
+               <select class="cb_datos" onchange="bc_verificarCambios()" id="tipo_doc">
+                     <option value="C.I.">C.I./R.U.C. Paraguay</option>
+                     <option value="D.N.I.">D.N.I. Argentina</option>
+                     <option value="R.G.">C.I. Brasil</option>
+                     <option value="C.I. Diplomatica">Cedula Diplomatica</option>
+                     <option value="Pasaporte">Pasaporte</option>          
+                     <option value="Otro">Otro</option>            
+                  </select>
+            </td></tr>
+         <tr><td class="cb_label">Doc Nro.:</td><td colspan="3"><input  class="cb_datos" onchange="bc_verificarCambios()" id="ci_ruc" type="text"></td></tr>
+         <tr><td class="cb_label">Ciudad:</td><td colspan="3"><input class="cb_datos" onchange="bc_verificarCambios()" id="ciudad" type="text"></td></tr>
+         <tr><td class="cb_label">Pa&iacute;s:</td><td colspan="3">
+               <select class="cb_datos" onchange="bc_verificarCambios()" id="pais" >
+                     <option value="PY">Paraguay</option>    
+                     <option value="BR">Brasil</option>    
+                     <option value="AR">Argentina</option>    
+                     <option value="BL">Bolivia</option>   
+                     <option value="PR">Peru</option> 
+                     <option value="UY">Uruguay</option>    
+                     <option value="CL">Chile</option>    
+                     <option value="VE">Venezuela</option>   
+                     <option value="CO">Colombia</option>  
+                     <option value="EC">Ecuador</option> 
+                     <option value="Otro">Otro</option>
+                 </select>
+            </td></tr>
+            <tr><td class="cb_label">Fecha Nac:</td><td colspan="3"><input  class="cb_datos" onchange="bc_verificarCambios()" id="fecha_nac" type="text"></td></tr>
+            <tr><td class="cb_label">Ocupaci&oacute;n:</td>
+                <td colspan="3">
+                   <select id="ocupacion" onchange="bc_verificarCambios()" class="cb_datos">                     
+                            <option value="Particular">Particular</option>        
+                            <option value="Estudiante" title="Del Rubro Textil <br>">Estudiante (Del Rubro Textil)</option>      
+                            <option value="Decorador" title="Clubes<br>Eventos<br>Insitucionales<br>Entidades Publicas y Privadas">Decorador</option>                              
+                            <option value="Confeccionista" title="Sastrero<br>Cortinero<br>Fabricante<br>Artesano">Confeccionista</option> 
+                            <option value="Tapicero" title="De Sillones<br>Colchoneria<br>Autos<br>Termos<br>Regalos Empresariales">Tapicero</option>   
+                            <option value="Tienda" title="Comerciante<br>Boutique">Tienda</option>                                  
+                    </select>
+                </td></tr>
+            <tr><td class="cb_label">Situaci&oacute;n:</td><td colspan="3">                  
+                  <select class="cb_datos" onchange="bc_verificarCambios()" id="situacion">                     
+                        <option value=""></option>        
+                        <option value="Dependiente">Dependiente</option>        
+                        <option value="Independiente">Independiente</option>        
+                  </select>
+            </td></tr>
+            <tr><td class="cb_label">Direcci&oacute;n:</td><td colspan="3"><textarea class="cb_datos" onchange="bc_verificarCambios()" id="dir" type="text"></textarea></td></tr>
+            <tr><td class="cb_label">Geolocalizaci&oacute;n:</td><td colspan="3"><input  class="cb_datos" value="" onchange="bc_verificarCambios()" id="geoloc" type="text" style="width: 50%" >&nbsp;<a href="javascript:verMapa()">Ver en el Mapa</a></td></tr>
+            <tr>
+                <td colspan="4" {canModCat}>
+                
+            <div id="tabs" style="height: 30%">
+                <ul>
+                 <li><a href="#linea_credito">Linea Credito</a></li>
+                 <li><a href="#autorizados" id="contactos_tab" style="display: none" >Contactos/Autorizados</a></li>
+             
+                </ul>
+                <div id="linea_credito" style="text-align: left;min-height: 190px">
+                <table >                    
+                    <tr> <td class="cb_label" style="min-width: 30%">Limite Credito:</td><td colspan="3"><input type="text" class="cb_datos" value="" onchange="bc_verificarCambios()" id="limite_credito" size="24" maxlength="30" {canModCat}> </td> </tr>
+            <tr> <td class="cb_label">Plazo Maximo:</td>
+                <td colspan="3"> 
+                    <select id="plazo_maximo" class="cb_datos" onchange="bc_verificarCambios()" >
+                        <option value="0">0 dias sin plazo</option>  
+                        <option value="30">30 dias</option>    
+                        <option value="60">60 dias</option>    
+                        <option value="90">90 dias</option>    
+                        <option value="120">120 dias</option>   
+                        <option value="150">150 dias</option>   
+                        <option value="180">180 dias</option>   
+                    </select>
+                </td> 
+            </tr>
+            <tr> <td class="cb_label">Max. Cant. Cuotas:</td>
+                <td colspan="3"><input type="number" class="cb_datos" value="" id="cant_cuotas" size="24" min="0" max="200" onchange="bc_verificarCambios()" maxlength="30" {canModCat}> </td>
+            </tr>
+            <tr> 
+                <td class="cb_label">Max.Cuotas Atrasadas:</td>
+                <td colspan="3"><input type="number" class="cb_datos" value="" id="cuotas_atrasadas" min="0" max="60" onchange="bc_verificarCambios()" size="24" maxlength="30" {canModCat}> </td>
+            </tr>
+            <tr> 
+                <td class="cb_label" title="Para Reservas">% Minimo Se&ntilde;a:</td>
+                <td colspan="3"><input type="number" class="cb_datos" value="30" id="porc_min_senia" placeholder="Para Reservas" step="5" min="0" max="100" onchange="bc_verificarCambios()" size="24" maxlength="30" {canModCat}> </td>
+            </tr>
+           </table>
+                </div>
+                
+                <div id="autorizados"  style="text-align: left;min-height: 190px">
+                    <table border="0" style="width: 100%;margin: 0 auto">
+                   <tr>
+                       <th style="width: 45%" class="titulo">Nuevo Contacto/Autorizado</th>
+                       <th  class="titulo">Contactos / Autorizados</th>
+                   </tr>
+                   <tr>
+                       <td style="height: 100px">
+                           <table border="0">
+                               <tr> <td style="font-weight: bolder">ID:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_id" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Nombre:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_nombre" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Doc:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_doc" size="30" class="new_contact" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Tel:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_tel" size="30" class="new_contact" >
+                                       <input type="button" value="Agregar ->" onclick="addContacto()" style="font-size:11px"></td></tr>
+                               
+                           </table> 
+                       </td>
+                       <td style="text-align: center;vertical-align: top">
+                           <table style="width: 100%;border-collapse: collapse" id="contactos" border="1" >
+                               <tr style="background-color: lightskyblue"><th>Id</th><th>Nombre</th><th>Doc</th><th>Tel</th><th>-</th></tr>
+                           </table>                           
+                       </td>
+                   </tr>
+                    
+               </table>
+                </div> 
+                    
+            </div>
+                    </td>
+            </tr>
+      </tbody>
+      <tfoot>
+         <tr><td colspan="4" align="center"><button id="bc_actualizarDatos" onclick="bc_actualizarDatos()">Actualizar Datos</button></td></tr>
+         <tr><td colspan="4" align="center"><div id="cb_msj"></div></td></tr>
+      </tfoot>
+   </table>
+</div>
+  
+<div id="map" ></div>
+<!-- end: body -->

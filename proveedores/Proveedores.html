@@ -1,0 +1,280 @@
+<!-- begin: headers noeval -->   
+    <head>  
+        <link rel="stylesheet" type="text/css" href="proveedores/Proveedores.css?" />      
+        <link rel="stylesheet" type="text/css" href="js/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.dataTables.min.css">         
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"/>     
+        
+    </head>  
+<!-- end:   headers -->
+
+<!-- begin: insert_edit_form -->     
+<div class="form" id="form_proveedores"></div>
+<!-- end:   insert_edit_form -->
+
+<!-- begin: data_header -->
+<div class="list_container">      
+    <table id="proveedores"  border="1" class="display responsive nowrap db_tablename"  >
+        <thead>
+            <tr>
+                <th>Cod Prov</th> <th>Tipo Doc</th><th>Ci Ruc</th><th>Nombre</th><th>Tel</th><th>Email</th><th>Fecha Nac</th><th>Fecha Reg</th><th>Estado</th><th></th>
+            </tr>
+        </thead>
+
+<!-- end:   data_header -->
+
+
+<!-- begin: data_line -->     
+    <tr> <td>{cod_prov}</td>   <td>{tipo_doc}</td> <td>{ci_ruc}</td> <td>{nombre}</td> <td>{tel}</td> <td>{email}</td> <td>{fecha_nac}</td> <td>{fecha_reg}</td> <td>{estado}</td> <td class="itemc"><img class="edit" src="img/edit.png" onclick=editUI("{cod_prov}") ></td>  </tr>
+<!-- end:   data_line -->
+
+
+<!-- begin: data_foot -->     
+
+        <tfoot>
+             
+        </tfoot>
+    </table> 
+</div>
+ 
+<!-- end:   data_foot -->
+
+<!-- begin: script noeval -->      
+        <script type="text/javascript" language="javascript" src="js/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>        
+        <script type="text/javascript" language="javascript" src="js/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>    
+        <script type="text/javascript" src="proveedores/Proveedores.js?_=332233" ></script>       
+<!-- end:   script -->
+
+
+<!-- begin: edit_form_cab -->  
+<table border="0" class="form_table" id="edit_proveedores" style="width: 40%">
+    <tr> <th colspan="4" class="form_title" > Actualizar Proveedores  </th> </tr> 
+<!-- end:   edit_form_cab -->
+
+
+<!-- begin: edit_form_data -->     
+<tr> <td class="form_label">Cod Prov:</td> <td  colspan="3"><input class="form_text PRI" type="text" id="form_cod_prov"  readonly="readonly" required="required" size="10"  value="{value_of_cod_prov}" >*</td>  </tr>
+<tr> <td class="form_label">Nombre:</td> <td  colspan="3"><input class="form_text" type="text" id="form_nombre"   required="required" size="60"  value="{value_of_nombre}" >*</td>  </tr>
+
+<tr> <td class="form_label">Tipo Doc:</td> 
+    <td  colspan="3">   
+        <select id="form_tipo_doc"  class="form_select" onchange="cambiarTipoDoc()" >
+                   <option value="R.U.C." title="Registro Unico de Contribuyentes (Paraguay, Peru, Nicaragua y Ecuador)">R.U.C. (Paraguay, Peru, Nicaragua y Ecuador)</option>    
+                   <option value="T.I.N." title="Tax Identification Number (China)">T.I.N. (China)</option>
+                   <option value="C.P.F." title="Catastro de Personas Fisicas (Brasil)">C.P.F. (Brasil)</option>
+                   <option value="C.N.P.J." title="Catastro Nacional de Personas Juridicas (Brasil)">C.N.P.J. (Brasil)</option>                     
+                   <option value="C.U.I.T." title="Clave unica de IdentificaciOn Tributaria (Argentina)">CUIT (Argentina)</option> 
+                   <option value="D.N.I.">D.N.I. (Argentinaa)</option>                   
+                   <option value="N.I.T." title="Numero de Identificación Tributaria (Bolivia, Colombia, Panama, El Salvador y Guatemala)" >N.I.T. (Bolivia, Colombia, Panama, El Salvador y Guatemala)</option> 
+                   <option value="R.U.T." title="Rol Unico Tributario (Chile,Uruguay)" >R.U.T. (Chile,Uruguay)</option>  
+                   <option value="T.I.N." title="Taxpayer Identification Number (Estados Unidos)" >T.I.N. (Estados Unidos)</option>  
+                   <option value="R.F.C." title="Registro Federal de Contribuyentes (Mexico)" >R.F.C. (Mexico)</option>  
+                   <option value="N.I.F." title="Código de Identificación Fiscal para empresas(Union Europa)" >N.I.F.(Union Europa)</option>  
+                   <option value="F.T.I" title="ID de Identificacion Federal (Federal Tax ID)">Federal Tax ID</option> 
+         </select> 
+    </td> 
+</tr>
+<tr> <td class="form_label tipo_doc" >R.U.C.:</td> <td  colspan="3"><input class="form_text" type="text" id="form_ci_ruc"   required="required" size="30"  value="{value_of_ci_ruc}" >*</td>  </tr>
+
+<tr> <td class="form_label">Tel:</td> <td  colspan="3"><input class="form_text" type="text" id="form_tel"    size="30"  value="{value_of_tel}" ></td>  </tr>
+<tr> <td class="form_label">Email:</td> <td  colspan="3"><input class="form_text" type="text" id="form_email"    size="40"  value="{value_of_email}" ></td>  </tr>
+<tr> <td class="form_label">Fecha Nac:</td  colspan="3"> <td><input class="form_date" type="date" id="form_fecha_nac"      value="{value_of_fecha_nac}" ></td>  </tr>
+<tr> <td class="form_label">Pais:</td> <td  colspan="3">
+<select class="form_db_select" id="form_pais"   >{value_of_pais}</select>
+</td>  </tr>
+<tr> <td class="form_label">Ciudad:</td> <td  colspan="3"><input class="form_text" type="text" id="form_ciudad"    size="30"  value="{value_of_ciudad}" ></td>  </tr>
+<tr> <td class="form_label">Dir:</td> <td  colspan="3"><textarea class="form_textarea" id="form_dir" cols="20" rows="3"   >{value_of_dir}</textarea></td>  </tr>
+<tr> <td class="form_label">Cta Cont:</td> <td  colspan="3">
+<select class="form_db_select MUL" id="form_cta_cont"   >{value_of_cta_cont}</select>
+*</td>  </tr>
+<tr> <td class="form_label">Ocupacion:</td> <td  colspan="3"><input class="form_text" type="text" id="form_ocupacion"  onchange="showMobileTab()"   size="30"  value="{value_of_ocupacion}" ></td>  </tr>
+<tr> <td class="form_label">Situacion:</td> <td  colspan="3"><input class="form_text" type="text" id="form_situacion"    size="30"  value="{value_of_situacion}" ></td>  </tr>
+<tr> <td class="form_label">Tipo:</td> 
+    <td>
+        <select class="form_select" id="form_tipo"  >
+            <option value="Local">Local</option>
+            <option value="Extranjero">Extranjero</option>
+        </select>
+    </td> 
+ <td class="form_label" >Moneda</td>
+    <td>
+        <select class="form_db_select" id="form_moneda"  >
+           {value_of_moneda}
+        </select> 
+    </td> 
+
+</tr>
+<tr> <td class="form_label">Registrado por:</td> <td  colspan="3"><input class="form_text MUL" type="text" id="form_usuario"  readonly="readonly"   size="30"  value="{value_of_usuario}" ></td>  </tr>
+<tr> <td class="form_label">Fecha Reg:</td> <td><input class="form_date" type="date" id="form_fecha_reg"   readonly="readonly"   value="{value_of_fecha_reg}" ></td>
+  <td class="form_label">Estado:</td> <td>
+<select class="form_select" id="form_estado"  >
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>  
+</tr>
+<tr>
+    <td colspan="4">
+       <div id="tabs" style="height: auto;min-width: 900px">
+            <ul>
+                <li><a href="#tabs-contactos" class="contactos" onclick="getContactos()"   >Contactos</a></li>
+                <li><a href="#tabs-moviles" class="moviles" onclick="getMoviles()">Moviles</a></li>            
+            </ul>
+           <div id="tabs-contactos" style="height: 130px;padding: 0px">
+               <table border="0" style="width: 100%;margin: 0 auto">
+                   <tr>
+                       <th style="width: 45%" class="titulo">Nuevo Contacto</th>
+                       <th  class="titulo">Contactos</th>
+                   </tr>
+                   <tr>
+                       <td style="height: 100px">
+                           <table border="0">
+                               <tr> <td style="font-weight: bolder">ID:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_id" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Nombre:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_nombre" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Doc:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_doc" size="30" class="new_contact" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Tel:</td><td><input style="height: 20px;font-size: 11px" type="text" id="c_tel" size="30" class="new_contact" >
+                                       <input type="button" value="Agregar ->" onclick="addContacto()" style="font-size:11px"></td></tr>
+                               
+                           </table> 
+                       </td>
+                       <td style="text-align: center;vertical-align: top">
+                           <table style="width: 100%;border-collapse: collapse" id="contactos" border="1" >
+                               <tr style="background-color: lightskyblue"><th>Id</th><th>Nombre</th><th>Doc</th><th>Tel</th><th>-</th></tr>
+                           </table>                           
+                       </td>
+                   </tr>
+                    
+               </table>
+           </div>
+           <div id="tabs-moviles" class="moviles" style="height: 130px;padding: 0px;display:none">
+                <table border="0" style="width: 100%;margin: 0 auto">
+                   <tr>
+                       <th style="width: 45%" class="titulo">Nuevo Movil</th>
+                       <th  class="titulo">Moviles</th>
+                   </tr>
+                   <tr>
+                       <td style="height: 100px">
+                           <table border="0">
+                               <tr> <td style="font-weight: bolder">ID:</td><td><input style="height: 20px;font-size: 11px" type="text" id="m_id" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">RUA:</td><td><input style="height: 20px;font-size: 11px" type="text" id="rua" class="new_contact" size="30" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Chapa:</td><td><input style="height: 20px;font-size: 11px" type="text" id="chapa" size="30" class="new_contact" ></td></tr>
+                               <tr> <td style="font-weight: bolder">Marca:</td><td><input style="height: 20px;font-size: 11px" type="text" id="marca" size="30" class="new_contact" >
+                                       <input type="button" value="Agregar ->" onclick="addMovil()" style="font-size:11px"></td></tr>
+                               
+                           </table> 
+                       </td>
+                       <td style="text-align: center;vertical-align: top">
+                           <table style="width: 100%;border-collapse: collapse" id="moviles" border="1" >
+                               <tr style="background-color: lightskyblue"><th>Id</th><th>RUA</th><th>Chapa</th><th>Marca</th><th>-</th></tr>
+                           </table>                           
+                       </td>
+                   </tr>
+                    
+                </table>              
+           </div>
+       </div>       
+    </td>
+</tr>
+
+<!-- end:   edit_form_data -->
+
+
+<!-- begin: edit_form_foot -->     
+<tr><td colspan="4" style="text-align: center" id="msg_proveedores" ></td></tr>
+    <tr>
+        <td colspan="4" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value="Modificar Datos" onclick=updateData("edit_proveedores") id="proveedores_update_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="proveedores_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   edit_form_foot -->
+
+
+
+
+
+
+<!-- begin: add_form_cab -->  
+<table border="0" class="form_table" id="add_proveedores">
+    <tr> <th colspan="4" class="form_title" > (Nuevo Registro) Proveedores  </th> </tr> 
+<!-- end:   add_form_cab -->
+
+
+<!-- begin: add_form_data -->  
+<tr> <td class="form_label">Nombre:</td> <td colspan="3"><input class="form_text" type="text" id="form_nombre"    required="required"  size="60"  value="" >*</td>  </tr>
+
+<tr> <td class="form_label">Tipo Doc:</td> 
+    <td  colspan="3">   
+       <select id="form_tipo_doc"  class="form_select" onchange="cambiarTipoDoc()" >
+                   <option value="R.U.C." title="Registro Unico de Contribuyentes (Paraguay, Peru, Nicaragua y Ecuador)">R.U.C. (Paraguay, Peru, Nicaragua y Ecuador)</option>    
+                   <option value="T.I.N." title="Tax Identification Number (China)">T.I.N. (China)</option>
+                   <option value="C.P.F." title="Catastro de Personas Fisicas (Brasil)">C.P.F. (Brasil)</option>
+                   <option value="C.N.P.J." title="Catastro Nacional de Personas Juridicas (Brasil)">C.N.P.J. (Brasil)</option>                     
+                   <option value="C.U.I.T." title="Clave unica de IdentificaciOn Tributaria (Argentina)">CUIT (Argentina)</option> 
+                   <option value="D.N.I.">D.N.I. (Argentinaa)</option>                   
+                   <option value="N.I.T." title="Numero de Identificación Tributaria (Bolivia, Colombia, Panama, El Salvador y Guatemala)" >N.I.T. (Bolivia, Colombia, Panama, El Salvador y Guatemala)</option> 
+                   <option value="R.U.T." title="Rol Unico Tributario (Chile,Uruguay)" >R.U.T. (Chile,Uruguay)</option>  
+                   <option value="T.I.N." title="Taxpayer Identification Number (Estados Unidos)" >T.I.N. (Estados Unidos)</option>  
+                   <option value="R.F.C." title="Registro Federal de Contribuyentes (Mexico)" >R.F.C. (Mexico)</option>  
+                   <option value="N.I.F." title="Código de Identificación Fiscal para empresas(Union Europa)" >N.I.F.(Union Europa)</option>  
+                   <option value="F.T.I" title="ID de Identificacion Federal (Federal Tax ID)">Federal Tax ID</option> 
+         </select> 
+    </td> 
+</tr>
+<tr> <td class="form_label tipo_doc" >R.U.C.:</td>  <td  colspan="3"><input class="form_text" type="text" id="form_ci_ruc"    required="required"  size="30"  value="" >*</td>  </tr>
+
+<tr> <td class="form_label">Tel:</td> <td  colspan="3"><input class="form_text" type="text" id="form_tel"      size="30"  value="" ></td>  </tr>
+<tr> <td class="form_label">Email:</td> <td  colspan="3"><input class="form_text" type="text" id="form_email"      size="40"  value="" ></td>  </tr>
+<tr> <td class="form_label">Fecha Nac:</td> <td  colspan="3"><input class="form_date" type="date" id="form_fecha_nac"        value="" ></td>  </tr>
+<tr> <td class="form_label">Pais:</td> <td  colspan="3">
+<select class="form_db_select" id="form_pais"  >{value_of_pais}</select>
+</td>  </tr>
+<tr> <td class="form_label">Ciudad:</td> <td  colspan="3"><input class="form_text" type="text" id="form_ciudad"      size="30"  value="" ></td>  </tr>
+<tr> <td class="form_label">Dir:</td> <td  colspan="3"><textarea class="form_textarea" id="form_dir" cols="40" rows="3"   ></textarea></td>  </tr>
+<tr> <td class="form_label">Cta Cont:</td> 
+    <td  colspan="3"> <select class="form_db_select MUL" id="form_cta_cont"  >{value_of_cta_cont}</select> *</td>
+</tr>
+<tr> <td class="form_label">Ocupacion:</td> <td  colspan="3"><input class="form_text" type="text" id="form_ocupacion"      size="30"  value="" ></td>  </tr>
+<tr> <td class="form_label">Situacion:</td> <td  colspan="3"><input class="form_text" type="text" id="form_situacion"      size="30"  value="" ></td>  </tr>
+<tr> <td class="form_label">Tipo:</td> 
+    <td >
+        <select class="form_select" id="form_tipo"  >
+            <option value="Local">Local</option>
+            <option value="Extranjero">Extranjero</option>
+        </select>
+    </td> 
+    <td class="form_label" >Moneda</td>
+    <td>
+       <select class="form_db_select" id="form_moneda"  >
+           {value_of_moneda}
+        </select> 
+    </td> 
+</tr>
+<tr> <td class="form_label">Estado:</td> <td  colspan="3">
+<select class="form_select" id="form_estado"  >
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>  </tr>
+
+<!-- end:   add_form_data -->
+
+
+<!-- begin: add_form_foot -->     
+<tr><td colspan="4" style="text-align: center" id="msg_proveedores" ></td></tr>
+    <tr>
+        <td colspan="4" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value=" Grabar " onclick=addData("add_proveedores") id="proveedores_save_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="proveedores_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   add_form_foot -->
+
+
+<!-- begin: no_result -->     
+<div style="text-align: center;margin: 2cm auto"> Ningun Proveedor registrado <button type="button" id="add_button_proveedores" onclick="addUI()">Agregar un Nuevo Proveedor</button></div> 
+<!-- end:   no_result -->

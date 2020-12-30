@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+      <script type="text/javascript" src="../../js/jquery-1.11.2.min.js" ></script>
+      <script type="text/javascript" src="../../js/reportes.js" ></script>
+      <style>
+        div#datosDep{
+            position: relative;
+            margin: 17px auto;
+        }
+        div#datosDep table{
+            position: absolute;
+            right: 0px;
+        }
+        div#datosDep table th,div#datosDep table td{
+            padding: 1px 7px;
+        }
+        
+        .verificar{
+            color:green;
+            font-weight: bolder;
+        }
+        
+        tr.dato{
+            counter-increment: codigos;
+        }
+        td.nro::before{
+            content: counter(codigos, decimal);
+            counter-increment: section;
+            color: white;
+            background: gray;
+            margin-right: 4px;
+            padding: 0 3px 0 3px;
+        }
+        button#eliminar_deposito{
+            background: url("../../img/close.png") no-repeat;
+            font-size: 0px;
+            height: 17px;
+            width: 17px;
+            border: none;
+        }
+        button#eliminar_deposito:disabled{
+            display: none;
+        }
+        button#eliminar_deposito:hover{
+            background-color: lightsalmon;
+            cursor: pointer;
+        }
+        button.eliminar_registro{
+            padding: 0 2px;
+            margin: 0;
+            font-size: 10px;
+            font-weight: 900;
+            color: red;
+            display: inline;
+        }
+      </style>
+      <script language="javascript">
+          function verificar(){
+             var ids = new Array();
+             $(".verif").each(function(){
+              if($(this).is(":checked")){
+                var id = $(this).attr("id").substring(6,60);
+                ids.push(id);
+                $("#check_"+id).parent().html("<img src='../../img/loading_fast.gif' width='16px' height='16px' >"); 
+              }
+            });
+            var idsstring = JSON.stringify(ids);
+            var usuario = window.opener.getNick();
+            
+             $.ajax({
+                type: "POST",
+                url: "Efectivo.class.php",
+                data: {"action":"generarAsientos","usuario":usuario,"ids":idsstring}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                    $("#msg").html("<img src='../../img/loading_fast.gif' width='16px' height='16px' >"); 
+                    check();
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                      var result =  $.trim(objeto.responseText) ;  
+                      
+                        for(var i = 0;i< ids.length; i++ ){                         
+                          var id = ids[i];                          
+                          $("#td_"+id).html("<img src='../../img/Circle_Red.png' width='16px' height='16px' >"); 
+                        }
+                       
+                      
+                      $("#msg").html(result); 
+                    }
+                },
+                error: function(){
+                     $("#msg").html("Ocurrio un error en la comunicacion con el Servidor...");
+                }
+        });  
+          }
+          function check(){
+            var c = 0;
+            $(".verif").each(function(){
+              if($(this).is(":checked")){
+                c++;  
+              }
+            });
+            if(c > 0){
+                $("#verificar").removeAttr("disabled");
+                $("#verificar").addClass("verificar");                
+            }else{
+                $("#verificar").attr("disabled",true);
+                $("#verificar").removeClass("verificar");
+            }
+          }
+          function checkAll(){               
+                $(".verif").each(function(){
+                  if($(this).is(":checked")){
+                    $(this).prop("checked",false);
+                  }else{
+                    $(this).prop("checked",true);
+                  }
+                });               
+                check();
+          }
+
+          // Elmina el deposito
+          function eliminar(target,monto){
+              var nro_deposito = target.closest("tr").attr("id");
+              var usuario = window.opener.getNick();
+              var obs = $.trim(prompt("Motivo por el cual se va a Eliminar el deposito Nro. "+nro_deposito));
+              if(obs.length > 0){
+                  $.post("Efectivo.class.php",{"action":"eliminarDeposito","usuario":usuario,"nro_deposito":nro_deposito,"monto":monto,"motivo":obs},function(data){
+                      if(data.ok){
+                          $("#"+nro_deposito).remove();
+                      }
+
+                  },"json");
+              }
+          }
+        function editar(target){
+            var id = target.closest("tr").attr("id");
+            var descrip = $(target.closest("tr").find(".descrip")).text();
+            var moneda = $(target.closest("tr").find(".moneda")).text();
+            var entrada = parseFloat($(target.closest("tr").find(".entrada")).text().replace(/\./g,"").replace(/,/g,"."));
+            var salida = parseFloat($(target.closest("tr").find(".salida")).text().replace(/\./g,"").replace(/,/g,"."));
+
+            if(confirm("Eliminar "+descrip+" de " +moneda+" "+ (entrada-salida).format(2, 3, '.', ','))){
+                $.post("Efectivo.class.php",{"action":"eliminarRegistro","id_mov":id}, function(data){
+                    if(data == 'Ok'){
+                    window.location.reload(false);
+                    }
+                },"text");
+            }
+        }
+        Number.prototype.format = function(n, x, s, c) {
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+            num = this.toFixed(Math.max(0, ~~n));
+            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+        };
+      </script>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../../img/logo_small.png"></th> 
+        <th style="width: 70%;">Flujo de Efectivo</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Descripci&oacute;n</th>
+        <th>Tipo Doc</th>
+        <th>N&deg; Doc.</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Moneda</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Cotiz</th>
+        <th>Entrada Gs</th>
+        <th>Salida Gs</th>
+        <th colspan="2">*</th>
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr class="dato" id="{id_pago}">
+    <td class="item nro descrip">{descrip}</td>
+    <td class="item">{tipo_doc}</td>
+    <td class="item">{nro_doc}</td>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{hora}</td>
+    <td class="itemc moneda">{moneda}</td>
+    <td class="num entrada">{entrada}</td>
+    <td class="num salida">{salida}</td>
+    <td class="num">{cotiz}</td>
+    <td class="num">{e_ref}</td>
+    <td class="num">{s_ref}</td>
+    <td class="itemc" style="width:10px" id="td_{id_pago}">{e_sap}</td> 
+    <td class="itemc">{eliminar}</td>
+</tr>    
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="6"></td>
+    <td>{moneda_e}</td>
+    <td>{moneda_s}</td>
+    <td></td>
+    <td class="num">{te_ref}</td>
+    <td class="num">{ts_ref}</td> 
+    <td> <input type="checkbox" id="check_all" onclick="checkAll()" title="Marcar/Desmarcar todos"> </td>
+</tr> 
+<tr class="report_foot">
+    <td colspan="6"></td>
+    <td>Dif:</td>
+    <td class="num">{diff}</td> 
+    <td></td>
+    <td>Dif:</td>
+    <td class="num">{t_diff}</td> 
+    <td></td>
+</tr> 
+</table>    
+
+<div style="text-align:right;margin-top: 4px">
+    <span id="msg" ></span>   <input type="button" id="verificar" value="Verificar" style="font-size:9px;display:{displayberif}" onclick="verificar()" disabled="disabled" >
+</div>
+
+<!-- end:   foot  -->
+
+<!-- begin: deposito_h -->
+<div id="datosDep">
+    <table border="1" cellspacing="0" cellpadding="0">
+        <tr><th>Nombre</th><th>Cuenta</th><th>Nro. Dep.</th><th>Movimiento</th><th>Moneda</th><th>Monto</th><th></th></tr>
+<!-- end: deposito_h -->
+
+<!-- begin: deposito_b -->
+<tr id="{nro_deposito_ref}">
+    <td class="item">{nombre}</td>
+    <td class="num">{cuenta}</td>
+    <td class="num">{nro_deposito}</td>
+    <td class="num">{salida}</td>
+    <td class="itemc">{m_cod}</td>
+    <td class="num">{cambio}</td>
+    <td class="itemc"><button class="eliminar_deposito" onclick="eliminar($(this),{salida_data})" {eliminar}>Eliminar</button></td>
+</tr>
+<!-- end: deposito_b -->
+
+<!-- begin: deposito_f -->
+<tr class="report_foot"><td colspan="4"></td><td>Sum:</td><td class="num">{sum}</td></tr>
+    </table>
+</div>
+<!-- end: deposito_f -->

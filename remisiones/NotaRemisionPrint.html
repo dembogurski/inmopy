@@ -1,0 +1,84 @@
+
+<!-- begin: header noeval -->
+<script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+<link rel="stylesheet" type="text/css" href="NotaRemision.css" />
+<link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+<script type="text/javascript" src="../js/reportes.js" ></script> 
+<script type="text/javascript" src="NotaRemisionPrint.js" ></script> 
+<style>
+    tr.titulo th{
+        font-size: 10px;
+    }
+</style>
+<script>
+    $(function(){
+        $(".first").each(function(){
+            var clase = $(this).children().first().attr('class').split(' ')[0];
+            var cant = $("."+clase).length;
+            $("."+clase).not(':first').remove();
+            $("."+clase).attr("rowspan",cant);    
+        });
+    });
+</script>
+<!-- end:   header -->
+
+ 
+
+<!-- begin: head -->
+ 
+
+<table  border="1"  cellspacing="0" cellpadding="0"    style="margin: 10px auto;min-width: 99%;border-collapse: collapse"  >
+  
+    
+   <tr>
+       <td colspan="10">
+           <table  border="1"  cellspacing="0" cellpadding="0" style="width: 100%;border-collapse: collapse" >
+               <tr style="background-color: white;height: 30px;">
+                   <th style="width: 30%" rowspan="2" >N&deg;:{nro}<br>{origen}&rArr;{destino}  </th>
+                  <th style="width: 40%;font-family:inmopy;height: 36px;font-size: 20px"  >{emp}</th>
+                  <th style="width: 30%" rowspan="2"><big>Nota de Remision</big><br><small>{usuario}</small><br><small>{fecha_hora}</small></th></tr> 
+                
+            </table> 
+        </td>
+   </tr>
+  <tr><th colspan="10" style="background-color: lightgray;height: 12px;font-size: 12px">Detalle</th></tr>  
+  <tr class="titulo"><th>PQT</th><th class="codigo">Cod.Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th><th>Tara</th><th>Gramaje</th><th>Ancho</th><th class="kg_env">Kg Env.</th><th>Cant.Calc.<br>Env.</th></tr>  
+                     
+<!-- end:   head -->
+
+
+
+       
+
+<!-- begin: data -->
+<tr  id="tr_{lote}" class="fila {is_first}" data-codigo="{codigo}"><td class="paq_{paquete} itemc {class_paquete}" >{paquete}</td><td class="item" >{lote}</td><td class="item">{descrip}</td><td class="num">{cant}</td><td  class="itemc um">{um}</td><td  class="itemc tara" >{tara}</td><td  class="num gramaje">{gramaje}</td><td  class="num ancho">{ancho}</td><td class="num kg_env">{kg_env}</td><td class="num cant_calc">{cant_calc_env}</td></tr>  
+<!-- end:   data -->
+
+
+
+
+<!-- begin: foot -->
+<tr><td colspan="2" style="font-size: 11;font-family: arial;font-weight: bolder">Cant. {cant} articulos</td></tr>
+</table>
+
+<label style="font-size: 11;font-weight: bolder;font-family: arial">Chofer:</label> 
+ 
+<!-- end:   foot -->
+ 
+<!-- begin: choferes -->
+<label style="font-size: 11;font-family: arial"> {chofer} </label><label style="border:solid black 1px">&nbsp;&nbsp;&nbsp;</label>__________________________
+<!-- end:   choferes -->
+
+
+<!-- begin: fin  -->
+<br><br>
+<span style="font-size: 12px;font-weight: bolder"> Obs: </span> <span style="border-width: 0px 0px 1px 0px;border-style: solid;border-color:gray"> {obs}</span> 
+
+
+<div style="text-align: center;height: 30px;margin-top: 20px;font-size:12px">Firma Preparador:_______________________&nbsp;Firma Recepcionista:_______________________</div>
+<div style="text-align: center;height: 18px;font-size:12px"> Aclaracion Firma:________________________&nbsp;  &nbsp;Aclaracion Firma:________________________</div>
+
+<!-- end:   fin -->
+
+
+           

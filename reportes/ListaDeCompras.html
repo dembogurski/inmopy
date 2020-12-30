@@ -1,0 +1,10 @@
+<table>
+   <thead>
+      <tr><th><input type="checkbox" onclick="seleccionarTodos($(this))"></th><th>Invoice</th><th>Fecha</th><th style="display: none">Monto</th><th>Obs.</th></tr>
+   </thead>
+   <tbody>
+      <tr onclick="seleccionarLinea($(this))">
+         <td><input class="listaVerificacion" onchange="modLista()" type="checkbox" data-DocEntry="[fila.DocEntry;block=tr]"><div>&#x2713;</div></td><td>[fila.NumAtCard]</td><td align="right">[fila.fecha]</td><td align="right" style="display: none">[fila.DocTotal;frm=0.000,00]</td><td>[fila.Comments]</td>
+      </tr>
+   </tbody>
+</table>

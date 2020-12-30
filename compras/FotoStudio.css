@@ -1,0 +1,48 @@
+/* 
+    Created on : 28/09/2016, 09:55:04 AM
+    Author     : Ing.Douglas
+*/
+
+#studio_cantainer label{
+    font-size: 16px
+}
+#studio_cantainer input{
+    font-size: 16px;
+    margin-left:4px;
+}
+.thums{
+    border:solid gray 1px;
+    border-radius: 2px;
+    margin: 4px;
+}
+
+
+.thumbnails {
+	overflow: hidden;
+	margin: 1em 0;
+	padding: 0;
+	text-align: center;
+}
+
+.thumbnails li {
+	display: inline-block;
+	width: 82px;
+	margin: 0 5px;
+}
+
+.thumbnails img {
+	display: block;
+	min-width: 100%;
+	max-width: 100%;
+}
+
+.toggle {
+	display: block;
+	margin: 10px auto 1.5em;
+}
+.preview{
+    margin-top:20px;
+}
+.fila{
+    text-align: center;
+}

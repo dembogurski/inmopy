@@ -1,0 +1,101 @@
+<!-- begin: header noeval -->
+<html>
+<head>
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="subirPedidosExcel.js?_=1523986835094"></script>
+    <link rel="stylesheet" href="subirPedidosExcel.css">
+    <link rel="stylesheet" href="../js/jquery-ui/jquery-ui.css">
+</head>
+<body>
+<!-- end: header -->
+
+<!-- begin: pedData -->
+
+<table id="headerData">
+    <thead>
+        <tr>
+            <th>Nro.</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Suc</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{n_nro}</td><td>{usuario}</td><td>{fecha}</td><td>{suc}</td><td>{tipo}</td><td>{estado}</td>
+        </tr>
+    </tbody>
+</table>
+<div id="upploadForm">
+    <div id="toggleView" onclick="toggleView()" class="ocultar">Ocultar</div>
+    <form action="SubirPedidoExcel.class.php" method="post" enctype="multipart/form-data">    
+        <input type="hidden" id="action" name="action" value="checkFile" />
+        <input type="checkbox" id="overwrite" name="overwrite"/><label for="overwrite">Sobrescribir Archivo si existe</label>
+        <input type="hidden" id="attr" name="attr" value="" />
+        <input type="file" name="fileToUpload" id="fileToUpload" onchange="updateFileData()">
+        <hr/>
+        <label for="fileToUpload">Clic para seleccionar un archivo</label>
+        <p id="filedata"></p>
+        <hr/>
+        <input type="submit" value="Subir Archivo!" name="submit">
+    </form>        
+    <a href="archivos/PEDIDOS_MINORISTA-MARIJOA_SAP_V1.0.1.xlsx">Planilla de ejemplo</a>
+</div>
+<!-- end: pedData -->
+
+<!-- begin: upploadInfo -->
+    <div id="upploadInfo">
+        {upploadInfo}
+    </div>
+<!-- end: upploadInfo -->
+
+<!-- begin: dataHeader -->
+<script>
+    var colores = {colores};
+</script>
+<div id="editPoUp" style="display:none">
+    <table>
+        <tr><th></th><th colspan="2"><div  id="editPoUpLoader" style="visibility: hidden;" class="loader"></div>Edici&oacute;n</th><th><button id="closeEditPoUp" onclick="cerrar()">Cerrar</button></th></tr>
+        <tr><td></td><td class="label">Articulo:</td><td class="edit"><input id="edit_articulo" onchange="checkItem($(this).val())" type="text" /></td><td></td></tr>
+        <tr><td></td><td colspan="3"><input  id="edit_articulo_nombre" readonly type="text" size="128"/></td></tr>
+        <tr><td></td><td class="label">Cantidad:</td><td class="edit"><input onchange="checkNumber($(this))" id="edit_cantidad" type="text" /></td><td></td></tr>
+        <tr><td></td><td class="label">Precio Venta:</td><td class="edit"><input id="edit_precioVenta" onchange="checkNumber($(this))" type="text" /></td><td></td></tr>
+        <tr><td></td><td class="label">Color:</td><td class="edit"><input id="edit_color" data-colorcode='' onchange="chekColor($(this).val())" type="text" /></td><td></td></tr>
+        <tr><td></td><td class="label">Suc:</td><td class="edit"><select id="edit_suc" data-colorcode='' onchange="chekSuc($(this).val())" type="text" >{sucursales}</select></td><td></td></tr>
+        <tr><td></td><td colspan="2" class="actionButton"><button onclick="cerrar()">Cancelar</button><button id="actualizar" onclick="actualizar()">Actualizar</button></td><td></td></tr>        
+    </table>
+</div>
+<table id="excelData">
+    <thead>
+        <tr><th colspan="3">Mostrar: <select onchange="view($(this))"><option value="todos">Todos</option><option value="file_error">Erroneos</option><option value="file_ok">Correctos</option></select></th><th colspan="5">Enviar a la base de Datos <button id="procesar" onclick="procesar()">Enviar</button><div  id="excelDataLoader" style="visibility: hidden;" class="loader"></div></th></tr>
+        <tr><th>Check</th><th>Articulo</th><th>Nombre</th><th>Cantidad</th><th>PrecioVenta</th><th>Color</th><th>Suc</th><th></th></tr>
+    </thead>
+    <tbody>
+<!-- end: dataHeader -->
+
+<!-- begin: dataBody -->
+    <tr class="{class}">
+        <td class="verif"><span>{check}</span></td>
+        <td class="articulo sync {itemEst}" data-target="ItemCode">{ItemCode}</td>
+        <td class="articulo_nombre">{ItemName}</td>
+        <td class="cantidad sync {cantEst}" data-target="cantidad">{cantidad}</td>
+        <td class="precioVenta sync {precioEst}" data-target="precio">{precio}</td>
+        <td class="color sync {colorEst}" data-target="color" data-colorcode="{colorCode}">{color}</td>
+        <td class="suc sync {sucursal}" align="center" data-target="suc">{suc}</td>
+        <td><button id="editar" onclick="edit($(this))" >Edit</button><button id="borrar"  onclick="remove($(this))">Borrar</button></td>
+    </tr>
+<!-- end: dataBody -->
+
+<!-- begin: dataFooter -->
+    </tbody>
+</table>
+<!-- end: dataFooter -->
+
+<!-- begin: footer -->
+</body>
+
+</html>
+<!-- end: footer -->

@@ -1,0 +1,97 @@
+<!-- begin: header -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" />     
+</head>
+<!-- end:   header -->
+
+<!-- begin: cabecera -->
+<table  style="width: 100%;border:solid gray 1px;border-collapse: collapse">
+    <tr>
+        <td style="width: 50%">
+            <img src="../img/logo_inmopy.png" >
+        </td>
+        <td style="text-align: left;margin-left: 4px">
+            Casa Central Encarnaci&oacute;n: Avda Irraz&aacute;bal E/Gral. Brugu&eacute;z - Tel: (071)202747<br>            
+        </td>
+    </tr>
+</table>
+<hr>
+<!-- end:   cabecera -->
+
+<!-- begin: body -->
+<div style="text-align: right;font-style: italic"><b>Encarnaci&oacute;n, {fecha}</b></div>
+
+<div style="text-align: center;margin: 15px 0 15px 0"><b>PLANILLA DE AMORTIZACI&Oacute;N DE ORDENES DE COMPRA</b></div>
+
+<div style="text-align: center;margin: 15px 0 15px 0">Correspondiente a: <b>{mes}/{anio}</b></div>
+<hr>
+<table border="0" style="width: 100%">
+    <tr><td><b>A&Ntilde;O: </td><td>{anio}</td>  </tr>
+    <tr><td><b>DESDE: </b></td><td>{desde}</td> </tr>
+    <tr>
+        <td><b>HASTA: </b></td><td>{hasta}</td>  
+        <td style="width: 20%">&nbsp;</td>
+        <td><b>ASOC:</b></td>
+        <td>{asoc}</td>
+    </tr>
+    <tr>
+        <td><b>VTO: </b></td>
+        <td>{vencimiento}</td>  
+        <td>&nbsp;</td>
+        <td><b>RUC:</b></td>
+        <td>{ruc}</td>
+    </tr>
+</table>
+<hr>
+<!-- end:   body -->
+
+<!-- begin: data_cab -->
+<table border="1" style="width: 100%;border-collapse: collapse">
+    <tr style="background-color: rgb(221, 218, 205)"><th>N&deg; Orden</th><th>Nombre y Apellido del Socio</th><th>Cr&eacute;dito</th><th>N&deg; Cuota</th><th>Venc.</th><th>Imp. Abonar</th><th>Saldo</th></tr>
+<!-- end:   data_cab -->
+
+<!-- begin: data -->
+<tr>
+    <td class="itemc">{Nro_orden}</td>
+    <td class="item">{Cliente}</td>
+    <td class="num">{Valor_orden}</td>
+    <td class="itemc">{cuota}</td>
+    <td class="itemc">{fecha_venc}</td>
+    <td class="num">{importe}</td>
+    <td class="num">{saldo}</td>
+</tr>
+<!-- end:   data -->
+
+<!-- begin: data_foot -->
+<tr>
+    <td colspan="4"></td>
+    <td class="item"><b>Total</b></td>
+    <td class="num"><b>{total_bruto}</b></td>
+    <td class="num"></td>    
+</tr>
+<tr>
+    <td colspan="4"></td>
+    <td class="item">Comision</td>
+    <td class="num">{comision}</td>
+    <td class="num"></td>    
+</tr>
+<tr>
+    <td colspan="4"></td>
+    <td class="item"><b>Total a Pagar</b></td>
+    <td class="num"><b>{total_pagar}</b></td>
+    <td class="num"></td>    
+</tr>
+</table>
+<br>
+<br>
+<br>
+<b>Recib&iacute; Conforme:______________________________________</b>
+<br><br>
+<b>En Fecha:_____de___________de_________</b>
+<!-- end:   data_foot -->
+
+
+ 
+<!-- begin: error -->
+<div style="border:solid red 1px"><img src="../img/important.png"> {error}</div> 
+<!-- end:   error -->

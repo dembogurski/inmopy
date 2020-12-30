@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+
+<script type="text/javascript" src="finanzas/CotizacionesContables.js" ></script>
+<link rel="stylesheet" type="text/css" href="finanzas/CotizacionesContables.css" />   
+     
+<!-- end:   header -->
+
+ 
+     
+
+<!-- begin: cotiz_cab -->
+ <span id="cambios_chaco"></span>
+<table id="cotizaciones" border="1"  cellspacing="0" cellpadding="0" style="min-width:40%;margin: 30 auto"  > 
+    <tr class="titulo_cotiz titulo" ><th colspan="8">Historial de Cotizaciones Contables  &nbsp;&nbsp; Sucursal: &nbsp; [03]</th></tr>
+    <tr style="background: lightskyblue"><th colspan="8">
+            <img title="Cambios Chaco" style="cursor: pointer;width: 22px;margin-bottom:-5px" src="img/cambios_chaco.png" onclick="loadCotizCambiosChaco()">
+            
+            <label>Desde:</label><input type="text" style="text-align: center" size="10" id="desde" value="{desde}"> <label>Hasta:</label><input type="text" style="text-align: center" size="10" id="hasta" value="{hasta}"> <input type="button" onclick="actualizarCotizaciones()" value="Actualizar"> </th> </tr>
+    <tr class="titulo"><th style="min-width: 5%">ID</th>   <th style="width: 10%">Moneda</th> <th style="width: 10%">Fecha</th> <th style="width: 10%">Compra</th> <th style="width: 10%">Venta</th>   </tr>
+<!-- end:   cotiz_cab -->
+
+<!-- begin: cotiz_data -->
+<tr id="tr_id_{id}" class="cotiz"><td class="itemc">{id}  <td class="itemc {mon}">{moneda}</td> <td class="itemc" >{fecha}</td>  <td class="num" >{compra}</td><td  class="num" >{venta}</td>  </tr> 
+<!-- end:   cotiz_data -->
+
+
+<!-- begin: cotiz_foot -->
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <input type="button" value="     Atras    " onclick="showMenu()"> 
+                <input type="button" value="Nueva Cotizaci&oacute;n" onclick="nuevaCotizacion()"> 
+            </td>
+        </tr>
+</table> 
+<div style="margin: 10 auto;text-align: center" id="msg"></div>
+<div style="border:1px solid black;width:40%;text-align: center;display:none;margin: 0 auto" id="div_cotiz">
+<table id="nueva_cotiz" style="margin: 0 auto;min-width:60%" border="0"  cellspacing="6" cellpadding="0">
+    <tr><th colspan="2" class="titulo">Nueva Cotizaci&oacute;n</th></tr>
+    <tr><td><label>Moneda:</label> </td> <td> <select id="moneda" data-next="compra" onchange="checkCotiz()">{options}</select></td></tr> 
+    <tr><td><label>Para la fecha:</label> </td><td><input type="text" data-next="compra"   id="fecha" size="10" onchange="checkDate()"/><input id="_fecha_" type="hidden" value="{_fecha_}" /></td></tr> 
+    <tr> <td><label>Compra:</label> </td> <td><input type="text" class="num" id="compra" data-next="venta"  onchange="checkCotiz()" size="8"></td></tr>
+    <tr> <td><label>Venta: </label> </td> <td> <input type="text" class="num" id="venta" data-next="guardar" onchange="checkCotiz()" size="8"></td>    </tr> 
+    <tr> 
+        <td colspan="2" style="text-align: center" >
+            <input type="button" value="Cancelar"  onclick="cancelar()"> 
+            <input type="button" value="Establecer Cotizaci&oacute;n" id="guardar"  onclick="guardarCotizacion()" disabled > 
+        </td>
+    </tr>
+</table> 
+</div>    
+<br><br><br>
+<!-- end:   cotiz_foot -->

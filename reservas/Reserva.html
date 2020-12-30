@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+ <!--
+Template de la clase NuevaReserva.class.php
+-->
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="reservas/Reserva.css" />
+    <script type="text/javascript" src="reservas/Reserva.js?_=0000000000000000000000000000" ></script>      
+    
+<!-- end:   header -->
+
+
+
+<!-- begin: titulo_reserva -->
+  
+<div id="dialog-confirm" title="Eliminar cobro con convenio?" style="display: none;margin-top: 6px ">
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:6 7px 20px 0;" ></span><span id="alert_msg">&iquest;Esta seguro que desea eliminar este registro&quest;</span> 
+</div>
+<div class="titulo_factura">Reserva de Mercader&iacute;as</div>
+<!-- end:   titulo_reserva -->
+
+<!-- begin: cabecera_reserva -->
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="codigo_cliente" value="">
+    <label class="reserva_inv">Reserva N&deg;: </label> <input type="text" size="7"  readonly class="reserva_inv" id="reserva" value=""> 
+    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" id="ruc_cliente"  size="20" maxlength="34" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" size="12">
+    <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" onchange="buscarCliente(this)" data-next="boton_generar" >
+    <label>Cat:</label>  <input type="text" id="categoria" size="3" readonly style="text-align: center" value="1"  >&nbsp;<input id="boton_generar" onclick="crearReserva()" style="display:none" type="button" value="Generar Reserva" >&nbsp;<span id="msg"></span>
+    </div>
+    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none;" >
+        <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="width: 80%" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th>   <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div> 
+ </div>   
+<!-- end:   cabecera_reserva -->
+
+<!-- begin: area_carga_cab -->
+    <div id="area_carga" >
+        <label>Codigo:&nbsp; </label> <input type="text" id="lote" value="" tabindex="1" placeholder="Codigo Barras" style="font-weight: bolder" data-info="Puntee aqui el codigo de barras" onchange="buscarCodigo()"> 
+        <label style="display:none">Codigo Sis.:&nbsp; </label> <input type="text" id="codigo" class="dato" value="" size="14" placeholder="Codigo Sistema" readonly style="display:none" >         
+        <label>Stock:</label> <input type="text" style="text-align: right" class="dato" value="" id="stock" size="14"   readonly >
+        <label>UM:</label> <input type="text" id="um" class="itemc dato" size="11"  readonly > &nbsp; <span id="msg_codigo"></span> <br>
+        <label>Descrip:</label> <input type="text" id="descrip" size="102" class="dato" readonly > <br>
+        <label>Precio: &nbsp; </label> <input type="text" class="num numeros dato" id="precio_cat" size="12"  readonly data-info="Precio para esta Categoria"> 
+        <label>Precio Venta:</label> <input type="text" class="num numeros dato" id="precio_venta" tabindex="2" data-next="cantidad" size="12"  > 
+        <label>Cantidad:  </label> <input type="text" class="num numeros dato" id="cantidad" tabindex="3" data-next="add_code" size="12"  > 
+        <label>SubTotal:  </label> <input type="text" class="num dato" id="subtotal" size="16"  readonly  > 
+        <input type="button" id="add_code" value="    Insertar    "  onclick="addCode()" tabindex="4" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Detalle" > 
+                
+        <table id="detalle_reserva" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th colspan="8" style="background-color: lightgray">Detalle de Reserva</th></tr>  
+            <tr class="titulo"><th class="cod_art">Codigo</th><th class="codigo">Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th><th class="precio">Precio</th><th class="subtotal">Subtotal</th><th class="delete">*</th></tr>  
+            
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: area_carga_data -->
+<tr  id="tr_{lote}"><td class="itemc">{codigo}</td> <td class="item codigo_lote" >{lote}</td><td class="item">{descrip}</td><td class="num cantidad">{cant}</td><td  class="itemc">{um}</td><td class="num">{precio}</td><td class="num">{subtotal}</td><td class="itemc"><img class="del_det" title="Borrar Esta Pieza" style="cursor:pointer" src="img/trash_mini.png" onclick=delDet("{codigo}","{lote}") ></td></tr>     
+<!-- end:   area_carga_data -->
+
+<!-- begin: area_carga_foot -->
+<tr class="tr_total_reserva" style="font-weight: bolder"><td >&nbsp;Totales</td><td colspan="5" id="msg_det" style="text-align: center;font-size: 11" class="info"></td>  <td style="text-align: right;" id="total_reserva" class="num">{TOTAL}&nbsp;Gs.</td><td></td> </tr>
+        </table>  
+        <div style="padding-top: 4px;text-align: center"> 
+            <input type="button" id="finalizar" onclick="finalizar()" style="font-weight: bolder" value=" Finalizar " disabled="disabled" >
+        </div>
+    </div>   
+<!-- end:   area_carga_foot -->
+
+
+
+<!-- begin: cabecera_reserva_existente -->
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="codigo_cliente" value="{cli_cod}">
+    <label class="reserva">Reserva N&deg;: </label> <input type="text" size="7"  readonly class="reserva" id="reserva" value="{reserva}"> 
+    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" readonly id="ruc_cliente" size="20" maxlength="34" value="{ruc}" >
+    <label>Cliente:</label>   <input type="text" readonly id="nombre_cliente" size="46" value="{cliente}"  >
+    <label>Cat:</label>  <input type="text" id="categoria" size="3" readonly style="text-align: center" value="{cat}"  >&nbsp; <span id="msg"></span>
+    </div> 
+ </div>   
+<!-- end:   cabecera_reserva_existente -->
+
+   

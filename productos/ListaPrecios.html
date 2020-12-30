@@ -1,0 +1,146 @@
+<!-- begin: headers -->   
+    <head>  
+        <link rel="stylesheet" type="text/css" href="productos/ListaPrecios.css?_=00000000000" />      
+        <link rel="stylesheet" type="text/css" href="js/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.dataTables.min.css">         
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"/>         
+    </head>  
+<!-- end:   headers -->
+
+<!-- begin: insert_edit_form -->     
+<div class="form" id="form_lista_precios"></div>
+<!-- end:   insert_edit_form -->
+
+<!-- begin: data_header -->
+<div class="list_container">      
+    <table id="lista_precios"  border="1" class="display responsive nowrap db_tablename"  >
+        <thead>
+            <tr>
+                <th>Num</th><th>Moneda</th><th>Um</th><th>Descrip</th><th>Referencia</th><th>Factor</th><th>Regla Redondeo</th><th></th>
+            </tr>
+        </thead>
+
+<!-- end:   data_header -->
+
+
+<!-- begin: data_line -->     
+<tr> <td class="itemc">{num}</td> <td class="itemc">{moneda}</td> <td class="itemc">{um}</td> <td>{descrip}</td> <td class="itemc">{ref_num}-{ref_moneda}-{ref_um}</td>   <td class="itemc">{factor}</td> <td class="itemc">{regla_redondeo}</td> <td class="itemc"><img class="edit" src="img/edit.png" onclick=editUI("{num}","{moneda}","{um}") ></td>  </tr>
+<!-- end:   data_line -->
+
+
+<!-- begin: data_foot -->     
+
+        <tfoot>
+             
+        </tfoot>
+    </table> 
+</div>
+ 
+<!-- end:   data_foot -->
+
+<!-- begin: script -->      
+    <script type="text/javascript" src="js/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" language="javascript" src="js/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>        
+    <script type="text/javascript" language="javascript" src="js/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="js/functions.js" ></script>    
+    <script type="text/javascript" src="productos/ListaPrecios.js?_=222222111111111111111122222" ></script>
+    
+<!-- end:   script -->
+
+
+<!-- begin: edit_form_cab -->  
+<table border="0" class="form_table" id="edit_lista_precios" style="width: auto">
+    <tr> <th colspan="2" class="form_title" > Actualizar Lista de Precios  </th> </tr> 
+<!-- end:   edit_form_cab -->
+
+
+<!-- begin: edit_form_data -->     
+<tr> <td class="form_label">Num:</td> <td><input class="form_number calc PRI" type="number" id="form_num" step="1" min="1" max="7" style="width: 50px"  readonly="readonly" required="required" size="10" onkeypress="return onlyNumbers(event)" value="{value_of_num}" >*</td>  </tr>
+<tr> <td class="form_label">Moneda:</td> <td>
+<select class="form_db_select calc PRI" id="form_moneda" readonly="readonly"  >{value_of_moneda}</select>
+*</td>  </tr>
+<tr> <td class="form_label">Um:</td> <td>
+<select class="form_db_select calc PRI" id="form_um" readonly="readonly"  >{value_of_um}</select>
+*</td>  </tr>
+<tr> <td class="form_label">Descrip:</td> <td><input class="form_text" type="text" id="form_descrip"   required="required" size="30"  value="{value_of_descrip}" >*</td>  </tr>
+<tr> <td class="form_label">Ref Num:</td> <td>
+<select class="form_db_select MUL" id="form_ref_num"   >{value_of_ref_num}</select> <select class="form_db_select" id="form_ref_moneda"   >{value_of_ref_moneda}</select>
+<select class="form_db_select" id="form_ref_um"   >{value_of_ref_um}</select>
+*</td>  </tr>
+ 
+  
+ 
+<tr> <td class="form_label">Factor:</td> <td><input class="form_number" type="number" id="form_factor" step="any" style="width: 50px"   required="required" size="4" onkeypress="return onlyNumbers(event)" value="{value_of_factor}" >*</td>  </tr>
+<tr> <td class="form_label">Regla Redondeo:</td> <td>
+<select class="form_select" id="form_regla_redondeo"   >{value_of_regla_redondeo}</select>
+*</td>  </tr>
+
+<!-- end:   edit_form_data -->
+
+
+<!-- begin: edit_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_lista_precios" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value="Modificar Datos" onclick=updateData("edit_lista_precios") id="lista_precios_update_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="lista_precios_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   edit_form_foot -->
+
+
+
+
+
+
+<!-- begin: add_form_cab -->  
+<table border="0" class="form_table" id="add_lista_precios">
+    <tr> <th colspan="2" class="form_title" > (Nuevo Registro) Lista_precios  </th> </tr> 
+<!-- end:   add_form_cab -->
+
+
+<!-- begin: add_form_data -->     
+<tr> <td class="form_label">Num:</td> <td><input class="form_number calc PRI" type="number" id="form_num" step="1" min="1" max="7" style="width: 50px"    required="required"  size="4" onkeypress="return onlyNumbers(event)" value="" >*</td>  </tr>
+<tr> <td class="form_label">Moneda:</td> <td>
+<select class="form_db_select calc PRI" id="form_moneda"  >{value_of_moneda}</select>
+*</td>  </tr>
+<tr> <td class="form_label">Um:</td> <td>
+<select class="form_db_select calc PRI" id="form_um"  >{value_of_um}</select>
+*</td>  </tr>
+<tr> <td class="form_label">Descrip:</td> <td><input class="form_text" type="text" id="form_descrip"    required="required"  size="30"  value="" >*</td>  </tr>
+<tr> <td class="form_label">Ref Num:</td> <td>
+<select class="form_db_select MUL" id="form_ref_num"  >{value_of_ref_num}</select> <select class="form_db_select" id="form_ref_moneda"  >{value_of_ref_moneda}</select>
+<select class="form_db_select" id="form_ref_um"  >{value_of_ref_um}</select>
+*</td>  </tr>
+ 
+<tr> <td class="form_label">Factor:</td> <td><input class="form_number" type="number" step="any" style="width: 50px" id="form_factor"    required="required"  size="4" onkeypress="return onlyNumbers(event)" value="" >*</td>  </tr>
+<tr> <td class="form_label">Regla Redondeo:</td> <td>
+<select class="form_select" id="form_regla_redondeo"  >
+<option value="SEDECO">SEDECO</option>
+<option value="2_DEC_ARRIBA">2_DEC_ARRIBA</option>
+<option value="2_DEC_ABAJO">2_DEC_ABAJO</option>
+<option value="NO_REDONDEAR">NO_REDONDEAR</option>
+</select>
+*</td>  </tr>
+
+<!-- end:   add_form_data -->
+
+
+<!-- begin: add_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_lista_precios" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value=" Grabar " onclick=addData("add_lista_precios") id="lista_precios_save_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="lista_precios_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   add_form_foot -->
+
+
+<!-- begin: no_result -->     
+<div style="text-align: center;margin: 2cm auto"> Ningun registro para Lista_precios <button type="button" id="add_button_proveedores" onclick="addUI()">Agregar un nuevo registro para (Lista_precios)</button></div> 
+<!-- end:   no_result -->

@@ -1,0 +1,65 @@
+
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="pedidos/SolicitudesPendientesAutorizacion.css?_=MMMMMMMMMMMMMMMMM" />   
+     
+    <script type="text/javascript" src="pedidos/SolicitudesPendientesAutorizacion.js?_=MMMMMMMMMMMMMMMMM" ></script>
+    
+<!-- end:   headers -->
+
+  
+
+<!-- begin: solicitudes_abiertas_cab -->
+
+<div style="text-align: center;margin-bottom: 12px;padding:4px;font-weight:bold" class="titulo">Solicitudes Pendientes de Autorizaci&oacute;n</div>
+
+<div id="solicitudes"> 
+<!-- end:   solicitudes_abiertas_cab -->
+
+<!-- begin: solicitudes_abiertas_data -->
+<table border="1" class="solicitud_abierta_cab solicitud_{nro}" data-destino="{destino}"  data-nro="{nro}" style="border:1px solid gray;border-collapse: collapse;min-width: 90%;margin:4 auto;"> 
+    <tr style="background-color: lightgray">
+        <th>Nro</th> <th>Usuario</th><th style="width: 50%">Cliente</th><th>Origen/Destino</th><th>Fecha</th> 
+    </tr>  
+    <tr style="background-color: white"> <th>{nro}</th> <th class="usuario_{nro}">{usuario}</th><th style="text-align: left;" data-cod_cli="{cod_cli}"  data-nro="{nro}" class="cliente_{nro}" >{cliente}</th><th class="dest_{nro}" data-origen="{origen}">{origen}-->{destino}</th><th>{fecha}</th> </tr>
+    <tr>
+        <td colspan="8">
+            <table border="1" id="sol_{nro}" class="solicitud_abierta" data-destino="{destino}" data-nro="{nro}" style="border:1px solid gray;border-collapse: collapse;min-width: 100%;">
+                <thead>
+                    <tr class="titulo"><th style="font-size: 10px;">Descrip</th><th style="font-size: 10px;">Img</th><th style="font-size: 10px;">Cantidad</th><th style="font-size: 10px;">P.Cat.<br>P.Min.</th><th style="font-size: 10px;">Precio Venta</th><th style="font-size: 10px;">Subtotal</th>   </tr> 
+                </thead>
+                <tbody>
+ <!-- end: solicitudes_abiertas_data -->                
+                
+<!-- begin: solicitudes_abiertas_detalle --> 
+<tr id="tr_{nro}" style="background-color: white"> <td class="item" style="font-size: 10px;font-family: lucida;">{descrip}</td><td style="width: 3%" class="itemc"><img class="imagen_design" src="{img}"  ></td><td class="num" style="font-size: 10px;">{cantidad}</td><td class="num" style="width: 50px;font-size: 10px;font-family: lucida">{precio_cat}<br>{p_valmin}</td><td class="num" style="font-size: 10px;">{precio}</td><td class="num" style="font-size: 10px;">{subtotal}</td>  </tr> 
+<tr style="display:{display_obs}"><td class="item" style="font-size: 10px;"><b>Obs:</b></td><td class="item" colspan="5" style="font-size: 10px;">{obs}</td></tr>
+<!-- end:   solicitudes_abiertas_detalle -->                
+  
+<!-- begin: solicitudes_abiertas_fin_data -->
+</tbody>
+    <tfoot style="background-color: white">
+        <tr><td colspan="4" align="center"><b>Diff:&nbsp;{diff}&nbsp;{moneda}</b></td> <td align="right"><b>Total:</b></td><td align="right" class="num sumSubtotal"><b>{moneda} {subtotal}</b></td>
+            <td></td>    
+        </tr>
+        <tr>
+            <td style="text-align:center " colspan="6" class="foot_{nro}">
+                <input type="button" value="    Rechazar    " onclick="rechazar({nro})">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" value="    Aprobar    " onclick="aprobar({nro})">
+            </td>
+        </tr>
+    </tfoot>
+
+            </table>
+        </td>
+    </tr> 
+        
+</table>
+<br><br>
+<!-- end:  solicitudes_abiertas_fin_data --> 
+
+<!-- begin: solicitudes_abiertas_foot -->
+</div>
+<!-- end:   solicitudes_abiertas_foot -->
+
+

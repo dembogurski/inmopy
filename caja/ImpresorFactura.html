@@ -1,0 +1,174 @@
+ 
+<!-- begin: general_header -->
+    <!DOCTYPE html> 
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+    <script type="text/javascript" src="impresor_factura.js" ></script>   
+    <link rel="stylesheet" type="text/css" href="impresor_factura.css" />
+    <script>
+        var m_top = {factura_margen_sup};
+        var m_bottom = {factura_margen_inf};
+        var m_left = {factura_margen_izq};
+        var m_right = {factura_margen_der};
+        var interval = {factura_interval_dup};
+    </script>    
+    
+    <div class="config" style="width: 90%;border: solid black 0px;height:20px">
+        <img class="arrow" src="../img/arrow-up.png"  onclick=setAltura("-") ><input type="text" onchange="change($(this))" size="3" id="marginTop" /><img class="arrow" src="../img/arrow-down.png"  onclick=setAltura("+")  >
+    </div>  
+    
+  
+<!-- end:   general_header -->
+
+
+<!-- begin: start_marco -->
+
+<input type="hidden" id="suc" value="{suc}" >
+<input type="hidden" id="usuario" value="{usuario}" >
+
+<div id="marco" class="marco" style="margin: {margenes};" >
+    <div id="printInformation">
+        <p> Los margenes se configuran en milimetros </p>
+        Cargar configuraci&oacute;n de: <select id="configPrint" onchange="loadParams($(this))" >{usersConfig}</select><input type="button" id="saveAll" value="Guardar" onclick="guardarTodo()" /><br>
+        <label style="font-size: 12px" for="p_unit">Imprimir sin Precios Unitarios</label> <input type="checkbox" name="p_unit" id="p_unit" onclick="quitarPreciosUnitarios()" >
+    </div>
+<!-- end:   start_marco -->
+
+
+<!-- begin: cabecera -->
+<table border="0" cellspacing="0" cellpadding="0" width="100%" >
+        <tr>
+            <td class="curveb" >
+                <table  border="0" cellspacing="0" cellpadding="0" width="100%">
+                 <tr>
+                   <td style="width:60%"><label class="label">&nbsp;&nbsp;Nombre o Raz&oacute;n Social:</label>&nbsp;
+                   <input id="{id_nombre}" onkeyup="igualarNombres()" class="sub" readonly="readonly" type="text" size="70" value="{cliente}" /> </td>  
+
+                   <td><label>Vendedor:</label><label>&nbsp;{vendedor}</label></td>
+
+                 </tr>
+                 <tr><td><label>&nbsp;&nbsp;CI/R.U.C.:</label> &nbsp; 
+                  <input id="ruc" class="sub" type="text" readonly size="30" value="{ruc}" /> </td>         
+                     <td><label>Nota de Remision N&deg;:______</label>  </td>  </tr>
+                 <tr><td><label>&nbsp;&nbsp;Fecha:&nbsp;{fecha}&nbsp; </label></td> <td><label>Condici&oacute;n de Venta:</label>&nbsp;
+                   
+                   <label>CONTADO&nbsp;</label><label class="cond_venta">{contado}</label>&nbsp;&nbsp;
+                   <label>CR&Eacute;DITO&nbsp;</label><label class="cond_venta">{credito}</label>
+
+                   </td>    </tr>
+               </table>  
+                
+            </td>
+        </tr>
+    
+</table>
+<!-- end:   cabecera -->
+
+
+ 
+<!-- begin: cabecera_detalle -->
+<table border="0" cellspacing="0" cellpadding="0" width="100%"  style="margin-top: 2px">
+        <tr>
+            <td class="curveb">
+               <table border="0" cellspacing="0" cellpadding="0" width="100%" >
+                 <tr class="cab_det" style="text-align:center" >
+                     <td style="width:7%;height:18px" class="der_ab">C&Oacute;DIGO</td>
+                     <td style="width:7%;" class="der_ab">CANT.</td>
+                     <td class="der_ab" style="width:4%;text-align:center"  >UM.</td>
+                     <td class="der_ab" style="width:47%">DESCRIPCI&Oacute;N</td>                    
+                     <td style="width:9%;" class="der_ab">PRECIO UNIT.</td>
+                     <td style="width:7%;" class="der_ab">DESC.</td>                     
+                     <td style="width:5;" class="der_ab">EXENTAS</td>
+                     <td style="width:5%;" class="der_ab">5%</td>
+                     <td style="width:10%;" class="ab">10%</td>
+                 </tr>
+<!-- end:   cabecera_detalle -->
+
+
+<!-- begin: detalle -->
+
+        <tr class="fila">
+           <td class="item"  >&nbsp; {codigo} </td>
+           <td class="item_num incluir" data-val="{cantidad}">{cantidad}</td>
+           <td class="item incluir" data-val="{um}" style="text-align:center" >{um}</td>
+           <td class="item" >{descrip}</td> 
+           <td class="item_num incluir" data-val="{precio}"> {precio} </td>
+           <td class="item_num incluir" data-val="{descuento}"> {descuento} </td>
+           <td class="item_num incluir" data-val="{excenta}" style="text-align:{aling_excenta}" > {excenta} </td>
+           <td class="item_num" style="text-align:center" > / </td>
+           <td class="item_num" style="border:0px;text-align:{align_iva_10}" > {linea_iva_10} </td>
+        </tr>
+
+<!-- end:   detalle -->
+
+<!-- begin: detalle_vacio -->
+
+        <tr  class="fila">
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item_num"  style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item_num"  style="text-align:center" >/</td>
+           <td class="item_num"  style="text-align:center" >/</td>
+           <td class="item_num"  style="text-align:center" >/</td>
+           <td class="item_num"  style="border:0px;text-align:center" >/</td>
+        </tr>
+
+<!-- end:   detalle_vacio -->
+
+<!-- begin: pie_detalle -->
+               <tr>
+                   <td align="center" class="subtotal" >SUBTOTAL</td>
+                <td colspan="5" class="subtotal">&nbsp;</td>                
+                <td class="item_num" style="border-style:solid;border-width: 1px 1px 1px 0px;;font-size: 10px">{total_excenta}</td>
+                <td class="subtotal">&nbsp;</td>
+                <td class="item_num" style="border-style:solid;border-width: 1px 0px 1px 0px;font-size: 10px">{total}</td>
+               </tr>
+                <tr>
+                   <td colspan="7" class="fila_total">&nbsp; <b>TOTAL A PAGAR {moneda}.: </b>&nbsp;{total_letras}~~~~</td>
+                <td align="center" colspan="2" style="border-style:solid;border-width: 0px 0px 1px 0px;white-space:nowrap;overflow:hidden "  >
+                  <label class="total_rec"  >&nbsp;&nbsp;{total_factura}&nbsp;{moneda}.&nbsp;&nbsp;&nbsp;</label> &nbsp;&nbsp;</td>
+                </tr>
+               <tr>
+                <td colspan="2"  style="height:26px; padding-left:2px"> 
+                    <label>TASA DEL IVA:&nbsp;(5%)</label> 
+                </td>
+                <td align="left" colspan="3"  ><label>&nbsp;~~~~~~~~</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <label style="width:230px;text-align:center;">(10%)&nbsp;&nbsp;{total_iva_10}&nbsp;&nbsp;~~~~</label>   &nbsp;&nbsp;&nbsp;&nbsp; 
+                     <label>TOTAL IVA:&nbsp;{total_iva_10}&nbsp;~~~~</label>  </td>
+                     <td colspan="4" style="text-align:left;vertical-align:bottom; " ><label style="font-weight: bolder">{desc_sedeco}</label> </td>
+               </tr>
+               </table>
+            </td>
+        </tr>
+</table>
+<!-- end:   pie_detalle -->
+
+
+
+<!-- begin: intervalo -->
+<div id="intervalo" style="text-align: center;height: {intervalo};"    >      
+    <div  class="config">
+        <img class="arrow" src="../img/arrow-left.png" onclick=setMargen("-","Left")  ><input type="text" onchange="change($(this))" size="3" id="marginLeft" /><img class="arrow" src="../img/arrow-right.png" onclick=setMargen("+","Left") >  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img class="arrow" src="../img/arrow-up.png"  onclick=setIntervalo("-") ><input type="text" onchange="change($(this))" size="3" id="intervaloVal" /><img class="arrow" src="../img/arrow-down.png"  onclick=setIntervalo("+")  > 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img class="arrow" src="../img/arrow-left.png" onclick=setMargen("+","Right")><input type="text" onchange="change($(this))" size="3" id="marginRight" /><img class="arrow" src="../img/arrow-right.png" onclick=setMargen("-","Right")>
+   </div>
+</div> 
+<!-- end:   intervalo -->
+
+
+
+
+<!-- begin: end_marco -->
+</div>
+<!-- end:   end_marco -->
+
+
+<!-- begin: no_imprimir -->
+<script>
+    alert("Se supero la cantidad maxima de Lineas imprimibles en la factura");
+    window.close();
+</script>
+<!-- end:   no_imprimir -->

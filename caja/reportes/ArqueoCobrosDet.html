@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+<html>
+<head>
+<meta charset="ISO-8859-1">
+      <link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+      <link rel="stylesheet" type="text/css" href="../../js/jquery-ui/jquery-ui.css" /> 
+		<script type="text/javascript" src="../../js/jquery-1.11.2.min.js" ></script>
+		<script type="text/javascript" src="../../js/jquery-ui/jquery-ui.min.js" ></script>
+      
+      <script type="text/javascript" src="../../js/jquery.maskedinput.min.js" ></script>
+      <script type="text/javascript" src="../../js/reportes.js" ></script>
+		<script type="text/javascript" src="../../js/functions.js"></script>
+	  <style>
+	  .selected{
+		color: darkblue;
+		text-shadow: -1px -1px 1px lightblue, 1px -1px 1px lightblue, -1px 1px 1px lightblue, 1px 1px 1px lightblue;
+		font-weight: 900;
+		text-align: right;
+		margin-left: 3px;
+	  }
+	  .c_titulo{
+		letter-spacing: 5px;
+		text-align: center;
+		margin:-8px 0 7px;
+		padding: 5px;
+		background-color: lightgray;
+		-webkit-border-bottom-right-radius: 25px;
+		-webkit-border-bottom-left-radius: 25px;
+		-moz-border-radius-bottomright: 25px;
+		-moz-border-radius-bottomleft: 25px;
+		border-bottom-right-radius: 25px;
+		border-bottom-left-radius: 25px;
+	  }
+	  .c_menu{
+		margin: 1px auto;
+		width: 1024px;
+	  }
+		.data{
+		    display: none;
+		    width: 920px;
+                    border-collapse: collapse;
+		}
+		.data th{
+			/*background-color: lightgrey*/
+		}
+		#cobros{
+			list-style: none;
+			width: 75px;
+			text-align: left;
+			padding: 0 3px;
+			height: 100%;
+		}
+		#c_ref{
+			float:left;
+		}
+		#c_are{
+			margin: 0 31px;
+		}
+		#cli_data{
+			padding: 1px 5px;
+			width: 720px;
+		}
+		.titulo{
+			text-align: right;
+			font-weight: 900;
+			border-right: dotted black 1px;
+		}
+                .cabecera{
+                    background-color: #dddacd
+                }
+		.si{
+			background-color: lightgreen;
+			font-variant: small-caps;
+		}
+		.no{
+			background-color: lightblue;
+			font-variant: small-caps;
+		}
+		.boton_accion img{
+			margin:0 3px -4px 0;
+		}
+		.boton_accion[disabled="disabled"] img{
+			opacity: 0.5;
+		}
+		.boton_accion{
+			margin-left: 17px;
+			font: italic bold 14px/30px Georgia, serif;			
+			cursor: pointer;
+			border-radius:7px;
+			border: solid 1px gray;
+			margin: 1px 0;
+			box-shadow: 2px 3px 5px gray;
+		}
+		.boton_accion:not([disabled="disabled"]){
+			color: darkgreen;
+		}
+		.boton_accion[disabled="disabled"]{
+			color: darkgray;
+			cursor: not-allowed;
+		}
+		.boton_accion:not([disabled="disabled"]):hover{
+			box-shadow: 2px 3px 5px green;
+		}
+		#cobros li{
+			margin: 1px 0px 2px 0px;     
+			padding: 3px 2px;
+                        width: 110px;
+		}
+		#cobros li:hover{
+			background-color: lightcoral;
+			text-align: right;
+			cursor: pointer;
+		}
+		#cobros li:hover:before{
+			content: "id: ";
+		  font-weight: 900;
+		}
+		td[class^="c0"]{
+			text-align: center;
+		}
+		td[class^="r0"], td[class^="int0"], td[class^="float0"]{
+			text-align: right;
+		}
+		td[class^="l0"]{
+			text-align: left;
+		}
+		#det_pago{			
+			font-size: 12px;
+			border: 1px solid gray;
+			width: 720px;
+			margin-bottom: 7px;
+                        border-collapse: collapse
+		}		
+		#det_pago [class^="fecha_"]{
+			text-align: center;
+		}
+		#det_pago td,#det_pago th{
+			border: 1px solid gray;
+			padding: 1px 7px;
+		}
+		.mod{
+			width: 100%;
+			border: none;
+			background-color: wheat;
+		}
+		div#msg{
+			position: fixed;
+			bottom: 0px;
+	                left: 10px;		 
+			border: solid 1px gray;
+			border-radius: 5px 5px 0 0;
+			background-color: yellow;
+			width: 30%;
+                        padding-left: 10px;
+		}
+		div#msg p{
+			margin: 0 1px 1px 3px;
+		}
+		td[onclick^=modificar]::before, span[onclick^=modificar]::before{
+			content: '\027a7';
+			font-size: 14px;			
+			font-weight: 900;
+			color: orange;
+		}
+		td[onclick^=modificar]:hover, span[onclick^=modificar]:hover {
+			cursor: url("../../img/edit.cur"), auto;
+			background-color: gray;
+		}
+		input.nFecha{
+			border: 1px dodgerblue darkgray;
+			font-size: 14px;
+		}
+		.cliente_datos{
+			max-width: 240px;
+		}
+		[class^=float], [class^=int], [class^=num],[class$=num]{
+			text-align: right;
+		}
+		.suc, [class^=c_]{
+			text-align: center;
+		}
+	  </style>
+	  <style>
+	  .loader{
+		  border-radius: 50%;
+		  width: 2.5em;
+		  height: 2.5em;
+		  -webkit-animation-fill-mode: both;
+		  animation-fill-mode: both;
+		  -webkit-animation: load7 1.8s infinite ease-in-out;
+		  animation: load7 1.8s infinite ease-in-out;
+		}
+		.loader {
+		  color: darkcyan;
+		  font-size: 10px;
+		  margin: 0 auto;
+		  position: relative;
+		  text-indent: -9999em;
+		  -webkit-transform: translateZ(0);
+		  -ms-transform: translateZ(0);
+		  transform: translateZ(0);
+		  -webkit-animation-delay: -0.16s;
+		  animation-delay: -0.16s;
+		}		
+		@-webkit-keyframes load7 {
+		  0%, 80%,
+		  100% { box-shadow: 0 2.5em 0 -1.3em; }
+		  40% { box-shadow: 0 2.5em 0 0; }
+		}
+		@keyframes load7 {
+		  0%, 80%,
+		  100% { box-shadow: 0 -2.5em 0 -1.3em; }
+		  40% { box-shadow: 0 -2.5em 0 0; }
+		}
+                .anchorTitle {
+    /* border radius */
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 3px #e6e6e6;
+    -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    /* other settings */
+    background-color: #fff;
+    border: solid 2px orange;
+    color: #333;
+    display: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    max-width: 700px;
+    padding: 5px 7px;
+    position: absolute;
+    margin-left:40px
+}
+	  </style>
+	  <script>
+	  var msgArea;
+	  $(function(){
+			setInterval(function(){ if(opener == null){self.close();} }, 2000);
+			$.ajaxSetup({		
+				beforeSend: function() {
+				$('.loader').css("visibility","visible");
+				},
+				complete: function(html) {
+				$('.loader').css("visibility","hidden");
+			  }
+			});
+                        setAnchorTitle();
+		});
+		var editable = [];
+		function getCobroData(obj){
+			$("li").removeClass("selected");
+			$(".data tbody").empty();
+			$("#det_pago tbody").empty();
+			$(".data").hide();
+			var id = obj.attr("id");
+			
+			$.post("ArqueoCobrosDet.class.php",{"action":"getPagosRec", "args":id} , function(data){
+				var estado =  $("#"+id).hasClass("no");
+				
+				$.each(data,function(index,value){
+					if( index === 'cli_data' ){
+						// Datos de Cliente y Pago
+						$.each(value[0],function(s_index,s_value){
+							if(s_index === 'cuotas'){
+								// Cuotas afectadas
+								for(var c in s_value){
+									var file = $("<tr/>",{"class":"fila"});
+									for(var d in s_value[c]){
+										$("<td/>",{
+											"class":d,
+											"text":formatter(d,s_value[c][d])
+										}).appendTo(file);										
+									}
+									file.appendTo("#det_pago tbody");
+								}
+							}else{
+								// Datos de Cliente y Pago
+								$("#"+s_index).text(formatter(s_index,s_value));
+							}
+						});
+						$("#"+id).addClass("selected");
+					}else{
+						$.each(value,function(s_index,s_value){
+							var tr = $("<tr/>",{"class":"fila"});
+							$.each(s_value,function(a_index,a_value){
+								var datosFila = {"text":formatter(a_index,a_value),"class":a_index};
+								var col = a_index.substr(a_index.indexOf('0')+1, a_index.length);
+								if(estado){
+									switch(col){
+										case "benef":
+										case "cuenta":
+										case "id_banco":
+										case "nro_cheque":
+										case "voucher":
+										case "nombre":
+										case "fecha_emis":
+										case "fecha_pago":
+										case "tipo":
+											datosFila['onclick'] = "modificar($(this))";
+											break;
+									}
+								}
+								if(/^id_/.exec(a_index) != null)datosFila['style']="display:none";// Ocultar IDs
+								$("<td/>",datosFila).appendTo(tr);
+							});
+							tr.appendTo("#"+index+" tbody");
+							$("#"+index).show();
+						});
+					}
+					
+				});
+				
+				if(estado){
+					$(".boton_accion").removeAttr("disabled");
+					if($("span#fecha").attr("onclick") == undefined)$("span#fecha").attr("onclick","modificarFechaPago()");
+				}else{
+					$(".boton_accion").attr("disabled","disabled");
+					$("span#fecha").removeAttr("onclick");
+				}
+			},"json");
+		}
+		// Modificar datos
+		function modificar(target){
+			var tabla = $(target.closest("table")).attr("id");
+			var id = $(target.closest("tr")).find("td[class^=id]").text();
+			var id_col = $(target.closest("tr")).find("td[class^=id]").attr('class');
+			var clase = target.attr("class");
+			var col = clase.substr(clase.indexOf('0')+1, clase.length);
+			var valor = target.text();
+			if($(".mod").length > 0)guardar();
+			switch(col){
+				case "benef":
+				case "nro_cheque":
+				case "voucher":
+				case "cuenta":
+					target.empty();
+					$("<input/>",{
+						"value":valor,
+						"class":"mod",
+						"data-tabla":tabla,
+						"data-id":id,
+						"data-id_col":id_col,
+						"data-id_col":id_col,
+						"data-col":col,
+						"onchange":"guardar()",
+						"onblur":"guardar()"
+						}).appendTo(target);
+						
+						target.removeAttr("onclick");
+						target.find("input.mod").focus();
+					break;
+				case "nombre":
+					$.post("ArqueoCobrosDet.class.php",{"action":"getConvenios"} , function(data){
+						if(Object.keys(data).length){
+							target.empty();
+							var select = $("<select/>",{
+								"class":"mod",
+								"data-tabla":tabla,
+								"data-id":id,
+								"data-id_col":id_col,
+								"data-id_col":id_col,
+								"data-col":col,
+								"onchange":"guardar()"
+							});
+							$.each(data,function(key, value){
+								var op = {
+									"value":eval(key),
+									"text":value
+								};
+								if(value == valor)op["selected"] = "selected";
+								$("<option/>",op).appendTo(select);
+							});
+							select.appendTo(target);
+							
+							target.removeAttr("onclick");
+							target.find("select.mod").focus();
+						}
+					},"json");
+					break;
+				case "fecha_emis":
+				case "fecha_pago":
+					modificarFecha(target);
+					break;
+				case "tipo":
+					var tiposCheques = {"Al_Dia":"Al_Dia","Diferido":"Diferido"};
+					target.empty();
+					var select = $("<select/>",{
+					"class":"mod",
+					"data-tabla":tabla,
+					"data-id":id,
+					"data-id_col":id_col,
+					"data-id_col":id_col,
+					"data-col":col,
+					"onchange":"guardar()"
+					});
+					$.each(tiposCheques,function(key, value){
+					var op = {
+						"value":key,
+						"text":value
+					};
+					if(value == valor)op["selected"] = "selected";
+					$("<option/>",op).appendTo(select);
+					});
+					select.appendTo(target);
+
+					target.removeAttr("onclick");
+					target.find("select.mod").focus();
+
+					break;
+				case "id_banco":
+					$.post("ArqueoCobrosDet.class.php",{"action":"getBancos"} , function(data){
+						if(Object.keys(data).length){
+							var banco = target.text();
+							console.log(banco);
+							target.empty();
+							var select = $("<select/>",{
+								"class":"mod",
+								"data-tabla":tabla,
+								"data-id":id,
+								"data-id_col":id_col,
+								"data-id_col":id_col,
+								"data-col":col,
+								"onchange":"guardar()"
+							});
+							$.each(data,function(key, value){
+								var op = {
+									"value":key,
+									"text":value
+								};
+								if(key == banco)op["selected"] = "selected";
+								$("<option/>",op).appendTo(select);
+							});
+							select.appendTo(target);
+							
+							target.removeAttr("onclick");
+							target.find("select.mod").focus();
+						}
+					},"json");
+										
+					break;
+
+			}
+			// console.log(tabla+', '+id+','+col);
+		}
+		// Guardar Datos
+		function guardar(){
+			$(".mod").each(function(){
+				var tabla = $(this).data("tabla");
+				var id = $(this).data("id");
+				var up = $(this).closest("td");
+				var id_col = $(this).data("id_col");
+				var org = $(this).data("org");
+				var col = '';
+				var valor = '';
+				var args = {};
+
+				if(tabla == 'convenios' && $(this).data("col") == 'nombre'){
+					args = {
+						"tabla":tabla,
+						"id_col":id_col,
+						"id":id,
+						"cod_conv":$(this).find("option:selected").val(),
+						"nombre":$(this).find("option:selected").text()
+						};
+					valor = $(this).find("option:selected").text();
+				}else{
+					col = $(this).data("col");
+					valor = $.trim($(this).val());			
+					args = {
+						"tabla":tabla,
+						"id_col":id_col,
+						"id":id,
+						"col":col,
+						"valor":valor
+						};
+				}
+				up.empty();
+				up.text(valor);
+				up.attr("onclick","modificar($(this))");
+				if(org != valor){
+					$.post("ArqueoCobrosDet.class.php",{"action":"actualizar", "valores":JSON.stringify(args)} , function(data){
+						mostrarMsg(data.msg);
+					},"json");
+				}
+			});
+		}
+		// Verif
+		function verificado(){
+			var idPago = $("#id_pago").text();
+			if(confirm("Marcar cobro "+idPago+" como Verificado?")){
+				$.post("ArqueoCobrosDet.class.php",{"action":"verificado", "args":idPago} , function(data){
+					if(data.msg == "Ok"){
+						$("#"+idPago).addClass("si");
+						$("#"+idPago).removeClass("no");
+						$(".boton_accion").attr("disabled","disabled");
+					}else{
+						alert("Error!\nOcurrio un problema al intentar realizar la operaci\363n");
+					}
+				},"json");
+			}
+		}
+		//
+		function formatter(formato,dato){
+			var entero =  /^int.*/;
+			var flotante = /^float.*/;
+			
+			if(entero.exec(formato) !== null){
+				return parseInt(dato).format(0,3,'.',',');
+			}else if(flotante.exec(formato) !== null){
+				return parseFloat(dato).format(2,3,'.',',');
+			}else{
+				return dato
+			}
+		}
+		// Eliminar pago recibido
+		function eliminar(){
+			var idPago = $("#id_pago").text();
+			if(confirm("Eliminar cobro "+idPago)){
+				$.post("ArqueoCobrosDet.class.php",{"action":"eliminar", "args":idPago} , function(data){
+					if(data.msg == "Ok"){						
+						$(".boton_accion").attr("disabled","disabled");
+					}else{
+						alert("Error!\nOcurrio un problema al intentar realizar la operaci\363n");
+					}
+				},"json");
+			}
+		}
+
+		// Muestra un mensaje por 4 Segundos
+		function mostrarMsg(msg){			
+			$("div#msg").append($("<p/>",{"text":msg}));
+			$("div#msg").slideDown("slow");
+			if(msgArea){
+				clearTimeout(msgArea);
+			}
+			msgArea = setTimeout(ocultarMsg,4000);
+		}
+
+		function ocultarMsg(){
+			$("div#msg").slideUp("slow", function(){
+				$("div#msg").empty();
+			});
+		}
+
+		function modificarFechaPago(){
+			var nFecha = $("span#fecha").text();
+			$("span#fecha").empty();			
+			$("<input/>",{
+				"value":nFecha,
+				"class":"nFecha",
+				"onchange":"guardarFecha()"/* ,
+				"onblur":"guardarFecha()" */
+			}).appendTo("span#fecha");
+			
+			$("span#fecha").removeAttr("onclick");
+			
+			$("span#fecha").find("input.mod").focus();
+			$("input.nFecha").mask("99-99-9999");
+			$("input.nFecha").datepicker({ "dateFormat": 'dd-mm-yy',language: "es" });
+			$("input.nFecha").datepicker("show"); //{ language: "en"}
+		}
+		// Modificar Fecha
+		function modificarFecha(target){
+			var tabla = $(target.closest("table")).attr("id");
+			var id = $(target.closest("tr")).find("td[class^=id]").text();
+			var id_col = $(target.closest("tr")).find("td[class^=id]").attr('class');
+			var clase = target.attr("class");
+			var col = clase.substr(clase.indexOf('0')+1, clase.length);
+			var valor = target.text();
+			target.empty();
+
+			$("<input/>",{
+				"value":valor,
+				"class":"mod",
+				"data-tabla":tabla,
+				"data-id":id,
+				"data-id_col":id_col,
+				"data-id_col":id_col,
+				"data-col":col,
+				"onchange":"guardar()"
+				}).appendTo(target);
+
+			target.removeAttr("onclick");
+			
+			var nFecha = target.find("input.mod");
+			nFecha.focus();
+			nFecha.mask("99-99-9999");
+			nFecha.datepicker({ "dateFormat": 'dd-mm-yy' });
+			nFecha.datepicker("show");
+		}
+		
+		function guardarFecha(){
+			var n_nro = $("span#id_pago").text();
+			var fechaCH = $("input.nFecha").val();
+			$("span#fecha").text(fechaCH);
+			$("span#fecha").attr("onclick","modificarFechaPago()");
+
+			$.post("ArqueoCobrosDet.class.php",{"action":"modificarFechaPago", "args":n_nro+','+fechaCH} , function(data){
+				if(data.msg == "Ok"){						
+					$(".boton_accion").attr("disabled","disabled");
+					getCobroData($("li#"+n_nro));
+				}else{
+					mostrarMsg("No se actualizaron datos!");
+				}
+			},"json");
+		}
+                
+function setAnchorTitle() {
+     $('li[title!=""]').each(function() {
+         var a = $(this);
+         a.hover(
+             function() {
+                 showAnchorTitle(a, a.data('title'));
+             },
+             function() {
+                 hideAnchorTitle();
+             }
+         ).data('title', a.attr('title')).removeAttr('title');
+     });
+ }
+
+ function showAnchorTitle(element, text) {
+     var offset = element.offset();
+     $('#anchorTitle').css({
+         'top': (offset.top + element.outerHeight() - 40) + 'px',
+         'left': offset.left + 'px'
+     }).html(text).show();
+ }
+
+ function hideAnchorTitle() {
+     $('#anchorTitle').hide();
+ }                
+	  </script>
+	  </head>
+          
+	  <body>
+              <div id="anchorTitle" class="anchorTitle"></div>
+<!-- end:   header -->
+
+<!-- begin: error -->
+<div class="error"><p>Error al procesar la petici&oacute;n</p></div>
+<!-- end:   error -->
+
+<!-- begin: cobro_head -->
+<h2 class="c_titulo"> Cobros </h2>
+<div class="c_menu">
+<!-- end:   cobro_head -->
+
+<!-- begin: menu_head -->
+<div id="c_ref">
+	<ul id="cobros">
+<!-- end:   menu_head -->
+
+<!-- begin: menu_body -->
+<li class="{control}" id="{cobro}" title="{menu_cliente}" onclick="getCobroData($(this))">{nombre_corto}</li>
+<!-- end:   menu_body -->
+
+<!-- begin: menu_foot -->
+	</ul>
+</div>
+<!-- end:   menu_foot -->
+
+<!-- begin: c_are -->
+<div class="c_area">
+<table id="cli_data">
+<tr><td class="titulo">id:</td><td class="cliente_datos"><span id="id_pago" class="selected"></span></td><td rowspan="6">
+	<button class="boton_accion" id="verif" disabled="disabled" onclick="verificado()"><img src="../../img/ok.png" alt="Ok">Marcar como Verificado</button><br>
+	<button class="boton_accion" id="eliminar" disabled="disabled" onclick="eliminar()"><img src="../../img/delete.png" alt="Spr"> Eliminar</button></td></td></tr>
+<tr><td class="titulo">Cliente:</td><td class="cliente_datos"><span id="cliente"></span></td></tr>
+<tr><td class="titulo">Monto:</td><td class="cliente_datos"><span id="float0monto"></span></td></tr>
+<tr><td class="titulo">Interes:</td><td class="cliente_datos"><span id="float0interes"></span></td></tr>
+<tr><td class="titulo">Estado:</td><td class="cliente_datos"><span id="estado"></span></td></tr>
+<tr><td class="titulo">Fecha:</td><td class="cliente_datos"><span id="fecha"></span></td><td><div style="visibility: hidden;" class="loader">Loading...</div></td></tr>
+</table>
+<table id="det_pago" cellspacing="0" cellpadding="0" border="1">
+	<thead>
+            <tr class="cabecera">
+		<th>Ref</th>
+                <th>Cuota</th>	
+		<th>Factura</th>		
+		<th>FechaFact</th>
+		<th>Monto</th>
+		<th>Suc</th>
+		<!--
+		<th>Total</th>
+		<th>Pagado</th>
+		<th>Interes</th>
+		<th>Estado</th>
+		-->
+	</tr>
+	</thead>
+	<tbody>
+
+	</tbody>
+</table>
+    <table id="efectivo" class="data" border="1" cellspacing="0" cellpadding="0" style="border-collpase:collapse">
+        <thead>
+            <tr><th colspan="4" class="cabecera">Efectivo</th></tr>
+            <tr><th>Fecha</th><th>Moneda</th><th>Suc</th><th>Cantidad</th></tr>
+        </thead>
+    <tbody></tbody>
+    </table>
+<table id="cheques_ter" class="data" border="1" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr><th colspan="10" class="cabecera">Cheques</th></tr>
+        <tr><th>Nro.</th><th>Banco</th><th>Cuenta</th><th>Beneficiario</th><th>Fecha Emis</th><th>Fecha Pago</th><th>Tipo</th><th>Valor</th><th>Cotiz</th><th>ValRef</th></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<table id="convenios" class="data" border="1" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr><th colspan="5" class="cabecera">Tarjetas</th></tr>
+        <tr><th>Suc</th><th>Nombre</th><th>Voucher</th><th>Fecha</th><th>Monto</th></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<table id="bcos_ctas_mov" class="data" border="1" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr><th colspan="5" class="cabecera">Bancos</th></tr>
+        <tr><th>Suc</th><th>Nombre</th><th>Nro. Deposito</th><th>Cuenta</th><th>Monto</th></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+</div>
+<!-- end:   c_are -->
+
+<!-- begin: cobro_foot -->
+</div>
+<div id="msg"></div>
+<!-- end:   cobro_foot -->
+
+<!-- begin: end -->
+</body>
+</html>
+<!-- end:   end  -->

@@ -1,0 +1,141 @@
+<!-- begin: header -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" />     
+</head>
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Ventas por Vendedor</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}, Cat: {categorias}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Factura</th>
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>RUC</th>
+        <th>Cliente</th>
+        <th>Cat</th>
+        <th>Total</th>
+        <th>Estado</th>        
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{f_nro}</td>
+    <td class="item">{usuario}</td>
+    <td class="itemc">{fecha}</td>
+    <td class="item">{ruc_cli}</td>    
+    <td class="item">{cliente}</td>
+    <td class="itemc">{cat}</td>
+    <td class="num">{total}</td>
+    <td class="itemc">{estado}</td>        
+</tr>    
+ 
+<!-- end:   data -->
+ 
+<!-- begin: sub_total -->
+<tr  style="font-weight: bolder">
+    <td colspan="6" ></td>     
+    <td class="num">{sub_total}</td>
+    <td class="num"></td>    
+</tr>   
+ 
+<!-- end:   sub_total -->
+
+<!-- begin: total -->
+<tr style="font-weight: bolder">
+    <td colspan="6">Total</td>
+    <td class="num">{total}</td>
+    <td class="num"></td>    
+</tr>   
+ 
+<!-- end:   total -->
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="9"></td>    
+</tr> 
+</table>    
+<!-- end:   foot  -->
+
+
+
+<!-- begin: head_agrup -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Ventas por Vendedor</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}, Cat: {categorias}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Suc</th>
+        <th>Usuario</th>
+        <th>Mts</th>
+        <th>Normal</th>
+        <th>Oferta</th>
+        <th>Total</th>
+        <th>DescNormal</th>
+        <th>DescOferta</th>
+        <th>Descuento</th>    
+        <th>Devolucion</th>    
+        <th>Neto</th>        
+    </tr>
+     
+<!-- end:   head_agrup -->
+
+<!-- begin: data_agrup -->
+<tr>
+    <td class="itemc">{suc}</td>
+    <td class="item">{usuario}</td>
+    <td class="num">{cant}</td>
+    <td class="num">{Normal}</td>
+    <td class="num">{Oferta}</td>    
+    <td class="num">{Total}</td>
+    <td class="num">{DescNormal}</td>
+    <td class="num">{DescOferta}</td>
+    <td class="num">{Descuento}</td>  
+    <td class="num">{Devolucion}</td>  
+    <td class="num">{Neto}</td>        
+</tr>    
+ 
+<!-- end:   data_agrup -->
+
+<!-- begin: total_agrup -->
+<tr style="font-weight: bolder">
+    <td class="itemc" colspan="2"></td>     
+    <td class="num">{TCant}</td>
+    <td class="num">{TNormal}</td>
+    <td class="num">{TOferta}</td>    
+    <td class="num">{TTotal}</td>
+    <td class="num">{TDescNormal}</td>
+    <td class="num">{TDescOferta}</td>
+    <td class="num">{TDescuento}</td>  
+    <td class="num">{TDevolucion}</td>  
+    <td class="num">{TNeto}</td>    
+</tr>   
+ 
+<!-- end:   total_agrup -->
+
+<!-- begin: error -->
+<p style="color:red;font-size: 24px; text-align: center">{error_msj}</p>
+<!-- end: error -->

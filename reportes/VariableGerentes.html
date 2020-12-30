@@ -1,0 +1,252 @@
+<!-- begin: header noeval -->
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+    <script type="text/javascript" src="../js/functions.js" ></script>
+    <style>
+        .tabla{
+            border-collapse: collapse;
+            width:100%
+        }
+        .vendedores{
+            border-collapse: collapse;
+            width:100%
+        }
+        .vendedores th{
+            background-color: rgb(221, 218, 205);
+        } 
+        .bold{
+            font-weight: bolder;
+        }
+        td{
+            padding: 0 2px 0 2px;
+        }
+        .num{
+            text-align: right;
+            padding-right:  3px;
+        }
+        .centrado{
+            text-align: center;
+        }
+        .totales{
+            font-weight: bolder;
+        }
+        .cabecera{
+            background-color: #dddacd;
+        }
+        .alerta{
+            background: #FDD1C5 url(../img/important.png) center no-repeat;
+            background-position: 10px 50%; /* x-pos y-pos */
+            text-align: left;
+            padding: 10px 20px 10px 55px;
+            border: 2px solid #FBAB95;
+            color:#000000;   
+        }
+        .cobra{
+            color:green;
+            font-weight: bolder;
+        }
+        .no_cobra{
+            color:red;
+            font-weight: bolder;
+        }
+        .dias_trab{
+            border:solid white 0px;
+            height: 24px;
+            text-align: center
+        }
+    </style>
+    
+    <script language="javascript">        
+        
+        
+        function calcPremio(){
+            var sueldo_contable = parseFloat( $("#sueldo_contable").val().replace(/\./g, '') );
+            var premio_cobrar = parseFloat($("#premio_cobrar").text().replace(/\./g, '') );
+            
+            var sf = (sueldo_contable).format(0, 3, '.', ',') ;
+            $("#sueldo_contable").val(sf);
+            var premio_cobrarf = (premio_cobrar - sueldo_contable).format(0, 3, '.', ',') ;
+            $("#premio_acreditar").val(premio_cobrarf); 
+            if(premio_cobrar - sueldo_contable <= 0){
+                $("#premio_acreditar").removeClass("cobra");
+                $("#premio_acreditar").addClass("no_cobra"); 
+            }else{
+               $("#premio_acreditar").removeClass("no_cobra"); 
+               $("#premio_acreditar").addClass("cobra");
+            }
+        }
+        $(document).ready(function(){
+            $("#variable").html( $("#meta_aux").val( )  );
+            $(".dias_trab").change(function(){
+                
+                var dias_trab_gral = $("#dias_trab_gral").val();                
+                var dt = parseInt($(this).val());
+                var meta =  parseInt($(this).attr("data-meta"));
+                var  ventas = parseFloat($(this).attr("data-ventas") );
+                
+                if(dt > dias_trab_gral){
+                    alert("(O.O) Demasiados dias trabajados para este vendedor!");
+                    return;
+                }
+                var nueva_meta =  (meta * dt ) / dias_trab_gral;
+                //console.log("ventas "+ventas+" meta "+meta+" nueva_meta "+nueva_meta);
+                $(this).parent().parent().find(".meta").html( ( nueva_meta ).format(0, 3, '.', ','));
+                var porc = ((ventas * 100)  / nueva_meta).format(1, 3, '.', ',') ;; 
+                if(porc == Infinity ){
+                    porc = 0;
+                }
+                $(this).parent().parent().find(".porc").html(porc+"%");
+                if(dt == 0){
+                    $(this).parent().parent().find(".variable").html("0.00");
+                    $(this).parent().parent().find(".meta").html("0.00");
+                    $(this).parent().parent().find(".ventas").html("0.00");
+                }else{
+                    var variable_real =   $(this).parent().parent().find(".variable").attr("data-variable_real")  ; 
+                    var vn = (ventas).format(0, 3, '.', ',');
+                    $(this).parent().parent().find(".ventas").html(vn);
+                   
+                    var variable_prorrat = ((dt * variable_real.replace(/\./g, '')) /  dias_trab_gral).format(0, 3, '.', ',');
+                    console.log( "  "+dt+ "   "+variable_real+"  "+dias_trab_gral);
+                    $(this).parent().parent().find(".variable").html(variable_prorrat);
+                }
+                recalc();
+            }); 
+             recalc();
+        });   
+        function getVentasXUnidad(){
+            var vendedor = $("#vendedor").val();
+            var desde = $("#desde").val();
+            var hasta = $("#hasta").val();
+            var total = 0;
+            $.ajax({
+                type: "POST",
+                url: "CalculoVariable.class.php",
+                data: {"action":"getComisionPorUnidad",usuario:vendedor,"desde":desde,"hasta":hasta}, 
+                async:true,
+                dataType: "json",
+                beforeSend: function(){
+                    $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                    $(".fila_com").remove();
+                },
+                success: function(data){   
+                    for(var i in data){ 
+                       var descrip = data[i].descrip;
+                       var cant = parseFloat(data[i].cant); 
+                       var comision = data[i].comision; 
+                       var cat = data[i].cat; 
+                       var subtotal = cant * comision;  
+                       total += subtotal;
+                       var com = (comision).format(0, 3, '.', ',') ;
+                       var subt = (subtotal).format(0, 3, '.', ',') ;
+                       $("#ventas_x_unid").append("<tr class='fila_com'><td class='item'>"+descrip+"</td><td  class='itemc'>"+cat+"</td><td class='num'>"+cant+"</td><td class='num'>"+com+"</td><td class='num'>"+subt+"</td></tr>");
+                    }   
+                    var total_comis = (total).format(0, 3, '.', ',') ;
+                    $("#ventas_x_unid").append("<tr class='fila_com'><td class='item' colspan='4'>Total:</td><td class='num'>"+total_comis+"</td></tr>");
+                    $("#msg").html(""); 
+                }
+            });            
+        }
+        function recalc(){
+            
+        var ven = 0;
+
+         $(".ventas").each(function(){
+                  var v = parseFloat(  ($(this).text() ).replace(/\./g, '')) ;
+                  ven+=v;         
+            });
+            $("#total_ventas").text( (ven).format(0, 3, '.', ',')  );
+             var variable = 0;            
+                        
+            $(".variable").each(function(){
+                  var v = parseFloat(  ($(this).text() ).replace(/\./g, '')) ;
+                  variable+=v;         
+            });
+            variable =  (variable).format(0, 3, '.', ',');
+            $("#variable").html(variable);
+            $(".total_variable").html(variable);
+            
+           var total_metas = 0;
+              $(".meta").each(function(){
+                  var meta = parseFloat(  ($(this).text() ).replace(/\./g, '')) ;
+                  total_metas+=meta;                   
+                  //console.log(meta);
+              });
+              //console.log(total);
+              var format_meta = (total_metas).format(0, 3, '.', ',');
+              $("#total_metas").html(format_meta); 
+              var total_ventas = parseFloat( $("#total_ventas").text().replace(/\./g, ''));
+              if(total_ventas >= total_metas ){
+                   var variable = parseFloat( $("#variable").text().replace(/\./g, ''));
+                  var calc = ((variable * 35) / 100).format(0, 3, '.', ',');
+                  
+                  $("#premio").html(calc);  
+              }else{
+                  $("#premio").html("0");  
+              }
+              var total_ventas = parseFloat( $("#total_ventas").text().replace(/\./g, ''));  
+              var porc = ((total_ventas * 100) / total_metas).format(1, 3, '.', ','); 
+              $("#porc_logrado").html(porc+"%");  
+              
+        }
+    </script>
+  
+<!-- end:   header -->
+
+<!-- begin: user_data -->
+
+<input type="hidden" id="vendedor" value="{vendedor}">
+<input type="hidden" id="desde" value="{desde_eng}">
+<input type="hidden" id="hasta" value="{hasta_eng}">
+<input type="hidden" id="dias_trab_gral" value="{dias_trab_gral}">
+ 
+
+<table class="tabla" border="1">
+    <tr>
+        <td rowspan="2"><img src="../img/logo_small.png"></td>
+        <td colspan="4" style="text-align:center;font-weight: bolder;font-size: 18;color:#0092ef" > Calculo de Comisiones por Ventas </td>
+        <td rowspan="2" style="text-aling:center;font-size: 9px"> {user} - {time} </td>
+    </tr>
+    <tr>
+        <td style="text-align:center" colspan="4"><b>Periodo:</b>&nbsp;{desde}&nbsp;<b>&harr;</b>&nbsp;{hasta}</td>
+    </tr>
+    <tr>
+        <td class="bold">Nombre:</td><td>{nombre}</td><td class="bold">C.I.:</td><td>{doc}</td><td class="bold">Fecha Cont:</td><td class="centrado">{fecha_cont}</td>
+    </tr>
+    <tr>
+        <td class="bold">Tipo:</td><td>{tipo_vend}</td><td class="bold">Variable:</td><td class="num" id="variable">{variable}</td><td class="bold">Suc:</td><td class="centrado">{suc}</td>        
+    </tr>
+     
+</table>
+<br>
+<table class="vendedores" border="1">
+    <tr>
+        <th>Vendedores</th><th>Dias Trab.({dias_trab_gral})</th> <th>Meta</th> <th>Ventas</th> <th>% Logro</th>  <th>Variable</th> 
+    </tr>
+<!-- end:   user_data -->
+ 
+
+<!-- begin: vendedores -->
+  <tr>
+      <td class="item" title="{tipo_vend}" data-usuario="{usuario}">{vendedor}</td><td class="itemc"><input type="text" size="3" class="dias_trab" value="{dias_trab}"  data-meta="{meta_nf}" data-ventas="{ventas_nf}" ></td><td class="num meta">{meta}</td><td class="num ventas">{ventas}</td><td class="itemc porc">{logro}%</td><td data-variable_real="{variable_real}" class="num variable">{variable}</td>
+  </tr>   
+<!-- end:   vendedores -->
+
+
+<!-- begin: foot -->
+ <tr>
+     <td colspan="2"></td><td class="num totales" id="total_metas">{total_metas}</td><td class="num totales" id="total_ventas">{total_ventas}</td><td class="itemc totales" id="porc_logrado">{porc_logrado}</td><td class="num totales total_variable">{total_variables}</td>
+ </tr>  
+ <tr>
+     <td colspan="4"></td>
+     <td class="totales">Premio</td><td class="num totales" id="premio"></td>
+ </tr>
+</table> 
+<!-- end:   foot -->
+
+<!-- begin: alerta -->
+<div class="alerta">  {err_msg}  </div>
+<!-- end:   alerta -->
+
+<!-- begin: data_aux -->
+    <input type="hidden" id="meta_aux" value="{meta_aux}"> 
+<!-- end:   data_aux -->

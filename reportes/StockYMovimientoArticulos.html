@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+       <script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script>      
+      <script type="text/javascript" src="../js/functions.js" ></script>
+      
+       
+      <style>
+          
+      </style>
+<script language="javascript">
+var graph = null;
+$(document).ready(function(){
+
+          var suc = $("#sucur").val();
+          var include_stock = $("#include_stock").val();
+          if(include_stock == "true"){
+          $(".stock").each(function(){
+             var codigo = $(this).attr("data-codigo"); 
+
+             $.ajax({
+                  type: "POST",
+                  url: "StockYMovimientoArticulos.class.php",
+                  data: {"action":"getStock",codigo:codigo,suc:suc}, 
+                  async:true,
+                  dataType: "json",
+                  beforeSend: function(){
+                      $(".stock_"+codigo).html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+                  },
+                  success: function (data) {   
+                      //alert(data);                    
+                      var stock_suc =   parseFloat(data.stock_suc).format(2, 3, '.', ',');   
+                      var stock_global = parseFloat(data.global).format(2, 3, '.', ',');     
+                      if(suc == "%"){
+                          $(".stock_"+codigo).html( stock_global); 
+                      }else{
+                          $(".stock_"+codigo).html(stock_suc+" / "+stock_global); 
+                      }
+
+                  }
+              });
+          }); 
+          }else{
+              $(".cab_stock").html(""); 
+          }
+         $(".data_val").click(function(){
+              var codigo = $(this).parent().children().first().text();
+              buscarVentas(codigo);
+         }); 
+});    
+            
+function drawChart(codigo){
+        var cliente = $("#cliente").val();
+        var labels =new Array();
+       
+        $(".cab_meses").each(function(){
+              labels.push($(this).text().toString());
+        });
+        var data_val =new Array();
+
+        $(".stock_"+codigo).parent().find(".data_val").each(function(){
+             var v = parseFloat($(this).text().replace(".","").replace(",","."));
+             data_val.push(v);
+        });	
+
+        var articulo = $(".stock_"+codigo).prev().text();
+
+
+        var canvas = '<img style="margin:-20px -20px 0 0" src="../img/close.png" onclick=javascript:$(".chart_container").fadeOut() ><canvas id="chartjs"  class="chartjs" width="100%" height="100%" style="display: block; width: "100%"; height: 100%;"></canvas>';
+        $("#chart_container").html(canvas);
+
+
+     labels = JSON.stringify(labels); 
+     data_val  = JSON.stringify(data_val); 
+
+     var graph_window = window.open("StockYMovimientoArticulos.class.php?action=drawChart&labels="+labels+"&data="+data_val+"&label=Historial de Ventas, Articulo: "+articulo+"  ", "MsgWindow", "width=1024,height=760");
+
+}
+function drawChartCliente(codigo,cod_cli){
+    
+        var cliente = $("."+cod_cli).html();
+        var articulo = $("#tr_"+codigo).find(".articulo").text();
+        
+                
+        var labels =new Array();
+        
+        $(".cab_meses").each(function(){
+              labels.push($(this).text().toString());              
+        });
+        var data_val =new Array();
+
+        $(".fila_"+codigo+"_"+cod_cli).find(".cli_venta").each(function(){
+             var v = parseFloat($(this).text().replace(".","").replace(",","."));
+             data_val.push(v);
+        });	
+        var canvas = '<img style="margin:-20px -20px 0 0" src="../img/close.png" onclick=javascript:$(".chart_container").fadeOut() ><canvas id="chartjs"  class="chartjs" width="100%" height="100%" style="display: block; width: "100%"; height: 100%;"></canvas>';
+        $("#chart_container").html(canvas);
+
+
+     labels = JSON.stringify(labels); 
+     data_val  = JSON.stringify(data_val); 
+
+     var graph_cli_window = window.open("StockYMovimientoArticulos.class.php?action=drawChart&tipo=cliente&CardCode="+cod_cli+"&labels="+labels+"&data="+data_val+"&label=Historial de Ventas,Articulo: "+articulo+"  ", "MsgWindow", "width=1024,height=760");
+     $(".fila_"+codigo+"_"+cod_cli).addClass("revisado");
+}
+function buscarVentas(codigo){
+   var cod_cli = $("#cod_cli").val();      
+   var cliente = $("#cliente").val(); 
+   var desde = $("#desde").val();  
+   var hasta = $("#hasta").val();  
+   var cat = $("#cat").val();  
+   var suc = $("#sucur").val();  
+   if($("#tr_"+codigo).hasClass("abierta")){
+        $(".fila_"+codigo).slideUp();
+        $("#tr_"+codigo).removeClass("abierta");
+        $("#tr_"+codigo).addClass("cerrada");
+   }else{
+       if($("#tr_"+codigo).hasClass("cerrada")){
+           $(".fila_"+codigo).slideDown();
+           $("#tr_"+codigo).addClass("abierta");
+           $("#tr_"+codigo).removeClass("cerrada");
+       }else{
+        $.ajax({
+             type: "POST",
+             url: "StockYMovimientoArticulos.class.php",
+             data: {"action":"getVentasClientes",codigo:codigo,suc:suc,cod_cli:cod_cli,cliente:cliente,desde:desde,hasta:hasta,cat:cat}, 
+             async:true,
+             dataType: "json",
+             beforeSend: function(){
+                 $("#img_"+codigo).attr("src","../img/loading_fast.gif"); 
+             },
+             success: function (data) { 
+                 $(".fila_"+codigo).remove();
+                 for (var i in data) { 
+                     var codigo_cliente = data[i].cod_cli;
+                     var nombre_cliente = data[i].cliente;
+                     var fila = "<tr class='fila_"+codigo+"_"+codigo_cliente+" fila_"+codigo+"'><td colspan='3' class='cliente "+codigo_cliente+"' data-cod_cli='"+codigo_cliente+"' >"+nombre_cliente+"</td> ";
+
+                     $(".cab_meses").each(function(){ 
+                         var mes = $(this).text();
+                         var val_mes = data[i][mes];
+                         if(val_mes != undefined){ 
+                            var tmpv = val_mes.replace(".","").replace(",",".");
+
+                            if(tmpv > 0){  
+                               fila +="<td class='cli_venta fuerte'>"+val_mes+"</td>";
+                            }else{
+                               fila +="<td class='cli_venta'>"+val_mes+"</td>";
+                            }
+                         }else{
+                             fila +="<td class='cli_venta'>0,00</td>";
+                         }
+                         
+                     });
+                     fila +="<td class='itemc'><img id='img_'"+codigo+"_"+codigo_cliente+"' src='../img/graph_1x32.png' height='16px' onclick=drawChartCliente('"+codigo+"','"+codigo_cliente+"') style='cursor:pointer' ></td></tr>" ;
+                     $("#tr_"+codigo).after(fila);
+                     $("#tr_"+codigo).addClass("desplagada");
+                     $("#tr_"+codigo).addClass("abierta");
+                 }   
+                 $("#img_"+codigo).attr("src","../img/graph_1x32.png");     
+             }
+         });
+     }
+   }
+}
+             
+</script>
+
+<style>
+    .red{
+        color:red;
+        font-weight: bold
+    }
+    .data_val{
+         cursor:pointer; 
+    }
+    .cliente{
+       font-family: monospace;
+       font-size: 11px;
+       padding-left: 2px;
+    } 
+    .cli_venta{
+       font-family: monospace;
+       font-size: 11px;;
+       text-align: right;
+       padding-right: 2px;
+    } 
+    .abierta{
+        background-color: #fcf8e3;
+    }
+    .cerrada{
+        background-color: #e1e1e8;
+    }
+    .fuerte{
+        font-weight: bolder;
+        color:red;
+    }
+    .revisado{
+        background-color: #83B152;
+    }
+     
+</style>
+      
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="user" value="{user}">
+<input type="hidden" id="sucur" value="{suc}">  
+<input type="hidden" id="cod_cli" value="{cod_cli}">  
+<input type="hidden" id="cliente" value="{cliente}">  
+<input type="hidden" id="cat" value="{cat}">  
+<input type="hidden" id="desde" value="{desde_eng}">
+<input type="hidden" id="hasta" value="{hasta_eng}">
+<input type="hidden" id="include_stock" value="{include_stock}">  
+
+
+<div class="chart_container" style="display:none;background-color: whitesmoke;border:solid gray 1px" id="chart_container"></div>
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Stock y Movimiento de Articulos</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr>
+        <td style="text-align: center;font-size: 12px"><b>Periodo:</b> {desde} &#8596; {hasta} &nbsp;&nbsp;<b>Sucursal:</b> {suc}  &nbsp;&nbsp; <b> {criterio}</b> 
+            <br> <b>Cliente:</b> {cliente} &nbsp;&nbsp;<b> RUC:</b> {ruc} &nbsp;&nbsp;<b>Categoria:</b> {cat}  
+        </td>
+    </tr>
+    
+</table>
+
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+    <tr>
+        <th rowspan="2">Codigo</th>
+        <th rowspan="2">Articulo</th>
+        <th rowspan="2" class="cab_stock">Stock Suc/Global</th>   
+        <th style="background-color: #149bdf;border-radius:12px 12px 0 0;"  colspan="{colspan}" > Ventas </th>
+    </tr> 
+    <tr>    
+        {cab_meses}
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr id="tr_{codigo_venta}">
+    <td class="item" title="Codigo Articulo">{codigo_venta}</td>
+    <td class="item articulo">{articulo}</td>
+    <td class="num stock_{codigo_venta} stock" data-codigo="{codigo_venta}" ></td>
+    {data_mes}
+    <td id="td_{codigo_venta}" style="text-align: center;cursor: pointer" ><img id="img_{codigo_venta}" src="../img/graph_1x32.png" onclick=drawChart("{codigo_venta}")></td>
+</tr>    
+ 
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+ <tr>
+     <td colspan="3"></td>    
+    {data_totales} 
+</tr>   
+</table>    
+ 
+<!-- end:   foot  -->
+
+<!-- begin: chart_header -->
+
+<input type="hidden" id="chart_label" value="{chart_label}">
+<input type="hidden" id="labels" value="{labels}">
+<input type="hidden" id="data" value="{data}">
+ 
+
+<div class="chart-container" style="position: absolute; height:96%; width: 96%; display: block ">
+    <canvas id="chartjs"  class="chartjs"  ></canvas>
+</div>
+
+<link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+<script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script>      
+<script type="text/javascript" src="../js/functions.js" ></script>
+<script type="text/javascript" src="../js/Chart.min.js" ></script>
+<!-- end:   chart_header  -->
+
+<!-- begin: draw_chart noeval -->
+       
+    <script>
+        $(document).ready(function(){
+          
+           var chart_label = $("#chart_label").val();
+           var  labels = JSON.parse($("#labels").val().replace(/'/g, '"'));
+           var  data_val =  JSON.parse($("#data").val());
+           
+            
+           var graph = new Chart($("#chartjs"),{
+            "type":"line",
+            "data":{"labels":labels,
+            "datasets":[
+                {"label":chart_label,
+                 "data":data_val,
+                 "fill":false,
+                 "responsive":true,
+                 "maintainAspectRatio":false,
+                 "borderColor":"rgb(237, 28, 36)",
+                 "lineTension":0.1}]},
+             "options":{}
+         });
+     });
+    </script>  
+<!-- end:   draw_chart  -->
+
+ 

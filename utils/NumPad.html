@@ -1,0 +1,47 @@
+
+<!-- begin: header -->
+<link rel="stylesheet" type="text/css" href="{path}/utils/numpad.css" />   
+<script type="text/javascript" src="{path}/js/jquery-ui/jquery-ui.min.js" ></script>
+<script type="text/javascript" src="{path}/utils/numpad.js" ></script>
+<!-- end:   header -->
+
+<!-- begin: keypad -->
+   
+    
+<table id="n_keypad" border="0" style="display:none" >
+        <tr>
+            <td colspan="4">
+                <input style="background: white; color: black;text-align: right" type="text"  size="14" maxlength="24" id="np_input" readonly="readonly" value="0" >
+                <input type="button"  class="np_cancel" value="&#94;" style="height: 24px;display:inline;position:absolute;margin:2px 2px 0 2px;padding-bottom: 4;">
+            </td>             
+        </tr>    
+        <tr>
+           <td><input type="button" class="np_numero" value="7"></td>
+           <td><input type="button" class="np_numero" value="8"></td>
+           <td><input type="button" class="np_numero" value="9"></td>
+           <td><input type="button" class="np_del" style="width: 60px" value="Borrar"></td>
+        </tr>
+        <tr>
+           <td><input type="button" class="np_numero" value="4"></td>
+           <td><input type="button" class="np_numero" value="5"></td>
+           <td><input type="button" class="np_numero" value="6"></td>
+           <td><input type="button"  class="np_inc" value="Inc" style="width: 60px"></td>
+        </tr>
+        <tr>
+           <td><input type="button"  class="np_numero" value="1"></td>
+           <td><input type="button"  class="np_numero" value="2"></td>
+           <td><input type="button"  class="np_numero" value="3"></td>
+           <td><input type="button"  class="np_dec" value="Dec" style="width: 60px"></td>
+        </tr>
+        <tr>
+           <td><input type="button"  class="np_numero guion" value="-"></td>
+           <td><input type="button"  class="np_numero" value="0"></td>
+           <td><input type="button"  class="np_numero punto" value="."></td>
+           <td><input type="button"  class="np_ok" style="width: 60px" value="Ok"></td>
+        </tr>
+    </table>
+  
+<script>
+    configNumpad();
+</script>
+<!-- end:   keypad -->

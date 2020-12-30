@@ -1,0 +1,441 @@
+
+/* 
+    Created on : 18/12/2017, 02:19:13 PM
+    Author     : Ing.Douglas
+*/
+
+
+ 
+ .fixed-table-container {
+    width: 100%;
+    height: 92%;
+    border: 0px solid black;
+    margin: 0;
+    background-color: white;
+    /* above is decorative or flexible */
+    position: relative; /* could be absolute or relative */
+    padding-top: 20px; /* height of header */
+}
+
+.fixed-table-container-inner {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+	margin-top: 15px;
+}
+
+.header-background {     
+    height: auto; /* height of header */
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.tabla {
+  width: 100%; 
+  border-collapse: collapse;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+ 
+
+.lista_invoices {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco    
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+.producto{
+    background-color: white;
+}
+.noedit{
+    background-color: #FFFFEF;
+}
+.noedit_son{
+    background-color: #fffccc;
+}
+.filter{
+    font-family: arial;
+    font-size: 10px;
+    height:20px
+}
+
+.input{
+    border:solid white 0px;
+    width: 100%;
+    height: 20px;
+    padding: 0 3px 0 0;
+    margin: 0px;
+    text-align: right;
+}
+.input:active{
+  border:1px solid #CCCCFF;
+}
+.print{
+    background-image: url('../img/barcode.png');
+    background-repeat: no-repeat;
+    border:1px solid gray;
+    text-align: center;
+    width: 26px;
+    height:20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.print:hover{
+    background-color: green;
+    cursor:pointer;
+} 
+.print:focus{
+    background-color: green;
+    cursor:pointer;
+} 
+.printed{   
+    border:1px solid gray;
+    text-align: center;
+    width: 26px;
+    cursor: pointer;
+    height:20px;
+    font-weight: bolder;    
+    margin: 0;
+}
+.printed:hover{
+    background-color: orange;
+    cursor:pointer;
+} 
+.printed:focus{
+    background-color: orange;
+    cursor:pointer;
+} 
+
+.obs{
+     position: absolute;
+     top: 0;
+     z-index: 10;
+     background:#ffc;
+     padding:5px;
+     border:1px solid #CCCCCC;
+     text-align:center;
+     font-weight:bold;
+
+     width: 50%;
+     height: auto;
+     margin-top: 0px;
+     margin-left: 48%;
+     margin-right: 2%;  
+ }  
+    
+.tmp_obs{
+    background-color: #E0F3FF;
+}
+.complete{
+    background-color: #E0F3FF;
+}
+.parcial_complete{
+    background-color:  #CC9900; 
+}
+.save{
+    background-image:url("../img/save-mini.png");
+    background-repeat: no-repeat; 
+    background-position: center; 
+    text-align: center;
+    width: 18px;
+    height:18px;
+}
+
+.first_found{
+   background-color: #CCFFFF; 
+   border:solid gray 1px; 
+}
+.second_found{
+    background-color: yellowgreen; 
+    border:solid gray 1px; 
+}
+#search_bar{
+    width:300px;
+    height: auto;
+    background-color: #fcefa1;
+    top:30px;
+    left:45%;
+    position:absolute;
+    cursor:move;
+    font-family: arial;     
+    font-size:11px;
+    z-index: 1;
+    padding:2px;
+    border:solid gold 1px;
+    padding:2px;
+    display:none;
+}
+.search_imput{
+    font-weight: bolder;
+    height: 28px
+}
+.search_imput:focus{
+    background-color: orange;
+}
+#filter_bar{
+    width:auto;
+    height: auto;
+    background-color: white;    
+    font-family: arial;
+    font-size:11px;
+    z-index: 1000;
+    padding:0px;
+    border:solid gray 1px;   
+    padding:0px;
+    margin:-10px 0px 1px -15px
+}
+#filter_bar input,#filter_bar select{
+    font-size: 9px;
+}
+#filter_bar select{
+    margin: 0;
+    padding: 0;
+    height: 18px;
+}
+.observ:hover{
+    background-color: #CC9900;
+}
+.setPhoto{
+    background-color: #A9C4DF;
+}
+.img_viewer{
+     position: absolute;
+     top: 0;
+     z-index: 10;
+     background:#ffc;
+     padding:5px;
+     border:1px solid #CCCCCC;
+     text-align:center;
+     font-weight:bold; 
+     width: auto;
+     height: auto;
+     display:none;
+ } 
+ 
+ .modif_gram{
+    width: 200px;
+    height: 110px;
+    display:none;
+    position:absolute;
+    z-index: 50;
+    background-color: lightslategray;
+    border: solid black 1px;
+ }
+ 
+ .msg_info{
+    background-color: #0092ef;
+    color:white;
+    font-size: 11px;    
+    padding: 2px 4px 2px 4px; 
+    display: none;
+}
+
+.error_field{
+   border:solid red 2px; 
+}
+.totales{
+    border-collapse: collapse;
+    width: 100%;
+}
+.touch_filter{
+    font-size: 12px;
+    padding: 5px 2px 5px 2px
+}
+tr.current{
+    border: dotted 2px blue;
+}
+.focusable:focus{
+    background-color: orange;    
+}
+.qtySelected{
+    border:solid green 2px;
+}
+
+.fixed-table-container {
+    width: 100%;
+    height: 92%;
+    border: 0px solid black;
+    margin: 0;
+    background-color: white;
+    /* above is decorative or flexible */
+    position: relative; /* could be absolute or relative */
+    padding-top: 20px; /* height of header */
+}
+
+.fixed-table-container-inner {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+	margin-top: 15px;
+}
+
+.header-background {     
+    height: auto; /* height of header */
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.tabla {
+  width: 100%; 
+  border-collapse: collapse;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+ 
+
+.lista_invoices {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco    
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+
+.sobrefraccion{
+    color:red;
+    font-weight: bolder;
+}
+
+.selected_row, .selected_cell{
+    background-color: #A9C4DF; 
+}
+
+
+#designs_container{
+    position: fixed;
+    z-index: 5;
+    background-color: #F5F5DC;
+    border: solid gray 1px;
+    border-radius: 4px;
+    overflow-y: auto;     
+    height: 700px;
+    display:none;
+    width: 400px;
+}
+#designs_container li {
+    float: left;
+    margin: 0 5px 5px 0;    
+    width: 48px;
+    height: 48px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);
+}
+#designs_container li:hover {    
+    position: relative;
+    top: 1px;
+    left: 1px;
+    border-color: #e5e5e5;
+    cursor: pointer;    
+}
+
+#designs_container .lastitem {
+    margin-right: 0;
+}
+#designs_container ul{
+    list-style: none;
+}
+.lastitem{
+    clear: left;
+}
+#designs_container li img:hover{
+  height: 100px;
+  margin-top:-30px;
+  margin-left: -30px;
+  border: solid gray 1px;
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden; 
+}   
+
+.rotate:hover{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}  
+
+.procesar{
+    background-color: #009900;     
+}
+.reservar{
+    background-color: #CC9900;     
+}
+
+
+.minimiz_art{
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden; 
+  width: 50px;
+  direction: ltr;
+  display: inline-block;
+}
+.minimiz_des{
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden; 
+  width: 20px;
+  direction: ltr;
+  display: inline-block;
+}
+.minimiz_sto{
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden; 
+  width: 20px;
+  direction: ltr;
+  display: inline-block;
+}
+.min_arrow{
+    margin-bottom: -4px;
+    width: 16px;
+    cursor: pointer
+}
+.sound{
+    display: none;
+}
+
+.art_max{
+    width: 160px;    
+}
+.des_max{
+    width: 70px;    
+}
+.sto_max{
+    width: 70px;    
+}
+ 

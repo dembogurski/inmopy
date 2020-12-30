@@ -1,0 +1,197 @@
+<!-- begin: header noeval -->
+
+<head>
+<link rel="stylesheet" type="text/css" href="../css/reportes.css" />
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+<style>
+    div#error {
+        font-weight: 900;
+        margin: 25%;
+        text-align: center;
+    }
+    
+    div#error::after {
+        content: "  \26a0 ";
+        color: red;
+        vertical-align: middle;
+        font-size: 24px;
+        text-shadow: 1px 1px 1px yellow;
+    }
+    
+    table.detFactura {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    table.detFactura th,
+    table.detFactura td {
+        border: 1px solid gray;
+        font-size: 12px;
+    }
+
+    td.white_sapce{
+        height: 25px;
+    }
+    tr.subh th{
+        color: black;
+        background-color: darkgray;
+    }
+    tr[id^=det_]{
+        display: none;
+    }
+    button.chview{
+        margin: 0 0 1px 0;
+        padding: 0;
+        font-size: 0;
+        height: 12px;
+        width: 12px;
+        vertical-align: middle;
+        border: solid 1px gray;
+        border-radius: 2px;
+        background: url("../js/jquery-ui/images/ui-icons_2e83ff_256x240.png") no-repeat scroll 0 0 transparent;
+    }
+    button.chview:hover{
+        background-color: lightcyan;
+        cursor: pointer;
+    }
+    button.mostrar{
+        background-position: -19px -132px;
+    }
+    button.ocultar{        
+        background-position: -51px -132px;
+    }
+    div#todos{
+        position: fixed;
+        background-color: lightcoral;
+        padding: 5px;
+        margin: 0;
+        left: 0px;
+        top: 70px;
+        font-size: 11px;
+        border-radius: 3px;
+    }
+    div#todos button{
+        font-size: 11px;
+        padding: 0px 2px;    
+    }
+    @media print{
+        div#todos{
+            display: none;
+        }
+    }
+    
+</style>
+<script>
+    function toggleDetVisibility(ref){
+        var target = $('#'+ref.attr("data-target"));
+        if(target.css("display")==='none'){
+            target.show();
+            ref.text('-');
+            ref.removeClass("mostrar");
+            ref.addClass("ocultar");
+        }else{
+            target.hide();
+            ref.text('+');
+            ref.removeClass("ocultar");
+            ref.addClass("mostrar");
+        }
+    }
+    function mostrarTodos(){
+        $("button.chview.mostrar").each(function(){
+            $('#'+$(this).attr('data-target')).show();
+            $(this).text('-');
+            $(this).removeClass("mostrar");
+            $(this).addClass("ocultar");
+        });
+    }
+    function ocultarTodos(){
+        $("button.chview.ocultar").each(function(){
+            $('#'+$(this).attr('data-target')).hide();
+            $(this).text('+');
+            $(this).removeClass("ocultar");
+            $(this).addClass("mostrar");
+        });
+    }
+</script>
+</head>
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+<div id="todos">
+    <b>Todos: </b>
+    <button onclick="mostrarTodos()">Mostrar</button>
+    <button onclick="ocultarTodos()">Ocultar</button>
+</div>
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0">
+<tr>
+    <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th>
+    <th style="width: 70%;"> Reporte de Ventas a Clientes </th>
+    <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th>
+</tr>
+<tr>
+    <td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {user_suc}</td>
+</tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+<!-- end:   head -->
+
+<!-- begin: fact_header -->
+<tr>
+    <td colspan="7" class="white_sapce"></td>
+</tr>
+<tr class="subh">
+    <th>Factura</th>
+    <th>Usuario</th>
+    <th>Fecha</th>
+    <th>SUC</th>
+    <th>Cat</th>
+    <th>Total</th>
+    <th>Hora</th>
+</tr>
+<!-- end: fact_header -->
+
+
+
+<!-- begin: fact_data -->
+<tr>
+    <td class="item">{f_nro}</td>
+    <td class="item">{usuario}</td>
+    <td class="itemc">{fecha_cierre}</td>
+    <td class="item">{suc}</td>
+    <td class="itemc">{cat}</td>
+    <td class="num">{total}</td>
+    <td class="itemc">{hora_cierre}</td>
+</tr>
+<tr>
+    <td colspan="7" class="item">
+        <b>Cliente: </b>{cliente}
+        <b>, {tipo_doc_cli}: </b>{ruc_cli}
+    </td>
+</tr>
+<!-- end:   fact_data -->
+
+<!-- begin: det_data -->
+<tr><td style="font-weight: bolder" colspan="7" class="itemc">Detalle: <button class="chview mostrar" data-target="det_{f_nro}" onclick="toggleDetVisibility($(this))">+</button></td></tr>
+<tr id="det_{f_nro}">    
+    <td class="itemc" colspan="7">{detalle}</td>
+</tr>
+
+<!-- end: det_data -->
+
+<!-- begin: foot -->
+<tr class="sumTotal">    
+    <td colspan="5" align="right">Sum Total:</td> <td class="num">{sumTotal}</td>
+</tr>
+<tr class="report_foot">
+    <td colspan="9"></td>
+
+</tr>
+</table>
+<!-- end:   foot  -->
+
+<!-- begin: error -->
+<div id="error">{error_msg}</div>
+<!-- end: error -->

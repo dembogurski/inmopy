@@ -1,0 +1,45 @@
+img.listarCompras{
+   padding: 1px;
+   vertical-align: bottom;
+   margin-left: 5px;
+   border: solid 1px gray;
+   border-radius: 2px;
+   background-color: white;
+   background: linear-gradient(0deg, rgba(125,125,125,0.1), rgba(0,0,0,0.3), rgba(125,125,125,0.1));
+}
+img.listarCompras:hover{
+   background-color: gray;
+   background: linear-gradient(0deg, rgba(125,125,125,0.1), rgba(0,155,0,0.1), rgba(195,195,195,1));
+   cursor: pointer;
+}
+div.listaDeCompras{
+  position: absolute;
+  top: 103%;
+}
+div.listaDeCompras table{
+  border-collapse: collapse;
+}
+div.listaDeCompras table th, div.listaDeCompras table td{
+  border: solid 1px lightslategrey;
+  padding: 0 3px;
+}
+div.listaDeCompras tr.selected{
+  background-color: lightsalmon;
+}
+div.listaDeCompras td input[type=checkbox]{
+  display: none;
+}
+div.listaDeCompras td input[type=checkbox]~div{
+  font-size: 8px;
+  text-align: center;
+  font-weight: 900;
+  color: lightgray;
+  height: 10px;
+  width: 10px;
+}
+div.listaDeCompras td input[type=checkbox]:checked~div{
+  color: darkolivegreen;
+}
+div.listaDeCompras tr[onclick^=seleccionarLinea]:hover{
+  cursor: pointer;
+}

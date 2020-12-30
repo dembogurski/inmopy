@@ -1,0 +1,173 @@
+<!-- begin: header noeval -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../css/reportes.css" />
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+<script>
+    var popup
+    function listCod(targetObj){
+        filters.popup = true;
+        filters.group_color = true;
+        filters.group_suc  = true;
+        var subFilters = {};
+        subFilters['type'] = targetObj.attr("data-type");
+        $(targetObj.closest("tr").find("td.subSearch").filter(function(){return $(this).css("display") !== "none"})).each(function(){
+            subFilters[$(this).attr("data-key")] = $(this).attr("data-code");
+        });
+        if(Object.keys(subFilters).length>0){
+            filters["subFilters"] = JSON.stringify(subFilters);
+        }
+        if(popup){
+            popup.close();
+        }
+        $.get('StockXSectorXArticulo.class.php',filters,function(data){  
+            
+            
+            popup = window.open('',"Hola","width=800,height=760,scrollbars=yes,menubar=yes,alwaysRaised = yes,modal=yes,location=no");
+            popup.document.write(data);
+        },"html");
+
+    }
+</script>
+<style>
+    thead th{
+        background-color: lightgray;
+    }
+    tbody td{
+        font-size: 12px;
+    }
+    tfoot td{
+        background-color: lightgray;
+    }
+    p#usuario{
+      text-transform: capitalize;
+      font-weight: 900;
+   }
+   p{
+        margin: 0;
+        padding: 2px;
+    }
+    @keyframes flechas {
+        0%   {content: '\027a9';}
+        100% {content: '\027aa';}
+    }
+    td[onclick]::before{
+        content: '\027a9';
+        color: orange;
+        font-size: 14px;
+        margin: 0;   
+        animation: flechas 1s linear 1s infinite;    
+    }
+    td[onclick]{
+        color: blue;
+    }
+    td[onclick]:hover{
+        cursor: pointer;
+        padding-right: 11px;
+        background-color: lightseagreen;
+    }
+    .crit01{
+        background-color: lightseagreen;
+        padding: 0 2px;
+    }
+    .crit02{
+        background-color: lightsalmon;
+        padding: 0 2px;
+    }
+</style>
+</head>
+<body>
+<!-- end: header -->
+
+<!-- begin: general_head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0">
+<tr>
+    <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th>
+    <th style="width: 70%;"> Reporte de Stock </th>
+    <th style="width: 15%" rowspan="2"><p id="usuario">{user}</p><span style="font-size: 8px;">{time}</span></th>
+</tr>
+<tr>
+    <td style="text-align: center;font-size: 12px">
+        <p>Sector: {sector}, Articulo: {articulo}, Sucursal: {target_suc}</p>
+        <p>Stock: <span class="crit01">{filtroStock01}</span><span {cri02_visibility}> o <span class="crit02">{filtroStock02}</span></span>, Estados de Venta: {estado_venta}</p>
+    </td>
+</tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+    <thead>
+<!-- end: general_head -->
+
+<!-- begin: table_suc_head -->
+   <tr>
+      <th {lote_visibility}>Lote</th>
+      <th>Codigo</th>
+      <th {suc_visibility}>Suc</th>
+      <th>Articulo</th>
+      <th {color_visibility}>Color</th>
+      <th {design_visibility}>Dise&ntilde;o</th>
+      
+      <th class="crit01" {rollos_visibility}>Rollos01</th>
+      <th class="crit01">Metros01</th>
+      <th class="crit02" {rollos_visibility} {cri02_visibility}>Rollos02</th>
+      <th class="crit02" {cri02_visibility}>Metros02</th>
+      <th {display_costo}>Precio Costo</th>      
+      <th {display_costo}>Valor Costo</th>
+      <th {display_costo}>Precio 1</th>  
+      <th {display_costo}>Desc 1</th> 
+      <th {display_costo}>Precio1Neto</th>       
+      <th {display_costo}>Valor Precio 1</th>
+   </tr>
+   </thead>
+   <tbody>
+<!-- end:   table_suc_head -->
+
+<!-- begin: table_suc_data -->
+<tr class="data">
+   <td {lote_visibility} align="right">{DistNumber}</td>
+   <td class="codigo subSearch" data-key="o.ItemCode" data-code="{ItemCode}" align="center">{ItemCode}</td>
+   <td {suc_visibility} class="subSearch" data-key="w.WhsCode" data-code="{WhsCode}" align="center">{WhsCode}</td>
+   <td>{ItemName}</td>
+   <td class="subSearch" {color_visibility} data-key="Code" data-code="{Code}">{Name}</td>
+   <td class="subSearch" {design_visibility} data-key="U_design" data-code="{U_design}">{U_design}</td>
+   <td class="num" data-type ="C1" {rollos_visibility} onclick="listCod($(this))" >{rollosC1}</td>
+   <td class="num">{StockC1}</td>
+   <td class="num" data-type ="C2" {cri02_visibility} {rollos_visibility} onclick="listCod($(this))" >{rollosC2}</td>
+   <td class="num" {cri02_visibility}>{StockC2}</td>
+   <td class="num" {display_costo}>{AvgPrice}</td>      
+   <td class="num" {display_costo}>{CostoTotal}</td>   
+   <td class="num" {display_costo}>{Precio1}</td>      
+   <td class="num" {display_costo}>{U_desc1}</td>      
+   <td class="num" {display_costo}>{Precio1Neto}</td>      
+   <td class="num" {display_costo}>{CostoTotalP1}</td>   
+</tr>
+<!-- end: table_suc_data -->
+
+<!-- begin: footer -->   
+</tbody>
+<tfoot>
+<tr>
+    <td {lote_visibility} ></td>
+    <td {suc_visibility} ></td>
+    <td {color_visibility} ></td>
+    <td {design_visibility} ></td>
+    <td colspan="2"><b>Totales:</b></td>
+    <td align="right" {rollos_visibility}><b>{sumRollos01}</b></td>
+    <td align="right"><b>{sumMts01}</b></td>
+    <td align="right" {cri02_visibility} {rollos_visibility}><b>{sumRollos02}</b></td>
+    <td align="right" {cri02_visibility}><b>{sumMts02}</b></td>
+    <td class="num" {display_costo}></td>      
+    <td class="num" {display_costo}><b>{TotalCosto}</b></td>   
+    <td class="num" {display_costo}></td>    
+    <td class="num" {display_costo}></td>
+    <td class="num" {display_costo}></td>
+    <td class="num" {display_costo}><b>{sumCostoTotalP1}</b></td>   
+</tr>
+</tfoot>
+</table>
+<script>
+    var filters = {filters};
+</script>
+</body>
+</thml>
+<!-- end: footer -->  

@@ -1,0 +1,67 @@
+
+<!-- begin: header -->
+ <link rel="stylesheet" type="text/css" href="produccion/RegistroFabricacion.css?_=1517493407983" />  
+ <script type="text/javascript" src="produccion/RegistroFabricacion.js?_=1517493407983" ></script>
+<!-- end:   header -->
+
+
+<!-- begin: form -->
+<table class="tabla" border="0" style="margin:10px auto; border: 1px solid gray;pading:4px;background-color: whitesmoke;width: 60%">
+    <tr>
+        <th colspan="4" class="titulo"> Registro de Produccion de Confecciones</th>
+    </tr>
+    
+    <tr>
+        <td>Fecha:</td> <td colspan="3"><input type="text" id="fecha_prod" class="fecha" onchange="listarRegistroDelDia()" style="text-align: center" size="10" ></td>
+    </tr>
+    <tr>
+        <td>Usuario:</td> <td colspan="3"><select id="usuario">{usuarios}</select></td>
+    </tr>
+    <tr>
+        <td>Articulo:</td> <td style="width: 10%"><input type="text" id="buscar" placeholder="Buscar" size="14" onchange="buscarArticulos()" ></td>
+        <td style="width: 60%"> <select id="articulo"></select></td>
+    </tr>
+    <tr>
+        <td>Cantidad Producida:</td> 
+        <td colspan="3">
+            <input type="text" id="cant_prod" style="text-align: right" size="6" > 
+        </td>
+    </tr>
+    <tr>
+        <td>Obs:</td>
+        <td colspan="3">
+            <textarea id="obs" cols="80" rows="2"></textarea>
+        </td>
+    </tr>
+    
+    <tr>
+        <td colspan="3" style="text-align: center"  >
+            <input style="margin-left: 100px" id="registrar" type="button" value="Registrar" onclick="registrar()" >
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: center" id="msg"></td>
+    </tr>
+</table>  
+<!-- end:   form -->
+
+
+<!-- begin: registro -->
+<table class="tabla" id="registro" border="1" style="margin:20px auto; border: 1px solid gray;pading:4px;background-color: whitesmoke;width: 80%;border-collapse: collapse">
+    <tr>
+        <th colspan="9" class="titulo"> Registro del dia</th>
+    </tr>
+    
+    <tr style="background-color: lightsteelblue">
+        <th>ID</th>       
+        <th>Fecha Reg</th>       
+        <th>Encargado</th>       
+        <th>Fecha Prod.</th>       
+        <th>Operario</th>       
+        <th>Codigo</th>       
+        <th>Articulo</th>       
+        <th>Cant. Producida</th>   
+        <th>Obs</th>
+    </tr>
+ </table>  
+<!-- end:   registro -->

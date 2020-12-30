@@ -1,0 +1,100 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="productos/Ajustes.css?_=222222222222" />
+    <link rel="stylesheet" type="text/css" href="css/image_efects.css" />
+    <script type="text/javascript" src="productos/Ajustes.js?_=44" ></script>     
+ 
+<!-- end:   header -->
+
+
+<!-- begin: body -->
+
+<div id="verificar" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center">
+    <label>Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24" value=""><br>
+     
+    <input type="button"   value="Cancelar" onclick=javascript:$("#verificar").fadeOut()>    <input type="button"   value="Aceptar"  onclick="autorizarAjuste()"> <br>
+    <span id="msg_pw"></span>
+</div> 
+
+<input type="hidden" id="images_url" value="{images_url}">
+<div>
+       
+     <table style="border:solid gray 1px;margin: 10 auto; min-width:80%;padding: 4px;background-color: white" border="0" >
+         <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Ajuste de Lotes</th></tr>
+        <tr>
+            <td style="width: 12%"><label>Codigo Lote:</label> </td> 
+            <td  colspan="2">
+                <input title="Ingrese aqui el codigo para Imprimir" type="text" size="12" id="lote" maxlength="36" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder" >&nbsp;
+                <img src="img/keypad32.png" border="0" onclick=showKeyPad("lote") style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                <span id="msg"></span>    
+                <span id="warning"></span>    
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Articulo:</label> 
+            </td> 
+            <td style="width: 70%" colspan="2"> <input type="text" size="8" id="codigo"   style="color:black;text-align: left" readonly="readonly" >
+                <label>Descrip:</label><input type="text" id="descrip"  style="color:black;width:74%" readonly="readonly" >
+            </td>             
+        </tr>
+        <tr>
+            <td>
+                <label>Suc:</label> 
+            </td> 
+            <td> 
+                <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" >                
+            </td>
+            <td rowspan="4" style="width: 18%;text-align: center"><img id="img" alt="" src="img/no_image.png" style="display:none"  width="160" ></td>
+        </tr>
+        <tr>
+            <td>
+                <label>Stock:</label> </td> <td> <input type="text" size="10" id="stock"   style="color:black;text-align: right" readonly="readonly" ><input type="text" size="4" id="um"  style="color:black;text-align: center" readonly="readonly" >
+                <label  class="ajuste">Stock Real:</label>  <input type="text" size="10" id="stockreal" value="" class="ajuste editable" data-next="operacion">
+                <img  class="ajuste" src="img/keypad32.png" border="0" onclick=showKeyPad2("stockreal") style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer;text-align: right" title="Teclado Numerico" >
+                <label  class="ajuste">Ajuste:</label>  <input style="text-align: right" type="text" size="8" id="ajuste" readonly="readonly" value="" class="ajuste">
+            </td>
+        </tr>
+         
+        <tr>
+            <td>
+                <label>Gramaje:</label></td><td><input type="text" size="10" id="gramaje"  style="color:black;text-align: right" readonly="readonly" >
+                <label  class="ajuste">Operaci&oacuten:</label>
+                <select id="operacion"  class="ajuste editable" data-next="motivo">
+                    <option class="aum" value="Aumento en Entrada">Aumento en Entrada</option>
+                    <option class="aum" value="Aumento en Salida">Aumento en Salida</option>
+                    <option class="aum" value="Aumento en Inventario">Aumento en Inventario</option>
+                    <option class="aum" value="Aumento x Informacion Viciada">Aumento x Informacion Viciada</option>
+                    <option class="aum" value="Aumento x Variacion de Rendimiento Promedio">Aumento x Variacion de Rendimiento Promedio</option>
+                    <option class="dism" value="Disminucion en Entrada">Disminucion en Entrada</option>
+                    <option class="dism" value="Disminucion en Salida">Disminucion en Salida</option>
+                    <option class="dism" value="Disminucion en Inventario">Disminucion en Inventario</option>
+                    <option class="dism" value="Disminucion x Informacion Viciada">Disminucion x Informacion Viciada</option>
+                    <option class="dism" value="Disminucion x Variacion de Rendimiento Promedio">Disminucion x Variacion de Rendimiento Promedio</option>
+                    <option class="dism" value="Disminucion x Fallas">Disminucion x Fallas</option>
+                    <option class="dism" value="Disminucion para Retazo">Disminucion para Retazo</option>
+                </select>
+            </td>
+        </tr> 
+        <tr>
+            <td><label>Ancho:</label></td>
+            <td>
+                <input type="text" size="10" id="ancho"  style="color:black;text-align: right" readonly="readonly" >            
+                <label class="ajuste">Motivo:</label> <input class="ajuste editable" type="text" size="50" maxlength="120" onchange="calcAjuste()" id="motivo" data-next="ajustar"  >
+                <input type="button" id="ajustar" value="Ajustar" onclick="ajustar()" disabled="disabled" class="focusable">
+                <input type="button" id="ajuste_supervisor" value="Ajustar como Supervisor" onclick="ajusteSupervisor()"  class="focusable" style="display: none" >
+            </td>
+        </tr>
+        <tr>
+             <td> </td> <td colspan="2"> </td>
+        </tr>       
+        
+    </table>
+    
+</div>
+<div style="text-align: center" class="ajuste"><input type="button" value="Historial" style="height: 26px;  margin-bottom: -8px;cursor: pointer" onclick="buscarHistorialLote()"></div>
+<div id="historial" style="text-align: center"></div>
+<!-- end:   body -->
+
+ 
+
+ 

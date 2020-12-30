@@ -1,0 +1,299 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="ventas/FacturaVenta.css?_=002121212" />
+    <link rel="stylesheet" type="text/css" href="caja/VentasEnCaja.css?_=3333333333333333" />
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js?_=12155656" ></script>        
+    <script type="text/javascript" src="caja/VentasEnCaja.js?_=45455555555555555555" ></script>        
+<!-- end:   header -->
+
+
+<!-- begin: ui_factura -->
+<input type="hidden" class="fecha_hoy" value="{fecha_hoy}">
+
+<div id="dialog-confirm" title="Eliminar cobro con convenio?" style="display: none;padding-top:10">
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 60px 0;"></span><span id="alert_msg">&iquest;Esta seguro que desea eliminar este registro de cobro&quest;</span> 
+</div>
+
+<div id="popup_print" class="popup_print"  style="display: none" >
+    <div class="titulo" style="text-align: center;margin-bottom:4px">Impresion de Facturas</div>
+    <label>N&deg; Ticket:</label><input type="text" id="bticket" class="mantain" size="10" onchange="buscarTicket()">
+    <label>Cliente:</label><input type="text" id="bcliente" size="50"  readonly="readonly" >
+    <label>RUC:</label><input type="text" id="bruc" size="15" readonly="readonly">
+    <label>Factura:</label><input type="text" id="bfactura" size="16" readonly="readonly">
+    <label>Fecha:</label><input type="text" id="bfecha" style="text-align: center" size="16" readonly="readonly">
+    <label>Moneda:</label><input type="text" id="bmoneda" style="text-align: center" size="4" readonly="readonly">
+    <label>Total:</label><input type="text" id="btotal" style="text-align: right" size="16" readonly="readonly">
+    <label>Desc:</label><input type="text" id="bdescuento" style="text-align: right" size="10" readonly="readonly">
+    <input type="button" id="cargar_venta" value="Cargar Venta" onclick="cargarFactura()" disabled="disabled"  class="mantain" > 
+    <div id="msg_b" style="color:red"></div>
+    <input type="hidden" id="bcod_desc" value="" > 
+    <input type="hidden" id="bcod_cli" value="" > 
+    <input type="hidden" id="bcat" value="" >
+    <input type="hidden" id="bclase" value="" >
+</div>
+
+<div id="popup_caja" class="popup_caja"  style="display: none"  >     
+    <div class="titulo">Cobro de Factura</div>
+    <div class="factura_data"> 
+    <input type="hidden" id="codigo_cliente" value="">    
+    <table cellspacing="0" cellpadding="0" border="0">   
+        <tr>
+            <td><label>Factura N&deg;: </label> </td><td><input type="text" size="7"  readonly class="factura" id="factura" value=""> </td>
+            <td><label>Fecha: </label> </td><td colspan="5"> <input type="text" size="10" readonly id="fecha" style="text-align: center" value="">&nbsp;<label>Moneda: </label><input style="text-align: center" type="text" size="3"  readonly id="moneda" value="">
+            <label>Clase: </label><input style="text-align: center" type="text" size="8"  readonly id="clase" value="">
+            </td> 
+       </tr>
+        <tr>
+           <td><label id="label_ruc">C.I./R.U.C.:</label> </td><td> <input type="text" id="ruc_cliente" size="20" maxlength="34" readonly ></td>
+           <td><label>Cliente:</label> </td><td>  <input type="text" id="nombre_cliente" size="46" readonly > </td>
+           <td><label>Cat:</label> </td><td>  <input type="text" id="categoria" size="3" readonly style="text-align: center" value="" ></td>
+           <td><label class="limite_credito" title="Limite de Credito">Lim.Cred.:</label></td>
+           <td> <input type="text" id="limite_credito" size="10" readonly class="num limite_credito" value="0"  ></td>
+           <td> <img style="margin-left:24px;height:18px;width:18px;cursor: pointer" src="img/medios_pago.png" onclick="irAreaCobros()" > </td>
+        </tr>
+    </table> 
+    </div>
+    <div class="factura_data">
+    <table cellspacing="0" cellpadding="0" border="0">   
+      <tr> 
+        <td> <label style="font-weight: bold;font-size: 14px">Total a Pagar Gs: </label> </td>
+        <td><img src="img/gs.png" class="img_moneda"  ></td>
+        <td><input class="monedas" style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="10"  readonly  id="total_gs" value=""> </td>
+        
+        
+        <td> <label style="font-weight: bold;font-size: 14px">&nbsp;&nbsp;&nbsp;Rs:</label> </td>
+        <td><img src="img/rs.png" class="img_moneda"   ></td>
+        <td>
+            <input class="monedas" style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="total_rs" value="">
+        </td>        
+        <td> <img class="loading_cotiz" style="margin-left:-24px;height:16px;width:16px" src="img/loadingt.gif" ></td>
+        
+        
+        <td> <label style="font-weight: bold;font-size: 14px">&nbsp;&nbsp;&nbsp;Ps:</label> </td>
+        <td><img src="img/ps.png" class="img_moneda"  ></td>
+        <td>
+            <input class="monedas" style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="total_ps" value=""> 
+        </td>
+        <td>
+            <img class="loading_cotiz" style="margin-left:-24px;height:16px;width:16px" src="img/loadingt.gif" >  
+        </td>
+        
+        
+        <td> <label style="font-weight: bold;font-size: 14px">&nbsp;&nbsp;&nbsp;Us:</label> </td>
+        <td><img src="img/us.png" class="img_moneda"  ></td>
+        <td>
+            <input class="monedas" style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="total_us" value="">
+        </td>        
+        <td>
+            <img class="loading_cotiz" style="margin-left:-24px;height:16px;width:16px" src="img/loadingt.gif" >  
+        </td>
+        
+     </tr>
+    </table>    
+    </div>      
+        
+    <div id="tabs" style="height: 58%">
+          <ul>
+            <li><a href="#efectivo" id="tab_efectivo">Efectivo</a></li>
+            <li><a href="#tarjetas" id="tab_tarjetas">Tarjetas</a></li>
+            <li><a href="#cheques"  id="tab_cheques">Cheques</a></li>
+            <li><a href="#credito"  id="tab_credito" style="display:none" >Credito</a></li>
+            <li><a href="#reservas" id="tab_reservas">Reservas</a></li>
+            <li><a href="#convenios_asoc" id="tab_convenios">Convenios</a></li>
+          </ul>
+          <div id="efectivo" style="text-align: left;min-height: 190px">
+            <table border="0"  style="margin:0;border-spacing:6;">
+                <tr><th class="titulo" colspan="3">Entrega en Efectivo</th></tr>
+                <tr><td><img src="img/gs.png" class="img_moneda"  ></td><td><label>Gs.:</label> </td>  <td style="text-align: right">   <input class="num entrega efectivo" type="text" data-next="entrega_rs" size="14"  id="entrega_gs" value=""> <input id="comp_gs" type="button" value="&#x25C0;" onclick=completar("gs") style="cursor: pointer;padding: 0px;border:white 0px;background-color: white"> </td><td></td>
+                <tr><td><img src="img/rs.png" class="img_moneda"  ></td><td><label>Rs.:</label> </td>  <td style="text-align: right">   <input class="num entrega efectivo" type="text" data-next="entrega_ps" size="14"  id="entrega_rs" value=""> <input id="comp_rs" type="button" value="&#x25C0;" onclick=completar("rs") style="cursor: pointer;padding: 0px;border:white 0px;background-color: white"> </td><td><label id="mult_rs"></label></td>
+                <tr><td><img src="img/ps.png" class="img_moneda"  ></td><td><label>Ps.:</label> </td>  <td style="text-align: right">   <input class="num entrega efectivo" type="text" data-next="entrega_us" size="14"  id="entrega_ps" value=""> <input id="comp_ps" type="button" value="&#x25C0;" onclick=completar("ps") style="cursor: pointer;padding: 0px;border:white 0px;background-color: white"></td><td><label id="mult_ps"></label></td>
+                <tr><td><img src="img/us.png" class="img_moneda"  ></td><td><label>Us.:</label> </td>  <td style="text-align: right">   <input class="num entrega efectivo" type="text" data-next="factura_contable" size="14"  id="entrega_us" value=""><input id="comp_us" type="button" value="&#x25C0;" onclick=completar("us") style="cursor: pointer;padding: 0px;border:white 0px;background-color: white"> </td><td><label id="mult_us"></label></td>     
+            </table>             
+            <div id="msg_efectivo" style="text-align: center" class="info"></div>    
+          </div>
+        
+        <div id="tarjetas"  style="text-align: left;min-height: 190px">
+              <label>Tarjeta:</label>
+              <select id="convenios" data-next="voucher"   >
+                  {tarjetas}
+              </select>
+              
+              <label id="tipo_nro">N&deg; Voucher:</label><input type="text" id="voucher" class="entrega_conv" data-next="monto_conv" value="" size="24" > 
+              <label class="retencion">Timbrado:</label><input type="text" id="timbrado_ret" data-next="add_conv" class="retencion" value="" size="12" >
+              <label class="retencion">Fecha Ret:</label><input type="text" id="fecha_ret" data-next="add_conv" class="retencion" value="" size="10" >
+              <label>Monto:</label><input type="text" id="monto_conv" data-next="add_conv" class="entrega num entrega_conv" value="" size="14" >
+              <input id="tarjeta_gs" type="button" value="&#x25C0;" onclick=completarTarjeta() style="cursor: pointer;padding: 0px;border:white 0px;background-color: white">
+              <input type="button" id="add_conv" value="Agregar" onclick="addConv()" disabled >
+              <img src="img/tarjetas/no_card.png" id="logo_tarjeta" style="width:40px;margin-bottom:-16px;display:none" > 
+              <br>
+              <table id="lista_convenios" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+                   <tr><th colspan="8" class="titulo_factura">Tarjetas de Credito, Debito y Retencion</th></tr>  
+                   <tr class="titulo"><th>Codigo</th><th>Convenio</th><th>Voucher</th><th>Monto</th><th>*</th></tr>  
+                   <tr class="conv_foot"><td colspan="3" > </td><td style="text-align: center;font-weight: bolder;font-size: 13px" class="total_convenios">0</td><td></td> </tr>
+              </table> 
+              <div id="msg_convenios" style="text-align: center" class="info"></div>
+          </div>
+          <div id="cheques" style="text-align: left;min-height: 190px">
+              <div style="padding:4px" id="ui_add_cheque">  
+                  
+            <label>N&deg; Cuenta:</label><input type="text" id="nro_cuenta"  onchange="checkCheque()" value="" size="20" maxlength="20"> 
+            <label>N&deg; Cheque:&nbsp;&nbsp; </label><input type="text" id="nro_cheque"  data-next="bancos" data-next="nro_cuenta" onchange="checkCheque()" value="" size="10" maxlength="10"   > 
+            <label>Banco:</label>
+            <select id="bancos" data-next="benef">
+                  {bancos}
+            </select>
+            <label>Tipo:</label> <select id="tipo" onchange="setDateCheque()"><option value="Al_Dia" class="aldia">Al Dia</option> </select>
+            <br>
+            <label>Emisor:</label><input type="text" id="benef" data-next="fecha_emision" onchange="checkCheque()" value="" size="40" maxlength="160" >
+            <label>Fecha Emision:</label><input type="text" id="fecha_emision" data-next="fecha_pago" onchange="checkCheque()" value="{fecha_hoy}" size="10" maxlength="10" readonly="readonly" >
+            <label>Fecha Pago:</label><input type="text" id="fecha_pago" data-next="valor_cheque" onchange="checkCheque()" value="{fecha_hoy}" size="10" maxlength="10" readonly="readonly" >
+            <br>
+            <label>Valor:</label><input type="text" id="valor_cheque" data-next="monedas_cheque" class="num entrega"  onchange="calcRefCheque()"  value="" size="14" >             
+            <label>Moneda:</label><select id="monedas_cheque" data-next="cotiz_cheque" onchange="calcRefCheque()" > {monedas} </select>
+            <label>Cotiz:</label><input type="text" id="cotiz_cheque" class="num entrega" data-next="add_cheque" onchange="calcRefCheque()" value="1,00" size="8" >  
+            <label>Valor Gs:</label><input type="text" style="color: black" id="valor_cheque_gs" class="num" value="" size="16" readonly="readonly" disabled="disabled" >  
+            
+            <input type="button" id="add_cheque" value="Agregar Cheque" onclick="addCheque()" disabled >
+            
+            </div>
+              <table id="lista_cheques" border="1"  cellspacing="0" cellpadding="0" width="99%"   >
+                   <tr><th colspan="11" class="titulo_factura">Cheques Recibidos</th></tr>  
+                   <tr class="titulo"><th>N&deg; Cheque</th><th>Banco</th><th>Cta</th><th>Beneficiario</th><th>Valor</th><th>Moneda</th><th>Cotiz.</th><th>Valor Gs</th><th>Emision</th><th>Fecha Pago</th><th>*</th></tr>  
+                   <tr class="cheques_foot"><td colspan="7" > </td><td style="font-weight: bolder;font-size: 13px" class="total_cheques num">0</td><td></td> </tr>
+             </table> 
+             <div id="msg_cheques" style="text-align: center" class="info"></div>
+          </div> 
+          <div id="credito" style="text-align: left;min-height: 190px" >
+              <table cellspacing="0" cellpadding="0" border="0" style="width: 100%">
+                  <tr>
+                      <td style="width: 30%;font-weight: bolder;height: 80%"> 
+                          <div class="titulo" style="width: 256px;margin-bottom:10px;text-align:center">Planes de Pago</div> 
+                          <input type="radio" id="p1" name="plan" class="plan_pago" value="1">&nbsp;<label for="p1" class="lb_pago">1 Cuota a 30 d&iacute;as</label><br>
+                          <input type="radio" id="p2" name="plan" class="plan_pago" value="2">&nbsp;<label for="p2" class="lb_pago">30-60 d&iacute;as</label><br>
+                          <input type="radio" id="p3" name="plan" class="plan_pago" value="3">&nbsp;<label for="p3" class="lb_pago">30-60-90 d&iacute;as</label><br>
+                          <input type="radio" id="pn" name="plan" class="plan_pago" value="4">&nbsp;
+                          <label for="pn" class="lb_pago">Generar</label>  
+                          <select id="n_cuotas" disabled onchange="calcRefCuota()" >  
+                            {n_cuotas} 
+                          </select> 
+                        <label>cuotas</label><br>
+                        <label>Moneda:</label><input type="text" id="monedas_cuotas" size="4" style="text-align: center" readonly="readonly" data-next="cotiz_cuota" value="" > 
+                        <label>Cotiz:</label><input type="text" id="cotiz_cuota" class="num entrega" data-next="fecha_inicio"  value="1,00" size="8" ><br>
+                        <label>Fecha 1er Pago a:</label> <input type="text" id="fecha_inicio" data-next="generar_cuotas"  value="30" size="4" maxlength="4" >  <label>d&iacute;as</label><br>
+                        <span id="msg_valcuota"></span>
+                        <div   style="width: 256px;height:40px;margin-top: 20px;text-align:center">
+                            <input type="button" id="generar_cuotas" value="Generar Cuota" disabled onclick="generarCuotas()" style="font-size:11px">
+                        </div>                         
+                     </td>
+                     <td id="seccion_cuotas" style="vertical-align: top">
+                         <div style="height:176px;overflow-y: scroll;"> 
+                         <table id="lista_cuotas" border="1"  cellspacing="0" cellpadding="0" width="99%"   >
+                            <tr><th colspan="11" class="titulo_factura">Cuotas</th></tr>  
+                            <tr class="titulo"><th>N&deg;</th><th>Monto</th><th>Moneda</th><th>Cotiz</th><th>Tasa.Int.</th><th>Ret.Iva</th><th>Valor Total</th><th>Valor Gs</th><th>Vencimiento</th><th style="min-width: 120px">Imprimir Pagar&eacute;</th> </tr>  
+                            <tr class="cuotas_foot"><td colspan="6" > </td><td style="font-weight: bolder;font-size: 13px" class="total_cuotas_moneda num">0</td><td style="font-weight: bolder;font-size: 13px" class="total_cuotas num">0</td><td></td> </tr>
+                         </table> 
+                         </div>    
+                         <div style="text-align: center"> 
+                             <input class="cuotas_bar" type="button" onclick="eliminarCuotas()" value="Eliminar cuotas" style="display:none;font-size: 10px;font-weight: bolder">                              
+                         </div>                         
+                     </td>
+                </tr>
+              </table>
+              <div id="msg_cuotas" style="text-align: center" class="info"></div>
+          </div> 
+        
+        <div id="reservas" style="text-align: left;min-height: 190px" >
+            <label>Ticket de Reserva N&deg;:</label>
+            <input type="text" id="ticket_reserva"  data-next="" class=""  onchange="getReserva()" value="" size="14" > 
+            <label>Valor de Se&ntilde;a por Reserva entregada:</label>
+            <input type="text" id="entrega_reserva" data-next="" class="num entrega"  value="" size="14" readonly="readonly" >   
+            <div id="msg_reservas" style="text-align: center" class="info"></div>
+        </div>
+        <div id="convenios_asoc" style="text-align: left;min-height: 190px;" >
+            <label>N&deg; Orden:</label>
+            <input type="text" id="nro_orden" data-next="" class="num"   value="" size="14"  >   
+            <label>Beneficiario de la Orden:</label>
+            <input type="text" id="orden_benef"  data-next="" class=""   value="" size="40" > 
+            <label>Monto de la Orden:</label>
+            <input type="text" id="monto_orden" data-next="" class="num"  value="" size="14" >  
+            <input type="button" id="add_conv" value="Guardar" onclick="guardarDatosConvenio()"  >
+            <div id="msg_conv" style="text-align: center" class="info"></div>
+        </div>
+        
+    </div>
+    <div id="bottom_bar">
+        <input type="button" id="cancelar" value="Cancelar" onclick="cancelar()"> &nbsp;&nbsp;
+        <label>Total Entrega:</label> <input type="text" id="total_entrega" class="num" style="font-size: 15px;font-weight:bolder;color:black" size="14" readonly="readonly" disabled="disabled">&nbsp;&nbsp;&nbsp;
+        <label id="label_vuelto_faltante">Faltante:</label>
+        <select id="monedas_vuelto" data-next="factura_contable" onchange="calcVuelto(1)" style="height: 26px" >{monedas_cod}</select>
+        <input type="text" id="vuelto_faltante" data-next="aceptar" class="num" style="font-size: 15px;font-weight:bolder" size="14" readonly="readonly" disabled="disabled"> 
+        
+        <input type="button" class="ticket_button" id="ticket" title="Imprimir Ticket" value="  " data-next="factura_contable" onclick="imprimirTicket()" >  
+        
+        <label>Factura:</label> 
+        <select id="tipo_fact" data-next="tipo_factura" onchange="getFacturasContables()" style="height: 26px" >
+            <option>Pre</option>
+            <option>Man</option> 
+            <option>Conf</option>         
+        </select>
+        <select id="factura_contable" data-next="tipo_factura" style="font-weight: bold;height: 26px"> </select>
+        <img id="loading_facts" src="img/loading.gif" style="width: 16px;height: 16px;margin-left: -30px;margin-bottom:-4px">
+        
+        <select id="tipo_factura" style="font-weight: bold;height: 26px;width: 82px" data-next="imprimir_factura">
+            <option value="Contado" >Contado</option>
+            <option value="Credito" >Credito</option>            
+        </select>         
+        
+        <input type="button" class="cerrar_venta printer_button" id="imprimir_factura" value="    " data-next="cerrar_venta" onclick="imprimirFactura()" > 
+        <input type="button" class="cerrar_venta" id="cerrar_venta" value="Cerrar Venta" onclick="cerrarVenta()" disabled> 
+    </div>
+</div>
+
+<!-- end:   ui_factura -->
+
+<!-- begin: cotizaciones -->
+<div style="text-align: center; padding-top: 6px">
+    <label style="font-weight: bold">Cotizaciones:</label>&nbsp;&nbsp;
+    <label>Rs:</label><img src="img/rs.png" class="img_moneda" style="margin-bottom: -8px;" ><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_rs" value="{cotiz_rs}">&nbsp;&nbsp;
+    <label>Ps:</label><img src="img/ps.png" class="img_moneda" style="margin-bottom: -8px;"><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_ps" value="{cotiz_ps}">&nbsp;&nbsp;
+    <label>Us:</label><img src="img/us.png" class="img_moneda" style="margin-bottom: -8px;"><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_us" value="{cotiz_us}">&nbsp;&nbsp;
+    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick=genericLoad("caja/VentasEnCaja.class.php")>    
+    &nbsp;
+    <img title="Cambios Chaco" style="cursor: pointer;width: 22px;margin-bottom:-5px" src="img/cambios_chaco.png" onclick="loadCotizCambiosChaco()">
+    <img title="Impresion de Facturas" style="cursor: pointer;width: 22px;margin-bottom:-5px;margin-left: 6px" src="img/configuration.png" onclick="imprimirFacturaCerrada()">
+    <span id="cambios_chaco"></span>
+</div>
+
+<div id="recibos_div" style="display:none" >
+    <br>
+    &nbsp;&nbsp;<label>N&deg; Recibo:</label><select id="recibos_contables"></select>  
+</div>
+
+<!-- end:   cotizaciones -->
+
+<!-- begin: ventas_encaja_cab -->
+<table id="ventas" border="1"  cellspacing="0" cellpadding="0"   >
+    <tr class="titulo_factura"><th colspan="14">Facturas en Caja de:  &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 6%">N&deg;</th> <th>Fecha</th>  <th style="width: 7%">CI/RUC</th> <th style="width: 28%" >Cliente</th> <th  style="width: 2%">Cat</th> <th style="width: 6%">Total Bruto</th><th  style="width: 2%">Moneda</th><th  style="width: 2%">Redondeo</th><th style="width: auto">Total Desc.</th><th style="width: 7%">Total Neto</th> <th style="width: 8%">Estado</th><th style="width: auto">Rev.Emp.</th><th style="width: auto">Pref.Pago</th><th>*</th></tr>
+<!-- end:   ventas_encaja_cab -->
+     <!-- <tr id="fact_{nro}" class="venta_encaja" data-efectivo_{nro}="{data_efectivo}"  data-tarjetas_{nro}="{data_tarjetas}"  data_cheques_{nro}="{data_cheques}" data-credito_{nro}="{data_credito}"> -->
+<!-- begin: ventas_encaja_data -->
+<tr id="fact_{nro}" class="venta_encaja{clase}" data-tipo_doc="{tipo_doc}" >
+    <td class="itemc clicable">{nro}</td><td class="itemc" id="fecha_{nro}">{fecha}</td>  
+    <td class="item clicable" data-info="Seleccionar para Cobrar" title="Vendedor: {vendedor}"  ><span id="ruc_{nro}" data-cod_cli="{cod_cli}" data-cod_desc="{cod_desc}">{ruc}</span></td>
+    <td class="item clicable" data-info="Seleccionar para Cobrar" title="Vendedor: {vendedor}"  ><span id="cliente_{nro}">{cliente}</span></td>
+    <td class="itemc" id="cat_{nro}">{cat}</td> 
+    <td class="num clicable" id="total_bruto_{nro}" data-info="Seleccionar para Cobrar" title="Vendedor: {vendedor}" >{total_bruto}</td> 
+    <td class="itemc" id="moneda_{nro}">{moneda}</td> 
+    <td class="num" id="sedeco_{nro}">{desc_sedeco}</td> 
+    <td class="num" id="total_desc_{nro}">{alert_desc}{total_desc}</td> 
+    <td class="num" id="total_{nro}" style="font-weight: bolder">{total_neto}</td>  
+    <td  class="itemc">{estado}</td>
+    <td  class="itemc">{empaque}</td> 
+    <td  class="itemc pref_pago_{nro}">{pref_pago}</td> 
+    <td  class="itemc"><img src="img/trash_mini.png" class="trash" id="trash_desc_{nro}" style="cursor:pointer;display:{trash_desc}" onclick="borrarDescuento({nro})" /></td></tr> 
+<!-- end:   ventas_encaja_data -->
+
+
+<!-- begin: ventas_encaja_foot -->
+</table>
+<!-- end:   ventas_encaja_foot -->

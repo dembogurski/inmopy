@@ -1,0 +1,69 @@
+
+#rep_filters{
+    width: 100%
+}
+.filter{
+   height: 28px;
+   border-radius: 6px;
+   border: solid gray 1px;
+   padding: 0 0 0 6px;
+}
+#rep_container{
+    border: solid gray 1px;
+    text-align: center;
+}   
+
+.rep_button{
+    background-color: #fff;
+    border: 2px solid #e5e5e5;     
+    cursor: pointer;
+    font-family: Times New Roman;
+    font-size: 14px;
+    height: 50px;
+    letter-spacing: 4px;
+    margin: 8px;
+    min-width: 280px;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease 0s, letter-spacing 0.3s ease 0s;
+    border-radius: 4px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51)
+}
+
+.rep_button:hover {
+    // background-color: rgb(66, 136, 156);
+    letter-spacing: 6px;
+    box-shadow: 0 0 15px 10px maroon;
+}
+.rep_button:focus {
+    //background-color: rgb(66, 136, 156);
+    letter-spacing: 6px;
+}
+.resaltar{
+    box-shadow: 0 0 15px 10px maroon;
+}
+.opacado{
+   color:black; 
+   filter:alpha(opacity=20); 
+   moz-opacity:.2; 
+   khtml-opacity:.2; 
+   opacity:.2; 
+}
+#filters_area{
+    margin: 0 auto;
+    text-align: center;
+}
+.titulo_form{
+    background-color:  rgb(221, 218, 205);
+    margin: 4px;
+    font-weight: bolder;
+}
+#filter_table{
+    width: 100%;
+}
+
+select > option:nth-child(even){
+    background-color: #F0F0F5;
+}
+.invisible{
+    display: none;
+}

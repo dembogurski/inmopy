@@ -1,0 +1,46 @@
+
+/* 
+    Created on : 09/02/2017, 11:52:27 AM
+    Author     : Ing.Douglas
+*/
+
+.error_field{
+   border:solid red 2px; 
+}
+
+.extracto{
+    border: solid black 1px;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.extracto td{
+   font-size: 9px;
+}
+.titulo{
+    background-color:#dddacd;
+    font-size: 11px;
+}
+
+.det_pago_vacio{
+    border:solid white 0px;    
+}
+
+.data th{
+    background-color: #E6E6FA;
+    font-size: 10px;
+}
+
+.atrasado{
+    color:red;
+    font-weight: bolder;
+}
+.oculto{
+    display: none;
+}
+.select{
+    cursor: pointer;
+    width: 12px;
+    margin-left: 2px
+}

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+<html>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-8" />
+ 
+      <link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+      <script type="text/javascript" src="../../js/jquery-3.3.1.min.js" ></script>
+       
+      
+      <script type="text/javascript" src="../../js/reportes.js" ></script>
+	  <style>
+		.verifVentas{   
+		   margin: 0px auto 9px;   
+		   text-align: center;   
+		}
+		.verifVentas input{
+		   margin-left: 17px;
+		   font: italic bold 14px/30px Georgia, serif;
+		   cursor: pointer;
+		   width: 23em;
+		}
+		th{
+		  white-space: nowrap;
+		}
+		.right{
+			white-space: nowrap;
+			padding: 0px 7px;
+		}
+		[class ^= "det_"]{
+			display: none;
+		}
+		.show:hover, .hide:hover{
+			cursor: pointer;
+			color: brown;
+			text-shadow: 5px 5px 10px black;
+		}
+		.show::after{
+			content: " Ocultar Detalle";
+			color: red;			
+		}
+                .hide::after{
+			content: " Mostrar Detalle";
+			color: green;			
+		}
+		#obs_firma{
+		  width: 100%;
+                  width: 70%;
+                  margin: 0 auto;
+		}
+		#obs{
+                    border-bottom: 1px solid black;
+                    height: 16px;
+                    width: 100%;
+		}
+		#totales{
+			
+			vertical-align: top;
+			width: 40%;
+			white-space: nowrap;
+		}
+		#totales table{			 
+		   width: 80%
+		}
+		#totales td{
+			padding: 2px 10px;
+		}
+		#cobros_head td{
+			vertical-align: top;
+		}
+		#cobros:hover{
+			background-color:lightblue;
+			cursor:pointer;
+		}
+		#cobros::before{
+			content: "Verificar ";
+			color: green;
+		}
+		.user:hover{  
+			position: relative;
+			background-color: yellow;
+   		cursor:pointer;
+		}
+		p.user:hover:before{  
+			content:attr(data-info);
+			padding: 4px 8px;
+			color: #333;
+			position: absolute;
+			left: 100%; 
+			top: 0%;
+			white-space: nowrap; 
+			z-index: 20px;
+			-moz-border-radius: 5px; 
+			-webkit-border-radius: 5px;  
+			border-radius: 5px;  
+			-moz-box-shadow: 0px 0px 4px #222;  
+			-webkit-box-shadow: 0px 0px 4px #222;  
+			box-shadow: 0px 0px 4px #222;  
+			background-color: white;		
+		}
+                .report_header2{
+                    background-color:  #d2dae2;
+                    font-size: 12px;
+                    font-family: cambria;
+                }
+                .report_header th{
+                    font-weight: bolder;
+                    font-size: 12px;
+                    font-family: cambria;
+                    background-color: rgb(221, 218, 205);
+                 }
+                .item{
+                    padding-left: 2px;
+                    font-size: 12px;
+                    font-family: cambria;
+                }
+                .itemc {
+                    text-align: center;
+                    font-size: 12px;
+                    font-family: cambria;
+                }
+                .num{
+                    text-align: right;
+                    padding-right: 2px;
+                    font-size: 12px;
+                    font-family: cambria;
+                }
+                
+	  </style>
+	<style media="print">
+		.verifVentas{
+			display:none;
+		}
+		*::after{
+			display: none;
+		}
+		*:hover{
+			color: black;
+			text-shadow: none;
+		}
+	</style>
+	  <script>
+		var pp = [];
+		$(function(){
+			window.onbeforeunload = function() {
+			  pp.forEach(function(ventana){ventana.close()});
+			};
+                        addScript('../../js/html2pdf.bundle.js');
+		});
+		// Abre PopUp de cobros
+		function verifCobros(){
+			var suc = $("#suc").text();
+			var desde = $("#desde").val();
+			var hasta = $("#hasta").val();
+			pp.push(window.open("ArqueoCobrosDet.class.php?action=showCobros&args="+suc+","+desde+","+hasta, "_blank","width=1024,height=520,toolbar=0,location=0,menubar=0,status=0,titlebar=0,fullscreen=1,scrollbars=yes"));			
+		}
+		// Abre PopUp de Movimientos por Ventas
+		function verifVentas(){
+			var suc = $("#suc").text();
+			var desde = $("#desde").val();
+			var hasta = $("#hasta").val();
+			pp.push(window.open("ArqueoVentasDet.class.php?action=getVentasData&args="+suc+","+desde+","+hasta, "_blank","width=1024,height=520,toolbar=0,location=0,menubar=0,status=0,titlebar=0,fullscreen=1,scrollbars=yes"));
+			
+		}
+		// Muesta/Oculta contenido, extrae la clase objetivo del data-target del objeto que invoca la accion
+		function toggle(caller){
+			var targetClass = '.'+caller.attr("data-target");
+			if(caller.hasClass("hide")){
+				$(targetClass).show();
+				caller.removeClass("hide");
+				caller.addClass("show");
+			}else{
+				$(targetClass).hide();
+				caller.removeClass("show");
+				caller.addClass("hide");
+			}
+		}
+                function addScript(url) {
+                    var script = document.createElement('script');
+                    script.type = 'application/javascript';
+                    script.src = url;
+                    document.head.appendChild(script);
+                }
+                function createPDF(){  
+                   var suc =  $("#suc").html();
+                   var fecha = $("#fecha_arqueo").val(); 
+                   $(".verifVentas").remove(); 
+                   var element = document.getElementById('arqueo_caja');
+                   var worker = html2pdf().from(element).save('Arqueo_caja-'+suc+"-"+fecha+"");
+                   //html2pdf(element).save('Arqueo_caja-'+suc+"_"+fecha+"");
+                }
+                
+                function agregarFirma(){
+                    var position = $("#firma_cajero").offset();
+                    var cuadro = $("#firma_cajero").width() / 2; 
+                    
+                    $("#verificar").css("margin-left",position.left - cuadro  ); 
+                    $("#verificar").css("margin-top",-140);      
+                    $("#verificar").fadeIn();    
+                    $("#passw").focus();    
+                    $("#passw").on('keyup', function (e) {
+                        if (e.key === 'Enter' || e.keyCode === 13) {
+                            firmarArqueoCaja();
+                        }
+                    });
+                }
+                function firmarArqueoCaja(){
+                   
+                   var passw = $("#passw").val();
+                   var usuario =  window.opener.getNick();
+                      
+                    $.ajax({
+                        type: "POST",
+                        url: "../../Ajax.class.php",
+                        data: {"action": "firmarArqueoCaja", "usuario": usuario, "passw": passw},
+                        async: true,
+                        dataType: "json",
+                        beforeSend: function () {
+                           $("#firma_cajero").html("<img src='../../img/loading_fast.gif' width='20px' height='20px' >");                    
+                        },
+                        success: function (data) {   
+                                if(data.mensaje === "Ok"){
+                                    var imagen = data.firma;  
+                                    $("#nombre_cajero").html(data.nombre_cajero);
+                                    $("#firma_cajero").html("<img src='../../img/firmas_digitales/"+imagen+".jpg' width='80px' height='50px' >");
+                                    $("#nombre_cajero").css("text-decoration","underline");
+                                    $("#verificar").fadeOut(function(){
+                                       setTimeout("createPDF()",500);
+                                    });    
+                                }else{
+                                    alert(data.mensaje);
+                                    $("#firma_cajero").html("---------");
+                                }                
+                        },
+                        error: function(e) {                 
+                            $("#firma_cajero").html("Error al obtener firma" + e  );                                
+                        }
+                    });  
+                } 
+                
+	  </script>
+	</head>
+<!-- end:   header -->   
+
+<!-- begin: head -->
+<div id="arqueo_caja">
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="desde" value="{_desde}">
+<input type="hidden" id="hasta" value="{_hasta}">
+
+<input type="hidden" id="fecha_arqueo" value="{desde}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../../img/logo_small.png"></th> 
+        <th style="width: 70%;">Arqueo de Caja</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: <span id="suc">{suc}</span></td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" style="empty-cells:show;width: 100%;border-collapse: collapse">
+    <tr class="report_header">
+		<th rowspan="2">Vendedor</th>
+        <th id="contados" rowspan="2"><span>Contado</span></th>
+		<th colspan="5"> Tarjetas / Convenio </th>
+		<th> Cheques </th>
+		<th id="cuotas" rowspan="2"><span>Cuotas</span></th>
+		<th id="devoluciones" rowspan="2"><span>Devs</span></th>
+                <th id="reservas" colspan="2" ><span>Reservas</span></th> 
+		<th rowspan="2">Totales</th>
+	</tr> 
+    <tr class="report_header">        
+        <th id="credito"><span>Cr&eacute;dito</span></th>
+        <th id="debito"><span>D&eacute;bito</span></th>
+        <th id="convenios"><span>Ret.</span></th>
+        <th id="cripto"><span>Cripto.</span></th>
+        <th id="qr"><span>Pg.QR</span></th>
+        <th id="cheques_dia"><span>Al D&iacute;a</span></th>
+        <th id="reserva_entrante"><span> [<< </span></th> 
+        <th id="reserva_retirada"><span> [>> </span></th>   
+        
+    </tr>
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr class="data">
+    <td class="item"><p class="user" data-info="{vendedor}">{usuario}</p></td>
+    <td class="num">{contado}</td>
+    <td class="num">{credito}</td>
+    <td class="num">{debito}</td>    
+    <td class="num">{retencion}</td>
+    <td class="num">{criptomoneda}</td>
+    <td class="num">{pago_qr}</td>
+    <td class="num">{ch_dia}</td>     
+    <td class="num">{cuotas}</td>
+    <td class="num">{devoluciones}</td>
+    <td class="num">{reservas}</td>
+    <td class="num">{reservas_ret}</td>
+    <td class="num">{total}</td>    
+</tr>    
+ 
+<!-- end:   data -->
+
+<!-- begin: total -->
+<tr class="report_foot">
+    <td>Totales:</td>
+    <td class="num">{t_contado}</td>
+    <td class="num">{t_credito}</td>
+    <td class="num">{t_debito}</td>    
+    <td class="num">{t_retencion}</td>
+    <td class="num">{t_criptomoneda}</td>
+    <td class="num">{t_pago_qr}</td>
+    <td class="num">{t_ch_dia}</td>     
+    <td class="num">{t_cuotas}</td>
+    <td class="num">{t_devoluciones}</td>
+    <td class="num">{t_reservas}</td>
+    <td class="num">{t_reservas_ret}</td>
+    <td class="num">{t_total}</td> 
+</tr> 
+<!-- end:   total -->
+
+
+<!-- begin: foot -->
+</table>    
+<!-- end:   foot  -->
+
+<!-- begin: resumen_head -->
+ <table id="resumen" style="width: 100%" cellspacing="0" cellpadding="0">
+ <tr>
+
+ <td> 
+<!-- end:   resumen_head  -->
+
+<!-- begin: extra_head -->
+<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;empty-cells:show;border-collapse: collapse">
+<tr class="report_header2">{ex_head}</tr>
+<!-- end:   extra_head  -->
+
+<!-- begin: extra_sub_head -->
+<tr  class="report_header">{ex_sub_head}</tr>
+<!-- end:   extra_sub_head  -->
+
+<!-- begin: cobros_head -->
+<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;empty-cells:show;margin: 3px auto;border-collapse: collapse">
+ <td id="totales" style="vertical-align: top;">
+ <table border="1" cellspacing="0" cellpadding="0" style="empty-cells:show;border-collapse: collapse">
+ <tr><th colspan="2">Resumen</th></tr>
+ <tr><td class="right item">Efectivo Total</td><td class="num">{sum}</td></tr>
+ <tr><td class="right"><img src="../../img/gs.png" height="16" width="16" />&#8195;G$</td><td class="num">{gs}</td></tr>
+ <tr><td class="right"><img src="../../img/ps.png" height="16" width="16" />&#8195;P$</td><td class="num">{ps}</td></tr>
+ <tr><td class="right"><img src="../../img/us.png" height="16" width="16" />&#8195;U$</td><td class="num">{us}</td></tr>
+ <tr><td class="right"><img src="../../img/rs.png" height="16" width="16" />&#8195;R$</td><td class="num">{rs}</td></tr>
+ </table>
+ </td>
+ <td style="vertical-align: top;">
+ <table border="1" cellspacing="0" cellpadding="0" style="width: 80%;margin: 0 auto;visibility:{visibility};border-collapse: collapse">
+	<tr class="report_header2">{cobros_ex_head}</tr>
+<!-- end:   cobos_head  -->
+
+<!-- begin: extra_body -->
+<tr {ex_conf}>{ex_data}</tr>
+<!-- end:   extra_body  -->
+
+<!-- begin: cobos_foot -->
+<tr class="report_foot" >{cobos_foot}</tr>
+</table>
+</td>
+</table>
+<!-- end:   cobos_foot  -->
+
+<!-- begin: extra_foot -->
+<tr class="report_foot" >{ex_foot}</tr>
+</table>
+<!-- end:   extra_foot  -->
+
+<!-- begin: resumen_foot -->
+
+ </td>
+ </tr>
+ </table>
+<!-- end:   resumen_foot  -->
+
+<!-- begin: Verif_ventas -->
+<div class="verifVentas" > <input type="button" onclick="verifVentas()" value="Verificar Ventas" /> </div>
+<!-- end:   Verif_ventas  -->
+
+<!-- begin: end -->
+<table id="obs_table"> 
+<tr><td ><span>Obs.:</span></td><td colspan="2" contenteditable="true" id="obs"></td></tr>
+</table>
+
+<table id="obs_firma"> 
+    <tr><td style="text-align: center" id="nombre_cajero">______________________</td> <td id="firma_cajero" style="border:solid black 1px;height: 50px;width: 80px; text-align: center;cursor: crosshair" onclick="agregarFirma()"> </td> </tr>
+    <tr><td style="width: 100px;text-align: center">Cajero</td> <td style="text-align: center"> Firma </td></tr>
+</table>
+</div>
+</html>
+
+<div id="verificar" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center">
+    <label>Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24" value=""><br>
+     
+    <input type="button"   value="Cancelar" onclick=javascript:$("#verificar").fadeOut()>    <input type="button"   value="Aceptar"  onclick="firmarArqueoCaja()"> <br>
+    <span id="msg_pw"></span>
+</div>
+<!-- end:   end  -->

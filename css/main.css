@@ -1,0 +1,289 @@
+/* 
+    Created on : 13/02/2015, 10:39:40 AM
+    Author     : MarijoaTI
+*/
+@font-face {
+    font-family: times;
+    src: url(fonts/times.ttf);
+}
+
+@font-face {
+    font-family: inmopy;
+    src: url(fonts/marijoa.ttf);
+}
+*{margin: 0;
+  padding: 0;
+  font-family: times;
+  font-size: 12px;
+}
+
+.avatar{
+    height: 40px;
+    width: 40px;
+    border-radius: 21px;
+    background-size: 40px 40px;
+    margin: 4px 4px -8px 3px;
+    padding: 0;
+    background-position: center center;
+    vertical-align: bottom;
+    cursor: pointer
+}
+
+body{
+    background-color: #EAEAE8;
+}
+/*
+* Reglas generales para elementos 
+*/
+#suc_container{
+    position: absolute;
+    left: 37px;
+    top: 9px;
+}
+#sucursales {       
+    border: 1px solid darkgray;        
+    background-color: transparent;
+    width: 19px;
+    height: 19px;
+    font-size: 14px;
+    transition: width 0.5s;
+    -webkit-transition: width 0.5s;
+}
+ #sucursales:hover{
+    width: 44px;
+}
+.item{
+   padding-left: 2px; 
+   font-size: 13px;
+}
+.itemc{
+   text-align: center; 
+   font-size: 13px;
+}
+.num{
+    text-align:right;
+    padding-right:2px;
+    font-size: 13px;
+}
+
+input{
+   padding: 2px;
+   margin: 2px;
+   font-size: 13px;
+}
+input[type="text"][type="password"]{
+    font-family: sans-serif;
+}
+input[type="button"]{
+    font-size: 12px;
+}
+label{
+    font-family: sans-serif;
+    font-size: 13px;
+}
+.editable:focus{    
+    background-color: #FFFFCC;
+    border: solid #aaaaaa 1px;
+}
+.focusable:focus{
+    font-weight: bolder;
+    color:blue;
+}
+.titulo{
+    background-color:#dddacd;
+    font-size: 13px;
+}
+ 
+select{
+    height: 22px
+}
+fieldset { border:1px solid black; }
+
+legend {
+  padding: 0.2em 0.5em;
+  border:0px solid black;
+  color:black;
+  font-size:90%;
+  text-align:center;
+  margin-left: 2px;
+  font-weight: bolder;
+ }
+  
+header{
+    width: 100%;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    height: 47px;
+    background-color:#ffc048;  /*   #DDDACD; Para el Centos 7 #F1DF91 */ 
+    text-align: center;
+    z-index: 1;
+}
+header *:not(option){display: inline;}
+header .emp{       
+    font-family: inmopy;
+    font-size: 2vw;
+    letter-spacing: 17px;
+}
+header .main_usuario{
+    font-family: inmopy;
+    font-size: 12px;
+    position: absolute;
+    right: 3px;
+    top:8px;
+    margin:-8px auto
+}
+header .sucursal{
+    font-family: inmopy;
+    font-size: 11px;
+    position: absolute;
+    left: 3px;
+    top:12px; 
+}
+
+
+.content{
+    display: block;
+    position: absolute;
+    top:43px;
+    background-color: #EAEAE8;
+    height:90%;
+    width: 100%;
+}
+#formulario{
+    display: block;
+    top:4px;
+    background-color: white;
+    position: absolute;
+    left: 0;    
+    height: auto;
+    width: auto;    
+}
+#relogin{
+    display: block;
+    top:0;
+    left: 0;
+    background-color: white;
+    position: absolute;        
+    height: 100%;
+    width: 100%;    
+}
+#work_area{
+    display: block;
+    top:3px;     
+    position: absolute;
+    left: 0;    
+    height: 100%;
+    width: 100%;
+    overflow-x:scroll;
+    z-index: -1;
+}
+#loading{
+    top: 40%;
+    left: 48%;
+    position: relative;
+}
+#back_arrow{
+   right: 4px;
+   top: 6px; 
+   position: absolute;
+   cursor: pointer;
+   width:24px;
+   height: 24px;
+   display:none;
+   z-index: 1;
+}
+#status{
+    position: fixed;
+    height: 22px;
+    width: auto;
+    padding: 5px 5px 0 3px;    
+    bottom: 0;
+    font-family: arial;
+    font-size: 12px;
+    background-color: lightgray;    
+}
+/**
+* Clase para mostrar Errores y mensajes de alerta
+*/
+.info{
+    text-align: center;
+    font-size: 13px;
+    color:green;
+}
+.infoblue{
+    text-align: center;
+    font-size: 13px;
+    color:blue;
+}
+.error{
+    color:red;
+    font-size: 13px;
+}
+.errorgrave{
+    background-color: red;
+    font-size: 13px;
+    color:white;    
+}
+.clock{
+    position: fixed;
+    bottom: 7px;
+    right: 7px;
+    z-index: 1;
+    color: darkgray;
+}
+@media only screen and (max-width: 720px) {
+    header .emp {
+       font-family: inmopy;
+       font-size: 11px;
+       letter-spacing: 7px;
+       text-shadow: 0 0 3px #D3D3D3;
+    }  
+}
+
+[readonly]{
+  background-color: rgb(254, 254, 254);
+  border:solid rgb(140,140,140) 1px
+}
+
+.trash{
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.trash:hover{ 
+    -webkit-transform:rotate(-20deg);
+    -moz-transform:rotate(-20deg); 
+    -o-transform:rotate(-20deg);
+}  
+
+ 
+#logOut:hover{
+    color: white;    
+    background-color: red;
+    cursor: pointer;
+}
+
+#logOut{
+    display:none;
+    position: absolute;
+    margin: 1.1cm 0 0 -2cm;
+    color: darkred;
+    font-weight: 900;    
+    border-color: darkred;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    transition: color 0.5s;
+    -webkit-transition: color 0.5s;        
+}

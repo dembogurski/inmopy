@@ -1,0 +1,178 @@
+<!-- begin: var_ini -->        
+        <script>
+            var users = {user_list};
+        </script>   
+<!-- end:   var_ini -->
+
+<!-- begin: head -->        
+        <script src="usuarios/UserManager.js?1537274193549"></script>
+        <link rel="stylesheet" href="usuarios/UserManager.css?1537274193549">      
+        <img id="ajaxLoader" src="img/loadingt.gif" />
+        <div id="popUp"></div>
+<!-- end:   head --> 
+
+<!-- begin: users_list_h -->
+        <div id="contenedor">
+            <div id="lista">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="titulo" colspan="5"><h3>Usuarios</h3></th>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Suc: <select onchange="updateList()" id="filtro_suc"><option id="%">%</option>{users_sucs}</select> Filtro: <input onkeyup="dynamicSearch()" type="text" id="filtro_usuario" maxlength="27"><select id="filtro_criterio" onchange="dynamicSearch()"><option>Usuario</option><option>Nombre</option><option>Apellido</option></select> <br>Mostrar solo Activos: <input type="checkbox" id="filtro_estado" onchange="updateList()" checked="checked"> <button id="limpiar_filtros" onclick="limpiarFiltros()">Limpiar</button></td>
+                            <td><input type="button" value="Nuevo Usuario" id="registrar_nuevo" onclick="newUser()"></td>
+                        </tr>
+                        <tr>
+                            <td>Suc:</td>
+                            <td>Usuario</td>
+                            <td>Apellido</td>
+                            <td>Nombre</td>
+                            <td>Estado</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- end: users_list_h -->   
+
+<!-- begin: urers_list -->
+<tr id="{user_nick}" class="list"><td class="suc itemc">{suc}</td><td class="usuario">{user_nick}</td><td class="apellido">{user_apellido}</td><td class="nombre">{user_nombre}</td></tr>
+<!-- end:   urers_list -->
+
+<!-- begin: users_list_f -->
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+<!-- end:   users_list_f -->
+
+<!-- begin: new_user -->
+<table class="form">
+    <tr><th colspan="2"><h3>Nuevo Usuario</h3></th></tr>
+    <tr>
+        <td class="label">
+            <label for="n_usuario">Usuario (Nick): </label>
+        </td>
+        <td>
+            <input type="text" id="n_usuario" onchange="checkUsu()" title="Escriba id de usuario" />
+            <span class="err_u"></span>
+        </td>
+    </tr>    
+    <tr>
+        <td class="label">
+            <label for="n_passw">Password: </label>
+        </td>
+        <td>
+            <input type="password" id="n_passw" title="Escriba su contrase&ntilde;a" />
+        </td>
+    </tr>
+    <tr>
+        <td class="label">
+            <label for="rp_passw">Repetir Password: </label>
+        </td>
+        <td>
+            <input type="password" id="rp_passw" title="Vuelva a escribir su contrase&ntilde;a" />
+            <span class="err_p"></span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"  class="foo">
+            <input type="button" value="Volver" onclick="volver()"/>
+            <input type="button" disabled="" id="n_user_b" value="Generar" onclick="checkValues()"/>
+        </td>
+    </tr>
+</table>
+<!-- end: new_user -->
+
+<!-- begin: ch_passw_form -->
+<table class="form">
+    <tr><th colspan="2"><h3>Combiar contrase&ntilde;a de: <span id="ch_usu">{usuario}</span></h3></th></tr>
+    <tr><td class="label"><label for="o_passw">Contrase&ntilde;a vieja: </label></td><td><input title="Escriba su vieja contrase&ntilde;a" id="o_passw" onchange="checkOldPassw(this.id)" onfocus="msj(this.id)" type="password"/><span class="err_op"></span></td></tr>
+    <tr><td class="label"><label for="n_passw">Contrase&ntilde;a nueva: </label></td><td><input title="Escriba la nueva contrase&ntilde;a" id="chn_passw" onfocus="msj(this.id)" type="password"/></td></tr>
+    <tr><td class="label"><label for="rpn_passw">Vuelva a escribir: </label></td><td><input title="Vuelva a escribir la contrase&ntilde;a nueva" id="chrp_passw" onfocus="msj(this.id)" type="password"/><span class="err_p"></span></td></tr>
+    <tr><td class="foo" colspan="2"><span class="inf_msj"></span><span class="msj"></span></td></tr>
+    <tr><td class="foo" colspan="2"><input type="button" value="Volver" onclick="volver(1)" /><input id="chp" disabled="" type="button" value="Guardar" onclick="checkValuesChPassw()"/><input id="resetPass" {visible} type="button" value="Reset" onclick="resetPassw()"/></td></tr>
+</table>
+<!-- end: ch_passw_form -->
+<!-- begin: r_table_h -->
+<table id="rest_table" class="form">
+    <tr style="background-color: lightskyblue"><th colspan="2"><h3>Usuario: <span id="usuario">{user}</span></h3></th>
+    <th rowspan="3" style="vertical-align: top;background:#EAEAE8;padding-top:0px"><img width="60px" src="img/usuarios/{foto}.jpg"></th></tr>
+<!-- end:   r_table_h -->
+
+<!-- begin: r_table_b -->
+<tr><td class="label" ><label for="{id}"  >{label}</label></td><td><input data-key="{id}" maxlength="{max_l}" size="{max_s}" data-changed="no" data-err="no" onkeyup="verif(this.id)" id="{id}" type="text" value="{content}" /><span class="error"></span></td></tr>              
+<!-- end:   r_table_b -->
+
+
+<!-- begin: r_table_f -->
+<tr>
+    <td colspan="2" class="foo">
+        <input type="button" value="Volver" onclick="volver()" />
+        <input type="button" value="Guardar" id="action" onclick="updateUser()" disabled />
+        <input type="button" value="Cambiar Contrase&ntilde;a" onclick="changePassw()" />
+        <input id="groups" type="button" value="Grupos" onclick="groups()"/>
+        <input id="groups" type="button" value="Sucursales" onclick="sucs()"/>
+    </td>
+</tr> 
+</table >
+<!-- end:   r_table_f -->
+
+<!-- begin: h_grupos -->
+<table class="form">
+    <tr><th><h3>Usuario: <span id="ch_usu">{user}</span></h3></th></tr>
+<!-- end: h_grupos -->
+
+<!-- begin: grupos -->
+<tr><td><input id="{id}" onchange="saveG(this.id)" type="checkbox" {checked} /><label class="group" for="{id}">{grupo}</label></td></tr>
+<!-- end: grupos -->
+
+<!-- begin: f_grupos -->
+<tr><td class="foo"><input type="button" value="Volver" onclick="volver(1)" /></td></tr>
+</table>
+<!-- end: f_grupos -->
+
+<!-- begin: h_sucs -->
+<table class="form">
+    <tr><th><h3>Usuario: <span id="ch_usu">{user}</span></h3></th></tr>
+<!-- end: h_sucs -->
+
+<!-- begin: sucs -->
+<tr><td><input id="{id}" type="checkbox" {checked} onchange="saveSuc(this.id)" /><label class="suc" for="{id}">{suc}</label></td></tr>
+<!-- end: sucs -->
+
+<!-- begin: f_sucs -->
+<tr><td class="foo"><input type="button" value="Volver" onclick="volver(1)" /></td></tr>
+</table>
+<!-- end: f_sucs -->
+
+<!-- begin: footer -->        
+   
+<!-- end:   footer --> 
+
+
+<!-- begin: metas_head -->
+<table class="form" id="metas">
+    <tr><th colspan="6"><h2>Metas de <span id="usuario_meta">{usuario}</span></h2></th></tr>
+    <tr style="background: lightskyblue" ><th>ID</th><th>Meta Base</th><th>Variable</th><th>%</th><th>Meta Minima</th><th>Ponderacion</th></tr>
+<!-- end: metas_head -->
+
+<!-- begin: metas_data -->
+<tr id="fila_{id_meta}">
+    <td class="itemc fila" >{id_meta}</td>
+    <td class="itemc"><input type="text" class="num metas meta_base" size="12" value="{meta_base}"></td>
+    <td class="itemc"><input type="text" class="num metas sueldo_base" size="12" value="{sueldo_base}"></td>
+    <td class="itemc"><input type="text" class="num metas porc" size="2" value="85"></td>
+    <td class="itemc"><input type="text" class="num metas meta_min" size="12" value="{meta_minima}"></td>
+    <td class="itemc"><input type="text" class="num metas pond" size="4" value="{ponderacion}"></td>
+</tr>
+<!-- end: metas_data -->
+<!-- begin: metas_footer -->
+<tr>
+    <td colspan="6" style="text-align: center"> 
+        <input type="button" onclick="delRow()" value="(-) Quitar meta">
+        <input type="button" onclick="addRow()" value="(+) Agregar Meta">
+    </td>
+</tr>
+</table>
+<!-- end: metas_footer -->
+   

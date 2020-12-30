@@ -1,0 +1,172 @@
+input#inv_hideFDP{
+  display: none;
+}
+input#inv_hideFDP ~ label{
+  font-size: 0px;
+}
+input#inv_hideFDP ~ label:hover{
+  cursor: pointer;
+  text-shadow: 1px 1px 3px black;  
+}
+input#inv_hideFDP ~ label::after{
+  color: red;
+  content: 'Ocultar FDP';
+  font-size: 18px;
+}
+input#inv_hideFDP:checked ~ label::after{
+  color: green;
+  content: 'Mostrar FDP';
+  font-size: 18px;
+}
+tr.articulos:hover{
+  cursor: pointer;
+  background-color: gray;
+}
+
+table{
+  margin: 0 auto;
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+  border: none;
+  border-collapse: collapse;
+}
+
+table.formTable th{
+  border-bottom: solid 1px blue;
+}
+
+table.formTable{
+  border: double 3px black;
+}
+
+th,th{
+  padding: 0px;
+  margin: 1px;  
+}
+
+
+div#lotesContainer{
+  position: fixed;
+  top: 0px; 
+  width:100%;
+  background-color:white;
+  height:100%;
+  display:none;
+  overflow: scroll;
+}
+div#articulosContainer{
+  display: none;
+}
+div#lotesContainer table div#lotesContainerHeader{
+  position: relative;
+  height: 25px;
+}
+div#lotesContainer table button#lotesCerrar{
+  position: absolute;
+  margin: 0px;
+  padding-top: 2px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  right: 0;
+}
+td.rep_header{
+  font-weight: 900;
+  color: black; 
+  letter-spacing: 3px;
+}
+div.reporte table{
+  margin-top: 7px;
+  border-collapse: collapse;
+  min-width: 200px;
+}
+div.reporte table td, div.reporte table th{
+  border: solid 1px black;
+  padding: 2px;
+}
+select#inv_filtro{
+  padding: 0px;
+  margin: 0px;  
+}
+select#inv_filtro option{
+  padding: 0px;
+  margin: 0px;
+}
+table#lotes td.ok{
+  color: green;
+  font-weight: 900;
+}
+table#lotes td.error{
+  color: red;
+  font-weight: 900;
+}
+table#lotes button img{
+  margin: 1px auto;
+  padding: 0;
+}
+table#lotes button:not(.action){  
+  padding: 0px;
+  height: 24px;
+  width: 30px;
+}
+input[type=checkbox]:disabled{
+  cursor: not-allowed;
+}
+abbr{
+  cursor: help;
+}
+div#inv_listaInfo{
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  height: 12px;
+}
+div#inv_progresoListaInfo, div#inv_progresoLista{
+  position: absolute;
+  height: 100%;
+}
+div#inv_progresoListaInfo{
+  width: 0%;
+  background-color: rgb(255, 0, 0);
+}
+div#inv_progresoLista{
+  background-color: rgba(128, 128, 128, 0.452);
+  width: 100%;
+}
+.inv_c{
+  text-align: center;
+}
+input[type='checkbox']{
+  /*display: none;*/
+}
+input[type='checkbox']+label{
+  padding: 0 5px;
+  box-shadow: -2px 2px 0.5px gray;
+  border-radius: 5px;
+  border: solid 1px red;
+  background-color: lightgray;
+}
+input[type='checkbox']+label::after{
+  content: '  \276DNo';
+  color: red;
+  font-weight: 900;
+}
+input[type='checkbox']+label:hover{
+  cursor: pointer;
+  box-shadow: none;
+}
+input[type='checkbox']:checked+label{
+  box-shadow: none;
+  border-color: darkgreen;
+}
+input[type='checkbox']:checked+label::after{
+  content: '  \276DSi';
+  color: darkgreen;
+}
+.num{
+   text-align: right;
+   padding-left: 2px;
+}
+.img_hist{
+    cursor: pointer;
+}

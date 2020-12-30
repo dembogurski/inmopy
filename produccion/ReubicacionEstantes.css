@@ -1,0 +1,28 @@
+ 
+/* 
+    Created on : 09/07/2018, 09:26:34 AM
+    Author     : Ing.Douglas
+*/
+
+.cabecera{
+    background-color: lightskyblue;
+    margin: 4px 0 4px 0;
+    text-align: center
+}
+
+.container{
+    margin: 0 auto;
+}
+
+.container td{
+    font-size: 20px;
+    font-family: cambria;
+}
+
+.dea{
+    font-size: 20px;
+    font-family: cambria;
+    text-align: center;
+    text-transform: uppercase;
+    width: 10mm;
+}

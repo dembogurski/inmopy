@@ -1,0 +1,186 @@
+
+<!-- begin: headers -->
+<!DOCTYPE html>
+<html>    
+    <head title="Marijoa">
+        <meta charset="UTF-8"> 
+    
+        <link rel="stylesheet" type="text/css" href="../barcodegen/barcode_printer_{tam}.css?_=000000000000000000000" /> 
+        <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+        <script type="text/javascript" src="../barcodegen/barcode_printer.js?_=00000000000000" ></script>
+
+        <input type="hidden" id="printer" value="{printer}">
+        <input type="hidden" id="silent_print" value="{silent_print}">
+        <input type="hidden" id="auto_close_window" value="{auto_close_window}"> 
+        
+    </head>
+    <input type="hidden" id="ip" value="{ip}">
+<!-- end:   headers -->
+
+<!-- begin: etiqueta_6x4 -->
+<div class="etiqueta_6x4 etiqueta" data-name="etiqueta_6x4" {margin}>
+    <div class="info" style="width: 100%">
+    <div class="ref" style="float: left;width: 70%" ><b>ORIGEN:</b>{origen} &nbsp; <b>REF:</b>{ref} </div> 
+    <div class="articulo" style="float: right;width: 29%">{articulo}</div> 
+</div>
+       
+<div class="info"><b>COMPOSICI&Oacute;N:</b>{composicion} </div>
+<div class="info"><b>ANCHO:</b>{ancho} Mts&nbsp;&nbsp;SUC:{suc}&nbsp;&nbsp;CANT:{cant} {unid}</div>
+<div class="info">{descrip}</div>
+
+<div class="barcode" style="border: solid black 0x;margin-bottom:6mm;margin-top: 0">
+    <table border="0" style="border-collapse: collapse">
+        <tr>
+            <td class="precios" rowspan="2" >
+               {antes}
+               <label style="text-decoration: line-through">{precio_antes}</label>
+               {ahora}
+               {precio_ahora}                 
+            </td>
+            <td style="text-align: center" >
+                <img border="0" src="{barcode_image}" style="width: 40mm;height: 10mm;padding-right: 2mm">
+            </td>
+        </tr>
+        <tr><td  class="lote" >{lote}</td></tr>
+   </table>
+</div>
+<div id="falla">{fallas}</div>
+</div>
+</html>
+<!-- end:   etiqueta_6x4 -->
+
+ 
+
+<!-- begin: etiqueta_10x5 -->
+<div class="etiqueta_10x5 etiqueta" data-name="etiqueta_10x5" {margin} >
+<div class="info"><b>Origen:</b>{origen} &nbsp;<b>Ref:</b>{ref}  &nbsp; ({user})<b class="articulo">{articulo}</b></div>
+<div class="info"><b>Importado por:</b> Corporaci&oacute;n Textil S.A. <b class="frac" style="position: absolute;right: 12px;margin-top:2px;display:{inOrdenFracDisplay}">{inOrdenFrac}</b></div>
+<div class="info"><b>Composici&oacute;n:</b>{composicion} </div>
+<div class="info"><b>Ancho:</b>{ancho} Mts&nbsp;&nbsp;<b>Suc:</b>{suc}&nbsp;&nbsp;<b>Cant:</b>{cant} <b>{unid}</b>&nbsp;&nbsp;&nbsp;&nbsp;{cant_mts_x_kg}</div>
+<div class="info">{descrip}</div>
+ 
+
+    <table border="0" style="border-collapse: collapse;width: 100%">
+     
+        <tr>            
+            <td style="text-align: center" colspan="2" >
+                <img border="0" src="{barcode_image}" class="barcode" >
+            </td>
+        </tr>
+        <tr>
+            <td  class="lote" colspan="2" >
+              {tipo}: &nbsp; {lote}
+            </td>
+        </tr>
+   </table>
+</div>
+</html>
+{sounds}
+<!-- end:   etiqueta_10x5 -->
+
+
+<!-- begin: paquete_10x5 -->
+<div class="paquete_10x5 etiqueta" data-name="paquete_10x5" {margin}  > 
+     
+        <table border="1" style="border-collapse: collapse;width: 100%">                    
+            <tr style="font-size: 24px">
+                <td style="width: 100%"><b>SUC:</b>&nbsp;&nbsp; {destino},&nbsp;{sucursal}</td> 
+            </tr>
+            <tr>
+                <td colspan="2" style="font-size: 10px">{direccion} - {tel}</td> 
+            </tr>
+            <tr style="font-size: 24px"> 
+                <td style="width: 100%"><b>PAQ. N&deg;:</b> <div style="width: 50%;float:right"> {paquete} </div></td> 
+            </tr>
+            <tr style="font-size: 24px">  
+                <td style="width:100%"><b>CANT:</b><div style="width: 50%;float:right"> {cantidad} </div></td>
+            </tr> 
+            <tr>            
+               <td style="text-align: center;;padding:10px 0 2px 0" colspan="2" >
+                   <img border="0" src="{barcode_image}" style="width: 62mm;height: 4mm" ><br>
+                   <label style="margin-top: -6px;font-size:9px">Ref.:{nro_remito} &nbsp;&nbsp;www.inmopy.com &nbsp;  {usuario}-{datetime}</label>
+               </td>
+            </tr>                     
+        </table>
+            
+</div>
+</html>
+<!-- end:   paquete_10x5 -->
+
+
+
+<!-- begin: paquete_10x5_cliente -->
+<div class="paquete_10x5_cliente etiqueta"  data-name="paquete_10x5_cliente"  {margin}  >    
+     
+        <table border="1" style="border-collapse: collapse;width: 100%">  
+            <tr>
+                <td colspan="2" style="font-size: 20px; white-space: nowrap; width: 50px;  overflow: hidden;  text-overflow: ellipsis; "><b>Dir.:</b>&nbsp;{cli_ciu} </td> 
+            </tr>
+            <tr style="font-size: 16px">  
+                <td style="width: 100%" colspan="2"><b>PARA:</b> {cliente} </td> 
+            </tr> 
+            <tr style="font-size: 12px"> 
+                <td style="width: 100%"><b>RUC:</b>&nbsp;{ruc_cli} &nbsp;&nbsp;<b>TEL:</b>&nbsp;{cli_tel} </td> 
+            </tr>
+            <tr style="font-size: 20px">
+                <td style="width: 100%" colspan="2"><b>DE:</b> CORPORACI&Oacute;N TEXTIL S.A. </td> 
+            </tr>
+            <tr style="font-size: 16px"> 
+                <td style="width: 100%"><b>RUC:</b>&nbsp;80001404-9  &nbsp; <b>SUC:</b>&nbsp;{origen} &nbsp;<div style="float:right;font-size: 8px" ><b>Ref.:</b>{doc}<br><b>{usuario}</b>-{datetime}</div></td> 
+            </tr> 
+             
+            <tr style="font-size: 20px"> 
+                <td style="width: 100%;text-align: center">
+                    <b>PAQ. N&deg;:</b>&nbsp;&nbsp;{paquete} <b>&nbsp;&nbsp;CANT:</b>&nbsp;&nbsp;{cantidad}                    
+                </td> 
+            </tr> 
+            
+        </table> 
+    
+</div>
+</html>
+<!-- end:   paquete_10x5_cliente -->
+
+<tr>
+    <td colspan="2" style="font-size: 12px"><b>Dir.:</b>&nbsp;{direccion} Itap&uacute;a PY - <b>Tel.:</b> {tel} </td> 
+</tr>
+
+
+
+
+<!-- begin: etiqueta_10x5_cuidados -->
+<div class="etiqueta_10x5_cuidados etiqueta" data-name="etiqueta_10x5_cuidados"  {margin}  >   
+    <img border="0" src="{image}"  style="width: 80mm;height: 42mm"  > 
+</div>
+
+<!-- end:   etiqueta_10x5_cuidados -->
+
+<!-- begin: etiqueta_6x4_cuidados -->
+<div class="etiqueta_6x4_cuidados etiqueta" data-name="etiqueta_6x4_cuidados" {margin}>   
+    <img border="0" src="{image}" style="width: 58mm;height: 38mm"  > 
+</div>
+
+<!-- end:   etiqueta_6x4_cuidados -->
+
+
+<!-- begin: error -->
+<input type="hidde" id="imprimir" value="false">
+<div style="margin:10px auto;font-weight: bolder;font-size: 20px"> El Lote: {lote} aun no ha sido creado ... </div>
+<div style="margin:10px auto">  <input type="button" value="Intentar de Nuevo" onclick="reload()"> </div>
+<!-- end:   error -->
+
+<!-- begin: config_popup -->
+
+    <table border="0" class="config_popup">
+        <tr>
+            <td></td><td><img class="arrow_up arrow" src="../img/arrow-up.png" onclick=setMargin("top","-") ></td><td></td>  <td> </td>          
+        </tr>
+        <tr>
+            <td><img class="arrow_left arrow" src="../img/arrow-left.png" onclick=setMargin("left","-") ></td><td></td><td><img class="arrow_right arrow" src="../img/arrow-right.png" onclick=setMargin("left","+") ></td>            
+        </tr>
+        <tr>
+            <td></td><td><img class="arrow_down arrow" src="../img/arrow-down.png" onclick=setMargin("top","+") ></td><td></td> <td> </td>           
+        </tr>
+    </table> 
+
+<!-- end:   config_popup -->

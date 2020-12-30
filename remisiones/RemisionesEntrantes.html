@@ -1,0 +1,43 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="remisiones/RemisionesAbiertas.css" />
+    <script type="text/javascript" src="remisiones/RemisionesEntrantes.js" ></script>   
+<!-- end:   header -->
+
+
+<!-- begin: remitos_abiertos_cab -->
+<div style="margin:6 auto;font-weight: bolder;background-color: lightgray;text-align: center;font-size: 13">Remisiones de Entrantes &nbsp;&nbsp; Sucursal: &nbsp; {suc}</div>
+
+<div style="height: 380px;width:90%;overflow-y: auto;margin: 10 auto">    
+<table id="remisiones" border="1"  cellspacing="0" cellpadding="0"    >
+    <tr class="titulo_factura"><th colspan="9">Remisiones de Entrantes &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 10%">N&deg;</th>
+        <th style="width: 10%">Fecha</th>
+        <th style="width: 10%">Hora</th>
+        <th style="width: 10%">Usuario</th>
+        <th  style="width: 10%">Origen &rArr;Destino</th> 
+        <th style="width: 4%">Items</th>
+        <th style="width: 26%">Obs</th>
+        <th style="width: 10%">Estado</th>         
+    </tr>
+<!-- end:   remitos_abiertos_cab -->
+
+<!-- begin: remitos_abiertos_data -->
+<tr id="rem_{nro}" class="remision_abierta" >
+    <td class="itemc clicable">{nro}</td>
+    <td class="itemc clicable">{fecha}</td> 
+    <td class="itemc clicable" >{hora}</td> 
+    <td  class="itemc clicable" >{usuario}</td> 
+    <td class="itemc clicable">{suc}&rArr;{suc_d}</td>   
+    <td class="itemc clicable">{items}</td> 
+    <td class="item clicable">{obs}</td>  
+    <td class="itemc clicable">{estado}</td> 
+</tr> 
+<!-- end:   remitos_abiertos_data -->
+
+
+<!-- begin: remitos_abiertos_foot --> 
+</table>
+</div>
+
+<!-- end:   remitos_abiertos_foot -->

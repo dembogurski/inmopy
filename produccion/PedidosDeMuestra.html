@@ -1,0 +1,412 @@
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="produccion/PedidosDeMuestra.css?_=0000000" /> 
+    <link rel="stylesheet" type="text/css" href="css/datatables.css" />  
+    
+    <script type="text/javascript" src="produccion/PedidosDeMuestra.js?_=454545" ></script>
+    <script type="text/javascript" src="js/datatables.min.js" ></script> 
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script> 
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js" ></script> 
+    <script type="text/javascript" src="js/jQuery.print.js" ></script> 
+<!-- end:   headers -->
+
+ 
+
+<!-- begin: nuevo_catalogo -->
+<input type="hidden" id="images_url" value="{images_url}"> 
+
+
+<div id="nuevo_catalogo" class="form" style="display:none;position:absolute;width:600px;border:solid gray 1px;background:whitesmoke;z-index: 10">
+    <table style="margin:0 auto;width: 100%" cellspacing="4" cellpadding="0" >
+        <tr>
+            <th colspan="2" style="text-align: center;background-color: lightskyblue" >Nuevo Catalogo de Muestras</th>
+        </tr>
+        <tr>
+            <td style="width: 30%"><input type="search" id="buscar_cliente" onchange="buscarCliente()" placeholder="Buscar cliente" size="20"></td><td> <select id="cliente"></select> </td>
+        </tr>
+        <tr>
+            <td><input type="search" placeholder="Articulo" id="buscar_articulo" onchange="buscarArticulo()" size="20"></td><td> <select id="articulo"></select> </td>  
+        </tr>
+        <tr>
+            <td><label style="padding-left:4px">Medida:</label></td>
+            <td>
+                <select id="medida">
+                    <option value="5x5">5x5</option>
+                    <option value="10x10">10x10</option>
+                    <option value="15x15">15x15</option>
+                    <option value="30x15">30x15</option>
+                    <option value="35x45">35x45</option>
+                    <option value="35x75">35x75</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label style="padding-left:4px">Cantidad de Juegos:</label></td><td><input type="number" step="1" value="1" min="1" max="20" id="cantidad" style="width:50px">  </td>           
+        </tr>
+         <tr>
+             <td><label style="padding-left:4px">Obs:</label></td><td><textarea id="obs"  cols="60" rows="3" ></textarea>   </td>           
+        </tr>  
+        <tr>
+            <td colspan="2" id="msg" style="height: 26px"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center" colspan="2">
+                <input type="button" id="cancel" value="Cancelar" onclick="cerrarFormCatalogo()">
+                <input type="button" id="aceptar" value=" Aceptar " onclick="crearPedidoCatalogo()">
+            </td>
+        </tr>
+    </table>
+</div> 
+<!-- end:   nuevo_catalogo -->
+
+
+<!-- begin: edicion_catalogo -->
+
+<div  id="print_asign" >
+    <label>N&deg;:</label> <input type="text" value="" id="print_nro" size="10" readonly="readonly" > 
+    <label>Codigo:</label> <input type="text" value="" id="print_codigo" size="10" readonly="readonly" > 
+    <label>Articulo:</label><input type="text" value="" id="print_articulo" style="width: 240px" readonly="readonly" ><br>
+    <label>Cliente:</label><input type="text" value="" id="print_cliente" style="width: 280px" readonly="readonly" >  <label>Fecha:</label><input type="text" value="" id="print_date" size="20" readonly="readonly" >
+</div>
+
+<div id="edit_catalogo" class="form" style="display:none;position:absolute;width:600px;border:solid gray 1px;background:whitesmoke;z-index: 10">
+    <div style="float:left"> 
+    <table style="margin:0 auto;width: 601px" cellspacing="4" cellpadding="0" >
+        <tr>
+            <th colspan="5" style="text-align: center;background-color: lightskyblue"  >Catalogo de Muestras</th>            
+        </tr>
+        <tr>
+            <td>N&deg;:</td><td style="width: 10%"><input type="text" value="" id="cat_nro" size="8" readonly="readonly" style="text-align: center" ></td> 
+            <td>Entregar en Fecha:</td> <td> <input type="text" value="" id="cat_fecha_ent" size="20" style="text-align: center" onchange="save()"  > </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Usuario:</td><td><input type="text" value="" id="cat_usuario" size="20" style="text-align: center" readonly="readonly" ></td>
+            <td>Medida:</td><td> <input type="text" value="" id="cat_medida"  size="20" style="text-align: center" readonly="readonly" > </td>
+        </tr>
+        <tr>
+            <td>Estado:</td><td><input type="text" value="" id="cat_estado" size="20" style="text-align: center" readonly="readonly" ></td>
+            <td>Cantidad Juegos:</td><td> <input type="text" value="" id="cat_cantidad"  size="6" style="text-align: center" readonly="readonly" > </td>
+        </tr>
+        <tr>
+            <td>Cliente:</td><td colspan="3"><input type="text" value="" id="cat_cliente" style="width: 100%"  readonly="readonly" ></td>
+        </tr>
+        <tr>
+            <td>Codigo:</td><td ><input type="text" value="" id="cat_codigo" size="10" readonly="readonly" ></td>
+            <td colspan="2"><input type="text" value="" id="cat_articulo" style="width: 100%" readonly="readonly" ></td>
+        </tr>
+        
+        <tr>
+            <td>Personal:</td><td colspan="3" id="cat_personal" style="border:solid gray 1px;width:150px;height:24px;background-color: whitesmoke" >    </td><td>  <img src="img/add.png" onclick="agregarPersonal()" style="cursor:pointer"> </td> 
+        </tr>
+        <tr >
+            <td>Notas:</td><td colspan="3"  > <input type="text" value="" id="cat_obs" style="width: 100%" onchange="save()"  >   </td> 
+        </tr>
+         <tr class="abierto_display_none">
+            <td>Entregado a:</td><td colspan="3"  > <input type="text" value="" id="cat_entregado_a" style="width: 100%" onchange="save()"  >   </td> 
+        </tr>
+        <tr>
+            <td></td><td colspan="2" ></td><td style="text-align: left"> <div style="position: absolute;display: none;position: absolute;width:100px;padding:5px 5px 5px 15px" id="div_personal"><div style="text-align: right"><img src="img/close.png" width="14" height="14" onclick="closePersonal()"> </div>  <ul id="personal"></ul></div> </td>
+        </tr>
+         <tr>
+             <td colspan="4" style="text-align: center" > 
+                 <input type="button" value="Cancelar" onclick="cerrarFormCatalogo()" >
+                 <input type="button" class="cerrada_no_display" id="disponibles" value="Ver Lotes disponibles" onclick="areaBusqueda()" >
+                 
+                 <input type="button" class="cerrada_no_display" id="imprimir" value="Imprimir Asignaciones"  onclick="imprimirAsign()"  >
+                 <input type="button" class="cerrada_no_display"  value="Finalizar" onclick="cerrarCatalogo()" id="cerrar" style="display:none" >
+                 <span class="cerrada_no_display" ><label > Pedir:</label>&nbsp;<b>1</b> <input type="radio" name="cant_min" value="1" checked="checked">&nbsp;&nbsp;<b>0.5 </b><input type="radio" name="cant_min" value="0.5"></span>
+             </td> 
+        </tr>
+    </table>   
+        </div>
+    <div class="extra div_right" >
+        <div style="text-align: center;background-color: #5758BB;color:white;">Lotes Asignados</div>
+        <table id="lotes_asignados" border="1"  cellspacing="0" cellpadding="0"    style="margin: 0 auto;min-width: 100%;border-collapse: collapse;background-color:whitesmoke;margin-top:2px">
+            <tr class="titulo"> <th>Lote</th><th>Color</th><th>Cantidad</th><th>Ubic</th><th>Usuario</th><th style="width: 30%">Estado</th></tr>
+        </table>
+    </div>
+    <div  class="extra" style="width: 600px;display:none;background-color:rgb(240,240,240) " >
+        <label style="margin-left: 4px">Cantidad Minima:</label>
+        <input type="text" value="300" id="cant_filter" size="4" maxlength="3" class="num" > 
+        <label style="margin-left: 4px">Codigo Color Fabrica:</label>
+        <input type="text" value="" id="filtro_codigo_color_fabrica" size="12"   > 
+        <label style="margin-left: 4px">Lote:</label>
+        <input type="text" value="" id="lote_especifico" size="10"   > 
+        <br>
+        <label style="margin-left: 4px">Agrupar por Dise&ntilde;o:</label>
+        <input type="checkbox" id="desing_filter" >
+        <label style="margin-left: 12px">Agrupar por Cod. color Fabrica:</label>
+        <input type="checkbox" id="cod_color_filter" >
+        <label>En Sucs:</label>
+        <input type="text" id="only_sucs" value="03,00,02,01,04,05,06,10,24,25,30" size="12" >
+            
+        <img src="img/find.png" id="buscar" style="margin-bottom:-7px;cursor:pointer" height="24" width="24" onclick="buscarLotes()" alt=""  >  
+        <br>
+        <span id="msg_asign"></span>
+       
+        <div class="toolbar" style="text-align: right;"  > 
+            <label class="pedir" style="display: none;">Marcar como urgente:</label><input class="pedir" type="checkbox" id="urge" style="display: none;"> &nbsp;
+            <img class="pedir" src="img/truck.png" width="24" style="cursor:pointer;display: none;" onclick="pedidoTraslado()" title="Solicitar de Traslado" > &nbsp;&nbsp;&nbsp; 
+            <img class="asignar" src="img/r_arrow.png" style="cursor:pointer;display: none;width:30px;" onclick="asignarLotes()" title="Asignar Lotes" >
+        </div>
+        
+    </div> 
+    <div class="extra">
+        <div id="image_container" class="image_container"  style="display: none"></div>
+        <table border="0" cellspacing="0" cellpadding="0" style="width: 100%">
+    <tr>
+        <td style="width: 50%;vertical-align: top">
+            <div style="text-align: center;background-color: #B0BED9;">Lotes Disponibles</div>
+            <table id="lotes_disponibles" border="1"  cellspacing="0" cellpadding="0"  class="tabla_izq" >
+                <tr class="titulo"> <th>Lote</th><th>Color</th><th>Dise&ntilde;o</th><th>Cod.Col.</th><th>Mts Lote</th><th>Suc</th><th>Total Mts</th>  <th>   </th>  <th> <input type="checkbox" id="check_all" onclick="checkAll()"> </th> </tr>
+            </table>
+        </td>
+        <td style="vertical-align: top">
+            <div id="pedidos_traslado" class="extra div_right" >
+                <div style="text-align: center;background-color: #499249;color:white;">Pedidos de Traslado</div>        
+             </div>
+        </td>
+    </tr>
+    </table>
+    </div>
+</div>   
+
+    
+    
+<!-- end:   edicion_catalogo -->
+
+
+<!-- begin: body -->
+ 
+
+<div   style="margin: 6px auto;text-align: center;background-color: lightgray"> Pedidos de Fabricaci&oacute;n de Muestras </div>
+
+<div style="text-align: center;margin: 20px 0px 0px 0px;text-align: center">
+    <label style="font-size: 16px;font-weight: bolder">Catalogos: </label>&nbsp;&nbsp;
+    <label class="label_radio" for="radio_abierto" >Abiertos</label><input type="radio" name="radio_estado" id="radio_abierto"   value="Abiertos" {checked_Abierto} onclick=mostrarPedido("Abierto")  >     &nbsp;&nbsp;    
+    <label class="label_radio" for="radio_proc">En Proceso</label><input type="radio" name="radio_estado" id="radio_proc" value="En Proceso" {checked_En_Proceso} onclick=mostrarPedido("En_Proceso")  >     &nbsp;&nbsp;
+    <label class="label_radio" for="radio_cerrado">Cerrados</label><input type="radio" name="radio_estado" id="radio_cerrado" value="Cerrados" {checked_Cerrado} onclick=mostrarPedido("Cerrado")  >     &nbsp;&nbsp;      
+    <input style="margin-left: 10%;display:{display_nuevo}" id="boton_nuevo_catalogo" type="button" value="(+) Nuevo Pedido de Catalogo" onclick="nuevoCatalogo()">    
+</div>
+
+<table id="lista_invoices" border="1"  cellspacing="0" cellpadding="0"    style="margin: 0 auto;min-width: 90%;border-collapse: collapse"  >
+           
+    <thead>
+      <tr class="titulo">
+          <th style="width: auto">N&deg;</th>
+          <th style="width: auto">Usuario</th>
+          <th style="width: auto">Fecha</th>
+          <th style="width: auto">Cliente</th>
+          <th style="width: auto">Codigo</th>
+          <th style="width: auto">Articulo</th>
+          <th style="width: auto">Medida</th>
+          <th style="width: auto">Cantidad</th>
+          <th style="width: auto">Fecha Entrega</th>
+          <th style="width: auto">Fecha Inicio</th>              
+          <th style="width: auto">Fecha Cierre</th>    
+          <th style="width: auto">Obs</th>
+          <th style="width: auto">Estado</th>          
+      </tr>  
+    </thead>
+    <tbody>
+<!-- end:   body -->
+ 
+
+<!-- begin: line -->
+<tr id="nro_{nro}" style="cursor: pointer;background-color: white" data-nro_pedido="{nro}" data-personal="{usuarios}" data-entregado_a="{entregado_a}" > 
+    <td class="itemc clicable" >{nro}</td>
+    <td class="itemc clicable usuario" >{usuario}</td>
+    <td class="itemc clicable fecha" >{fecha}</td>  
+    <td class="item clicable cliente" >{cliente}</td>  
+    <td class="itemc clicable codigo" >{codigo}</td>  
+    <td class="item clicable articulo"  >{articulo}</td> 
+    <td class="itemc clicable medida" >{medida}</td> 
+    <td class="itemc clicable cantidad" >{cantidad}</td> 
+    <td class="itemc clicable fecha_entrega" >{fecha_entrega}</td>   
+    <td class="itemc fecha_inicio" >{inicio}</td>
+    <td class="itemc fecha_cierre" >{cierre}</td>
+    <td class="itemc obs" >{obs}</td> 
+    <td class="itemc estado" >{estado}</td>     
+</tr>
+<!-- end:   line -->
+
+
+<!-- begin: foot -->
+</tbody>
+  </table>
+<!-- end:   foot -->
+
+
+<!-- begin: datalist -->
+<link rel="stylesheet" type="text/css" href="produccion/PedidosDeMuestra.css?_=44522221" /> 
+<script type="text/javascript" src="produccion/PedidosDeMuestra.js?_=112" ></script>
+<datalist id="estados" class="rango" >
+  <option value="0"   label="Pendiente">
+  <option value="25"  label="Buscar y Organizar">
+  <option value="50"  label="Marcar y Cortar">
+  <option value="75"  label="Preparar Carpeta">
+  <option value="100" label="Impresion">  
+</datalist>
+<!-- end:   datalist -->
+
+
+<!-- begin: catalogos_en_proceso_head -->
+ 
+<table cellspacing="0" cellpadding="0" border="1" style="margin: 10 auto;border-collapse: collapse; min-width: 95%" >
+     <tr style="background-color: lightskyblue;size:16" >
+        <th class="itemc">N&deg;</th>
+        <th class="item">Cliente</th>
+        <th class="itemc">Codigo</th>
+        <th class="itemc"></th>
+        <th class="item" >Articulo</th> 
+        <th class="itemc">Medida</th>
+        <th class="itemc">Juegos</th>
+        <th class="itemc">Caratula</th>
+        <th class="itemc">Info</th>
+    </tr>
+    <tr>
+        <td class="itemc" >{nro}</td>
+        <td class="item">{cliente}</td>
+        <td class="itemc codigo_{nro}">{codigo}</td>
+        <td id="ajuste_{nro}"></td>
+        <td  class="item articulo_{nro}">{articulo}</td>
+        <td class="itemc">{medida}</td>
+        <td class="itemc">{cantidad}</td>
+        <td class="itemc"> <img src="img/printer-01_32x32.png"   onclick="printCaratula({nro})" style="width:26px;margin: 2px;cursor:pointer" title="Imprimir Caratula">   </td>
+        <td class="itemc"> <img src="img/printer-01_32x32.png"   onclick="printContratapa({nro})" style="width:26px;margin: 2px;cursor:pointer" title="Imprimir Info">   </td>
+    </tr> 
+<tr class="titulo">
+    <th>Lote</th><th  >Color</th><th>Stock</th><th>Stock Real</th><th colspan="4">Estado</th><th></th>
+</tr>
+<!-- end:   catalogos_en_proceso_head -->
+
+<!-- begin: catalogos_en_proceso_body -->
+<tr style="background-color: white">
+    <td class="lote_{lote} fila_{nro}" data-nro="{nro}" >{lote}</td>
+    <td  class="selectable">{color}</td>
+    <td style="text-align: center" id="stock_{nro}_{lote}" >{stock}</td>
+    <td style="text-align: center" ><input type="text" data-nro="{nro}" data-lote="{lote}" class="stock_real" id="st_real_{nro}_{lote}" size="6" style="border:0px;width: 80%;height: 100%;text-align: center" value="{stock}" ><span id="msg_{nro}_{lote}"></span></td>
+    <td colspan="4" class="itemc" style="width:50%">
+            <div class="slider-wrapper">
+                <input type="range" id="rango_lote_{lote}_{nro}" class="rango range_{nro}"  data-nro="{nro}" min="0" max="100" value="{estado}" step="25" list="estados" onchange=camiarEstado("{lote}","{nro}") >
+            </div> 
+            <div class="labels ">
+                <div class="etiqueta_nuestra porc_{nro} etiq_{nro}_0">Pendiente</div>
+                <div class="etiqueta_nuestra porc_{nro} etiq_{nro}_25">Buscando</div>
+                <div class="etiqueta_nuestra porc_{nro} etiq_{nro}_50">Cortando</div>
+                <div class="etiqueta_nuestra porc_{nro} etiq_{nro}_75">Carpeta</div>
+                <div class="etiqueta_nuestra porc_{nro} etiq_{nro}_100">Impresion</div>
+            </div>
+        </td>
+        <td class="itemc"> <img src="img/printer-02_32x32.png" class="print_{nro}" onclick="imprimirMuestra({nro},{lote})" style="display:none;cursor:pointer"> </td>
+    </tr> 
+<!-- end:   catalogos_en_proceso_body -->
+
+<!-- begin: catalogos_en_proceso_foot -->
+ </table>
+<br>
+<br>
+<!-- end:   catalogos_en_proceso_foot -->
+
+
+<!-- begin: etiqueta_6x4_head noeval -->
+<link rel="stylesheet" type="text/css" href="../produccion/PedidosDeMuestra.css?_=121212" /> 
+   
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script> 
+
+<script>
+ $(function(){
+     setAnchorTitle();
+ });   
+function setFontSize(from_id,id){  
+   var current_size = parseInt($("#"+from_id).val());
+   $("#"+id).css("font-size",current_size+"px");
+}
+function selfPrint(){
+    $("td.no_print").remove();
+    self.print();
+}
+function setAnchorTitle() {
+    $('td[title!=""]').each(function() {
+        var a = $(this);
+            a.hover(
+            function() {
+                showAnchorTitle(a, a.data('title'));
+            },
+            function() {
+                hideAnchorTitle();
+            }
+        ).data('title', a.attr('title')).removeAttr('title');
+    });
+}
+
+function showAnchorTitle(element, text) {
+    if (text != undefined) {
+        var offset = element.offset();
+        $('#anchorTitle').css({
+            'top': (offset.top + 1) + 'px',
+            'left':( offset.left + element.outerWidth()) + 'px'
+        }).html(text).show();
+    }
+}
+
+function hideAnchorTitle() {
+    $('#anchorTitle').hide();
+}
+
+</script> 
+<!-- end:   etiqueta_6x4_head -->
+
+<!-- begin: etiqueta_6x1_head -->
+<table border="0" style="margin:0; padding: 0">
+<!-- end:   etiqueta_6x1_head -->
+
+<!-- begin: etiqueta_6x1 -->
+<tr><td class="ticket_color" id="td_{i}"  >  {color} </td>  <td style="width: 200px" class="no_print" > <input  id="range_{i}" type="range" value="16" min="8" max="20" onchange=setFontSize("range_{i}","td_{i}") >   </td> </tr>
+<!-- end:   etiqueta_6x1 -->
+
+<!-- begin: etiqueta_6x1_foot -->
+</table>
+
+<div class="no_print" style="margin-top: 20px;width:120mm;text-align: center">
+    <input class="no_print" id="print" type="button" value="Imprimir"   onclick="selfPrint()">
+</div>
+<!-- end:   etiqueta_6x1_foot -->
+
+
+<!-- begin: caratula -->
+<div class="caratula" >
+    <table style="border-collapse: collapse;width: 100%;height: 100%;border-radius: 3px;border:solid black 2px;" border="1"  >
+        <tr style="font-size: 30px"><td style="margin-left: 2px; text-align: center;font-weigth:bolder" colspan="2" id="art" > {descrip} </td>  </tr>
+        <tr style="font-size: 16px"><td style="padding-left: 3mm;" ><b>Cod. Art:</b></td><td style="text-align: center">{codigo}</td></tr>        
+        <tr style="font-size: 16px"><td style="padding-left: 3mm;" ><b>N&deg; Catalogo.:</b></td><td style="text-align: center">{nro}</td></tr>        
+    </table>    
+</div> 
+<div class="no_print" style="margin-top: 20px;width:60mm;text-align: center">
+    <input class="no_print" id="range" type="range" value="30" min="8" max="60" onchange=setFontSize("range","art")><br><br>
+    <input class="no_print" id="print" type="button" value="Imprimir"   onclick="selfPrint()">
+</div>
+<!-- end:   caratula -->
+
+
+<!-- begin: contratapa -->
+<div id="anchorTitle" class="anchorTitle"></div>
+<div class="caratula" >
+    <table style="border-collapse: collapse;width: 100%;height: 100%;border-radius: 3px;border:solid black 2px;" border="1"  >
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Codigo:</b></td><td style="text-align: center" colspan="3">{codigo}</td></tr>    
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Descrip:</b></td><td style="margin-left: 2px;font-size: 12px" id="descrip"  colspan="3" > {descrip} </td>  </tr>            
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Comp.:</b></td><td style="text-align: center;font-size: 12px"  colspan="3">{composicion}</td></tr>   
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Gram.:</b></td><td style="text-align: center">{gramaje}g</td><td style="text-align: center"> <b>Ancho:</b></td><td>{ancho}m</td></tr>
+         
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Rollos:</b></td><td style="text-align: center;font-size: 10px;cursor:pointer" contenteditable="true"  colspan="3" title="{all_rolls}"> {rollos} </td></tr>   
+        <tr style="font-size: 16px"><td style="padding-left: 1mm;" ><b>Piezas:</b></td><td style="text-align: center;font-size: 10px;cursor:pointer" contenteditable="true"  colspan="3" title="{all_piezas}">{piezas}</td></tr>   
+    </table>    
+</div> 
+
+<div class="no_print" style="margin-top: 20px;width:60mm;text-align: center">
+    <input class="no_print" id="range" type="range" value="30" min="8" max="60" onchange=setFontSize("range","descrip")><br><br>
+    <input class="no_print" id="print" type="button" value="Imprimir"   onclick="selfPrint()">
+</div>
+<!-- end:   contratapa -->
+
+

@@ -1,0 +1,215 @@
+
+/* 
+    Created on : 16/06/2016, 04:55:50 PM
+    Author     : Ing.Douglas
+*/
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#msg_info{
+    background-color: #0092ef;
+    color:white;
+    font-size: 12px;
+    display:none;
+    padding: 2px 4px 2px 4px;
+    width: 80%;
+}
+
+.lotes{
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 10px 0 0 6px;
+}
+.lote{
+  background-color:  rgb(240, 240, 254)
+}
+.lotes th{
+    padding: 0 2px 0 2px; 
+    font-size: 12px;
+}
+.readonly{
+    font-size: 12px;
+    font-weight: bolder;
+    background-color: lightskyblue;
+    padding:0 2px 0 2px;
+}
+#pder{
+   background-color: rgb(240,240,254);
+}
+.modificado{
+    background-color: #F0E68C;
+}
+.resultado{
+    background-color: #62c462; 
+}
+.fila{
+    background-color: white;
+}
+
+.lotes > td{
+    font-size: 12px;        
+}
+.resaltar{
+    border:solid red 2px;
+}
+
+.Normal{
+    color:black;  
+    background-color: #4cd137;
+}
+.Arribos{
+    color:white;  
+    background-color: #fbc531;
+}
+.Oferta{
+    color:white; 
+    background-color: #00a8ff;    
+}
+.Retazo{
+    color:white;
+    background-color: #AD8BFE;
+}
+.Promocion{
+    color:black; 
+    background-color: orange;
+}
+.FP{
+    color:black; 
+    background-color: #c23616;  
+}
+.Bloqueado{
+    color:black; 
+    background-color: #006600; 
+}
+div.ml_listHeader *{
+    display: inline-block;
+    margin-left: 8px;
+} /*,div#editarColor *:not(li)*/
+div#pder, div#editarColor{
+    border:1px solid gray; 
+    border: solid gray 1px;
+    width: auto;
+    margin: 16px auto;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    background-color: rgb(240,240,254);
+    width: 240px;
+    height: 260px;
+}
+div#ml_tipoModGroup{
+    position: relative;
+}
+div.ml_tipoMod{
+    position: absolute;
+    left: 0;
+    font-weight: 900;
+}
+div#ml_listaColoresContainer{
+    position: relative;
+}
+div#ml_listaColoresContainer button{
+    font-size: 14px;
+    padding: 1px 7px;
+    position: relative;
+    width: 100px;
+    margin-left: 5px;
+    text-align:left;
+}
+div#ml_listaColoresContainer button img{
+    vertical-align: middle;
+    position: absolute;
+    right: 3px;
+    top:3px;
+}
+input#ml_cambioColor{
+    width: 160px;
+}
+ul#ml_listaColores{
+    position: absolute; 
+    background-color: wheat;
+    list-style: none; 
+    width: 240px;
+}
+ul#ml_listaColores li:hover,li.selected{
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    text-align: left;
+}
+ul#ml_listaColores li:hover:after,li.selected::after{
+    content: url(../img/l_arrow_mini.png);  
+    font-weight: 900;
+    margin-right: 5px;
+    color: lightblue;
+}
+
+li{
+   text-align: left;
+   padding: 2px 2px 2px 8px;
+   background-color: beige;
+}
+span#ml_actualizarColorMsj{
+    margin-left: 7px;
+}
+div#bc_loader{
+    position: absolute;
+    right: -30px;
+    top: 0px;    
+    border: 3px solid #f3f3f3; /* Light grey */
+    border-top: 3px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+}
+label{
+    font-weight: bolder;
+}
+.resalt{    
+    cursor: move;
+    border-radius: 2px;
+    border:solid red 2px;
+    font-weight: bold
+}
+
+tr[id^="tr_"]{
+    counter-increment: codigos;
+}
+td.codigo::before{
+    content: counter(codigos, decimal);
+    counter-increment: section;
+    color: white;
+    background: gray;
+    margin-right: 4px;
+    padding: 0 3px 0 3px;
+}
+#ml_tipoMod { 
+    height: 24px; 
+}
+.show_hist{
+    background-color: #c23616;
+    color: white;
+}
+
+.descrip{
+    display:none;
+    background-color: #AD8BFE;
+}
+.descuentos{
+    display:none;
+    background-color: #d0e9c6;
+}
+.lista_precios{     
+    background-color: #F0E68C;
+    display:none;
+}
+.color_col{
+    display:none;
+    background-color: beige;
+}
+.fotoLote{
+    cursor:pointer;
+    border-radius: 2px; 
+}

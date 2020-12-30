@@ -1,0 +1,15 @@
+
+/* 
+    Created on : 03/05/2017, 11:43:21 AM
+    Author     : Ing.Douglas
+*/
+
+#cotizaciones{
+    border-collapse: collapse;
+}
+#cotizaciones td{
+    background-color: white;
+}
+img{
+        margin-bottom: -5px;
+}

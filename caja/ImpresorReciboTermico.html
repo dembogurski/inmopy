@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<!-- begin: header noeval -->     
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+    
+    
+<script language="javascript">
+ 
+$(function(){    
+    
+    $("#share").click();
+});
+ 
+function onShareClick(){
+    
+    var recibo = $("#recibo").text(); //.substring(0,800) 
+     
+    navigator.share({
+        title: 'Recibo de Dinero',
+        text: recibo,
+        url: 'x'  
+    });
+    
+}
+function setTipo(tipo){
+    $("#tipo").html(tipo);
+    onShareClick()
+}
+ 
+function reload(){
+    var c = confirm("Al recargar aumentara un numero de recibo y se perdera el actual");
+    if(c){
+        window.location.reload();
+    }
+}
+ 
+</script>
+
+<style>
+    .izq{
+        width: 100px;
+        text-align: left;         
+        margin: 0;
+    }
+    .mid{
+        width: 160px;
+        text-align: left; 
+        margin: 0;
+    }
+    .der{
+        width: 100px;
+        text-align: right;
+         
+        margin: 0;
+    }
+    .hizq{
+        width: 100px;
+        border: solid black 1px
+    }
+    .hmid{
+        width: 160px; 
+        border: solid black 1px
+    }
+    .hder{
+        width: 100px;
+        border: solid black 1px
+            
+    }
+    .ancho{
+        width: 430px
+    }
+    
+     
+</style>
+<div style="margin: 0 auto;width: 80%">
+    <br>
+    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  
+    <input type="button" onclick=setTipo("Original") id="share" style="font-size: 42" value=" Recibo Original   "> 
+    <input type="button" onclick=setTipo("Duplicado") id="share" style="font-size: 42" value=" Recibo Duplicado  "> 
+    <br><br> 
+    
+</div>    
+<!-- end:   header -->
+
+
+<!-- begin: rec_head -->     
+<div id="recibo">
+- - - - - - - - - - - - - - - - - - - - - - - -<br>
+
+|            Corporacion Textil S.A.           |<br>
+               R.U.C.: 80001404-9               <br>
+Ruta VI Km 9 Capitan Miranda, Itapua - Paraguay <br>
+Telef.: 021-2376072<br>
+- - - - - - - - - - - - - - - - - - - - - - - -<br>
+               RECIBO DE DINERO <br>
+Nro.: {nro_rec}<br>
+Fecha: {fecha} Hora: {hora}      Suc.:{suc}<br>
+- - - - - - - - - - - - - - - - - - - - - - - -<br>
+Recibimos de:{cliente}<br>
+R.U.C. : {ruc}   <br> 
+- - - - - - - - - - - - - - - - - - - - - - - -<br>
+<br>
+<!-- end:   rec_head -->
+
+<!-- begin: rec_efectivo -->      
+
+La cantidad de Efectivo en GUARANIES de: <br>
+{efectivo}~~~~<br>
+
+
+<!-- end:   rec_efectivo -->
+
+<!-- begin: cab_cheques -->   
+<br>
+Recibimos los siguientes Cheques<br><br> 
+<br>
+<span > Nro            Banco                    Valor</span>  <br>
+
+<!-- end:   cab_cheques -->
+
+<!-- begin: det_cheques -->    
+<span>{nro_cheque}{sp0}{banco}{sp1}{valor}</span> <br>
+<!-- end:   det_cheques -->
+
+<!-- begin: pie_cheques -->   
+<span>Total Cheques{sp_cheques}{total_cheques}</span> <br> 
+<!-- end:   pie_cheques -->
+
+
+<!-- begin: cab_tarjetas -->   
+<br>
+Recibimos las siguientes Tarjetas/Retenciones<br><br> 
+<br>
+<span > Nombre                    Valor</span>  <br>
+
+<!-- end:   cab_tarjetas -->
+
+<!-- begin: det_tarjetas -->    
+<span>{nombre_tarjeta}{sp0}{sp1}{valor}</span> <br>
+<!-- end:   det_tarjetas -->
+
+<!-- begin: pie_tarjetas -->   
+<span>Total Tarj./Ret{sp_tarjetas}{total_tarjetas}</span> <br> 
+<!-- end:   pie_tarjetas -->
+
+
+<!-- begin: cab_detalle_facturas -->   
+<br>
+<br>
+En concepto de pago por las siguientes Facturas       <br>
+  
+ 
+<span> Factura      Fecha                    Entrega</span>  <br>
+<!-- end:   cab_detalle_facturas -->
+
+<!-- begin: detalle_facturas -->   
+<span>{ref}{sp0}{FechaFac}{sp1}{entrega}</span> <br>
+<!-- end:   detalle_facturas -->
+
+<!-- begin: pie_detalle_facturas -->   
+<span>Total Facturas{sp_facturas}{total_facturas}</span> <br>
+<!-- end:   pie_detalle_facturas -->
+
+<!-- begin: total_valores_recibidos -->   
+ <br> <br>
+Recibimos la cantidad de Valores en GUARANIES de: <br>
+{valores}~~~~<br>
+En Letras: {valores_en_letras}~~~~<br><br>
+<!-- end:   total_valores_recibidos -->
+
+<!-- begin: rec_foot -->      
+- - - - - - - - - - - - - - - - - - - - - - - -<br>
+<br>
+Copia: <span id="tipo">{original_duplicado}</span>
+<br>
+<br>
+Cobrador:  {cobrador}                                                                                       
+ <br>       
+ <br>       
+ <br>      
+      ------------------------------<br>
+            Firma del Cobrador<br>
+            
+<br><br><br>
+................................................
+<br><br><br>
+</div>
+
+<br><br><br>
+
+
+<!-- end:   rec_foot -->
+
+
+En Letras: {efectivo_en_letras}~~~~<br><br>

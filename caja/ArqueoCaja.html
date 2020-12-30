@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+      <link rel="stylesheet" type="text/css" href="caja/ArqueoCaja.css" /> 
+      <script type="text/javascript" src="caja/ArqueoCaja.js?_=1524512069166" ></script>
+      <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>
+<!-- end:   header -->
+
+
+
+<!-- begin: body -->
+<input type="hidden" id="auditor" value="{auditor}">
+    
+<div style="text-align: center; width: 40%;min-width: 480px;border: solid 1px;margin: 20 auto ">
+        <table id="arqueo" border="0"  cellspacing="6" cellpadding="0"   >
+            <tr class="titulo" ><th colspan="4" style="text-align: center">Arqueo de Caja</th></tr>
+            <tr>
+                <td style="width: 10%">Desde:</td> 
+                <td style="width: 10%"><input id="desde" class="fecha" type="text" size="10" onchange="replicar()" value="{hoy}"></td>  
+                <td style="width: 10%">Hasta:</tD> 
+                <td style="width: 10%"><input id="hasta" class="fecha" type="text" size="10" value="{hoy}"></td>  
+            </tr>
+            <tr>
+                <td style="width: 10%">Sucursal:</td> 
+                <td style="width: 10%">
+                    <select id="suc" >{sucursales}</select>
+                </td>
+                <td style="width: 10%">Moneda:</td> 
+                <td style="width: 10%">
+                    <select id="moneda" >{monedas}</select>
+                </td>
+            </tr>
+           <!-- <tr>
+                <td title="Punto de Venta o de Expedicion de Facturas">PDV:</td>
+                <td colspan="3">
+                    <select id="pdv" title="Punto de Venta o de Expedicion de Facturas"></select>    
+                </td>
+            </tr> -->
+            <tr>
+                <td colspan="1">
+                    <label>Generar reporte de:</label>
+                </td>
+                <td colspan="2">  
+                    <select id="tipo">
+                        <option value="arqueo">Arqueo de Caja</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjetas">Tarjetas/Convenios</option>
+                        <option value="cheques">Cheques</option>
+                        <option value="cuotas">Ventas a Credito (Cuotas)</option>
+                        <option value="verificar_cobros" style="display: {if_autitor}">Verificar Cobros</option>
+                        <option value="verificar_ventas" style="display: {if_autitor}">Verificar Ventas</option> 
+                    </select>
+                </td>
+                <td colspan="2">
+                    <select id="tipo_cheq" style="display:none">
+                        <option value="%">%</option>
+                        <option value="Al_Dia">Al_Dia</option>
+                        <option value="Diferido">Diferido</option>                        						
+                    </select>
+                    <select id="tipo_conv" style="display:none">
+                        <option value="%">%</option>
+                        {tipos_convenios}                        						
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1"><label>Preparar para:</label></td>
+                <td colspan="2">
+                    <label>A4&nbsp;</label><input type="radio" value="9" name="paper_size"  >&nbsp;<label>Oficio</label><input checked="checked" type="radio" value="14" name="paper_size" >
+                </td>
+            </tr>
+            <tr style="text-align: center">
+                <td colspan="4">
+                    <input type="button" value="Contadores de Billetes" onclick="contadorBilletes()" id="lista_contadores">   <input id="boton_generar" type="button" value="Generar Reporte" onclick="generarReporte()">
+                </td>
+            </tr>
+        </table>
+</div>
+
+<div id="contador_billetes" style="display:none">
+    <table cellpadding="0" cellspacing="0" border="1" id="cont_bill" style="margin: 10 auto;width: 50%;border-collapse: collapse;font-family: sans-serif; font-size: 12px;  font-weight: normal; background-color: #F0F0F0; 
+    border-color: #999999;" >
+        <tr class="titulo">
+           <th>Id</th> <th>Suc</th><th>PDV</th><th>Fecha</th><th>Tipo</th><th>Auditor</th><th>Cierre</th><th>Estado</th>
+        </tr>
+    </table>
+    <div id="msg_no" style="text-align: center;width:50%;margin: 4 auto;"></div>
+    <div style="text-align: center"><input type="button" id="btn_nuevo_cont" value="Nuevo Contador de Billetes" onclick="nuevoContadorBilletes()">   </div>
+</div>
+
+
+<div id="nuevo_cont" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center">
+    <label>Fecha:</label><input  id="fecha_cont" class="fecha" type="text" size="10" value="{hoy}"><br>
+    <label>Tipo:</label>
+    <select id="tipo_cont">
+        <option value="Recaudacion">Recaudacion</option>
+        <option value="Sencillo">Sencillo</option>
+        <option value="Caja Chica Particular">Caja Chica Particular</option>
+        <option value="Caja Chica Empresa">Caja Chica Empresa</option>
+    </select><br>
+    <input type="button"   value="Cancelar" onclick="cancelarNuevoCont()">    <input type="button"   value="Generar" onclick="generar()"> <br>
+    <span id="msg"></span>
+</div>
+<!-- end:   body -->

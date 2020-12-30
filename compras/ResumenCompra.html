@@ -1,0 +1,50 @@
+<!-- begin: headers -->
+<!DOCTYPE html>
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <link rel="stylesheet" type="text/css" href="resumen_pedido.css" /> 
+      <script type="text/javascript" src="resumen_pedido.js" ></script>
+<!-- end:   headers -->
+
+
+<!-- begin: head -->
+
+
+<table id="resumen_pedidos" border="1"  cellspacing="0" cellpadding="0"    style="margin: 10px auto;min-width: 99%;border-collapse: collapse"  >
+           
+    <tr><th colspan="8" style="background-color: lightgray">Resumen de Compra N&deg;:{nro}</th></tr> 
+    <tr><th><img src="../img/arrow-back.png" onclick="javascript:self.close()" style="cursor: pointer"></th> 
+        <th colspan="5" style="background-color: white">{usuario}&nbsp;&nbsp;&nbsp;&nbsp;{fecha}&nbsp;&nbsp;&nbsp;&nbsp;</th> 
+        <th colspan="2"><img src="../img/printer-01_32x32.png" height="24" width="28" onclick="javascript:self.print()" style="cursor: pointer"></th>
+         
+    </tr> 
+    <tr class="titulo"><th>Proveedor</th><th style="display: {display}">Articulo</th><th>Mts</th><th>Yds</th><th>Kg</th><th>Unid</th><th>Renminbi</th><th>Dolares</th></tr>  
+            
+<!-- end:   head -->
+
+<!-- begin: line -->
+<tr id="{id}" data-nro="{nro}" style="cursor: pointer;background-color: white"> 
+    <td class="itemc" >{Provedor}</td>  
+    <td class="item"  style="display: {display}" >{Articulo}</td> 
+    <td class="num" >{Mts}</td> 
+    <td class="num" >{Yds}</td> 
+    <td class="num" >{Kg}</td>
+    <td class="num" >{Unid}</td> 
+    <td class="num" >{Renminbi}</td> 
+    <td class="num" >{Dolares}</td> 
+</tr>
+<!-- end:   line -->
+
+
+<!-- begin: foot -->
+<tr style="font-weight: bolder"> 
+    <td class="itemc" ></td>      
+    <td class="itemc" style="display: {display}"></td>     
+    <td class="num" >{TMts}</td> 
+    <td class="num" >{TYds}</td> 
+    <td class="num" >{TKg}</td>
+    <td class="num" >{TUnid}</td> 
+    <td class="num" >{TRenminbi}</td> 
+    <td class="num" >{TDolares}</td> 
+</tr>
+  </table>
+<!-- end:   foot -->

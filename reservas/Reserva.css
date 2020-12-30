@@ -1,0 +1,165 @@
+ 
+/* 
+    Created on : 30/04/2015, 02:48:24 PM
+    Author     : Ing.Douglas
+*/
+ 
+
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+#cabecera{
+    padding: 4px; 
+    display: inline;
+}
+#detalle_reserva, #lista_convenios {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px;
+    background-color: rgb(250,250,250);
+}
+
+#lista_clientes{
+    border-collapse: collapse;
+}
+
+#lista_clientes tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;
+}
+.reserva_inv{ /* Factura invisible antes de generarse*/
+    display: none;
+}
+.reserva{ 
+    text-align: center; 
+    display: inline;
+}
+#area_carga{
+    display: none; 
+    padding-left: 4px;
+    padding-top: 10px;
+}
+#ui_clientes{
+    padding-left: 4px;
+}
+#lista_clientes{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 46%;
+}
+#cli_data{
+    padding-left: 4px;
+}
+ 
+#reservas{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 70%;
+    margin: 12 auto;
+}
+#reservas tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;     
+}
+
+/*
+* Clases para el detalle de Factura
+*/
+td .item{
+    padding-left: 2px;
+}
+td .itemc{
+    text-align: center;
+}
+td.num{
+    padding-right: 2px;
+    text-align: right;
+}
+.codigo{
+    width: 12%
+}
+.descrip{
+    width: 44%
+}
+.cant,.precio,.subtotal{
+    width: 10%;
+}
+.um{
+    width: 5%;
+}
+ 
+.popup_caja{
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    background:whitesmoke;
+    padding:2px;
+    border:1px solid gray;
+    text-align:center;
+    font-weight:bold;
+    min-width: 82%;
+    min-height: 400px;
+    height: auto;
+    margin-top: 0;
+    margin-left: 9%;
+    //margin-right: 9%;  
+}
+.factura_data{
+    padding: 4px 0px 4px 4px;
+    margin: 2px 0px 2px 0px;
+    text-align: left;
+    border: 1px solid gray;
+}
+.img_moneda{
+    margin-bottom: 2px;
+    width: 28px;
+    height: 26px;
+}
+input[type="radio"]:checked{
+    transform: scale(1.5)
+}
+
+.printer_button{
+  background-image:url(../img/printer-01_32x32.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 34px;
+  width: 44px;
+  background-position:center;  
+}
+span#msg_codigo{
+    position: relative;
+}
+span#msg_codigo table{
+    position: absolute;
+    background-color: white;
+    border-collapse: collapse;
+    top: 100%;
+    right: 110%;
+    display: none;
+}
+span#msg_codigo:hover{
+    cursor: pointer;
+}
+span#msg_codigo img:hover + table{
+    display: block;
+}
+span#msg_codigo table *{
+    border: 1px solid black;
+    padding: 0 1px;
+}

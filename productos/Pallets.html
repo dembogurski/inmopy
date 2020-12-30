@@ -1,0 +1,109 @@
+<!-- begin: headers -->   
+    <head>  
+        <link rel="stylesheet" type="text/css" href="productos/Pallets.css?_=66666" />      
+        <link rel="stylesheet" type="text/css" href="js/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.dataTables.min.css">         
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"/>         
+    </head>  
+<!-- end:   headers -->
+
+<!-- begin: insert_edit_form -->     
+<div class="form" id="form_pallets"></div>
+<!-- end:   insert_edit_form -->
+
+<!-- begin: data_header -->
+<div class="list_container">      
+    <table id="pallets"  border="1" class="display responsive nowrap db_tablename"  >
+        <thead>
+            <tr>
+                <th>Nro Pallet</th><th>Kg</th><th></th>
+            </tr>
+        </thead>
+
+<!-- end:   data_header -->
+
+
+<!-- begin: data_line -->     
+    <tr> <td>{nro_pallet}</td> <td>{kg}</td> <td class="itemc"><img class="edit" src="img/edit.png" onclick=editUI("{nro_pallet}") ></td>  </tr>
+<!-- end:   data_line -->
+
+
+<!-- begin: data_foot -->     
+
+        <tfoot>
+             
+        </tfoot>
+    </table> 
+</div>
+ 
+<!-- end:   data_foot -->
+
+<!-- begin: script -->      
+    <script type="text/javascript" src="js/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" language="javascript" src="js/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>        
+    <script type="text/javascript" language="javascript" src="js/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="js/functions.js" ></script>    
+    <script type="text/javascript" src="productos/Pallets.js" ></script>
+    
+<!-- end:   script -->
+
+
+<!-- begin: edit_form_cab -->  
+<table border="0" class="form_table" id="edit_pallets" style="width: auto">
+    <tr> <th colspan="2" class="form_title" > Actualizar Pallets  </th> </tr> 
+<!-- end:   edit_form_cab -->
+
+
+<!-- begin: edit_form_data -->     
+<tr> <td class="form_label">Nro Pallet:</td> <td><input class="form_number PRI" type="number" id="form_nro_pallet"  required="required" readonly="readonly"  size="10" onkeypress="return onlyNumbers(event)" value="{value_of_nro_pallet}" ></td>  </tr>
+<tr> <td class="form_label">Kg:</td> <td><input class="form_number" type="number" id="form_kg"    size="10" onkeypress="return onlyNumbers(event)" value="{value_of_kg}" ></td>  </tr>
+
+<!-- end:   edit_form_data -->
+
+
+<!-- begin: edit_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_pallets" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value="Modificar Datos" onclick=updateData("edit_pallets") id="pallets_update_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="pallets_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   edit_form_foot -->
+
+
+
+
+
+
+<!-- begin: add_form_cab -->  
+<table border="0" class="form_table" id="add_pallets">
+    <tr> <th colspan="2" class="form_title" > (Nuevo Registro) Pallets  </th> </tr> 
+<!-- end:   add_form_cab -->
+
+
+<!-- begin: add_form_data -->     
+<tr> <td class="form_label">Nro Pallet:</td> <td><input class="form_number" type="number" id="form_nro_pallet"      size="10" onkeypress="return onlyNumbers(event)" value="" ></td>  </tr>
+<tr> <td class="form_label">Kg:</td> <td><input class="form_number" type="number" id="form_kg"      size="10" onkeypress="return onlyNumbers(event)" value="" ></td>  </tr>
+
+<!-- end:   add_form_data -->
+
+
+<!-- begin: add_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_pallets" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value=" Grabar " onclick=addData("add_pallets") id="pallets_save_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="pallets_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   add_form_foot -->
+
+
+<!-- begin: no_result -->     
+<div style="text-align: center;margin: 2cm auto"> Ningun registro para Pallets <button type="button" id="add_button_proveedores" onclick="addUI()">Agregar un nuevo registro para (Pallets)</button></div> 
+<!-- end:   no_result -->

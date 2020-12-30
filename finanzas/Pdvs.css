@@ -1,0 +1,110 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.form{
+    z-index: 10;   
+    background-color: rgb(80,80,80);
+    position: absolute;
+}
+
+.form_table{
+    margin: 1cm auto;
+    background-color: white;
+    width: auto;
+    border-radius: 4px;
+    padding: 4px;
+}
+.form_title{
+    background-color: #DDDACD;
+    border-radius: 2px
+}
+.form_label{
+    font-weight: bolder;
+}
+.form_text .form_password .form_tel .form_email .form_checkbox {
+    text-align: left;
+    margin-left: 2px;
+}
+.form_number{
+    text-align: right;
+    margin-right: 2px;        
+}
+.form_date .form_hora .form_select .form_db_select{
+    text-align: center;
+}
+.form_textarea {
+    width: 100%;
+}
+
+.list_container { 
+   margin: 0 auto;
+   max-width: 1280px
+}
+
+.db_tablename{
+	width:100%;
+	border-collapse:collapse
+}
+
+#pdvs tr th {
+    height: 10px;
+    font-size: 14px;
+} 
+
+#pdvs tr td {
+    height: 10px;
+	font-size: 14px;
+}
+ 
+.edit{
+   	cursor:pointer;
+	width:16px
+}
+.itemc{
+	text-align:center
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+.form_table input:not([disabled]):not([type="button"]):focus, textarea:focus  {
+    background-color: #fffccc;
+}
+.form_table option:nth-child(even) {
+  background-color: white;
+}
+
+.form_table option:nth-child(odd) {
+  background-color: #dfe6e9;
+}
+
+.PRI{
+    color: orangered
+}
+.toolbar {
+   float: right;
+   padding-left: 40px;
+}
+.error{
+    color:red
+}
+.technical_info{
+    border:solid gray 1px;
+    color:green;    
+    font-size: 12px;
+    background: aliceblue;
+    display: none;
+}
+
+.required{
+    border:solid red 1px;
+} 

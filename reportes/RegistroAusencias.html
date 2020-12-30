@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <meta charset="UTF-8">
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+      
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="user" value="{user}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Ausencias</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta}  , Suc: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>N&deg;</th>
+        <th>Suc</th> 
+        <th>Jefe</th>
+        <th>Usuario</th>
+        <th>Fecha.Reg.</th>
+        <th>Desde</th>
+        <th>Hasta</th>
+        <th>Retorno</th>
+        <th>Motivo</th>
+        <th>Tipo Lic.</th>
+        <th>Tipo Permiso</th> 
+        <th>Valor Desc.</th>
+        <th>Horas</th>
+       
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr>
+    <td class="itemc">{id_aus}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{jefe}</td>
+    <td class="itemc">{usuario}</td>
+    <td class="itemc">{fecha_reg}</td>
+    <td class="itemc">{fecha_desde}</td>
+    <td class="itemc">{fecha_hasta}</td>
+    <td class="itemc">{fecha_retorno}</td>
+    <td class="item">{motivo}</td>
+    <td class="itemc">{tipo_lic}</td>
+    <td class="itemc">{tipo_perm}</td>
+    <td class="num">{valor_descuento}</td>
+    <td class="itemc">{horas}</td>
+    
+</tr>    
+ 
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+ 
+</table>    
+ 
+<!-- end:   foot  -->   

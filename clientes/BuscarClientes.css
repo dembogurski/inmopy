@@ -1,0 +1,107 @@
+div#bc_body{
+   width: 50%;
+   margin: 10px auto;
+}
+div#bc_body table{
+   border: solid 1px black;
+   border-collapse: collapse;
+   margin: 5px auto;
+   min-width: 450px;
+}
+div#bc_loader{
+   position: absolute;
+   right: -30px;
+   top: 0px;    
+   border: 3px solid #f3f3f3; /* Light grey */
+   border-top: 3px solid #3498db; /* Blue */
+   border-radius: 50%;
+   width: 16px;
+   height: 16px;
+   animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+div#bc_buscar_containter{
+   position: relative;
+   display: inline-block; 
+   width: 200px;   
+   text-align: left;
+}
+div#bc_buscar_containter input{
+   width: 200px;
+}
+ul#bc_lista_clientes{
+   background-color: wheat;
+   position: absolute;
+   top: 100%;
+   left: 1px;
+}
+ul#bc_lista_clientes li{
+   list-style: none;
+   margin: 1px 0px;
+   padding: 2px;
+   font-size: 12px;
+   font-weight: 100;
+   text-align: left;
+   width: 340px;
+}
+ul#bc_lista_clientes li:hover{
+   background-color: lightblue;
+   cursor:pointer;
+}
+ul#bc_lista_clientes li:hover:before{
+   content: attr(id);
+   font-weight: 900;
+   color: blue;
+   position: absolute;
+   text-align: right;
+   right: 100%;
+   top: auto;
+   padding: 3px;
+   background-color: whitesmoke;
+}
+div#bc_body table tbody{
+   background-color: whitesmoke;
+}
+div#bc_body table td{
+   padding-bottom: 2px;
+}
+div#bc_body table td.cb_label{
+   text-align: left;
+   width: 20%;
+   font-size: 14px;
+   font-family: tahoma;
+   padding-left:4px
+}
+div#bc_body table .cb_datos{
+   margin-left: 11px;
+   width: 70%;
+}
+div#bc_body table textarea.cb_datos{
+   resize: none;
+   height: 72px;
+}
+.cb_changed{
+   background-color: lightsteelblue;
+}
+div.ok{
+   color: green;
+}
+div.error{
+   color: red;
+}
+.st_error{
+   border: solid 1px red;
+}
+#map {   
+   height: 100%;   
+   border:solid gray 0px;
+   max-width: 1024px;
+   max-height: 600px;    
+   //display: none;
+   margin:10px auto;
+   
+}

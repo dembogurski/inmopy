@@ -1,0 +1,145 @@
+<!-- begin: header -->     
+      <link rel="stylesheet" type="text/css" href="../css/main.css" /> 
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <link rel="stylesheet" type="text/css" href="ReporteSolicitudesTactil.css?_=88888888888888888888" /> 
+      <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script>   
+      <script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script>   
+      <script type="text/javascript" src="ReporteSolicitudesTactil.js?_=888888888888888888" ></script>
+      <script type="text/javascript" src="../js/reportes.js" ></script> 
+<!-- end:   header -->
+
+  
+
+<!-- begin: head -->
+<div id="msg"></div>
+<input type="hidden" id="images_url" value="{images_url}">
+
+<input type="hidden" id="origen" value="{suc}">
+<input type="hidden" id="destino" value="{suc_d}">    
+<input type="hidden" id="paper_size" value="{paper_size}">
+<input type="hidden" id="tipo_busqueda" value="{tipo_busqueda}">
+<input type="hidden" id="pedido" value="">
+<input type="hidden" id="moneda" value="">
+<input type="hidden" id="operario" value="{operario}">
+<div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;"></div>
+
+<div id="anchorTitle" class="anchorTitle"></div>
+ 
+
+<table id="solicitudes" border="1"  cellspacing="0" cellpadding="0"    style="margin: 10px auto;min-width: 99%;border-collapse: collapse"  >
+    <tr><th><img src="../img/arrow-back.png" onclick="javascript:self.close()"></th><th colspan="19" style="background-color: rgb(221, 218, 205);font-family:inmopy;height: 30px"  >MARIJOA</th><th></th></tr>        
+   <tr style="background-color: white;height: 30px">
+       <th colspan="2" ><small>{operario}</small><br> {suc}&rArr;{suc_d}  </th>
+       <th>  <span class="urge" style="border-radius: 3px;border: solid black 1px;padding:3px">Urgente</span></th>
+       <th><input type="text" id="conexion" size="2" readonly="readonly" onclick="calcularLatencia()"></th>
+       <th colspan="6" >Solicitudes de Traslado   <br><small> Periodo: {desde} &harr; {hasta} &nbsp;{tipo}</small>
+       <br>
+       <span id="info_pedido" style="color:brown"></span>
+       </th>
+       <th>
+           <img src="../img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px;  cursor: pointer" onclick="recargar()">
+       </th>
+       <th colspan="2" ><small>{fecha_hora}</small>
+       </th></tr>     
+    
+   <tr class="titulo"><th style="cursor: pointer" onclick=findButtonAndClick("filtro_cliente")>N&deg;<div class="filtro" onclick=findButtonAndClick("filtro_cliente") ><input type="button" value="F" data-target="nro_filtro" class="filtro_cliente" onclick="showOption($(this))"/><ul id="nro_filtro">{nros}</ul></div></th><th>Usuario</th><th>Cierre</th><th style="width: 2%" >Img</th> <th style="width:8%">Lote</th>
+<th >Remp. <img src="../img/keypad32.png" onclick="showKeypads()"  height="26" width="26" style="padding-bottom: -4px;cursor: pointer"></th><th>Descripci&oacute;n <span class="descripInfo">Seleccione &darr;</span></th><th>Stock</th><th>Pedido</th><th style="width: 2%">$</th> <th  style="cursor: pointer" onclick=findButtonAndClick("filtro_ubic") >Ubic<div class="filtro" onclick=findButtonAndClick("filtro_ubic")><input class="filtro_ubic"  type="button" value="F" data-target="ubic_filtro" onclick="showOption($(this))"/><ul id="ubic_filtro"><li onclick="fitrarUbic($(this))">Todos</li><li onclick="fitrarUbic($(this))">Hombre</li><li onclick="fitrarUbic($(this))">Maquina</li><li onclick="fitrarUbic($(this))">Vacios</li></ul></div></th><th>Estado</th><th>*</th></tr>  
+                 
+<!-- end:   head -->
+
+<!-- begin: line -->
+<tr id="{lote}"  class="fila lote_{lote} pedido_{nro}" data-moneda="{moneda}" data-nro="{nro}" data-lote="{lote}" data-codigo="{codigo}"   data-verificar="{verificar}" data-nodo="{nodo}" data-cod_cli="{cod_cli}" data-cliente="{cliente}" data-cat="{cat}" data-precio_venta="{precio_venta}" data-um="{um}" data-ancho="{ancho}"  data-gramaje="{gramaje}" data-tara="{tara}" data-descrip="{descrip}" data-um_prod="{um}" data-img="{img}" > 
+    <td class="itemc nro_pedido" style="height: 32px" title="{cliente}">{nro}</td>  
+         
+    <td class="item" >{usuario}</td>
+    <td class="item" >{cierre}</td>
+    <td class="td_foto"><img src="{images_url}/{img}.thum.jpg" class="img_{lote} imagen_design"   onclick=cargarImagenLote("{lote}") ></td>         
+    <td class="item lote {color_urge}" data-nro="{nro}" title="{fab_color_cod}" data-ancho="{ancho}" data-um="{um}" data-um_prod="{um}"  data-gramaje="{gramaje}" data-descrip="{descrip}">{lote}</td>
+    <td style="width:100px" class="td_remplazo" > 
+        <input type="text" id="remp_{nro}_{lote}" {readonly} class="lote_rem item" maxlength="12" value="{lote_rem}" style="border:solid white 0px;width: 70%;margin:0px;height:18px"   >
+        <img src="../img/keypad32.png" onclick=tecladoNumerico("remp_{nro}_{lote}") class="keypad" id="key_{nro}_{lote}" height="20" width="20" style="display:{display_numpad}" >
+    </td>
+    <td class="item descrip"  ><span class="nombre_art">{descrip}</span>-{color}-{fab_color_cod} {obs}</td> 
+    <td class="itemc" ><div class="stock{tachado}{diff_stock} stock_ped_{nro}_{lote}">{stock}</div><div class="stock_rem{diff_remp}">{rem_stock}</div></td> 
+    <td class="num cant{diff_cant} disp_ped_{nro}_{lote}" >{cantidad}</td> 
+    <td class="itemc moneda" >{moneda}</td>  
+    <td class="item ubic_{lote}" ><span class="ubic_{lote}" data-target="{lote}" data-estante="{estante}" data-fila="{fila}" data-columna="9">{ubic}</span> </td>
+    <td class="itemc msg_{nro}_{lote}  msg_{nro}_{lote_rem}" >{estado}</td>
+    <td class="itemc"><input type="checkbox" id="check_{lote}" class="check_{lote}"/><div class="chVerif"></div></td>
+</tr>
+<!-- end:   line -->
+
+
+<!-- begin: foot -->
+<tr> 
+    <td class="item" colspan="5" >Cant:<span id="cantidad"></td>   
+    <td colspan="2"></td>
+    <td class="itemc" style="font-weight: bolder" id="total_stock"></td>  
+    <td class="num" style="font-weight: bolder" id="total_pedido"></td>  
+</tr>
+ 
+</table>
+
+<!-- end:   foot -->   
+
+<!-- begin: procesador_pedidos -->
+<div id="message_frame">
+    <div id="message_header"> 
+        <button onclick="mostrarOcultarEstados()">Cambiar de Estado</button>
+        <input type="button" id="remitir"  value="Remitir" onclick="procesarLotes()" style="font-size:9px;height: 22px" >&nbsp;&nbsp;
+        <input type="button" id="facturar" value="Facturar" onclick="facturar()" style="font-size:9px;height: 22px;display: none" >
+        <img src="../img/printer-01_32x32.png" height="26" width="26" style="cursor:pointer;margin-bottom:-6" onclick="imprimir()">&nbsp;&nbsp;
+        <ul id="estados">
+            <li onclick="cambiarEstado($(this))">Despachado</li>
+            <li onclick="cambiarEstado($(this))">Pendiente</li>
+            <li onclick="cambiarEstado($(this))">Suspendido</li>
+        </ul>
+    </div>
+    <div id="message"></div>
+    <div id="camino"></div>
+</div>
+
+ 
+    <table id="generador_orden_frac" cellpadding="2" cellspacing="2" style="border-collapse: collapse;padding:2px;margin: 2px" border="0" >
+        <tr>
+            <th class="titulo" colspan="6">Orden de Fraccionamiento</th>   
+        </tr>
+        <tr>
+            <td>Lote:</td><td><input style="margin-left: 0px;margin-bottom: 4px" type="text" size="10" id="lote_frac" onchange="buscarDatosLote()"></td>
+            <td>Codigo:</td><td><input class="itemc" readonly="readonly" type="text" size="10" id="codigo_frac"></td>
+            <td>Stock:</td><td><input class="itemc" readonly="readonly" type="text" size="10" id="stock_frac"></td>
+        </tr>
+        <tr>
+            <td>Descripci&oacute;n:</td><td colspan="5" id="descrip_frac" style="border:solid gray 1px;height:22px;margin:4px;padding: 2px 2px"></td>
+        </tr>
+        <tr>
+            <td>Cant Frac:</td><td><input style="margin-left: 0px;margin-top: 4px" type="text"  readonly="readonly" size="6" id="cant_frac"></td>
+            <td>Presentacion:</td>
+            <td>
+                <select id="pres_frac">
+                    <option value="Pieza">Pieza</option>
+                    <option value="Rollo">Rollo</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Obs:</td><td colspan="4"><input type="text" size="40" id="obs_frac" style="color:blue;margin-left: 0px"></td>
+            <td style="text-align: center"><input id="generar_orden" type="button" value="Generar" disabled="disabled" onclick="generarOrdenProcesamiento()"></td>
+        </tr>
+        <tr>
+            <td colspan="6" id="msg_frac"></td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:absolute;width:100%"></div>   
+            </td>
+        </tr>
+              
+        <tr style="display:none">
+            <td colspan="6">
+                <input type="hidden" id="lote_ref" value="">    
+            </td>
+        </tr>
+    </table>    
+    
+<!-- end: procesador_pedidos -->

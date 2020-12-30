@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+      <script type="text/javascript" src="../../js/jquery-1.11.2.min.js" ></script>
+      <script type="text/javascript" src="../../js/reportes.js" ></script>
+      
+      <style>
+          tr.dato{
+            counter-increment: codigos;
+        }
+        td.nro::before{
+            content: counter(codigos, decimal);
+            counter-increment: section;
+            color: white;
+            background: gray;
+            margin-right: 4px;
+            padding: 0 3px 0 3px;
+        }
+      </style>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../../img/logo_small.png"></th> 
+        <th style="width: 70%;">Flujo de Tarjetas/Convenios</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Descripci&oacute;n</th>
+        <th>Factura</th>
+        <th>Reserva</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Tipo Tarjeta/Convenio</th>
+        <th>Voucher</th>
+        <th>Monto</th>
+        <th>Fecha Acred.</th>
+        <th>Suc</th>
+        <th>*</th> 
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr class="dato">
+    <td class="item nro">{descrip}</td>
+    <td class="item">{factura}</td>
+    <td class="item">{reserva}</td>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{hora}</td>
+    <td class="item">{nombre}</td>
+    <td class="item">{voucher}</td>
+    <td class="num">{monto}</td>
+    <td class="itemc">{fecha_acred}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{e_sap}</td> 
+</tr>    
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="7"></td>
+    <td class="num">{t_monto}</td>
+    <td colspan="2"></td> 
+</tr> 
+</table>    
+<!-- end:   foot  -->

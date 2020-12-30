@@ -1,0 +1,51 @@
+
+/* 
+    Created on : 02/02/2017, 03:47:49 PM
+    Author     : Ing.Douglas
+*/
+*{
+    font-family: "Times New Roman", Georgia, Serif;
+}
+button.descarga_docx, button.descarga_docx img{
+    margin: 0;
+    padding: 0;
+}
+button.descarga_docx img{
+    vertical-align: bottom;
+}
+@media print {
+  ::-webkit-input-placeholder { /* WebKit browsers */
+      color: transparent;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: transparent;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: transparent;
+  }
+  .auth, .descarga_docx, .autorizado_no{
+      display: none;
+  }
+  
+}
+.sub{
+   border-style: groove;
+   border-width: 0px 0px 2px 0px;
+   font-size: 12px;
+ }
+ .cuerpo{
+     font-size:11px;
+ }
+ .vencimiento{
+     height: 40px;
+     font-size: 14px;
+ }
+ .cli_data{
+     font-weight: bolder;
+     width: 40%;
+     font-size: 11px;         
+ }
+ .tabla_datos_cli td{
+     overflow: hidden;
+     white-space: nowrap;
+ }

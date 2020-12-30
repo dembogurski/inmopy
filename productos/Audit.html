@@ -1,0 +1,219 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="Audit.css" /> 
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script>    
+    <script type="text/javascript" src="Audit.js?_=2222222222222" ></script>    
+   
+<!-- end:   header -->
+
+
+
+
+<!-- begin: rem_head -->
+    <table border="1" style="margin:0;padding:0;border-collapse: collapse;width: 90% ">
+        <tr>
+            <th> </th> 
+            <th>N&deg;</th> 
+            <th>Fecha</th>
+            <th>De->A</th>
+            <th>Emisor->Receptor</th>             
+            <th>Acnho</th> 
+            <th>Tara</th> 
+            <th>Gramaje</th>
+            <th>Kg.Env.</th>
+            <th>Kg.Rec.</th>
+            <th>Cantidad</th> 
+            <th>Cant.Calc.Env</th> 
+            <th>Cant.Calc.Rec</th>  
+        </tr>
+<!-- end:   rem_head -->
+
+
+<!-- begin: rem_data -->
+      <tr>
+          <td><b>Entrada por Remision:</b></td>
+            <td class="itemc">{nro}</td>
+            <td class="itemc">{fecha}</td>
+            <td class="itemc">{orig_des}</td>
+            <td class="itemc">{de_a}</td> 
+            <td class="num">{anchor}</td>
+            <td class="num">{tarar}</td> 
+            <td class="num">{gramajer}</td>
+            <td class="num">{kg_env}</td>
+            <td class="num">{kg_rec}</td>
+            <td class="num">{cantidad}</td> 
+            <td class="num">{cant_calc_env}</td> 
+            <td class="num">{cant_calc_rec}</td> 
+        </tr>
+<!-- end:   rem_data -->
+
+
+<!-- begin: rem_foot -->
+     </table>    
+<br> 
+ 
+<!-- end:   rem_foot -->
+
+
+
+<!-- begin: frac_head -->
+    <table border="1" style="margin:0;padding:0;border-collapse: collapse;width: 90% ">
+        <tr>
+            <th> </th> 
+            <th>N&deg;</th> 
+            <th>Fecha</th>
+            <th>Suc->Destino</th>
+            <th>Usuario</th>             
+            <th>Acnho</th> 
+            <th>Tara</th> 
+            <th>Gramaje</th>             
+            <th>Cantidad</th> 
+             
+        </tr>
+<!-- end:   frac_head -->
+
+
+<!-- begin: frac_data -->
+      <tr>
+          <td><b>Entrada por Fraccionamiento:</b></td>
+            <td class="itemc">{nro}</td>
+            <td class="itemc">{fecha}</td>
+            <td class="itemc">{orig_des}</td>
+            <td class="itemc">{operario}</td> 
+            <td class="num">{anchor}</td>
+            <td class="num">{tarar}</td> 
+            <td class="num">{gramajer}</td>             
+            <td class="num">{cantidad}</td> 
+             
+        </tr>
+<!-- end:   frac_data -->
+
+
+<!-- begin: frac_foot -->
+     </table>    
+<br> 
+ 
+<!-- end:   frac_foot -->
+
+<!-- begin: ent_head -->
+    <table border="1" style="margin:0;padding:0;border-collapse: collapse;width: 90% ">
+        <tr>
+            <th> </th> 
+            <th>N&deg;</th> 
+            <th>Fecha</th>
+            <th>Suc</th>
+            <th>Usuario</th>             
+            <th>Acnho</th> 
+            <th>Tara</th> 
+            <th>Kg Desc</th> 
+            <th>Gramaje</th>             
+            <th>Cantidad</th> 
+             
+        </tr>
+<!-- end:   ent_head -->
+
+
+<!-- begin: ent_data -->
+      <tr>
+          <td><b>Entrada por Compra o Directa:</b></td>
+            <td class="itemc">{nro}</td>
+            <td class="itemc">{fecha}</td>
+            <td class="itemc">{orig_des}</td>
+            <td class="itemc">{operario}</td> 
+            <td class="num">{anchor}</td>
+            <td class="num">{tarar}</td> 
+            <td class="num">{kg_desc}</td> 
+            <td class="num">{gramajer}</td>             
+            <td class="num">{cantidad}</td> 
+             
+        </tr>
+<!-- end:   ent_data -->
+
+
+<!-- begin: ent_foot -->
+     </table>    
+<br> 
+ 
+<!-- end:   ent_foot -->
+
+  
+ 
+
+<!-- begin: head -->
+    <table border="1" style="margin:0;padding:0;border-collapse: collapse;width: 90% ">
+        <tr>
+            <th> </th>
+            <th>Lote</th>
+            <th>Padre</th>
+            <th>Suc</th>
+            <th>Cantidad</th>
+            <th>Cant. Inicial</th>
+            <th>Ancho</th>
+            <th>Tara</th>
+            <th>Gramaje</th>
+            <th>Gramaje M.</th>
+            <th>Kg. Desc</th>
+            <th>FP</th> 
+            <th>Ubic</th> 
+            <th class="itemc"><input type="checkbox" checked="checked" id="check_all"></th> 
+        </tr>
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr class="id_{lote}_{suc} bath_{lote} {_tipo}">
+          <td style="font-weight: {indicador}">{tipo}</td>
+          <td class="itemc"><a class="lote" data-ventas="{ventas}" style="text-decoration: none" href=javascript:historial("{lote}","{suc}")>{lote}</a></td>
+            <td class="itemc">{padre}</td>
+            <td class="itemc">{suc}</td>
+            <td class="num">{cant}</td>
+            <td class="num">{cantidad_inicial}</td>
+            <td class="num">{ancho}</td>
+            <td class="num">{tara}</td>
+            <td class="num">{gramaje}</td>
+            <td class="num">{gramaje_m}</td>
+            <td class="num">{kg_desc}</td>
+            <td style="padding-left: 14px" class="item {negrita}">{FP}&nbsp;{star}{starv}</td> 
+            <td class="itemc">{ubic}</td> 
+            <td class="itemc">{check}</td> 
+        </tr>
+<!-- end:   data -->
+
+
+<!-- begin: foot -->
+<tr>
+    <td colspan="13" style="text-align: center">
+        <input type="button" value="Optimizar" onclick="optimizar()" style="cursor:pointer">
+    </td>
+    <td style="text-align: center">
+        <img id="flip" onclick="flip()" src="../img/substract.png" style="cursor: pointer">
+    </td>
+</tr>
+     </table>    
+<!-- end:   foot -->
+
+
+
+<!-- begin: calc -->
+<br>
+<div style="text-align: center"> 
+    
+    <table border="0" style="margin: 10px auto" >
+        <tr>
+            <td colspan="3" style="text-align: center">Calculadora de Metraje</td>
+        </tr>
+        <tr>
+            <td><label>Kg:</label><input type="text" style="text-align: center" id="kg" value=""  size="6" onchange="calc()" ></td>
+            <td>- <label>Tara:</label><input style="text-align: center;margin: 4px 60px 4px 1px" type="text" id="tara" value="{tara_a}" onchange="calc()"  size="6" ></td>
+            <td rowspan="2" style="vertical-align: middle" > <label>Mts:</label><input type="text" id="mts" value=""  size="6" style="text-align: center" readonly="readonly"></td>
+        </tr>
+        <tr>
+            <td><label>Gramaje:</label><input type="text" id="gramaje" value="{gramaje_a}"  size="6" style="text-align: center"  onchange="calc()" ></td>    
+            <td><label>Ancho:</label><input type="text" id="ancho" value="{ancho_a}" size="6" style="text-align: center"   onchange="calc()"></td>
+        </tr>
+    </table>
+    
+</div>
+<!-- end:   calc -->
+
+ 

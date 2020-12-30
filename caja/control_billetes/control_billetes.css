@@ -1,0 +1,83 @@
+ 
+/* 
+    Created on : 18/06/2015, 01:51:01 PM
+    Author     : Ing.Douglas
+*/
+*{
+    font-family: "Times New Roman", Georgia, Serif;
+}
+#mensaje{
+    border: solid lightblue 1px;
+    background: #CC9900;
+}
+tr{
+    font-size:13px;
+}
+label{
+    font-size:13px;
+    font-weight:bolder;
+}
+th{
+    font-size:13px;
+    font-weight:bolder;
+    text-align:center;
+}
+.num{
+    text-align:right;
+    padding-right:3px;
+    width:100%;
+}
+.bill{
+    width:100%;
+    text-align:center;      
+}
+.tbill{
+    width:100%;
+    text-align:center;      
+}
+.mon{
+    width:100%;
+    text-align:center;
+}
+.cant{
+    width:100%;
+    text-align:center;
+}
+.cotiz{
+    text-align:center;
+}
+.info{
+    text-align: center;
+    font-size: 13px;
+    color:green;
+}
+tr input[type=text]{
+    height: 20px
+}
+
+.infoblue{
+    text-align: center;
+    font-size: 13px;
+    color:blue;
+}
+.error{
+    color:red;
+    font-size: 13px
+}
+.errorgrave{
+    background-color: red;
+    font-size: 13px;
+    color:white;    
+}
+[disabled] {
+    background-color: rgb(254, 254, 254);
+    border: 1px solid rgb(140, 140, 140);
+    color: black;    
+}
+
+
+@media print{
+    .boton{
+        display:none;
+    } 
+}

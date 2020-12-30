@@ -1,0 +1,122 @@
+<!-- begin: header noeval -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../css/reportes.css" />
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+<style>
+    thead th{
+        background-color: lightgray;
+    }
+    tbody td{
+        font-size: 12px;
+    }
+    tfoot td{
+        background-color: lightgray;
+    }
+</style>
+</head>
+<body>
+<!-- end: header -->
+
+<!-- begin: general_head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0">
+<tr>
+    <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th>
+    <th style="width: 70%;"> Reporte de Ventas Sector Articulo </th>
+    <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th>
+</tr>
+<tr>
+    <td style="text-align: center;font-size: 12px">
+        Periodo: {desde} &#8596; {hasta}, Sucursal: {target_suc}, Vendedor: {vendedor}, Cat: {categorias} <br>
+        Cliente: ({cliente}) - {cliNombre} - Cant.Cuotas[{cuotas}] 
+    </td>
+</tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+    <thead>
+<!-- end: general_head -->
+
+<!-- begin: table_suc_head -->
+   <tr>
+      <th>Grupo</th>
+      <th {art_visibility}>Codigo</th>
+      <th {suc_visibility}>Suc</th>
+      <th {art_visibility}>Articulo</th>
+      <th {color_visibility}>Color</th>
+      <th>Metros</th> 
+      <th>MetrosDev</th> 
+      <th>Metros &#37;</th> 
+      <th>MetrosDev &#37;</th> 
+      <th>Mov</th>
+      <th>MovDev</th>
+      <th>Mov &#37;</th>
+      <th>MovDev &#37;</th>
+      <th{margen_visibility}>Margen</th>
+      <th{margen_visibility}>Margen &#37;</th>
+      <th{margen_visibility}>MargenDev</th>
+      <th{margen_visibility}>MargenDev &#37;</th>
+   </tr>
+   </thead>
+   <tbody>
+<!-- end:   table_suc_head -->
+
+<!-- begin: table_suc_data -->
+<tr class="data">
+   <td>{grupo}</td>
+   <td {art_visibility}>{codigo}</td>
+   <td {suc_visibility} >{suc}</td>
+   <td {art_visibility}>{artNombre}</td>
+   <td {color_visibility} >{color}</td>
+   <td align="right">{metros}</td>
+   <td align="right">{metrosDev}</td>
+   <td align="right">{metros_p} &#37;</td>
+   <td align="right">{metrosDev_p} &#37;</td>
+   <td align="right">{mov}</td>
+   <td align="right">{movDev}</td>
+   <td align="right">{mov_p} &#37;</td>
+   <td align="right">{movDev_p} &#37;</td>
+   <td align="right" {margen_visibility}>{margen}</td>
+   <td align="right" {margen_visibility}>{margen_p} &#37;</td>
+   <td align="right" {margen_visibility}>{margenDev}</td>
+   <td align="right" {margen_visibility}>{margenDev_p} &#37;</td>
+</tr>
+<!-- end: table_suc_data -->
+
+<!-- begin: footer -->   
+</tbody>
+<tfoot>
+<tr>
+    <td {suc_visibility} ></td>
+    <td {color_visibility} ></td>
+    <td {art_visibility}></td>
+    <td {art_visibility}></td>
+    <td><b>Totales:</b></td>
+    <td align="right"><b>{sumMts}</b></td>
+    <td align="right"><b>{sumMtsDev}</b></td>
+    <td></td>
+    <td></td>
+    <td align="right"><b>{sumMovs}</b></td>
+    <td align="right"><b>{sumMovsDev}</b></td>
+    <td></td>
+    <td></td>
+    <td {margen_visibility} align="right"><b>{sumMagen}</b></td>
+    <td></td>
+    <td {margen_visibility} align="right"><b>{sumMagenDev}</b></td>
+    <td></td>
+</tr>
+<tr>
+    <td colspan="7">
+        <table border="1" cellspacing="0" cellpadding="0" style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td align="right">{pTotalMetros}% del Total de Metros Vendidos.</td>
+                <td align="right">{pTotalMov}% del Total de Ingresos por Venta.</td>
+            </tr>
+        </table>
+    </td>    
+</tr>
+</tfoot>
+</table>
+</body>
+</thml>
+<!-- end: footer -->  

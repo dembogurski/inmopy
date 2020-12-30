@@ -1,0 +1,71 @@
+<!-- begin: header noeval -->
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/reportes.css" />  
+                    
+        <style>
+            .Activo{
+               background-color: green;      
+            }
+            .Inactivo{
+               background-color: orange;      
+            }
+            .titulo{
+               background-color:  #dddacd;                   
+            }
+        </style>
+        
+    </head>
+
+    
+   
+<!-- end:   header -->
+
+
+
+
+<!-- begin: head -->
+    <table border="1" style="margin:0;padding:0;border-collapse: collapse;width: 100% ">
+        <tr class="titulo">            
+            <th>Suc</th>
+            <th>Estante</th>
+            <th>Fila</th>             
+            <th>Col</th> 
+            <th>Pallet N&deg;</th> 
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Stock</th>
+            <th>Obs</th>
+            <th>Estado</th> 
+            <th>Fecha Salida</th> 
+            <th>Usuario Salida</th>  
+        </tr>
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+      <tr>          
+            <td id="id_{id_ubic}" class="itemc">{suc}</td>
+            <td class="itemc">{estante}</td>
+            <td class="itemc">{fila}</td>
+            <td class="itemc">{col}</td> 
+            <td class="itemc">{nro_pallet}</td>
+            <td class="itemc">{usuario}</td> 
+            <td class="itemc">{fecha}</td> 
+            <td class="num">{stock}</td>
+            <td class="item">{obs}</td>
+            <td class="itemc {estado}">{estado}</td>
+            <td class="itemc">{fecha_salida}</td> 
+            <td class="itemc">{usuario_salida}</td>  
+        </tr>
+<!-- end:   data -->
+
+
+<!-- begin: foot -->
+     </table>     
+ </html>
+<!-- end:   foot -->
+
+ 
+
+ 

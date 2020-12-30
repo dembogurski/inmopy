@@ -1,0 +1,28 @@
+
+/* 
+    Created on : 28/04/2017, 10:42:26 AM
+    Author     : Ing.Douglas
+*/
+
+
+#ie{
+    margin: 10px auto;
+    width: 80%;
+    text-align: left;
+}
+
+.E::after{
+    background: green;
+    content: "Entrada";
+    padding: 1px 20px;
+    color:white;
+}
+.S::after{
+    background: red;
+    content: "Salida";
+    padding: 1px 20px;
+    color:white;
+}
+.valor{
+    text-align: right;
+}

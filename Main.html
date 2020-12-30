@@ -1,0 +1,65 @@
+  
+
+<!-- begin: head -->
+
+<link rel="stylesheet" type="text/css" href="css/login.css" /> 
+<link rel="stylesheet" type="text/css" href="css/main.css?_=000000000000000000" /> 
+<link rel="stylesheet" type="text/css" href="js/jquery-ui/jquery-ui.css">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+<script type="text/javascript" src="js/jquery-migrate-3.0.0.min.js" ></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/x-icon" href="img/corporacion_fav_icon.ico">
+<link rel="shortcut icon" href="img/corporacion_fav_icon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="img/corporacion_fav_icon.png" />
+<link rel="apple-touch-icon" href="img/corporacion_fav_icon.png" />
+<title>{title}</title>
+<!-- end:   head -->
+
+<!-- begin: header -->
+<input type="hidden" id="is_mobile" value="{is_mobile}" >
+<header class="header">
+    <h3>
+        <span id="sucursal" class="sucursal" data-info="Ud. se encuentra en la sucursal: {suc}" title="Ud. se encuentra en la sucursal: {suc}">
+            ({sucursal})
+        </span>
+        <span id="suc_container">            
+            
+                {sucursales}             
+             
+        </span>
+    </h3>
+    <h1 class="emp">{emp}</h1>
+    <h3 class="main_usuario" id="{usu_nick}">
+		<a class="webmail" target="_blank" rel="noopener noreferrer" href="https://mail.inmopy.com:8443"><img src="img/mail.png" style="height: 16px; width: auto;margin: 0;padding: 0;" alt="Webmail Zimbra" title="Webmail Zimbra"></a>
+        
+        <span id="nombre_usuario" style="display:none">{usu_nombre}</span>
+        <span id="nick" >{usu_nick}</span>
+        <span id="avatar" class="avatar"  style="background-image: url(img/usuarios/{usu_nick}.jpg);" onclick="avatarClick()" ></span>
+        <input data-info="Cerrar Sesi&oacute;n" title="Cerrar Sesi&oacute;n" id="logOut" onclick="logOut()" class="button" type="button" value="Cerrar Sesi&oacute;n"/>
+    </h3>
+</header>
+<!-- end:   header -->
+
+<!-- begin: conten_begin -->
+<div class="content">
+    <img id="back_arrow" onclick="showMenu()" src="img/back_arrow.png" title="Atras" >
+<!-- end:   conten_begin -->
+
+<!-- begin: conten_end -->
+<div id="work_area" ></div> 
+  
+</div>
+<div id="status" style="background: yellow" ></div>  
+<!-- end:   conten_end -->
+
+<!-- begin: err_msg -->
+<div class="bad_session">  {err_msg} <script> setTimeout("redirectToLogin()",1500); </script>  </div>
+<!-- end:   err_msg -->
+
+<!-- begin: scripts -->
+
+<script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="js/main.js?_=333333333333333333333" ></script>
+<script type="text/javascript" src="js/functions.js?_=444444" ></script>
+<!-- end:   scripts -->

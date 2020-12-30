@@ -1,0 +1,82 @@
+<!-- begin: header -->
+<link rel="stylesheet" type="text/css" href="caja/CambioDivisas.css?_=XXXXXXXXXXX" />
+<script type="text/javascript" src="caja/CambioDivisas.js?_=XXXXXXXXXXXXXX"></script>
+<script type="text/javascript">
+    // Ultima cotizacion
+    var currentCotiz = {currentCotiz};
+</script>
+<!-- end:   header -->
+
+
+<!-- begin: cambio_divisas_head -->
+<table border="1" id="cambioDivisas" cellspacing="6">    
+    <thead>
+        <tr>
+            <th colspan="4">Cambio de Divisas</th>
+        </tr>
+    </thead>
+    <!-- end:   cambio_divisas_head -->
+
+    <!-- begin: cambio_divisas_body -->
+    <tbody>
+        <tr>
+            <td colspan="4">Fecha:<input size="10" data-err="si" type="text" id="cambioFecha" /><span id="data_error_status"></span><img style="display:none" id="cd_loader" src="/inmopy/img/loading_bar.gif" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <fieldset style="background:#DDDACD" >
+                    <legend style="background:white">Divisa en Caja</legend>
+                    <select class="moneda" id="com" onchange="getMonedasXDia($(this))"></select>
+                    <div id="salida"></div>
+                </fieldset>
+            </td>
+            <td colspan="2">
+                <fieldset style="background:#DDDACD">
+                    <legend style="background:white">Entrada de Divisa</legend>
+                    <select class="moneda" id="ch" onchange="getCotiz($(this))"></select>
+                    <div id="entrada"></div>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" id="en_caja" class="operaciones"></td>
+        </tr>
+        <tr>
+            <td colspan="4" id="info_com"></td>
+        </tr>
+        <tr>
+            <td colspan="2" id="info_salida" class="cotizaciones"></td>
+            <td colspan="2" id="info_entrada" class="cotizaciones"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Cantidad:<input id="cant_salida" type="text" onchange="calcCant()" onkeyup="changeStatus($(this))" data-status="ok" data-target="salida_lock" maxlength="11" size="11" value="0" />
+                <input id="salida_lock" type="checkbox" checked="checked" onchange="calcCant()" />
+                <label for="salida_lock"  style="display: none"></label>
+            </td>
+            <td colspan="2">
+                Cantidad:<input id="cant_entrada" type="text" onchange="calcCant()" onkeyup="changeStatus($(this))" data-status="ok" data-target="entrada_lock" maxlength="11" size="11" value="0" />
+                <input id="entrada_lock" type="checkbox" onchange="calcCant()" />
+                <label for="entrada_lock"></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" id="info_ch"></td>
+        </tr>
+
+    </tbody>
+
+    <!-- end:   cambio_divisas_body -->
+
+    <!-- begin: cambio_divisas_footer -->
+    <tr>
+        <td colspan="4" id="msj"></td>
+    </tr>
+    <tr>
+        <td colspan="4" id="operaciones" class="operaciones"></td>
+    </tr>
+    <tr>
+        <td colspan="4" id="procesar"><input type="button" value="Procesar" onclick="process()" disabled="disabled" /></td>
+    </tr>
+</table>
+<!-- end:   cambio_divisas_footer -->

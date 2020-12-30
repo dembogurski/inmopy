@@ -1,0 +1,84 @@
+<!-- begin: header -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" />     
+</head>
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Controles Fuera de Rango</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Factura</th>
+        <th>Usuario</th>
+        <th>Fecha</th> 
+        <th>Codigo</th>
+        <th>Lote</th>
+        <th>Descrip</th>
+        <th>Cantidad</th>
+        <th>Cant.Falla</th>
+        <th>Precio.Costo</th>
+        <th>Sis.Med</th>
+        <th>Cant.Med.</th>
+        <th>Tipo Desc</th>
+        <th>Dif</th>
+        <th>Tolerancia</th>
+        <th>Fuera Rango</th>        
+        <th>Valor</th>
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{factura}</td>
+    <td class="item">{usuario}</td>
+    <td class="itemc" title="{hora}">{fecha}</td> 
+    <td class="item">{codigo}</td>
+    <td class="item">{lote}</td>
+    <td class="item">{descrip}</td>
+    <td class="num">{cantidad}</td>
+    <td class="num">{cant_falla}</td>
+    <td class="num">{precio_costo}</td>
+    <td class="itemc">{sis_med}</td>
+    <td class="itemc">{cant_med}</td>
+    <td class="itemc">{tipo_desc}</td> 
+    <td class="num">{dif}</td>
+    <td class="num">{tolerancia}</td>
+    <td class="num">{fuera_rango}</td>    
+    <td class="num">{valor}</td>
+</tr>    
+ 
+<!-- end:   data -->
+ 
+<!-- begin: sub_total -->
+<tr  style="font-weight: bolder">
+    <td colspan="15" ></td>     
+    <td class="num">{sub_total}</td>      
+</tr>    
+<!-- end:   sub_total -->
+
+<!-- begin: total -->
+<tr style="font-weight: bolder">
+    <td colspan="15">Total</td>
+    <td class="num">{total}</td>   
+</tr>   
+ 
+<!-- end:   total -->
+
+
+<!-- begin: foot --> 
+</table>    
+<!-- end:   foot  -->

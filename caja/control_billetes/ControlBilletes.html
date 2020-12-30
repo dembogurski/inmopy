@@ -1,0 +1,377 @@
+<!-- begin: general_header noeval -->
+    <link rel="stylesheet" type="text/css" href="control_billetes.css" />
+    <script type="text/javascript" src="../../js/jquery-2.1.3.min.js" > </script> 
+    <script type="text/javascript" src="control_billetes.js" > </script>  
+   
+ 
+
+<!-- end:   general_header -->
+ 
+<!-- begin: query0_data_row -->
+<input type="hidden" value="{nro}" id="nro">
+<input type="hidden" value="{audit}" id="audit" > 
+<input type="hidden" value="{usuario}" id="usuario">
+
+<div id="mensaje" style="text-align: center;width: 60%;margin: 0 auto;display: none">Use el tabulador para moverse entre las celdas de cantidades</div>
+
+<table border="1" cellpadding="2" cellspacing="0" style="margin:6px auto" >
+    
+    <tr>
+        <td colspan="2" style="margin:0px;padding: 0px">
+            
+    <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="0">
+	  <tbody>
+		<tr>
+		  <td style="width: 30%;">N&deg;:{nro}</td>
+		  <td style="text-align: center;font-size: 17px">
+			<b>Marijoa</b></td>
+                  <td style="width: 30%;text-align: center"><span id="msg"></span></td>
+			 
+		</tr>
+                <tr> 
+                    <td style="text-align: center;border: solid lightgray 1px" colspan="3"> <big style="font-weight: bold;">  Control de Efectivo &nbsp;&nbsp;Suc: {suc}</big> </td> 
+		</tr> 
+                <tr>
+                    <td colspan="3" style="text-align:center" class="inputs_cab">
+                        <label class="label"><b>Tipo</b></label>    <input type="text" value="{tipo}" size="20" style="text-align:center" readonly="readonly">  &nbsp;&nbsp;
+                        <label class="label"><b>Fecha</b></label>   <input type="text" value="{fecha}" size="10" style="text-align:center" readonly="readonly">  &nbsp;&nbsp; 
+                        <label class="label"><b>Cajero</b></label>  <input type="text" value="{cajero}" size="12" style="text-align:center" readonly="readonly">  
+                    </td>            
+                </tr>
+	  </tbody>
+	</table>             
+        </td>       
+    </tr>   
+    
+ <tr> <td valign="top">
+         <table border="0" cellspacing="1"  cellpadding="0" id="Gs" >
+         <tr style="background:gold"> <th colspan="3">          GUARANIES         </th> </tr>
+         <tr><th>Billetes</th><th>Cantidad</th> <th>Total</th> </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="100000" id="b_100000"  size="10"  readonly="readonly"  >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_100000}" size="4" id="c_b_100000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_100000}" size="10" id="t_b_100000" name="tbgs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="50000" id="b_50000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_50000}" size="4" id="c_b_50000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_50000}" size="10" id="t_b_50000"  name="tbgs"     readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="20000" id="b_20000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_20000}" size="4" id="c_b_20000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_20000}" size="10" id="c_b_20000"   name="tbgs"    readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="10000" id="b_10000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_10000}" size="4" id="c_b_10000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_10000}" size="10" id="t_b_10000"  name="tbgs"    readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="5000" id="b_5000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_5000}" size="4" id="c_b_5000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_5000}" size="10" id="t_b_5000"  name="tbgs"    readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="2000" id="b_2000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_b_2000}" size="4" id="c_b_2000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_b_2000}" size="10" id="t_b_2000"   name="tbgs"   readonly="readonly"> </td>
+         </tr>
+         
+         <tr><th>Monedas</th><th> </th> <th> </th> </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="1000" id="m_1000" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_m_1000}" size="4" id="c_m_1000" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_m_1000}" size="10" id="t_m_1000" name="tbgs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="500" id="m_500" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_m_500}" size="4" id="c_m_500" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_m_500}" size="10" id="t_m_500" name="tbgs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="100" id="m_100" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_m_100}" size="4" id="c_m_100" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_m_100}" size="10" id="t_m_100" name="tbgs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="50" id="m_50" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{gs_c_m_50}" size="4" id="c_m_50" name="cbgs"> </td>
+            <td> <input class="tbill" type="text" value="{gs_t_m_50}" size="10" id="t_m_50" name="tbgs"   readonly="readonly"> </td>
+         </tr>
+           
+         <tr class="num" >
+            <td colspan="2"><b>Total Gs.&nbsp;&nbsp;</b>   </td>
+            <td> <input style="font-weight:bolder;" class="bill" type="text" value="0" size="10" id="total_gs"  readonly="readonly"> </td>
+         </tr>
+     </table>
+
+  </td>
+<td  valign="top">
+
+<table border="0" cellspacing="1"  cellpadding="0"  id="Rs" >
+<tr style="background:#009900"> <th colspan="3" align="center" > REALES   </th> </tr>
+         <tr><th>Billetes</th><th>Cantidad</th> <th>Total</th> </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="100" id="b_100" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_100}" size="4" id="c_b_100" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_100}" size="10" id="t_b_100" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="50" id="b_50" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_50}" size="4" id="c_b_50" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_50}" size="10" id="t_b_50"  name="tbrs"     readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="20" id="b_20" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_20}" size="4" id="c_b_20" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_20}" size="10" id="t_b_20"   name="tbrs"    readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="10" id="b_10" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_10}" size="4" id="c_b_10" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_10}" size="10" id="t_b_10"  name="tbrs"    readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="bill" type="text" value="5" id="b_5" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_5}" size="4" id="c_b_5" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_5}" size="10" id="t_b_5"  name="tbrs"    readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="2" id="b_2" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_2}" size="4" id="c_b_2" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_2}" size="10" id="t_b_2"   name="tbrs"   readonly="readonly"> </td>
+         </tr>
+          <tr class="num" >
+            <td> <input class="bill" type="text" value="1" id="b_1" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_b_1}" size="4" id="c_b_1" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_b_1}" size="10" id="t_b_1"   name="tbrs"   readonly="readonly"> </td>
+         </tr>
+
+         <tr><th>Monedas</th><th> </th> <th> </th> </tr>
+         <tr class="num" >
+            <td> <input class="mon" type="text" value="1" id="m_1" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_m_1}" size="4" id="c_m_1" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_m_1}" size="10" id="t_m_1" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="mon" type="text" value="0.50" id="m_0_50" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_m_0_50}" size="4" id="c_m_0_50" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_m_0_50}" size="10" id="t_m_0_50" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="mon" type="text" value="0.25" id="m_0_25" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_m_0_25}" size="4" id="c_m_0_25" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_m_0_25}" size="10" id="t_m_0_25" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="mon" type="text" value="0.10" id="m_0_10" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_m_0_10}" size="4" id="c_m_0_10" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_m_0_10}" size="10" id="t_m_0_10" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+         <tr class="num" >
+            <td> <input class="mon" type="text" value="0.05" id="m_0_05" size="10"  readonly="readonly" >  </td>
+            <td> <input class="cant" type="text" value="{rs_c_m_0_05}" size="4" id="c_m_0_05" name="cbrs"> </td>
+            <td> <input class="tbill" type="text" value="{rs_t_m_0_05}" size="10" id="t_m_0_05" name="tbrs"   readonly="readonly"> </td>
+         </tr>
+
+         <tr class="num" >
+            <td colspan="2"><b>Total Rs.&nbsp;&nbsp;</b> </td>
+            <td> <input style="font-weight:bolder;" class="bill" type="text" value="0" size="10" id="total_rs"  readonly="readonly"> </td>
+         </tr>
+</table>
+
+</td> </tr>
+
+
+<tr>
+   <td>
+       <table border="0" cellspacing="1"  cellpadding="0"  id="Ps" >
+        <tr style="background:orange"> <th colspan="3" align="center" > PESOS ARGENTINOS   </th> </tr>
+                 <tr><th>Billetes</th><th>Cantidad</th> <th>Total</th> </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="100" id="b_100" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_100}" size="4" id="c_b_100" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_100}" size="10" id="t_b_100" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="50" id="b_50" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_50}" size="4" id="c_b_50" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_50}" size="10" id="t_b_50"  name="tbps"     readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="20" id="b_20" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_20}" size="4" id="c_b_20" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_20}" size="10" id="t_b_20"   name="tbps"    readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="10" id="b_10" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_10}" size="4" id="c_b_10" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_10}" size="10" id="t_b_10"  name="tbps"    readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="5" id="b_5" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_5}" size="4" id="c_b_5" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_5}" size="10" id="t_b_5"  name="tbps"    readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="2" id="b_2" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_2}" size="4" id="c_b_2" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_2}" size="10" id="t_b_2"   name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="1" id="b_1" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_b_1}" size="4" id="c_b_1" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_b_1}" size="10" id="t_b_1"   name="tbps"   readonly="readonly"> </td>
+                 </tr>
+
+                 <tr><th>Monedas</th><th> </th> <th> </th> </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="1" id="m_1" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_m_1}" size="4" id="c_m_1" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_m_1}" size="10" id="t_m_1" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.50" id="m_0_50" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_m_0_50}" size="4" id="c_m_0_50" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_m_0_50}" size="10" id="t_m_0_50" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.25" id="m_0_25" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_m_0_25}" size="4" id="c_m_0_25" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_m_0_25}" size="10" id="t_m_0_25" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.10" id="m_0_10" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_m_0_10}" size="4" id="c_m_0_10" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_m_0_10}" size="10" id="t_m_0_10" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.05" id="m_0_05" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{ps_c_m_0_05}" size="4" id="c_m_0_05" name="cbps"> </td>
+                    <td> <input class="tbill" type="text" value="{ps_t_m_0_05}" size="10" id="t_m_0_05" name="tbps"   readonly="readonly"> </td>
+                 </tr>
+
+                 <tr class="num" >
+                    <td colspan="2"><b>Total Ps.&nbsp;&nbsp;</b> </td>
+                    <td> <input style="font-weight:bolder;" class="bill" type="text" value="0" size="10" id="total_ps"  readonly="readonly"> </td>
+                 </tr>
+        </table>
+
+
+   </td>
+
+   <td>
+
+        <table border="0" cellspacing="1"  cellpadding="0"   id="Us">
+        <tr style="background:#CCFFFF"> <th colspan="3" align="center" > DOLARES   </th> </tr>
+                 <tr><th>Billetes</th><th>Cantidad</th> <th>Total</th> </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="100" id="b_100" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_100}" size="4" id="c_b_100" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_100}" size="10" id="t_b_100" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="50" id="b_50" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_50}" size="4" id="c_b_50" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_50}" size="10" id="t_b_50"  name="tbb_"     readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="20" id="b_20" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_20}" size="4" id="c_b_20" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_20}" size="10" id="t_b_20"   name="tbb_"    readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="10" id="b_10" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_10}" size="4" id="c_b_10" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_10}" size="10" id="t_b_10"  name="tbb_"    readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="bill" type="text" value="5" id="b_5" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_5}" size="4" id="c_b_5" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_5}" size="10" id="t_b_5"  name="tbb_"    readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="2" id="b_2" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_2}" size="4" id="c_b_2" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_2}" size="10" id="t_b_2"   name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                  <tr class="num" >
+                    <td> <input class="bill" type="text" value="1" id="b_1" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_b_1}" size="4" id="c_b_1" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_b_1}" size="10" id="t_b_1"   name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+
+                 <tr><th>Monedas</th><th> </th> <th> </th> </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="1" id="m_1" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_m_1}" size="4" id="c_m_1" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_m_1}" size="10" id="t_m_1" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.50" id="m_0_50" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_m_0_50}" size="4" id="c_m_0_50" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_m_0_50}" size="10" id="t_m_0_50" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.25" id="m_0_25" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_m_0_25}" size="4" id="c_m_0_25" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_m_0_25}" size="10" id="t_m_0_25" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.10" id="m_0_10" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_m_0_10}" size="4" id="c_m_0_10" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_m_0_10}" size="10" id="t_m_0_10" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+                 <tr class="num" >
+                    <td> <input class="mon" type="text" value="0.05" id="m_0_05" size="10"  readonly="readonly" >  </td>
+                    <td> <input class="cant" type="text" value="{us_c_m_0_05}" size="4" id="c_m_0_05" name="cbb_"> </td>
+                    <td> <input class="tbill" type="text" value="{us_t_m_0_05}" size="10" id="t_m_0_05" name="tbb_"   readonly="readonly"> </td>
+                 </tr>
+
+                 <tr class="num" >
+                    <td colspan="2"><b>Total Us.&nbsp;&nbsp;</b> </td>
+                    <td> <input style="font-weight:bolder;" class="bill" type="text" value="0" size="10" id="total_us"  readonly="readonly"> </td>
+                 </tr>
+        </table>
+
+
+   </td>
+</tr>
+
+<tr>
+   <td colspan="2"><b>Cotizaciones de Monedas </b><br>
+       <label>Real:&nbsp;</label><input class="cotiz" type="text" value="{cotiz_rs}"  id="cotiz_rs" onchange=sumar("Rs") size="6"  >&nbsp;&nbsp;
+   <label>Peso:&nbsp;</label><input class="cotiz" type="text" value="{cotiz_ps}"  id="cotiz_ps" onchange=sumar("Ps") size="6"  >&nbsp;&nbsp;
+   <label>Dolar:&nbsp;</label><input class="cotiz" type="text" value="{cotiz_us}"  id="cotiz_us" onchange=sumar("Us") size="6"  >
+   </td>
+</tr>
+<tr>
+<td colspan="2" id="pie"> <label>TOTAL Gs:&nbsp;&nbsp;</label><input class="cotiz" type="text" style="font-weight:bolder;" value="0"  id="total_all" size="18" readonly="readonly" >&nbsp;&nbsp;
+    &nbsp; <label style="font-size:16px;font-weight: bolder">Estado:&nbsp;</label><span  style="font-size:16px;" id="estado">{estado}</span>&nbsp; <input type="button" value="cerrar" style="" onclick="cerrarControl()" class="boton" id="cerrar">
+     <input type="button"   value=" Firmar " class="boton" onclick="getPassword()" id="firmar" style="display:none">
+</td>
+</tr>
+
+ 
+
+</table>
+<div style="text-align: center;font-size: 10px">{fecha_hora}</div>
+<br>
+
+<div style="text-align: center"> <b>Elaborado por:&nbsp; _____________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verificado por:&nbsp; _____________ </b>     </div>
+
+
+<div id="verificar" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center">
+    <label>Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24" value=""><br>
+     
+    <input type="button"   value="Cancelar" onclick=javascript:$("#verificar").fadeOut()>    <input type="button"   value="Aceptar"  onclick="firmarControl()"> <br>
+    <span id="msg_pw"></span>
+</div>
+
+<!-- end:    query0_data_row -->
+ 
+ 
+
+
+ 

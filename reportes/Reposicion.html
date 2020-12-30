@@ -1,0 +1,672 @@
+<!-- begin: header noeval -->
+<!DOCTYPE html>
+<html lang="es">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Reposicion</title>
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+      <script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script> 
+      <link rel="stylesheet" type="text/css" href="Reposicion.css?_=15ZX325ww499dc80887"/>
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css?_=15ZX325ww499dc80887"/>
+      <script>
+         var current_suc = ""; 
+          
+         $(function(){
+            // Seteos iniciales
+            sessionStorage.clear(); // Limpiar session storage
+            $("div.loader").hide(); // Ocutal loades
+            $("div#listaLotes").hide(); // Ocultal Lista de lotes
+            //  Mostrar loader al hacer peticiones AJAX
+            $( document ).ajaxStart(function() {
+               $("div.loader").show();
+            }).ajaxStop(function(){
+               $("div.loader").hide();
+            });
+            // Hacer dragable solo al hacer clic en el area designada
+            $(".drag").mousedown(
+                function(){
+                    $(this).closest("div.frame").draggable();
+                }
+            );
+            $(".drag").mouseup(
+                function(){
+                    $(this).closest("div.frame").draggable("destroy");
+                }
+            );
+           
+           // Mostrar lotes segun criterio de seleccion 
+           $("td.lotes").click(function(){
+               $("div#listaLotes table.tablaListaLotes tbody, td.listaLoteColor").empty();
+               var tr = $(this).closest("tr");
+               current_suc = $($("tr#cab th").get($(this).index())).text();
+               var term = $("#term").html();
+               var datos = {
+                  "action" : "listarLotes",
+                  "ItemCode" : $("span#ItemCode").text(),
+                  "stockCrit" : $("input#stockCrit").val(),
+                  "suc" : current_suc,
+                  "sucOrigen" : opener.getSuc(),
+                  "color" : tr.find("td.Code").text(),
+                  "colorCodFab" : (tr.find("td.ColorCodFab").is(":visible"))?tr.find("td.ColorCodFab").text():'%',
+                  "term" : term,
+               };
+
+               $("td.listaLoteColor").append(
+                   $("<p/>",{
+                       "text": "Color: "
+                }).append(
+                    $("<span/>",{
+                        "class": "colorSeleccionado",
+                        "text": tr.find("td.Name").text(),
+                        "data-Code":tr.find("td.Code").text()
+                        })
+                  )
+               );
+
+               if(tr.find("td.ColorCodFab").is(":visible")){
+                    $("td.listaLoteColor").append(
+                        $("<p/>",{
+                            "text":"FabColorCod: "
+                        }).append(
+                            $("<span/>",{
+                                "class": "FabColorCodSeleccionado",
+                                "text": tr.find("td.ColorCodFab").text()
+                            })
+                        )
+                    );
+               }
+
+               $.post("Reposicion.php",datos,function(data){
+                   $("span.colorSeleccionado").text(function(){return $(this).text()+', Lotes:'+data.length;});
+                  data.forEach(function(dt,i){
+                     var tr = $("<tr/>");
+                     var doc = $("<small/>");
+                     var fallas = '';
+                     var img = '';
+                     $.each(dt,function(key, value){
+                        switch(key){
+                           case 'doc':
+                              if(value == 'Libre'){
+                                  if(current_suc !== opener.getSuc()){  
+                                     doc.addClass('libre');
+                                     doc.click(function(){insertarLoteNotaPedExtraData($(this))});
+                                  }else{
+                                     doc.addClass('same_suc');
+                                     value = "En ["+current_suc+"]";
+                                  }
+                              }
+                           doc.text(value);
+                           break;
+                           case 'n_nro':
+                           case 'suc':
+                           doc.text(function(){
+                              return ($.trim(value) == '')?$(this).text():$(this).text() + ',('+value+')';
+                           });
+                           break;
+                           case 'fallas': 
+                               fallas =  $.trim(value) ; 
+                           break;
+                           case 'lote':
+                              $("<td/>",{"class":key+'_'+value,"text":value}).appendTo(tr);
+                           break;
+                           case 'img':
+                              img = value;
+                           break;
+                              case 'precio_1':
+                              tr.attr("data-precio1",value);
+                              break;
+                           case 'um':
+                              tr.attr("data-um",value);
+                           break;
+                           default:
+                              $("<td/>",{"class":key,"text":value}).appendTo(tr);
+                           break;
+                        }
+                     });
+                     imgT = $("<img/>",{"class":"img","onerror":"noImage($(this))","height": "16px","src":imgURI+img+'.thum.jpg'});
+                     imgBtn = $("<button/>",{"class":"imgBtn","data-img":img,"onclick":"verImagen($(this))"}).append(imgT);
+                     tdImg = $("<td/>",{"class":"img"}).append(imgBtn);
+                     tdImg.appendTo(tr);
+                     $("<td/>",{"class":"falla","text":fallas}).appendTo(tr);
+                     ($("<td/>").append(doc)).appendTo(tr);
+                     tr.appendTo("div#listaLotes table.tablaListaLotes tbody");
+                      $(".libre").parent().css("text-align","center");
+                  });
+                  if($("div#listaLotes table.tablaListaLotes tbody tr").length>0 && !$("div#listaLotes").is(":visible")){
+                     $("div#listaLotes").show();
+                  }
+                  var pdidoNro = $("span.pedido_"+datos.suc).data("nro");
+                  $("span#procPed").data("suc",datos.suc);
+                  $("span#procPed").text((pdidoNro)?pdidoNro:'N/A');
+               },"json");
+            });
+            resaltar();
+            
+         });
+         
+
+         // Resalda celdas de la tabla segun criterio de stock
+         function resaltar(){
+            
+            var color = $("div#colorMuestra").css("background-color");
+            var val1 = eval(($("input#val1").val()));
+            var condicion = $("select#criterio option:selected").val();
+            var condicionPos = $("select#criterio option:selected").index();
+            // Resetea los que ya tienen el color seleccionado
+            $("td.lotes[style='background-color: "+color+";']").css("background-color","initial");
+            $("span[class^='infoResaltar_'][style='background-color: "+color+";']").remove();
+            
+            if(condicion == 'entre'){
+               $("span."+"infoResaltar_"+condicionPos+"_"+val1+"_y_"+val2).remove();
+               var val2 = eval(($("input#val2").val()));
+               $("td.lotes").each(function(){
+                  var stk = 0;
+                  try{
+                     stk = eval(($(this).text()).replace(/\./g,'').replace(/,/g,'.'));
+                     
+                  }catch(e){
+                     console.log($(this).text());
+                  }
+                  if(stk >= val1 && stk <= val2){
+                     $(this).css("background-color",color);
+                  }
+               });
+               $("<span/>",{
+                  "class":"infoResaltar_"+condicionPos+"_"+val1+"_y_"+val2,
+                  "text":"Stock entre "+val1+" y "+val2
+               }).css("background-color",color).appendTo("div#info");
+            }else{
+               $("span."+"infoResaltar_"+condicionPos+"_"+val1).remove();
+               $("td.lotes").each(function(){
+                  var stk = 0;
+                  try{
+                     stk = eval(($(this).text()).replace(/\./g,'').replace(/,/g,'.'));
+                     
+                  }catch(e){
+                     console.log($(this).text());
+                  }
+                  if(eval(stk + condicion + val1)){
+                     $(this).css("background-color",color);
+                  }
+               });
+               $("<span/>",{
+                  "class":"infoResaltar_"+condicionPos+"_"+val1,
+                  "text":"Stock "+condicion+" "+val1
+               }).css("background-color",color).appendTo("div#info");
+            }
+            limpiarInfo();
+         }
+         // Muestra / Oculta segundo valor de criterio para resaltar
+         function verifCondicion(){
+            $("input#val2").prop("disabled",true);
+            if($("select#criterio option:selected").val() == 'entre'){
+               $("input#val2").prop("disabled",false);
+            }
+         }
+         // Seleccionar color con el cual resaltar las celdas 
+         function setColor(target){
+            var color = target.css("background-color");
+            $("div#colorMuestra").css("background-color",color);
+            resaltar();
+            $("div#colores ul").hide();
+         }
+         // Mostrar / Ocultar Lista de colores
+         function listarColor(){
+            if($("div#colores ul").is(":visible")){
+               $("div#colores ul").hide();
+            }else{
+               $("div#colores ul").show();
+            }
+         }
+         // Elimina información de criterios que ya no se usan
+         function limpiarInfo(){
+            $("span[class^='infoResaltar_']").each(function(){
+               var color = $(this).css('background-color');
+               if($("td.lotes[style='background-color: "+color+";']").length == 0){
+                  $(this).remove();
+               }
+            });
+         }
+         
+         /* function disponible(suc){
+            var target = $("td[class^=lote_]:not(.verificado)").get(0);
+            var tr = $(target).closest("tr");
+            var datos = {
+            "action" : "disponible",
+            "lote" : $(target).text(),
+            "suc" : suc
+            };
+            $(target).addClass("verificado");
+            if($("td[class^=lote_]:not(.verificado)").length > 0){
+               disponible(suc);
+            }
+         } */
+         // Cierra sub ventanas
+         function cerrarVentanaLotes(target){
+            target.closest("div.frame").hide();
+         }
+        // Muestra detalle de pedido de traslado
+         function pedidoDetListar(target){
+            $("div#detallePedido table tbody").empty();
+            $("span#nroPedido").text(target.data('nro'));
+            var param = {
+               "action" : "getPedidosDetalle",
+               "n_nro" : target.data('nro'),
+               usuario: window.opener.getNick()
+            };
+            $.post("Reposicion.php",param, function(data){   
+               if(data.length > 0){
+                  data.forEach(function(d, i){
+                    var tr = $("<tr/>",{"id":d.id_det});
+                    $.each(d,function(key, value){
+                        switch(key){
+                            case 'id_det':
+                            break;
+                            default:
+                            $("<td/>",{"text":value,"class":key}).appendTo(tr);
+                            break;
+                        }
+                    });
+                    $($("<td/>").append($("<button/>",{
+                        "text":"eliminar",
+                        "class":"eliminarLoteNP",
+                        "onclick":"eliminarLoteNotaPed($(this))"
+                        }))).appendTo(tr);
+                    $(tr).appendTo("div#detallePedido table tbody");
+                  });
+               }
+                $("div#detallePedido").show();
+            },"json");
+         }
+         // Prepara valores para insertar detalle de nota de pedido
+         function insertarLoteNotaPedExtraData(target){
+            $("div#insertarEnPedido").show();
+             var tr = target.closest("tr");
+             var stock = $(tr.find("td.stock")).text();   
+             $("input#cantidad").val(stock);
+             $("input#cantidad").data("stock", stock);
+             var selectColor = $("span.colorSeleccionado").text().split(', ')[0];
+             console.log("Stock "+stock + " pedir: "+tr.attr("data-precio1"));
+             var precio_cat = tr.attr("data-precio1");
+             var um = tr.attr("data-um");
+             var det = {
+                "action" : "addLoteSolicitudTraslado",
+                "cantidad" : stock,  //"68.00",
+                "codigo" : $("span#ItemCode").text(),
+                "color" : selectColor,
+                "descrip" : $("span#ItemName").text()+'-'+selectColor,
+                "lote" : $(target.closest("tr").find("td[class^=lote_]")).text(),
+                "mayorista" : "No",
+                "nro_nota" : $("span#procPed").text(),
+                "obs" : "",
+                "urge" : "No",
+                "usuario" : window.opener.getNick(),
+                "precio_cat":precio_cat,
+                "precio_venta":precio_cat,
+                "um":um 
+                };
+            //console.log(det);
+            $("#insertLote").text(det.lote);
+            sessionStorage.setItem(det.lote, JSON.stringify(det));
+            verifNUpdate($("input#cantidad"));
+        }
+
+        // Verifica si ya existe una nota de pedido Abierta antes de insertar en nota de pedido
+        // Si no existe genera uno
+        function insertarLoteNotaPedVerif(){
+            var sendData = JSON.parse(sessionStorage.getItem($("#insertLote").text()));
+            sendData.destino = $("span#procPed").data("suc");
+            if(sendData.nro_nota == 'N/A'){    
+                var genPedido = {
+                    "action":"generarSolicitudTraslado",
+                    "suc":opener.getSuc(),
+                    "sucd":$("span#procPed").data("suc"),
+                    "usuario":opener.getNick(),
+                    "cod_cli":"C000018",
+                    "cliente":"CORPORACION TEXTIL S.A",
+                    "tipo":"tejidos"
+                };
+                $.post("../pedidos/SolicitudTrasladoMobile.class.php",genPedido,function(data){
+                    $("#procPed").text(data[0].Nro);
+                   
+                    $("<span/>",{
+                        "id":"id_pedido_"+data[0].Nro,
+                        "class":"pedido_"+genPedido.sucd,
+                        "data-nro":data[0].Nro,
+                        "data-suc":genPedido.sucd,
+                        "onclick":"pedidoDetListar($(this))",
+                        "text":data[0].Nro+" a (" + genPedido.sucd + ")"
+                    }).appendTo("#listaPedidos");
+                    
+                    sendData.nro_nota = data[0].Nro;
+                    
+                    insertarLoteNotaPed(sendData);
+                },"json");
+            }else{
+                insertarLoteNotaPed(sendData);
+            }
+        }
+ 
+        // Inserta un lote en la nota de pedido de traslado
+        function insertarLoteNotaPed(sendData){
+            var tr = $(".lote_"+$("#insertLote").text()).closest("tr");
+            $.post("../pedidos/SolicitudTrasladoMobile.class.php",sendData,function(data){
+                tr.find(".libre").text("Pedido,("+$("#procPed").text()+"),("+$("#suc").text()+")");
+                tr.find(".libre").removeClass("libre");
+                $("#insertNPed").prop("disabled",true);
+                $("div#insertarEnPedido").hide(function(){
+                    $("#obs").val("");
+                    $("#urge,#mayorista").prop("checked",false);
+                });
+            },"json");
+        }
+        // Elimina un lote de la nota de pedido
+        function eliminarLoteNotaPed(target){
+            var tr = target.closest("tr");
+            var eliminar = {
+                "action":"borrarLoteDeSolicitudTraslado",
+                "lote":$(tr.find("td.lote")).text(),
+                "nro_nota":$("#nroPedido").text()
+            };
+            $.post("../pedidos/SolicitudTrasladoMobile.class.php",eliminar,function(data){
+                tr.remove();
+            });
+        }
+        
+        // Pone en estado pendiente la nota de pedido
+        function cambiarEstadoNotaPed(){
+            var nro_pedido = $("#nroPedido").text();
+            
+            var cambiarEstado = {
+                "action":"cambiarEstadoSolicitudTraslado",
+                "estado":"Pendiente",
+                "nro":nro_pedido,
+                "usuario":opener.getNick()
+            }
+            if($("#detallePedido tbody td.lote").length > 0){
+                $.post("../pedidos/SolicitudTrasladoMobile.class.php",cambiarEstado,function(data){
+                    $("div#detallePedido").hide(function(){
+                        
+                        var sucd = $("#id_pedido_"+cambiarEstado.nro).attr("data-suc");
+                        if(sucd == "00"){
+                           enviarNotificacionTelegramPickers(cambiarEstado.nro);
+                        }
+                        
+                        $("span[class^='pedido_'][data-nro='"+cambiarEstado.nro+"']").remove();
+                    });
+                });
+            }
+        }
+
+        // Actualiza valores en datos de insersion de lote en nota de pedido
+        function verifNUpdate(target){
+            var lote = $("#insertLote").text();
+            var data = JSON.parse(sessionStorage.getItem(lote));
+            
+            switch(target.prop("id")){
+                case 'mayorista':
+                case 'urge':
+                data[target.prop("id")] = target.is(":checked")?'Si':'No';
+                break;
+                case 'obs':
+                    var stock = parseFloat($(".lote_"+lote).parent().find(".stock").text());
+                    var cant = $("#cantidad").val();
+                
+                    if(cant < stock){
+                           var ob = target.val();
+                           data.obs = "Fraccionar en: "+cant+", "+ob;
+                    }else{
+                        data.obs = target.val();
+                    }
+                break;
+                case 'cantidad':
+                var cant = parseFloat(target.val());
+                var stock = parseFloat(target.data("stock"));
+                if(cant <= stock){
+                    $("#insertNPed").prop("disabled",false);
+                    data.cantidad = cant;
+                    if(cant < stock){
+                        var ob = $("#obs").val();
+                        data.obs = "Fraccionar en: "+cant+", "+ob;
+                    }
+                }else{
+                    $("#insertNPed").prop("disabled",true);
+                }
+                break;
+            }
+            //console.log(data);
+            sessionStorage.setItem(lote, JSON.stringify(data));
+        }
+        function verImagen(target){
+           $("#imageContent img").remove();
+           var uri = imgURI+target.data("img")+".jpg";
+           var img = $("<img/>",{"src":uri,"style":"max-width:97%","onclick":"cerrarVentanaLotes($(this))"});
+           $("#imageContent").append(img);
+           $("#imageViewer").show();
+        }
+        function noImage(Obj){
+            Obj.prop("src",imgURI+"/0/0.jpg");
+        }
+        function getSaludo(){
+         var fecha = new Date(); 
+         var hora = fecha.getHours();
+
+         if(hora >= 0 && hora < 12){
+           var texto = "<b>Que tenga un buen dia!</b>";
+           //imagen = "img/dia.png";
+         }
+
+         if(hora >= 12 && hora < 18){
+           var texto = "<b>Buen resto de jornada!</b>";
+           //imagen = "img/tarde.png";
+         }
+
+         if(hora >= 18 && hora < 24){
+           var texto = "<b>Buenas Noches!</b>";
+           //imagen = "img/noche.png";
+         }
+         return texto;
+       }        
+        function enviarNotificacionTelegramPickers(nro){
+    
+            var usuario = window.opener.getNick();
+            var saludo = getSaludo();
+            var suc = window.opener.getSuc();
+              
+
+            var msg = "<b>Hay una nuevo Pedido de Reposicion </b> de <b>Suc.:</b> "+suc+" Usuario: <i><b>"+usuario+"</b></i>, <b>Pedido Nro:</b>  "+nro+".    Para acceder al sistema haga click <a href='http://192.168.2.222'>Aqui</a>  "+saludo;
+
+            $.ajax({
+                type: "POST",
+                url: "../utils/telegram/Telegram.class.php",
+                data: {action: "enviarMensajePickers", msg: msg},
+                async: true,
+                dataType: "json",
+                beforeSend: function () {
+                    $("#result").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                },
+                success: function (data) {   
+                    if (data.ok === true) {
+                        $("#result").html("Ok notificacion de Telegram enviada"); 
+                    } else { 
+                        $("#result").html("<br>Error al enviar notificacion a Telegram");   
+                    }                
+                },
+                error: function (e) {                 
+                    $("#result").html("Error al enviar notificacion a Telegram:  " + e);   
+                    //errorMsg("Error al enviar notificacion a Telegram:  " + e, 10000);
+                }
+            }); 
+        } 
+      </script>
+      
+</head>
+<!-- end: header noeval -->
+
+<!-- begin: bodyTop -->
+<body>
+   
+   <script>
+      var imgURI = "{imgURI}";
+   </script>
+   <input type="hidden" id="stockCrit" value="{stockCrit}">
+   <table style="width: 90%">
+      <tr>
+         <td>
+            <table style="width: 100%;">
+               <tr>
+                  <th>
+                     {emp} <br>
+                     Reporte de Reposici&oacute;n
+                  </th>
+                  <th rowspan="2">
+                     <small>
+                        {fecha}<br>
+                        {user}
+                     </small>
+                  </th>
+               </tr>
+               <tr>
+                  <td align="center">
+                     Articulo: <span id="ItemName">{ItemName}</span> (<span id="ItemCode">{select_articulos}</span>), Suc: <span id="suc">{suc}</span>  Term: <span id="term">{term}</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td colspan="2" id="listaPedidos">Pedidos Abiertos: {listaPedidos}</td>
+               </tr>
+               <tr>
+                  <td>
+                     Resaltar Stock: 
+                     <select id="criterio" onchange="verifCondicion()">
+                        <option value="<" selected><</option>
+                        <option value=">">></option>
+                        <option value="entre">entre</option>
+                     </select>
+                     <input type="text" id="val1" value="10" id="resaltar" size="3">
+                     y
+                     <input type="text" id="val2" value="0" id="resaltar" size="3" disabled>
+                     <div id="colores">
+                        <button onclick="listarColor()"><div id="colorMuestra" style="background-color: #e67e22;cursor: pointer"></div></button>
+                        <ul id="listaColores">
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #e67e22;cursor: pointer"></div></li>
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #8e44ad;cursor: pointer"></div></li>
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #3498db;cursor: pointer"></div></li>
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #EAB543;cursor: pointer"></div></li>
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #d35400;cursor: pointer"></div></li>
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #bdc3c7;cursor: pointer"></div></li>   
+                           <li><div onclick="setColor($(this))" class="color" style="background-color: #BDC581;cursor: pointer"></div></li>   
+                        </ul>
+                     </div>
+                     <div id="info">
+
+                     </div>
+                  </td>
+                  <td> <div class="loader"></div> </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td>
+             
+         <table style="width: 100%">
+<!-- end: bodyTop -->
+<!-- begin: dataHeader -->
+            <tr id="cab">
+               <th>Cod</th>
+               <th>Color</th>
+               <th {showCCF}>ColorCodFab</th>
+               {sucs}
+            </tr>
+<!-- end: dataHeader -->
+<!-- begin: dataBody -->
+            <tr>
+               <td class="Code item">{Code}</td>
+               <td class="Name item">{Name}</td>
+               <td class="ColorCodFab item" {showCCF}>{U_color_cod_fabric}</td>
+               {stockXSuc}
+            </tr>
+<!-- end: dataBody -->
+<!-- begin: EndReport -->
+         </table>
+      
+      </td>
+      </tr>
+   </table>
+   <div id="listaLotes" class="frame">
+      <table class="tablaListaLotes">    
+         <thead>
+            <tr>
+               <td colspan="7" class="listaLoteColor drag">
+
+               </td>
+            </tr>
+            <tr>
+               <td colspan="7">
+                  <div id="lotesHeader">
+                     Pedido Nro.: <span id="procPed"></span>
+                     <button onclick="cerrarVentanaLotes($(this))">X</button>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <th>Lote</th><th>Padre</th><th>Dise&ntilde;o</th><th>Stock</th><th>Img</th><th>Fallas</th><th>Estado</th>
+            </tr>
+         </thead>
+         <tbody></tbody>
+      </table>
+      <div id="insertarEnPedido" class="frame">
+         <table>
+            <tr>
+                <td colspan="2" class="drag">
+                    <div id="insertarEnPedidoHeader">
+                        Lote: <span id="insertLote"></span>
+                        <button onclick="cerrarVentanaLotes($(this))">X</button>
+                    </div>
+                </td>
+                </tr>
+             <tr>
+                 <td align="right">Catntidad:</td>
+                 <td>
+                     <input type="text" size="5" id="cantidad" onkeyup="verifNUpdate($(this))">
+                     <button onclick="insertarLoteNotaPedVerif()" id="insertNPed" disabled>Insertar</button>
+                </td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" onchange="verifNUpdate($(this))" id="mayorista"><label for="mayorista">Mayorista</label></td>
+                 <td><input type="checkbox" onchange="verifNUpdate($(this))" id="urge"><label for="urge">Urgente</label></td>
+             </tr>
+             <tr>
+                 <td colspan="2"><textarea id="obs" onkeyup="verifNUpdate($(this))" cols="30" rows="3"></textarea></td>
+             </tr>
+         </table>
+      </div>
+   </div>
+   <div id="detallePedido" class="frame">
+      <table>
+         <thead>
+            <tr>
+            <td colspan="6" class="drag">
+               <div id="detalleHeader">
+                   Pedido: <span id="nroPedido"></span><input type="button" value="Poner en Proceso" onclick="cambiarEstadoNotaPed()">
+                  <button onclick="cerrarVentanaLotes($(this))">X</button>
+               </div>
+            </td>
+         </tr>
+            <tr>
+               <th>Lote</th><th>Descrip</th><th>Cant</th><th>Mayorista</th><th>Urgente</th><th></th>
+            </tr>
+         </thead>
+         <tbody></tbody>
+      </table>
+   </div>
+   <div id="imageViewer" class="frame" style="width: 300px;height: 200px">
+      <div id="imageContent">
+         <span class="informacion">Click en la Imagen Para Cerrar</span>
+      </div>
+   </div>
+</body>
+</html>
+<!-- end: EndReport -->

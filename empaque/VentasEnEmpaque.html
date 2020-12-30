@@ -1,0 +1,194 @@
+<!-- begin: header -->
+     <link rel="stylesheet" type="text/css" href="empaque/VentasEnEmpaque.css?_=0" />
+    <script type="text/javascript" src="empaque/VentasEnEmpaque.js?_=454546546456" ></script>  
+<!-- end:   header -->
+
+<!-- begin: ventas_empaque_cab -->
+
+<input type="hidden" id="images_url" value="{images_url}">
+<input type="hidden" id="margen_tolerancia" value="{margen_tolerancia}">
+
+<div id="verificar" data-fila="-1" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center;z-index: 10">
+    <label>Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24" value=""><br>
+     
+    <input type="button"   value="Cancelar" onclick="cerrarVerificacion()">    <input type="button"   value="Aceptar"  onclick="autorizarMalCorte()"> <br>
+    <span id="msg_pw"></span>
+</div> 
+
+<div style="text-align: center; padding-top: 6px">
+    <div id="procesandoXUsuarios"><div id="pendientes" onclick="mostrarOcultarPr()">0</div><div id="listaOP"></div></div>
+    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: 0px;margin-top:-5px;cursor: pointer" onclick="recargar()">    
+    <input type="button" value="Liberar Ventas en Proceso ({usuario})" id="liberar_ventas_pr" class="pr" onclick="liberarControleEnProceso()">
+</div>
+
+<table id="ventas" border="1"  cellspacing="0" cellpadding="0"  style="border-collapse: collapse;margin: 0 auto"  >
+    <tr class="titulo_factura"><th colspan="12">Facturas en Empaque de:  &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo">
+        <th style="width: 4%">N&deg;</th> 
+        <th style="width: 6%">Fecha</th>  
+        <th style="width: 4%">Vendedor</th>  
+        <th style="width: 8%">CI/RUC</th> 
+        <th style="width: 44%" >Cliente</th>  
+        <th style="width: 8%">Total Bruto</th>
+        <th style="width: 6">Descuento</th>
+        <th style="width: 8%">Total Neto</th> 
+        <th style="width: 6%">Estado</th>
+        <th style="width: 6%">Controlado</th> 
+    </tr>
+<!-- end:   ventas_empaque_cab -->
+
+<!-- begin: ventas_empaque_data -->
+<tr id="fact_{nro}" class="venta_empaque fila_venta_{j}">
+    <td class="itemc clicable">{nro}<td class="itemc" id="fecha_{nro}">{fecha}</td> 
+     <td  class="itemc vendedor" data-doc="{doc}" data-tel="{tel}" data-nombre="{nombre}" data-ticket="{ticket}" data-notacredito="{notacredito}" >{vendedor}</td>  
+    <td class="item clicable" data-info="Seleccionar para Controlar" ><span id="ruc_{nro}" data-cod_cli="{cod_cli}" data-categoria="{cat}">{ruc}</span></td>
+    <td class="item clicable" data-info="Seleccionar para Controlar" ><span id="cliente_{nro}">{cliente}</span></td> 
+    <td class="num clicable" id="total_bruto_{nro}" data-info="Seleccionar para Controlar" title="Vendedor: {vendedor}" >{total_bruto}</td> 
+    <td class="num" id="total_desc_{nro}">{alert_desc}{total_desc}</td> 
+    <td class="num" id="total_{nro}" style="font-weight: bolder">{total_neto}</td>  
+    <td  class="itemc estado_factura" style="width: 8%" id="estado_{nro}" data-info="Abrir esta Factura"><img src="img/arrow-back.png" class="back" title="Abrir Factura"  onclick="abrirFactura({nro})" style="display:none" >{estado}</td>
+    <td  class="itemc">{empaque}</td>  
+</tr> 
+<!-- end:   ventas_empaque_data -->
+
+
+<!-- begin: ventas_empaque_foot -->
+<tr><td id="cant_facturas"  style="font-weight: bold; text-align: center;">{cant_facturas}</td></tr>
+</table>
+
+    
+<!-- end:   ventas_empaque_foot -->
+
+<!-- begin: control_popup -->
+<div id="image_container" class="image_container"  style="display: none"></div>
+
+<div id="control_pupup" class="control_pupup"  style="display: none"  >  
+    
+    <div id="edit" class="modificar" style="display:none">
+      <label>Cantidad:</label> <input type="text" data-editcode="" data-oldcant="" id="new_cant" size="8" class="num numeros" maxlength="8">
+      <input type="button" class="minibutton" value="Cancelar" onclick=javascript:$("#edit").fadeOut()> <input type="button" id="accept_edit" disabled="disabled" class="minibutton" value="Aceptar" onclick="cambiarCantidadVenta()">
+    </div>
+    
+    <div id="edit_falla" class="modificar" style="display:none">
+      <label>Falla:</label> <input type="text" data-editcode="" data-oldfalla="" id="new_falla" size="8" class="num numeros" maxlength="8">
+      <input type="button" class="minibutton" value="Cancelar" onclick=javascript:$("#edit_falla").fadeOut()> <input type="button" id="accept_falla" disabled="disabled" class="minibutton" value="Aceptar" onclick="cambiarCantidadFalla()">
+    </div>    
+    
+    <div class="titulo">Control de Factura</div>
+    <div class="factura_data"> 
+    <input type="hidden" id="codigo_cliente" value="">    
+    <table cellspacing="0" cellpadding="0" border="0" style="width: 98%;margin: 0 auto;">   
+       <tr>
+           <td style="min-width: 100px"><label>Factura N&deg;: </label> </td><td><input type="text" size="7"  readonly="readonly" disabled="disabled" class="factura" id="factura" value=""> </td>
+            <td><label>Fecha: </label> </td><td> <input type="text" size="10"  readonly disabled="disabled" id="fecha" value="" style="text-align: center">
+            <label>Cat:</label><input type="text" id="categoria" size="3" readonly disabled="disabled" style="text-align: center" value="" ></td>
+            <td  style="text-align: right;" colspan="4"><a class="manual" href="docs/Facturar al vendedor desde empaque.docx">?</a><Button id="facturarAlVendedor" onclick="facturarAlVendedor()">Factutar al Vendedor</Button></td> 
+       </tr>
+       <tr>
+       <td><label id="label_ruc">C.I./R.U.C.:</label> </td><td> <input type="text" id="ruc_cliente" size="16" maxlength="34" readonly disabled="disabled" ></td>
+       <td><label>Cliente:</label> </td><td>  <input type="text" id="nombre_cliente" size="46" readonly  disabled="disabled"> </td>
+       
+       <td style="text-align: center;width: 40%">
+           <input type="button" id="ajuste_supervisor" value=" Supervisor " onclick="ajusteSupervisor()"  class="focusable" style="display: none;font-size: 10;padding:0;height:20px;font-weight: bolder" >
+           <label><b>Balanza:</b></label>
+           <select id="balanza" onchange="cambiarBalanza()">
+               <option>localhost</option>
+               {alternativos}
+           </select>
+       </td>
+       </tr>
+       <tr>
+           <td><label>Tipos Fallas: </label></td> 
+           <td colspan="3" style="text-align: left">               
+               <label class="F">Con Falla</label> <label class="F_FP">Falla + FP</label> <label class="FP">FP:Fin Pieza</label> 
+           </td>
+           <td colspan="3" style="text-align: center"><span id="msg"></span></td>
+           <td colspan="2" style="text-align: center"><img src="img/more_detail_.png" style="cursor:pointer" onclick="showDetail()" title="Mas Informaci&oacute;n" data-info="Mostrar mas Informaci&oacute;n"></td>           
+       </tr>
+    </table> 
+    </div>
+    <div id="det_div"  style="min-height: 60px">
+        <table id="detalle_factura" class="detale_factura" border="1"  cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th colspan="15" style="background-color: lightgray">Detalle de Factura</th></tr>  
+            <tr class="titulo"><th class="codigo">Codigo</th><th class="descrip">Descripcion</th><th class="cantidad">Cantidad</th><th class="um">UM</th>             
+            <th class="um" title="Cantidad de Cm Fallados">Falla</th>
+            <th class="gramaje itemc xinfo">Gramaje</th>
+            <th class="ancho itemc xinfo">Ancho</th>
+            <th class="kg itemc xinfo">kg. Calc</th>
+            <th class="kg_med itemc">Kg/Mts/Unid</th><th class="sis_med itemc">Sis.Med.</th><th class="fact_vend itemc">Fact.Vend.</th><th class="cant_calc item">Calc.(UM)</th><th class="estado itemc" title="Diferencia">Dif.</th><th title="Dentro o Fuera del Rango">F.Rango</th><th class="delete" title="Tipo de Ajuste">T.Aj.</th><th><img src="img/save.png" height="16" width="16" ></th></tr>                         
+        </table>
+    </div>    
+    <div id="bottom_bar">
+        <input type="button" id="cancelar" value="Cancelar" onclick="cancelar()">&nbsp;&nbsp;     
+        <input type="button" id="ignorar_controles" value="Forzar Control" onclick="forzarControles()" disabled="disabled" style="display:none">&nbsp;&nbsp; 
+        <input type="button" id="ignorar_controles" value="Punteo Laser" onclick="punteoLaser()"   style="display:inline">&nbsp;&nbsp; 
+        <input type="button" id="ignorar_controles" value="Verificar Todo" onclick="controlarTodo()"   style="display:inline">&nbsp;&nbsp; 
+        <input type="button"   id="controlado" value="Finalizar"   onclick="finalizar()" disabled>
+    </div>  
+    <div class="datos_remision">
+       <section id="nr_tramsportadora" >
+            <label for="transportadora">Transp:</label>
+            <input type="text" id="transportadora" onchange="getDatosTransporte()" onclick="mostrarOcultarLista()" onkeyup="buscarTransportadora()" placeholder="Transportadora" value="{transportadora}">
+            <label for="nro_chapa">N&deg; Chapa:</label>
+            <input type="text" id="nro_chapa" value="{nro_chapa}" size="10">
+            <img src="img/icon-arrow-right-b-32.png" onclick="getDatosTransporte()"   style="cursor:pointer;width: 16px">
+            <label for="nro_levante"></label>
+            <input type="text" id="nro_levante" placeholder="Nro. Levante" value="{nro_levante}">
+             
+            <label for="nota_rem_legal">Rem N&deg;:</label>
+            <select id="nota_rem_legal" data-next="tipo_factura" style="font-weight: bold;height: 26px;width:60px"> </select>
+            <div class="transportadora"> 
+                <ul id="transportadoras">{transportadoras}</ul>
+            </div>
+            <br>
+            <label for="chofer">Chofer:</label>
+            <input type="text" style="width: 208px" id="chofer" value="{chofer}" size="24">
+            <label for="ci_chofer">CI:</label>
+            <input type="text" id="ci_chofer" value="{ci_chofer}" size="8">
+            <img src="img/icon-arrow-right-b-32.png" onclick="getDatosChofer()"   style="cursor:pointer;width: 16px"> 
+             
+            <input type="button" id="imprimir_nota_rem" onclick="imprimirNotaRemLegal()" value="Imprimir Nota Remision">
+            <input type="hidden" id="transp_ruc" value="{transp_ruc}">
+            <input type="hidden" id="transp_rua" value="{transp_rua}">
+        </section>        
+    </div>
+    <table style="margin-top: -30px;text-align: left;font-size: 12px; font-family: arial;" border="0"  >
+        <tr><th colspan="5" style="background-color: beige; text-align: center">Atajos de Teclado</th> </tr>
+        <tr><td class="hot">I</td><td>Informaci&oacute;n</td>  <td class="hot" style="font-size: 12px">&uarr;</td> <td>&nbsp;</td> <td colspan="2">Selec. Fila Arriba</td>  </tr>
+        <tr><td class="hot">C</td><td>Capturar Kilaje</td> <td class="hot" style="font-size: 12px">&darr;</td><td class="hot" style="font-size: 12px;display: table-cell">&#8629;</td> <td>Selec. Fila Abajo</td> </tr>
+        <tr><td class="hot">K</td><td>Medir en Kilos</td>  <td class="hot" style="font-size: 12px;width: 23px">Esc</td><td>&nbsp;</td><td>Cancelar</td>  </tr>
+        <tr><td class="hot">M</td><td>Medir en Metros</td> <td class="hot" style="font-size: 12px">F</td><td>&nbsp;</td><td>Finalizar</td>  </tr>
+    </table>  
+</div>    
+    
+<div id="control_laser"  >
+    <div class="titulo" style="text-align: center;width:350px">Control con Lector</div>
+    <div><label style="font-size: 20px">Lote:</label><input style="font-size: 18px;margin-top:10px" type="text" id="check_lote" value="" size="10" placeholder="Puntee aqui"></div>
+    
+    <div style="width: 100%;background-color: lightskyblue;font-size: 24px;margin-top: 6px;border:solid gray 1px; border-radius: 2px" >           
+        <label style="font-size: 24">Paquete:</label>
+        <input style="font-size: 24" type="button" value="  <  " onclick=setPaquete("-") class="bale">
+        <input style="font-size: 24;text-align: center" readonly="readonly"  type="text" size="2" value="1" id="paquete" >
+        <input style="font-size: 24" type="button" value="  >  " onclick=setPaquete("+")  class="bale">               
+        <img src="img/printer-02_32x32.png" onclick="imprimirPaquete()" style="margin-bottom:-6px;margin-left:10px"  class="bale">
+    </div> 
+    
+    <div id="check_msg" style="height: 40px;text-align: center;color:green;font-size: 20px"></div>
+    <div >   
+       <input style="font-size: 20px" type="button"  value="Cerrar"   onclick="cerrarControl()">
+       <input style="font-size: 20px" type="button"  value="Finalizar"  onclick="finalizarControlPunteo()">
+       <input style="font-size: 20px" type="button"  value="Resumen"   onclick="resumenPaquetes()">
+    </div>
+    <audio class="beep sound" controls preload="auto">
+        <source src="files/sounds/beep-07.wav" type="audio/wav">       
+    </audio>
+    <audio class="not_found sound" controls preload="auto">
+       <source src="files/sounds/beep-05.wav" type="audio/wav">       
+    </audio>
+    <audio class="error sound" controls preload="auto">
+      <source src="files/sounds/button-4.wav" type="audio/wav">       
+    </audio>
+</div>
+
+<!-- end:   control_popup -->    

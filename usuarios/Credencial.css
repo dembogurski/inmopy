@@ -1,0 +1,45 @@
+
+/**
+* @Autor: Doglas A. Dembogurski Feix
+* Date: 12-01-2015
+* Content:  Styles for Credencial
+*/
+ 
+.logo{
+    margin-top: 16px;
+}
+.marco{
+    border: 1px solid black;
+    border-radius: 6px;
+    height: 36mm;
+    margin-left: 7mm;
+    margin-top: 7mm;
+    text-align: center;
+    width: 86mm;
+}
+.imagen{
+    width: 100px;
+    height: 120px;
+    border:1px solid gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.nombre{
+    font-family: verdana;
+    font-weight: bolder;
+    font-size: 16px;
+    margin-top: 16px;
+}
+.barras{
+    margin-top: 10px;
+    width: 96%;
+    height: 10mm;
+}
+.passw_error{
+    background: #FDD1C5 url(../img/important.png) center no-repeat;
+    background-position: 10px 50%; /* x-pos y-pos */
+    text-align: left;
+    padding: 10px 20px 10px 55px;
+    border: 2px solid #FBAB95;
+    color:#000000;
+}    

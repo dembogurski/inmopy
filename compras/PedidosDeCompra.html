@@ -1,0 +1,218 @@
+
+<!-- begin: headers -->
+<!DOCTYPE html>
+      <link rel="stylesheet" type="text/css" href="compras/PedidosDeCompra.css?_=121212121" /> 
+      <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>      
+      <script type="text/javascript" src="compras/PedidosDeCompra.js?_=1111212121" ></script>      
+      
+      <script>
+        var colores = {colores};
+        var disenos = {disenos};
+        var autocompletadoPatron = [];
+      </script>      
+<!-- end:   headers -->
+
+<!-- begin: filters -->
+
+<div id="dialog-confirm" title="La compra es para que Estacion?" style="display: none;margin-top: 6px ">
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:6 7px 20px 0;" ></span>
+    <span id="alert_msg">
+        <br>        
+        <label for="winter" > For:&nbsp;&nbsp;&nbsp;Winter</label> <input type="radio" name="estacion" id="winter" value="Winter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="summer">Summer</label> <input type="radio" name="estacion" id="summer" value="Summer"> 
+    </span> 
+</div>
+
+<div id="anchorTitle" class="anchorTitle"></div>
+<div id="designs_container" style="display: none">
+    <div id="preview"><img height="128" width="128" src="img/PATTERNS/LISO/0.jpg"></div>
+</div>
+<div id="patrones">
+
+</div>
+<div style="margin: 10 auto;text-align: center">
+    <div class="titulo" style="font-weight: bolder;font-size: 14px;margin-bottom: 10px" >Pedidos de Compra</div>
+    <label>Tipo de Pedido:</label>
+    <select id="tipo">
+        <option>Nacional</option>
+        <option>Internacional</option>
+    </select>
+    <label class="nac">Estado:</label>
+    <select id="estado"  class="nac">
+        <option>Pendiente</option>
+        <option>Comprado</option>
+        <option>En Transito</option>
+        <option>En Deposito</option>
+        <option>Despachado</option>
+    </select>
+    <label style="display:none"  class="int">Pedidos Internacionales </label>
+    <select id="estado_int" style="display:none"  class="int">
+        <option>Pendiente</option>
+        <option>Cerrado</option>
+    </select>
+    <label class="nac">Urge:</label>
+    <select id="urge"  class="nac">
+        <option value="Si">Si</option>
+        <option value="No">No</option>
+        <option value="%">*</option>
+    </select>
+    <label class="nac">Sucursal:</label><select id="suc" class="nac"  ><option value="%">%</option>{sucursales}</select>
+    <label class="int">N&deg;:</label>
+    <select id="nros_internacionales" style="display:none"  class="int">
+        {options}
+    </select>
+    <label  class="nac">Desde:</label><input type="text" size="10" value="{hoy}" id="desde" class="nac">
+    <label  class="nac">Hasta:</label><input type="text" size="10" value="{hoy}" id="hasta" class="nac">
+    <input type="button" value="Procesar" id="filtrar" class="filtrar" onclick="filtrar()">
+    <input type="button" value="Ver Resumen" onclick="verResumen()" class="int" style="display:none">
+    <input type="button" value="Poner en Proceso" class="filtrar int"  style="display:none" title="Cierra la Nota de Pedido" id="cerrar" onclick="cambiarEstadoNota()">
+    <span id="msg"></span>
+</div>
+<!-- end:   filters -->
+
+<!-- begin: pedidos_nacionales -->
+ 
+<table border="1" id="nacionales" style="border:1px solid gray;border-collapse: collapse;min-width: 80%;margin:4 auto" class="nac">
+    <tr><th colspan="16" style="background-color: lightgray">Pedidos para Compras Nacionales</th></tr>  
+    <tr class="titulo">
+        <th>N&deg;</th><th>Fecha</th><th>Usuario</th><th>Suc</th><th>Codigo Art.</th><th>Lote</th><th>Descripci&oacute;n</th><th>Color</th><th>Cantidad</th><th>Um</th><th>Precio Venta</th><th>Mayorista</th><th>Urge</th><th>Obs</th><th>Estado</th><th>Proveedor</th><th>*</th>
+    </tr>
+</table>
+<!-- end:   pedidos_nacionales -->
+
+
+<!-- begin: pedidos_internacionales -->
+<table border="0"   style="border:0px solid gray;border-collapse: collapse;min-width: 80%;margin:4 auto;" class="int">   
+    <tr>
+        <td>
+        <div class="titulo int" style="min-width: 80%;margin: 4 auto;text-align: center;display:none;">Seleccione un Articulo</div>
+
+        <div class="int" style="display:none;min-width:80%; height:200px; overflow-y: auto; margin: 4px auto 10px auto;text-align: center">    
+            <ol id="articulos" style="text-align: left"></ol>
+        </div>
+    </td>
+    <td class="int" style="width: 20%;display:none"   >   
+        <table border="0" >
+            <tr>
+                <th colspan="2">Rango de Ventas</th>
+            </tr>
+            <tr>
+                <td>Desde:</td><td><input type="text" onchange="enableBotonBuscar()" size="10" value="{hoy}" id="desde_int"></td>                
+            </tr>
+            <tr>
+                <td>Hasta:</td><td><input type="text" onchange="enableBotonBuscar()" size="10" value="{hoy}" id="hasta_int"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center"> 
+                    <input type="button" value="Buscar Ventas" id="buscar_ventas" disabled="disabled" onclick="buscarVentasEach()" >
+                </td>
+            </tr>
+        </table>   
+    </td>
+    </tr>
+</table>
+  
+<table border="1" id="internacionales"  style="border:1px solid gray;border-collapse: collapse;min-width: 80%;margin:4 auto;display: none" class="int">
+    <tr><th colspan="15" style="background-color: lightgray">Pedidos para Compras Internacionales</th></tr>  
+    <tr class="titulo">
+        <th>Usuario</th><th>Suc</th><th>Cliente</th><th>Codigo Art.</th><th>Descripci&oacute;n</th><th>Color</th><th>Ventas</th><th>PrecioEst</th><th>Cant.Ped.</th><th>Pond.</th><th>Cant.Pond.</th><th style="width: 120px">Estado</th><th style="width: auto;">Obs</th>
+    </tr>
+</table>
+<!-- end:   pedidos_internacionales -->
+
+
+
+<!-- begin: area_compra -->
+<div id="area_compra" class="area_trabajo nac">
+    <table border="0" cellspacing="0" cellpadding="0" style="width: 101%;margin: 0 auto"> 
+        <tr>
+            <td class="search_bar_first_child">
+                <input type="hidden" id="cod_prov" value="">
+                <label>Precio Compra:</label><input class="num"  type="text" id="p_compra" data-next="proveedor" size="12" placeholder="Precio Compra" >
+                <label>Proveedor:</label><input class="filter" type="text" id="proveedor" data-next="fp_1" size="40" placeholder="Proveedor">  
+                <label>Fecha Prevista:</label><input  type="text" class="fecha_prevista" id="fp_1" value="{fecha_prevista}" data-next="CodCat"  size="10" placeholder="Fecha Entrega" ><hr/>
+                <label>Cod.Cat:</label><input type="text" id="CodCat" value="0" data-next="CodColor"  size="6"/
+                <label>Cod.Color:</label><input type="text" id="CodColor" value="0" data-next="pantone"  size="6"/>
+                <label> Pantone.Color:</label><input type="text" data-next="combinacion" id="pantone" size="32"/>
+                <label>Comb:<label></label><input type="text" data-next="unidadMedida" id="combinacion"/>
+                <hr/>
+                <label>UM</label><select data-next="diseno" id="unidadMedida"><option>Mts</option><option>Unid</option><option>Kg</option><option>Yds</option></select>
+                <label>Dise&ntilde;o:</label><input type="text" data-next="obs_1" id="diseno"/><button id="verOcultarGrilla" data-ch="ver" onclick="verOcultarGrilla($(this))" >Ver Dise&ntilde;os</button>
+                <hr/>
+            </td> 
+        </tr>
+         
+        <tr>
+            <td >
+                <label>Observaci&oacute;n:&nbsp;&nbsp;</label><input  class="filter" type="text" id="obs_1"  data-next="comprar"  size="90" placeholder="Observacion" >  
+                <span id="msg" style="font-size: 12px;"></span> 
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <input type="button" value="Marcar como Comprado" id="comprar" onclick="comprado()"  class="botones" >   
+                <input type="button" value="Cancelar Pedidos"   id="cancelar"   class="botones" >   
+                <input type="button" value="Marcar como Disponible" id="disponible"  class="botones" >  
+            </td>
+        </tr>
+    </table>
+       
+</div>
+<!-- end:   area_compra -->
+
+<!-- begin: area_tracking -->
+<div  id="area_tracking"  class="area_trabajo nac" style="display:none">
+    <table border="0" cellspacing="0" cellpadding="0" style="width: 101%;"> 
+        <tr>
+            <td class="search_bar_first_child"> 
+                <div style="text-align: center"><label style="color:green"><b>Agregue la Observacion y despues cambie el estado</b></label></div>
+                <label>Obs:&nbsp;&nbsp;</label><input  class="filter" type="text" id="obs_2"  data-next="comprar"  size="76" placeholder="Observacion" >  
+                <label>Fecha Prevista:</label><input  type="text" class="fecha_prevista" id="fp_2" value="{fecha_prevista}" data-next="obs"  size="10" placeholder="Fecha Entrega" >                  
+            </td> 
+        </tr> 
+        <tr>
+            <td>               
+                <div style="text-align: center">
+                   <label style="margin-right:25px;margin-left:25px">Pendiente</label><label style="margin-right:25px;margin-left:25px">Comprado</label><label style="margin-right:25px;margin-left:25px">En Transito</label>  <label style="margin-right:25px;margin-left:25px">En Deposito</label>  <label style="margin-right:25px;margin-left:25px">Despachado</label>
+                </div>	
+                <div style="text-align: center">
+                    <input   type="radio" id="radio_pendiente" name="slider" value="Pendiente"> <input type="text" size="14"  class="linea"   style="height:10px;">
+                    <input   type="radio" id="radio_comprado" name="slider" value="Comprado">   <input type="text" size="14"  class="linea"   style="height:10px;">
+                    <input   type="radio" id="radio_transito" name="slider" value="En Transito"><input type="text" size="14"  class="linea"   style="height:10px;">
+                    <input   type="radio" id="radio_deposito" name="slider" value="En Deposito"><input type="text" size="14"  class="linea"   style="height:10px;">
+                    <input   type="radio" id="radio_despachado" name="slider" value="Despachado"> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                 <span id="msg" style="font-size: 12px;"></span>  
+            </td>
+        </tr>
+    </table>
+       
+</div>
+<!-- end:   area_tracking -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

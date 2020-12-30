@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+       
+      <style>
+          .vencida{
+             color:red;
+             font-weight: bolder
+          }
+          .hostorial{
+              width: 30%;
+          }
+          .notas{
+              background-color: #FFFFCC;
+          }
+          .flyer{
+             position: absolute; 
+            -webkit-transition-duration: 0.8s;
+            -moz-transition-duration: 0.8s;
+            -o-transition-duration: 0.8s;
+            transition-duration: 0.8s;
+
+            -webkit-transition-property: -webkit-transform;
+            -moz-transition-property: -moz-transform;
+            -o-transition-property: -o-transform;
+            transition-property: transform;
+
+            overflow:hidden;              
+          }
+          .flyer:hover{
+            -webkit-transform: rotateX(-180deg);
+            transform: rotateX(-180deg);    
+            cursor:pointer;
+          }
+          .rango{
+             font-size:10px;
+             height: 16px;
+             width:40px;
+             text-align: center
+          }
+          
+      </style>
+      
+      <script language="javascript">
+          $(function(){
+                $(".nombre_cliente").mouseover(function(){
+                      $(this).find(".cli_phone").fadeIn();
+                });
+                $(".nombre_cliente").mouseout(function(){
+                      $(this).find(".cli_phone").fadeOut();
+                });    
+                $(".identif_cli").each(function(){
+                    var factura =  $(this).find(".factura").text();
+                    var cuota =  $(this).find(".cuota").text();
+
+                    getHistorialNumber(factura,cuota);
+                });
+          }); 
+          function getHistorialNumber(factura,cuota){
+              $.ajax({
+                type: "POST",
+                url: "GestionCobranzas.class.php",
+                data: {"action":"getHistorialNumber","factura":factura,"cuota":cuota}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                    $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                       var result =  $.trim(objeto.responseText) ;     
+                       $("#check_"+factura+"-"+cuota).after("<b>"+result+"</b>");    
+                    }
+                },
+                error: function(){
+                     $("#msg").html("Ocurrio un error en la comunicacion con el Servidor...");
+                }
+        });    
+          }
+       
+          function getHistorial(factura,cuota){
+             
+              
+            var ch = $("#check_"+factura+"-"+cuota).is(":checked");
+             
+            
+            var macro = $("#hist_model").clone();
+            macro.attr("id","hist_model_"+factura+"_"+cuota);
+            macro.addClass("hist_"+factura+"-"+cuota); 
+            macro.attr("data-factura",factura);
+            macro.attr("data-cuota",cuota);
+            
+            if(ch){
+                  $.ajax({
+                    type: "POST",
+                    url: "GestionCobranzas.class.php",
+                    data: {"action":"getHistorial",factura:factura,cuota:cuota}, 
+                    async:true,
+                    dataType: "json",
+                    beforeSend: function(){
+                        $("#hist_"+factura+"-"+cuota).html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+                    },
+                    success: function(data){ 
+                        $("#hist_"+factura+"-"+cuota).html(macro);
+                        macro.fadeIn();    
+                        if(data.length > 0){                            
+                            var cont = 0;
+                            for(var i in data){ 
+                                cont++;
+                                var id_hist = data[i].id_hist;
+                                var sap_doc = data[i].sap_doc; 
+                                var id_cuota = data[i].id_cuota; 
+                                var usuario = data[i].usuario; 
+                                var fecha = data[i].fecha; 
+                                var tipo_com = data[i].tipo_com;                                 
+                                var notas = data[i].notas; 
+                                var estado = data[i].estado;     
+                                
+                                var img = "../img/people_talking.png";
+                                if(tipo_com=="Llamada Telefonica"){
+                                    img = "../img/phone_call.png";
+                                }else if(tipo_com=="Whatsapp/SMS"){
+                                    img = "../img/whatsapp_black.png";
+                                }else if(tipo_com=="Email"){
+                                    img = "../img/email.png";
+                                }else if(tipo_com=="Respuesta"){
+                                    img = "../img/arrow-back.png";
+                                } // Personalmente
+                                
+                                $(".hist_"+factura+"-"+cuota+" .add_comment").before("<tr id='"+id_hist+"'><td class='itemc'>"+cont+"</td> <td class='itemc'>"+usuario+"</td> <td class='itemc'>"+fecha+"</td> <td class='itemc' title='"+tipo_com+"' ><img src='"+img+"' height='24' width='24' ></td> <td class='notas item'>"+notas+"</td> </tr>"); 
+                            }   
+                             
+                        }else{
+                           $(".hist_"+factura+"-"+cuota+" .sin_hist").remove();   
+                           $(".hist_"+factura+"-"+cuota+" .add_comment").before("<tr class='sin_hist' > <td style='text-align:center;border:solid red 1px;bacground:rgb(254,250,250)' colspan='5'> Sin historial de seguimiento </td>  </tr>");  
+                        }
+                        $("#msg").html(""); 
+                        }
+                    }); 
+         
+            }else{
+               $("#hist_"+factura+"-"+cuota).html(""); 
+            } 
+          }
+          
+          function agregarComentario(obj){
+              var factura = $(obj).parent().parent().parent().parent().attr("data-factura");
+              var cuota = $(obj).parent().parent().parent().parent().attr("data-cuota");
+              var tipo = $(obj).parent().find(".tipo_com").val();
+              var text = $(obj).parent().find(".notas").val();              
+             
+              
+              if(text.length > 3){
+               $(obj).animate({"margin-left": '1250px'});     
+              var user = $("#user").val() ;
+              
+              $.ajax({
+                type: "POST",
+                url: "GestionCobranzas.class.php",
+                data: {"action":"guardarSeguimiento",usuario:user,factura:factura,cuota:cuota,tipo:tipo,nota:text}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                   // $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                        var result =  $.trim(objeto.responseText) ;     
+                        if(result == "Ok"){                            
+                            getHistorial(factura,cuota);
+                        }
+                    }else{
+                        alert("Ocurrio un error en la comunicacion con el Servidor...");
+                    }
+                },
+                error: function(){
+                     alert("Ocurrio un error en la comunicacion con el Servidor...");
+                }
+           }); 
+           }else{
+               alert("Ingrese un comentario valido y coherente...");                
+           }
+          }
+          
+          function filtrar(){
+              var rangobajo = $("#rb").val();
+              var rangoalto = $("#ra").val();
+              $(".dias_mora").each(function(){
+                  var dm = parseInt($(this).html());
+                  var idn = $(this).attr("data-identif");
+                  if(dm > rangobajo && dm < rangoalto){
+                      $(".tr_"+idn).fadeIn();
+                      $(".vacio_"+idn).fadeIn();
+                  }else{
+                      $(".tr_"+idn).fadeOut();
+                      $(".vacio_"+idn).fadeOut();
+                  }
+              });
+              
+          }
+           
+      </script>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="user" value="{user}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Gestion de Cobranzas</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}  &nbsp;&nbsp;Tipo: {tipo}  &nbsp;&nbsp;Vendedor: {vendedor}</td></tr>
+</table>
+<div style="text-align:center">Clasificar dias de Mora entre: <input type="text" id="rb" class="rango" size="5" value="-1000" onchange="filtrar()"  > y <input type="text" id="ra" class="rango" size="5" value="1000"  onchange="filtrar()" ></div>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>Cliente</th>
+        <th>N&deg Ticket</th>
+        <th>N&deg Factura</th>        
+        <th>Cuota</th>
+        <th>Suc</th>
+        <th>Vendedor</th>
+        <th>Fecha</th>       
+        <th>Fecha Venc.</th>
+        <th>Dias de Mora</th>
+        <th>Total Cuota</th>
+        <th>Monto Pagado</th> 
+        <th>Interes</th>
+        <th>Saldo</th>        
+        <th>*</th>
+        <th style="background:beige">Historial seguimiento</th>
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr class="tr_{factura}-{cuota} cliente {identif_cli}">
+    <td class="item nombre_cliente" style="height: 26px">{cliente}&nbsp;<span class="cli_phone" style="display:none;color:red"><b>Tel:</b>&nbsp;{phone}</span> </td>
+    <td class="item factura">{factura}</td>
+    <td class="item FolioNum">{FolioNum}</td>
+    <td class="itemc cuota">{cuota}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{vendedor}</td>
+    <td class="item">{fecha}</td>
+    <td class="itemc">{fecha_venc}</td>
+    <td class="dias_mora itemc {mora}" data-identif="{factura}-{cuota}">{dias_mora}</td>
+    <td class="num">{total_cuota}</td>
+    <td class="num">{pagado}</td>
+    <td class="num">{interes}</td>
+    <td class="num">{saldo}</td>
+    <td class="itemc"><input type="checkbox" id="check_{factura}-{cuota}" onclick=getHistorial("{factura}","{cuota}") ></td>
+    <td class="hostorial" id="hist_{factura}-{cuota}" rowspan="2"></td>
+</tr>   
+<tr class="tr_{factura}-{cuota}">
+    <td colspan="14"></td> 
+</tr>
+<!-- end:   data -->
+ 
+<!-- begin: vacio -->
+<tr class="vacio_{factura}-{cuota}" style="font-size:14px;font-weight: bolder" >
+    <td colspan="9">&nbsp;</td>
+    <td class="num"></td>
+    <td class="num">{t_pagado}</td>
+    <td class="num">{t_intereses}</td>
+    <td class="num">{t_saldo}</td>
+</tr> 
+<tr class="vacio_{factura}-{cuota}">
+    <td colspan="14" style="height:36px">&nbsp;</td>    
+</tr> 
+<!-- end:   vacio -->
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="6">Totales</td>    
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>    
+    <td class="num">{t_saldo_total}</td>
+    <td></td>  
+</tr> 
+</table>    
+ 
+<!-- end:   foot  -->
+
+ 
+<!-- begin: historial -->
+<table id="hist_model" cellspacing="0" cellpadding="0" style="border-collapse: collapse;display: none" border="1">
+    <tr>
+        <th>N&deg;</th><th>Usuario</th><th style="width:120px" >Fecha</th><th>Tipo Com.</th><th>Notas</th>
+    </tr>  
+    <tr class="add_comment"> <td colspan="5" style="padding-top:6px;font-weight:bolder"></td></tr>
+    <tr  data-factura="" data-cuota="">
+        <td colspan="5">            
+            <div style="background:#34495e;text-align: center;color:white;margin-bottom:3px" >Agregar un Nuevo Seguimiento</div>
+            <label>&nbsp;Tipo Comunicaci&oacute;n:</label>
+            <select class="tipo_com">
+                <option style="background:url(../img/phone_call.png) no-repeat center left; padding-left:20px; background-size: 20px 20px  ">   Llamada Telefonica</option>
+                <option style="background:url(../img/people_talking.png) no-repeat center left; padding-left:20px; background-size: 20px 20px ">Personalmente</option>
+                <option style="background:url(../img/whatsapp_black.png) no-repeat center left; padding-left:20px; background-size: 20px 20px ">Whatsapp</option>
+                <option style="background:url(../img/email.png) no-repeat center left; padding-left:20px; background-size: 20px 20px ">Email</option>
+                <option style="background:url(../img/arrow-back.png) no-repeat center left; padding-left:20px; background-size: 20px 20px ">Respuesta</option>
+            </select>         
+            <textarea class="notas" rows="2" cols="10" style="width:92%" placeholder="Ingrese aqui el comentario sobre la comunicacion con el cliente" ></textarea>
+            <img src="../img/send_message.png" class="flyer" width="36" onclick="agregarComentario(this)">
+        </td>
+         
+    </tr>
+</table> 
+<!-- end:   historial -->
+ 

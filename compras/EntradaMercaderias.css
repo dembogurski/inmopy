@@ -1,0 +1,408 @@
+
+/* 
+    Created on : 29/04/2016, 01:30:55 AM
+    Author     : Ing.Douglas
+*/
+
+ 
+ .fixed-table-container {
+    width: 100%;
+    height: 92%;
+    border: 0px solid black;
+    margin: 0;
+    background-color: white;
+    /* above is decorative or flexible */
+    position: relative; /* could be absolute or relative */
+    padding-top: 20px; /* height of header */
+}
+
+.fixed-table-container-inner {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.header-background {     
+    height: auto; /* height of header */
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.tabla {
+  width: 100%; 
+  border-collapse: collapse;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+ 
+
+#lista_invoices {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco    
+    border-color: #999999;
+    border-collapse: collapse;
+    margin: 10px; 
+}
+   
+.obs{
+     position: absolute;
+     top: 0;
+     z-index: 10;
+     background:#ffc;
+     padding:5px;
+     border:1px solid #CCCCCC;
+     text-align:center;
+     font-weight:bold;
+
+     width: 50%;
+     height: auto;
+     margin-top: 0px;
+     margin-left: 48%;
+     margin-right: 2%;  
+ }  
+ 
+
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+#cabecera{
+    padding: 4px; 
+    display: inline;
+}
+#detalle_entrada  {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: whitesmoke; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+ 
+.factura{ 
+    text-align: center; 
+    display: inline;
+}
+#area_carga{
+    display: none; 
+    padding-left: 4px;
+    padding-top: 10px;
+}
+#ui_proveedores{
+    padding-left: 4px;
+}
+#lista_proveedores{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 46%;
+}
+#lista_proveedores tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;
+}
+#cli_data{
+    padding-left: 4px;
+}
+.tr_cli_data{
+     background-color: #F0F0F0; //Casi blanco
+} 
+
+#ventas{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 90%;
+    width: 95%;
+    margin: 12 auto;
+}
+#ventas tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;     
+}
+
+.input_err{
+    border:solid red 1px;
+}
+#msg_info{
+    background-color: #0092ef;
+    color:white;
+    font-size: 11px;
+    display:none;
+    padding: 2px 4px 2px 4px;
+    width: 80%;
+}
+#invoice{
+    text-transform: uppercase;
+} 
+
+.art_selected {
+    background-color: rgb(115, 173, 33);
+    color: rgb(255, 255, 255);
+}
+.copy_from{
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        background:whitesmoke; 
+        padding:2px;
+        border:1px solid olive;
+        text-align:center;
+        font-weight:bold;
+        width: 800px;         
+        display:none;
+        text-align: left;
+        max-height: 380px;
+        overflow-y: auto;
+        margin: 10% 1px 1px 10%;    
+}
+.copy_from_pedidos{   
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        background:whitesmoke; 
+        padding:2px;
+        border:1px solid olive;
+        text-align:center;
+        font-weight:bold;
+        width: 800px;         
+        display:none;
+        text-align: left;
+        height: auto;        
+        margin: 10% 1px 1px 10%;    
+}
+.fila_ent{
+    background-color: white;
+    cursor:pointer;
+}
+.selected > td{
+   background-color: lightblue; 
+}
+.Mts{
+   background-color: white;    
+}
+.Yds{
+   background-color: rgb(231, 235, 242);
+}
+.Kg{
+    background-color: #F5F5DC;
+}
+.Unid{
+    background-color: rgb(240, 230, 140);
+}
+
+.edit_bale{
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        background:rgb(255, 255, 204); 
+        padding:5px 5px 5px 5px;
+        border:1px solid #CCCCCC;
+        text-align:center;
+        font-weight:bold;
+        width: auto;         
+        display:none;
+        text-align: left;
+        max-height: 380;
+        overflow-y: auto
+}
+#edit_bale label{
+    font-weight: bold;
+    font-size: 11px;    
+}
+.unificar{
+    display: none;
+}
+.detalle{
+   padding: 0;
+   margin: 0;
+   border:solid gray 1px;
+   border-collapse: collapse;
+   width: 100%
+}
+.detalle th{
+    font-size: 10px;
+    font-weight: bolder;   
+    padding: 0 2px;
+}
+.detalle td{
+    font-size: 10px;
+    background-color: #ffc;
+    padding: 0 2px;
+}
+
+
+#designs_container{
+    position: fixed;
+    z-index: 5;
+    background-color: #F5F5DC;
+    border: solid gray 1px;
+    border-radius: 4px;
+    overflow-y: auto;     
+    height: 700px;
+    display:none;
+    width: 400px;
+}
+#designs_container li {
+    float: left;
+    margin: 0 5px 5px 0;    
+    width: 48px;
+    height: 48px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);
+}
+#designs_container li:hover {    
+    position: relative;
+    top: 1px;
+    left: 1px;
+    border-color: #e5e5e5;
+    cursor: pointer;    
+}
+
+#designs_container .lastitem {
+    margin-right: 0;
+}
+#designs_container ul{
+    list-style: none;
+}
+.lastitem{
+    clear: left;
+}
+#designs_container li img:hover{
+  height: 100px;
+  margin-top:-30px;
+  margin-left: -30px;
+  border: solid gray 1px;
+}
+ 
+.showdetail{
+    cursor:pointer;
+}
+/*JACK toolbox*/
+button#abrirToolBox{
+    height: 24px;
+    margin-top:-1px;   
+    vertical-align: middle
+}
+div#toolbox{
+    position: fixed;
+    top: 50%;
+    left: 355px;
+    /*height: 325px;
+    width: 282px; */
+}
+div#toolbox div.header{
+    position: relative;
+    width: 310px;
+    height: 18px;
+}
+div#toolbox div.header span{
+    vertical-align: middle;
+}
+div#toolbox div.header button{
+    position: absolute;
+    right: 1px;
+    padding: 0;
+    font-size: 8px;
+}
+div#toolbox:hover{
+    cursor:move;
+}
+div#toolbox th{
+    background-color: lightgray;
+}
+div#toolbox div.toolbox_colores{
+    display: initial;
+    position: relative;
+}
+div#toolbox div.toolbox_colores ul{
+    position: absolute;
+    background-color:white;
+    list-style:none;    
+    z-index: 1;
+    left: 5px;
+    top: 16px;    
+}
+.edit_table{   
+    background-color: #ffc048
+}
+.tbColor{
+    width: 200px;
+}
+div#toolbox div.toolbox_colores ul li{
+    padding: 0px 5px 3px;
+}
+div#toolbox div.toolbox_colores ul li:hover{
+    background-color: wheat;
+    cursor: pointer;    
+}
+div#toolbox label{
+    vertical-align: middle;
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: -1px;
+    text-align: left;
+    cursor:pointer;
+    width: 100%;
+    font-weight: bold
+}
+div#toolbox input[type="checkbox"]{
+    vertical-align: middle;   
+}
+div#toolbox button#guardarColor, div#toolbox button#eliminarSeleccionados{
+    margin: 5px 1px;
+    width: 80%;
+    letter-spacing: 5px;
+    padding-left: 5px;
+    padding-top:1px;
+}
+div#toolbox button#guardarColor img{
+    vertical-align: top;
+}
+
+.Gs_Mts{
+    background: oldlace;
+}
+.Gs_Kg{
+    background: lightskyblue;
+}
+.Us_Mts{
+    background: oldlace;
+}
+.Us_Kg{
+    background: lightgray;
+}
+
+#expenses td{
+    font-size: 11px;
+}
+#expenses td{
+    font-size: 11px;
+}
+
+#expenses input{
+    padding: 0px 2px 0px 2px;
+    margin: 0px
+}
+
+.invisible{
+    display:none;
+}

@@ -1,0 +1,158 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="pedidos/nota_pedido.css" />   
+    <script type="text/javascript" src="pedidos/nota_pedido.js?_=46566566" ></script>
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>   
+    <script>
+        colores = {colores};
+        setAutocomplete();
+    </script>
+<!-- end:   header -->
+
+
+
+<!-- begin: cabecera_nota_pedido -->
+<div id="cabecera"> 
+    <div id="cli_data"> 
+        <input type="hidden" id="codigo_cliente" value="" class="clidata">  
+        <label id="label_ruc">C.I./R.U.C.:</label>&nbsp;&nbsp;&nbsp; <input type="text" id="ruc_cliente" tabindex="1"  size="16" maxlength="34" class="editable clidata" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" >
+        <label class="lb_cli">Cliente:</label>   <input type="text" id="nombre_cliente" size="46" tabindex="2" class="editable clidata" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="tipo" >
+        <label class="categ">Cat:</label>  <input type="text"  class="categ" id="categoria" size="3" readonly style="text-align: center" value="1"  >  <br>      
+        <label><b>Pedido p/ Compra: </b> </label>
+        <select id="tipo" class="editable" tabindex="3" style="margin-top: 10px;height: 24px"  >
+            <option>Nacional</option>
+            <option>Internacional</option>
+        </select>
+    </div>    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer;position: absolute;width:40%;margin:-26 0 0 74"  >
+        <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th> <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div> 
+     
+ </div>   
+<!-- end:   cabecera_nota_pedido -->
+
+<!-- begin: area_carga_cab -->
+    <div id="area_carga" style="margin-left: 4px;" >
+         <table border="0">           
+            <tr>
+                <td><label >Codigo Art:&nbsp; &nbsp;</label></td>
+                <td><input type="text" id="codigo" style="font-weight: bolder;text-transform: uppercase;" tabindex="4" data-next="precio_venta" class="editable" value="" size="20" placeholder="Codigo Articulo"  > 
+                  <label style="display: inline">Lote:&nbsp; </label> <input  style="display: inline" type="text" id="lote" value="" class="editable" tabindex="5" data-next="precio_venta"  placeholder="Opcional" onchange="buscarCodigo()"  data-info="El codigo del lote es opcional" >&nbsp<span id="msg" ></span><br></td>
+            </tr>
+            <tr>
+                <td><label>Descripci&oacute;n&nbsp;&nbsp;&nbsp;</label></td>
+                <td><input type="text" id="descrip" size="60"  readonly > </td>
+            </tr>
+            <tr>
+                <td>
+                   <label>Precio Venta:</label> 
+                </td>
+                <td>
+                     <input type="text" class="num numeros editable" tabindex="6" id="precio_venta" data-next="cantidad"   maxlength="14"   size="10"  > 
+                     <label>Cantidad:  </label> <input type="text" class="num numeros editable" tabindex="7" id="cantidad"   data-next="color" size="8"  > 
+                     <label>UM:</label><input type="text" id="um" size="4" class="dato" readonly="readonly" style="text-align: center"  > 
+                </td>
+            </tr>
+            <tr>
+                <td><label>Color:  </label></td>
+                <td>
+                     <input type="text" id="color" size="30" data-next="urge" tabindex="8" class="editable"> 
+                     <label><b>Urgente: </b> </label>
+                     <select id="urge" tabindex="9" data-next="obs" class="editable">
+                         <option>No</option>
+                         <option>Si</option>
+                     </select>    
+                </td>                
+            </tr>
+            <tr>
+                <td><label>Obs:  </label></td><td><input type="text" tabindex="10" id="obs" class="editable" data-next="mayorista" maxlength="80" size="60"  > </td>
+            <tr>
+                <td colspan="2" style="color: red; font-weight: bolder;text-align: center">IMPORTANTE! Elija correctamente la presentacion!!!</td>
+            </tr>             
+                   
+            <tr>                
+                <td>
+                <label><b>Tipo: </b> </label>
+                </td>
+                <td>   
+                     <select id="mayorista" tabindex="11" data-next="presentacion" class="editable">                         
+                         <option>Mayorista</option>
+                         <option>Minorista</option>
+                     </select>  
+                    &nbsp;&nbsp;
+                <label><b>Presentacion: </b> </label>
+                     <select id="presentacion" tabindex="12" data-next="add_code" class="editable">
+                         <option>Pieza</option>
+                         <option>Rollo</option>
+                     </select>  
+                <input type="button" id="add_code" value="    Insertar    "  onclick="addCode()" tabindex="13" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Pedido" > 
+                </td>
+            </tr>
+        </table> 
+    </div> 
+    <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;width:60%;"  >
+        <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:-88 78;width: 100%;background: white" >
+        <tr><th colspan="7" class="titulo">Articulos</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 10%">Sector</th> <th style="width: 50%">Nombre Comercial</th> <th style="width: 10%">Ancho</th><th style="width: 10%">Composicion</th> <th style="width: 10%">Precio</th> </tr>
+     </table>       
+    </div> 
+<!-- end:   area_carga_cab -->   
+
+<!-- begin: notas_abiertas_cab -->
+<div style="text-align: center" id="msg"></div>
+<table  border="1"  cellspacing="0" cellpadding="0" class="{tipo_nota}" style="margin: 10 auto;border-collapse: collapse; "   >
+     
+    <tr style="background: {fondo};color:{color}">
+        <th><img src="img/{bandera}.png" width="28" height="28"></th>
+        <th colspan="6" style="font-size: 16px;font-family:arial">Nota de Pedido {nombre_nota} Abierta {cargaExcel}</th></tr>
+    <tr class="titulo"><th style="width: 5%">N&deg;</th>
+        <th style="width: 10%">Usuario</th>
+        <th style="width: 20%">Fecha</th>
+        <th style="width: 5%">Suc</th>
+        <th  style="width: 10%">Tipo</th>
+        <th  style="width: 10%">Estado</th>
+        <th style="width: 10%">*</th> 
+    </tr>
+<!-- end:   notas_abiertas_cab -->
+
+<!-- begin: notas_abiertas_data -->
+<tr id="nota_{nro}" class="venta_abierta  tipo_{tipo_nota}" style="background: lightskyblue"  >
+    <td class="itemc clicable" title="Seleccionar" >{nro}</td>    
+    <td class="itemc clicable"  title="Seleccionar">{usuario}</td> 
+    <td class="itemc clicable">{fecha}</td> 
+    <td  class="itemc clicable" title="Seleccionar">{suc}</td> 
+    <td class="itemc">{tipo}</td> 
+    <td class="itemc">{estado}</td> 
+    <td class="itemc"><input type="button" value="Enviar Pedido" style="cursor: pointer;display:{enviar_pedido}" onclick="enviarPedido({nro})"></td> 
+</tr> 
+<!-- end:   notas_abiertas_data -->
+
+
+<!-- begin: notas_abiertas_foot --> 
+<tr>
+    <td colspan="7">
+        <table class="articulos_{nro}" style="border-collapse: collapse;border:solid gray 1px;width: 100%" border="1">
+            <tr><th colspan="10" class="itemc" style="background-color: #fffeee">Detalle de Pedido</th></tr>
+            <tr class="titulo">
+                <th>Usuario</th>  
+                <th class="intSuc">Suc</th>             
+                <th>Cliente</th>
+                <th>Codigo</th>
+                <th>Descripci&oacute;n</th> 
+                <th>Cantidad</th>
+                <th>Um</th>
+                <th>Mayorista</th>                
+                <th>Color</th>
+                <th>Obs</th>
+                <th></th>
+            </tr>   
+        </table>
+    </td>
+</tr>
+</table> 
+ 
+<!-- end:   notas_abiertas_foot -->

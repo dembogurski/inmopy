@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Reporte de Inventario</title>
+   <link href="../css/reporte_defaults.css" rel="stylesheet" type="text/css"/>
+   <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script>
+   <style>
+      table{
+         margin: 0 auto;
+         empty-cells: show;
+         border-collapse: collapse;
+      }
+      th,td{
+         border: solid 1px gray;
+      }
+      .r{
+         text-align: right;
+      }
+      .inicial{
+         background-color: lightblue;
+      }
+      .control{
+         background-color: lightsteelblue;
+      }
+      .dif{
+         color:blue;
+         font-weight: 900;
+         background-color: goldenrod;
+      }
+      .art,.color{
+         display: none;
+      }
+      td{
+         white-space: nowrap;
+         padding: 1px 3px;
+      }
+      div#progresoContenedor *{
+         display: inline-block;
+      }
+      progress#progreso{
+         -webkit-appearance: none;
+         appearance: none;
+         background-color:gray;
+         color:blue;
+      }
+   </style>
+   <script>
+      
+      $(function(){
+         $("#progreso").prop("max",$(".line").length);
+         $(".line").each(function(){
+            var stock_ini = parseFloat(($(this).find('.stock_ini')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var gramaje_ini = parseFloat(($(this).find('.gramaje_ini')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var ancho_ini = parseFloat(($(this).find('.ancho_ini')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var tara_ini = parseFloat(($(this).find('.tara_ini')).text().replace(/\./g,'').replace(/,/g,'.'));
+
+            var stock = parseFloat(($(this).find('.stock')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var gramaje = parseFloat(($(this).find('.gramaje')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var ancho = parseFloat(($(this).find('.ancho')).text().replace(/\./g,'').replace(/,/g,'.'));
+            var tara = parseFloat(($(this).find('.tara')).text().replace(/\./g,'').replace(/,/g,'.'));
+            if(stock_ini !== stock){
+               $($(this).find('.stock_ini')).addClass('dif');
+               $($(this).find('.stock')).addClass('dif');
+            }
+            if(gramaje_ini !== gramaje){
+               $($(this).find('.gramaje_ini')).addClass('dif');
+               $($(this).find('.gramaje')).addClass('dif');
+            }
+            if(ancho_ini !== ancho){
+               $($(this).find('.ancho_ini')).addClass('dif');
+               $($(this).find('.ancho')).addClass('dif');
+            }
+            if(tara_ini !== tara){
+               $($(this).find('.tara_ini')).addClass('dif');
+               $($(this).find('.tara')).addClass('dif');
+            }
+
+         });
+         if($("#ArtColor").val() == 'true'){
+            buscarDatos();
+         }
+
+      });
+      function buscarDatos(){
+         
+         $(".art,.color").show();
+         var current = $($(".lote").not('.procesado').get(0));
+         var currTR = current.closest('tr');
+         var lote = current.text();
+         var op = {
+           "action":"loteInfo",
+           "lote":lote
+         };
+         $.post('Inventario.php',op,function(respuesta){
+            current.addClass('procesado');
+            if(respuesta.error){
+               alert(respuesta.error);
+            }else{
+               $(currTR.find('.art')).text(respuesta.itemName);
+               $(currTR.find('.color')).text(respuesta.Name);
+            }
+           if($(".lote").not('.procesado').length > 0){
+              buscarDatos();
+            }
+            $("#progreso").prop("value",$(".procesado").length);
+            $("#progresoAbance").text(Math.round($("#progreso").prop('position')*100));
+         },'json');  
+      }
+   </script>
+</head>
+<body>
+   <input type="hidden" id="ArtColor" value="[onshow.ArtColor]">
+   <table>
+      <tr>
+         <td>
+            <table style="width: 100%;">
+               <tr>
+                  <th colspan="3">Reporte de Inventario</th>
+               </tr>
+               <tr>
+                  <th colspan="2" style="width:85%;">
+                     <p>Per&iacute;odo [onshow.desde;frm='dd-mm-yyyy'] a [onshow.hasta;frm='dd-mm-yyyy']</p>
+                  </th>
+                  <td  style="width:15%;">[onshow.user]</td>
+               </tr>
+               <tr class="color">
+                  <td colspan="3">
+                     <div id="progresoContenedor">
+                        <progress id="progreso" value="0" max="0"></progress>
+                        Progreso: <div id="progresoAbance"></div>%
+                     </div>
+                  </td>
+               </tr>
+      
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <table>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>Lote</th>
+                     <th>Cod</th>
+                     <th class="art">Articulo</th>
+                     <th class="color">Color</th>
+                     <th>ajuste</th>
+                     <th>Fecha</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr class="line">
+                     <td class="r">[inv.#]</td>
+                     <td class="r lote">[inv.lote;block=tr]</td>
+                     <td class="codigo">[inv.codigo]</td>
+                     <td class="art"></td>
+                     <td class="color"></td>
+                     <td class="r ajuste">[inv.ajuste;frm='0.000,000']</td>
+                     <td class="r fecha">[inv.fecha;frm='dd-mm-yyyy hh:nn:ss']</td>
+                  </tr>
+               </tbody>
+            </table>
+         </td>
+      </tr>
+   </table>
+</body>
+</html>

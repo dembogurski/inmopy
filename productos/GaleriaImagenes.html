@@ -1,0 +1,166 @@
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="productos/GaleriaImagenes.css?_=8888888888888888888888" />   
+     
+    <script type="text/javascript" src="productos/GaleriaImagenes.js?_=999999999999999999999" ></script>
+      
+<!-- end:   headers -->
+ 
+<!-- begin: images_container_init -->
+<input type="hidden" id="images_url" value="{images_url}">
+
+
+<div class="titulo" style="text-align: center">Galeria de Imganes</div>
+ 
+<!-- end:   images_container_init -->
+
+
+<!-- begin: filtro_articulos --> 
+<input type="hidden" id="codigo" value="" data-sector=""> 
+<input type="hidden" id="um" value=""> 
+
+<div id="area_carga" >
+    <table border="0">
+        <tr> 
+            <td><label>Articulo:</label></td>
+            <td colspan="3"><input type="text" id="descrip" size="38"  class="requerido"  placeholder="Codigo Articulo" > 
+            <label>Term:</label>
+            <input type="text" id="term" value="%" size="4" style="text-align: right" onchange="buscarEstadoVenta()"  >
+            </td>                
+        </tr>
+        <tr>
+            <td style="min-width:60px"><label>Cant. ></label></td>
+            <td>
+                <input type="text" id="cantidad" class="numeros requerido" value="0" size="4" style="text-align: right" onchange="buscarEstadoVenta()"   >   
+            </td>
+            <td>
+                <label>Estado Venta:</label>
+            </td>
+            <td>    
+                <select id="estado_venta" onchange="buscarSucursales()"  > </select>   
+            </td> 
+        </tr> 
+        
+        <tr>
+            <td>
+                <label>Suc:</label>
+            </td>
+            <td colspan="2">    
+                <select id="suc" onchange="buscarDesigns()">{sucursales}</select>
+            </td>
+            <td><label>Dise&ntilde;o:</label> <select id="designs" onchange="buscarColores()" style="min-width: 100px"></select>   </td>
+        </tr>
+        <tr> 
+            <td>    
+                <label>Color:</label> 
+            </td>
+            <td colspan="3">    
+                <select id="color" style="min-width: 160px" ></select>
+                <input type="button"  value="  Ver  " style="cursor:pointer" onclick="galeria()">
+            </td>             
+        </tr>   
+    </table>
+    <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;max-width: 90%;min-width: 50%"  >
+        <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:2px 8px;width: 100%;background: white" >
+           <tr><th colspan="3" class="titulo">Articulos</th></tr>
+           <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>  <th style="width: 80%">Descripcion</th>  <th style="width: 10%">Precio</th> </tr>
+        </table>       
+     </div>      
+</div> 
+ 
+   
+<!-- end:   filtro_articulos -->
+
+<!-- begin: galeria --> 
+<div id="galeria"></div>
+<div id="fondo_imagen" style="position: absolute;display: none;background-color: #515151;height: 100%;width: 100%">
+<div id="image_container" style="display:none;position:fixed;margin:2px 4px 2px 2px;text-align: center;border:solid gray 1px;z-index: 10;display:none"></div>    
+</div>
+
+<!-- end:   galeria -->
+
+  
+
+<!-- begin: image_data_header noeval --> 
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="GaleriaImagenes.css?_=666666" />   
+  <link rel="stylesheet" type="text/css" href="../css/reportes.css?_=6666666" />   
+  <script type="text/javascript" src="../js/jquery-3.3.1.min.js?_=6" ></script>
+  <script type="text/javascript" src="../js/functions.js?_=6" ></script>
+  <script type="text/javascript" src="GaleriaImagenes.js?_=6" ></script>
+  <script> 
+      var is_mobile = window.opener.is_mobile; 
+      $(function(){
+          configurar();
+      });
+  </script>
+</head>
+
+<!-- end:   image_data_header -->
+
+<!-- begin: image_data_cab  --> 
+<input type="hidden" id="images_url" value="{images_url}">
+<spam id="nick" style="display: none" >{usuario}</spam>
+
+ 
+<table border="0" style="margin:0;padding:0;background-color:white;width: 100%;" > 
+    <tr>
+        <td style="vertical-align:top;text-align: center">  
+            <div id="img_container_cab" style="width: 100%;text-align: center;background: white;"> 
+                <img src="../img/close.png" style="margin-bottom:8px;margin-right:4px;cursor:pointer" onclick="closeImage()"> 
+                <img src="../img/substract.png" style="margin-bottom:8px"> <input id="zoom_range" onchange="zoomImage()" type="range" name="points" value="{img_width}"  min="40" max="2000"><img src="../img/add.png" style="margin-bottom:8px;"> 
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center" >
+            <img src="{img_url}" id="img_zoom" class="large_image" onclick="closeImage()" width="{img_width}" >
+        </td>        
+    </tr>    
+</table>            
+ 
+<table id="piezas" border="1"><tr><th class="titulo" colspan="13">Piezas</th></tr>
+     <tr><td colspan="13" class="art_head">  
+        <table border="0" style="width:100%">
+            <tr><th>Codigo:</th><td id="h_codigo" class="item">{codigo}</td><th>Sector:</th><td id="h_sector" colspan="2" class="item">{sector}</td></tr>
+            <tr><th>Nombre:</th><td id="h_nombre" colspan="2" class="item">{descrip}</td><th>Imagen:</th><td><a id="h_img" class="item" href=javascript:openImage("{img}")>{img}</a></td></tr>
+            <tr><th>Composicion:</th><td id="h_composicion" colspan="2" class="item">{composicion}</td><th>Cod.Pantone:</th><td id="h_pantone" colspan="2" class="item">{pantone}</td></tr>
+            <tr><th>Color:</th><td id="h_colo" colspan="2" class="item">{color}</td><th>Cod.Color.Fabrica:</th><td id="h_fab" colspan="2" class="item">{fab_color_cod}</td></tr>
+          </table>
+        </td></tr>  
+     <tr class="titulo"><th>Lote</th><th>Padre</th> <th>Ancho</th><th>Est.Venta</th><th>Suc</th><th>Ubic</th><th>Precio1</th><th>Stock</th><th>Disponible</th><th>Estado</th>
+   
+ 
+<!-- end:   image_data_cab -->
+
+<!-- begin: image_data_data -->
+     <tr>
+         <td class="item lote" style="cursor: copy">{lote}</td> 
+         <td class="item">{padre}</td>
+         <td class="itemc">{ancho}</td> 
+         <td class="itemc {estado_venta}">{estado_venta}</td>
+         <td class="itemc">{suc}</td>
+         <td class="itemc">{ubicacion}</td>
+         <td class="precio_{lote} num">{precio1}</td>
+         <td class="stock_{lote} num">{stock}</td>
+         <td class="disponible_{lote} num disp">{disponible}</td>
+         <td class="estado_{lote} itemc"></td>
+     </tr>
+<!-- end:   image_data_data -->
+
+<!-- begin: image_data_foot -->
+<tr>
+    <td colspan="8" style="font-weight: bolder">Total: <span id="cant_piezas"></span>~</td>
+    <td class="num" style="font-weight: bolder" id="total_disp"></td>
+</tr>
+</table> 
+    
+</html>
+
+<!-- end:   image_data_foot -->
+
+
+
+
+
+ 

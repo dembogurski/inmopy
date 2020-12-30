@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--
+Template de la clase NuevaVenta.class.php
+-->
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="ventas/FacturaVenta.css?_=0.000000000" />   
+    <script type="text/javascript" charset="utf-8" src="js/jquery.maskedinput.min.js" ></script>   
+    <script type="text/javascript" src="ventas/FacturaVenta.js?_=0000" ></script>
+    <script type="text/javascript" src="clientes/Clientes.js?_=31" ></script>       
+<!-- end:   header -->
+
+
+
+<!-- begin: titulo_factura -->
+<input type="hidden" id="images_url" value="{images_url}">
+<input type="hidden" id="limite_detalles" value="{limite_detalles}">
+
+<div id="anchorTitle" class="anchorTitle"></div>
+
+<div id="div_pv_mayorista" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: left">
+    <input type="hidden" id="loteActual">
+    <input type="hidden" id="codigo_en_edicion" value="" data-precio_edit="0">
+    <input type="hidden" id="descrip_en_edicion" value="" >
+    <label for="replicarXCod" style="padding-right:18px" >Aplicar a :</label>
+    <select id="replicarXCod" onchange="resaltarSimilares()">       
+        <option value="codigo">Articulo</option>
+        <option value="descrip">Articulo - Color</option>
+         <option value="lote">Lote</option>
+    </select>
+    <br>
+    <label>Precio Venta:</label><input  id="pv_mayorista" class="num numeros precio_venta_mayorista" type="text" size="14" value=""><br>     
+    <label>Valor Minimo:</label><input  id="p_valmin" class="num numeros precio_venta_mayorista" type="text" size="14" readonly="readonly" value=""><br>  <br>  
+    {modPrecioBajoMinimo} 
+    
+    <label>Redondear a multiplos de 50:</label><input type="checkbox" id="redondear50" checked="checked"><br> 
+    <label>Modificar precios mas bajos:</label><input type="checkbox" id="edit_precio_oferta" checked="checked"><br> 
+    <div style="text-align: center">
+        <input type="button"   value="Cancelar" onclick=javascript:$("#div_pv_mayorista").fadeOut()>  <input type="button"  value="Aceptar"  onclick="actualizarPrecioMayorista()"> <br>
+    </div>
+    
+    <span id="msg_pv"></span>    
+</div>
+
+  
+<div id="dialog-confirm" title="Que desea hacer?" style="display: none;margin-top: 6px;height: 50px">    
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:6 7px 20px 0;" ></span><span id="alert_msg">&iquest;Esta seguro que desea eliminar este registro&quest;</span> 
+</div>
+ 
+<div class="titulo_factura">Factura de Venta</div>
+
+<!-- end:   titulo_factura -->
+
+<!-- begin: cotizaciones -->
+<div style="text-align: center; padding-top: 2px;display: none" id="cotizaciones" >
+    <label style="font-weight: bold;font-size: 10px;">Cotizaciones:</label>&nbsp;&nbsp;
+    <img src="img/rs.png" class="img_moneda_venta" style="margin-bottom: -6px;"><input style="font-size: 10px;text-align: right;color:black;height:16px" type="text" size="8"  readonly  id="cotiz_rs" value="{cotiz_rs}">&nbsp;&nbsp;
+    <img src="img/ps.png" class="img_moneda_venta" style="margin-bottom: -6px;"><input style="font-size: 10px;text-align: right;color:black;height:16px" type="text" size="8"  readonly  id="cotiz_ps" value="{cotiz_ps}">&nbsp;&nbsp;
+    <img src="img/us.png" class="img_moneda_venta" style="margin-bottom: -6px;"><input style="font-size: 10px;text-align: right;color:black;height:16px" type="text" size="8"  readonly  id="cotiz_us" value="{cotiz_us}">&nbsp;&nbsp;    
+</div>
+<!-- end:   cotizaciones -->
+
+<!-- begin: cabecera_nueva_venta -->
+<input type="hidden" id="cod_desc" value="{cod_desc}">
+<div id="cabecera"> 
+    <div id="cli_data">
+    <input type="hidden" id="operacion" value="crear">        
+    <input type="hidden" id="codigo_cliente" value="">
+    <input type="hidden" id="tipo_doc" value="">    
+    <label class="factura_inv">N&deg;: </label> <input type="text" size="7"  readonly class="factura_inv" id="factura" value=""> 
+    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" id="ruc_cliente"  size="12" maxlength="34" onblur="buscarCliente(this)" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" size="12">
+    <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="40" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="turno" >
+    <label>Cat:</label>  <input type="text" id="categoria" size="1" readonly style="text-align: center" value="1"  >
+    <input type="button" value="Nuevo Cliente" id="boton_nuevo_cliente" onclick="nuevoCliente()">
+    <input class="moneda" type="text" id="moneda" size="3" readonly style="text-align: center;" value="G$" >
+    <img src="img/icon-arrow-right-b-32.png" class="currency" id="change_currency" style="margin:0px 0px -11px -14px;cursor:pointer;" title="Cambiar Moneda" onclick="cambiarMonedaFactura()" >
+    <label class="moneda cotiz" >Cotiz:</label>  <input type="text" id="cotiz" class="moneda cotiz" size="6" readonly style="text-align: center;" value="1"  >
+    <label class="turno">Turno:</label><input class="turno" style="text-align: center" type="text" size="4" maxlength="6" id="turno" data-next="boton_generar" onchange="verifTurno()" onkeyup="soloNumero($(this))">
+    <select id="clase" style="display: {display_clase}">
+        <option value="Articulo" selected="selected">Articulo</option>
+        <option value="Servicio" >Servicio</option>
+    </select>
+    &nbsp;<input id="boton_generar" onclick="crearFactura()" style="display:none" type="button" value="Generar Factura" >
+    <label class="limite_credito" title="Limite de Credito">Lim.Cred.:</label> <input type="text" id="limite_credito" size="10" readonly class="num limite_credito" value="0"  >
+    &nbsp;<span id="msg"></span>
+    </div>
+    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer; width: 80%;height:70%"  >
+        <div id="cli_content" style="width: 90%;float: left; overflow-y: auto;height: 100%">
+            <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;width: 100%" >  
+                <tr><th colspan="5" class="titulo">Clientes</th></tr>
+                <tr style="background-color: lightgray;">
+                    <th style="width: 15%">Codigo</th>
+                    <th style="width: 20%">C.I./R.U.C.</th>
+                    <th style="width: 55%">Cliente</th> 
+                    <th style="width: 10%">Categoria</th> 
+                </tr>
+            </table>       
+        </div>
+        <div style="width: 9%;float: right">
+           <div style="text-align: center;height: 50%; " class="scrollButtons">
+                    <input type="button" onclick=scrollCliente("-") value="" style="background-image: url(img/arrow-up.png);width: 36px;height: 36px;background-repeat: none;margin-top:110%">
+            </div>
+            <div style="text-align: center;height: 50%; " class="scrollButtons">
+                <input type="button" onclick=scrollCliente("+") value="" style="background-image: url(img/arrow-down.png);width: 36px;height: 36px;background-repeat: none;margin-top: 10px">
+            </div>
+        </div>    
+    </div> 
+     
+ </div>   
+<!-- end:   cabecera_nueva_venta -->
+
+<!-- begin: area_carga_cab -->
+<input type="hidden" id="pref_pago" value="{pref_pago}">
+    <div id="area_carga" >
+        
+        <table  border="0"  cellspacing="0" cellpadding="0" width="99%" class="area_insercion" >    
+            <tr>
+                <td style="min-width: 86%">   
+                    
+                <label>Codigo:&nbsp; </label> <input type="text" id="lote" size="20" maxlength="36" value="" tabindex="1" placeholder="Codigo Barras" style="font-weight: bolder" data-info="Puntee aqui el codigo de barras" onchange="buscarCodigo()" class="editable"> 
+                <img src="img/keypad32.png" border="0" onclick=showKeyPad("lote") style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer;display: {keypadtouch}" title="Teclado Numerico" >
+                <label style="display:none">Codigo Sis.:&nbsp; </label> <input type="text" id="codigo" class="dato" value="" size="14" placeholder="Codigo Sistema" readonly style="display:none" >         
+                <label>Stock:</label> <input type="text" style="text-align: right" class="dato" value="" id="stock" size="9" data-stock="0"  data-stock_disponible="0"  readonly="readonly" ><span id="stock_compr"></span><span id="estado_fp" ></span>
+                <label>UM:</label> <input type="text" id="um" class="itemc dato" size="4" data-um_prod=""  readonly >
+                <img src="img/icon-arrow-right-b-32.png" id="change_um" style="margin:0px 0px -11px -14px;cursor:cursor;opacity:0 " title="Cambiar Unidad de Medida de Venta" >
+                
+                <img src="img/refresh-32.png" title="Actualizar" data-info="Actualizar" class="rotate" style="height: 22px;width: 22px; margin-bottom: -8px;cursor: pointer" onclick="buscarCodigo()">
+                &nbsp;
+                <img src="img/info.png" id="info" style="width: 24px;height:24px;margin-bottom:-6px;cursor:pointer;display: none" onclick="buscarArticulosSimilares()" title="Buscar Articulos similares de la misma compra">&nbsp;
+                <span id="msg_codigo"></span> 
+                <label style="display:none">Ancho</label> <input style="display:none" type="text" id="ancho" class="itemc dato" size="7"  readonly >
+                <label style="display:none">Gramaje:</label> <input style="display:none" type="text" id="gramaje" class="itemc dato" size="8"  readonly > 
+                <label style="display:none">Tara:</label> <input style="display:none" type="text" id="tara" class="itemc dato" size="8"  readonly > 
+                <br>
+                <div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;display:none">
+                    
+                </div>    
+                <div id="articulos" title="Lista de Articulos de la Misma Compra" class="div_articulos"  >
+                    <table id="lista_articulos_cab" cellspacing="0" cellpadding ="0" border="1" style="width: 99%;margin: 0px 0 0 2px" >
+                        <tr><th colspan="4" class="titulo info_titulo" style="height: 24px" >Articulos de la Misma Compra</th><td class="titulo" style="text-align: center;"><img style="cursor: pointer" src="img/close.png"  height="14" width="14" onclick="cerrarListaArticulos()"></td></tr>
+                        <tr style="background-color: rgb(240,250,250);"> <th style="width: 30%">Codigo</th>   <th style="width: 10%">Suc</th> <th style="width: 20%">Stock</th> <th style="width: 30%">Ubic.</th> <th style="width: 10%">Img.</th> </tr>
+                    </table> 
+                    <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="width: 99%;margin-top: 40px" ></table> 
+                </div>  
+                <div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:absolute"></div>         
+                
+                <label>Descrip:</label> <input type="text" id="descrip" size="100" class="dato" readonly > <span id="art_menores"></span> <br>
+                <label>Precio:</label> <input type="text" style="width: 1.7cm" class="num numeros dato" id="precio_cat" size="8" maxlength="14" data-precio="0"  readonly data-info="Precio para esta Categoria"> 
+                <label>Precio Venta:</label> <input type="text" style="width: 1.7cm" class="num numeros dato editable" id="precio_venta" tabindex="2" maxlength="14" data-next="cantidad" size="10"  > 
+                <label>Cantidad:</label> <input type="text" style="width: 1.4cm" class="num numeros dato editable" id="cantidad" tabindex="3" data-next="add_code" size="8"  > 
+                <label>SubTotal:</label> <input type="text" class="num dato" id="subtotal" size="10"  readonly  > 
+                <label id="cod_falla" class="falla" style="visibility: hidden">F1</label><input style="visibility: hidden" type="text" class="num dato falla numeros" id="cm_falla" size="3" maxlength="3" data-next="add_code" value=""  > 
+                <label class="fp">FP:</label><input class="fp" type="checkbox" id="fp" onclick="setFP()" data-next="add_code">
+                <input type="button" id="add_code" value="  Insertar  "  onclick="addCode()" tabindex="4" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Detalle" > 
+            </td>
+            <td id="image_space" style="width: auto;text-align: center;">
+                <img id="imagen_lote" width="100"  alt="Sin Foto" style="display:none;border:solid gray 1px">
+            </td>   
+            </tr>
+            <tr class="grafico_fallas" style="display: none">
+                <td colspan="2" class="error" style="text-align: center;font-size: 12px;">Atension este tejido puede tener Fallas</td>
+            </tr>
+            <tr class="grafico_fallas" style="display: none">
+                <td colspan="2" >
+                    <div id="total_mts" >
+                        <div id="total_vender">
+                            
+                        </div>
+                    </div> 
+                </td>
+            </tr> 
+    </table>       
+        <table id="detalle_factura" border="1" cellspacing="0" cellpadding="0" width="99%"  >
+           
+            <tr><th colspan="10" style="background-color: lightgray">Detalle de Factura</th></tr>  
+            <tr class="titulo"><th class="codigo">Codigo</th><th class="codigo">Lote</th><th class="descrip">Descripcion</th><th class="cant">Cantidad</th><th class="um">UM</th><th class="fx" title="Posibles Fallas">Fx</th><th class="precio">Precio</th><th class="descuento_h">Desc.</th><th class="subtotal">Subtotal</th><th class="delete">*</th></tr>  
+            
+<!-- end:   area_carga_cab -->            
+
+<!-- begin: area_carga_data -->
+<tr  id="tr_{codigo}-{lote}" class="hash" data-hash="{hash}" ><td class="item codigo_art">{codigo}</td> <td class="item codigo_lote" data-codigo="{codigo}" title="{codigo}" >{lote}</td><td class="item {estado_venta} descrip">{descrip}</td><td class="num cantidad">{cant}</td><td  class="itemc">{um}</td><td  class="itemc">{falla}</td><td class="num precio_venta">{precio}</td><td class="num descuento">{descuento}</td><td class="num subtotal_det">{subtotal}</td><td class="itemc"><img class="del_det trash" title="Borrar Esta Pieza" style="cursor:pointer" src="img/trash_mini.png" onclick=delDet("{codigo}","{lote}");></td></tr>  
+<!-- end:   area_carga_data -->
+
+<!-- begin: area_carga_foot -->
+<tr class="tr_total_factura" style="font-weight: bolder"><td >&nbsp;Totales</td><td></td><td id="msg_det" style="text-align: center;font-size: 11" class="info"></td><td id="total_cantidades" style="text-align: right;" class="num"></td><td colspan="3" style="text-align: center"><label class="sedeco"><b>Redondeo SEDECO:</b></label>&nbsp;<label class="sedeco" id="desc_sedeco">{desc_sedeco}</label><b class="sedeco">&nbsp;G$.</b></td>  <td id="descuento_factura" style="text-align: right;" class="num">{TOTAL_DESC}</td><td style="text-align: right;" id="total_factura" class="num">{TOTAL}&nbsp;{moneda}.</td><td style="text-align: center"><img src="img/medios_pago.png" height="18" width="18" style="cursor:pointer" onclick="verMonedasExtranjeras()"> </td> </tr>
+        </table>  
+        <div style="text-align: right; display: none" id="moneda_extrangera">
+            <label for="moneda_ps"   class="forma_pago" >P$</label> <input id="moneda_ps" onchange="totalizar()"   type="radio" name="moneda_pago">&nbsp;&nbsp;
+            <label for="moneda_rs"  class="forma_pago" >R$</label>  <input id="moneda_rs" onchange="totalizar()"   type="radio" name="moneda_pago">&nbsp;&nbsp;
+            <label for="moneda_us" class="forma_pago" >U$</label>   <input id="moneda_us" onchange="totalizar()"   type="radio" name="moneda_pago">&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <label id="moneda_ext">Total: </label><input type="text" class="total_otra_moneda" id="total_me" size="10" readonly="readonly">
+        </div>
+        <div id="pref_action" style="padding-top: 4px;text-align: center"> 
+            <img src="img/refresh-32.png" title="Recargar Factura" data-info="Actualizar" class="rotate" style="height: 22px;width: 22px; margin-bottom: -8px;cursor: pointer" onclick="recargar()">&nbsp;&nbsp;&nbsp;
+            <label style="font-weight: bolder" >Preferencia de Pago: &nbsp;</label> <input id="contado" type="radio" class="forma_contado" onclick="setPrefPago()" name="forma_pago"   value="Contado"><label class="forma_contado forma_pago" style="font-weight: bolder" for="contado">&nbsp;Efectivo/Cheque al Dia/Cuotas &nbsp;&nbsp;&nbsp;</label>
+            <input id="tarjeta" type="radio" onclick="setPrefPago()" class="forma_credito"  name="forma_pago" value="Otros"><label class="forma_credito forma_pago" style="font-weight: bolder" for="tarjeta">&nbsp;Tarjeta/Cheques Diferidos</label>&nbsp;&nbsp;&nbsp;
+            {codigo_venta_discriminada}
+            <input type="button" id="finalizar" onclick="finalizar()" disabled="disabled" style="font-weight: bolder" value=" Finalizar " {finalizar_state} >
+        </div>
+        <div style="text-align: center;margin:10px auto">
+            <label class="Promocion rounded">Promocion</label>
+            <label class="Retazo rounded">Retazo</label>
+            <label class="Normal rounded">Normal</label>
+            <label class="Oferta rounded">Oferta</label>
+            <label class="Arribos rounded">Arribos</label>            
+        </div>
+    </div>
+<!-- end:   area_carga_foot -->
+
+
+
+<!-- begin: cabecera_venta_existente -->
+<input type="hidden" id="cod_desc" value="{cod_desc}">   
+<div id="cabecera"> 
+    <div id="cli_data"> 
+    <input type="hidden" id="operacion" value="editar">        
+    <input type="hidden" id="codigo_cliente" value="{cli_cod}">
+    <input type="hidden" id="tipo_doc" value="{tipo_doc}">    
+    <label class="factura">N&deg;: </label> <input type="text" size="7"  readonly class="factura" id="factura" value="{factura}"> 
+    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" readonly id="ruc_cliente" size="12" maxlength="34" value="{ruc}" >
+    <label>Cliente:</label>   <input type="text" readonly id="nombre_cliente" size="40" value="{cliente}"  >
+    <label>Cat:</label>  <input type="text" id="categoria" size="1" readonly style="text-align: center" value="{cat}"  >
+    <input class="moneda" type="text" id="moneda" size="2" readonly style="text-align: center;" value="{moneda}"   >
+    <label class="moneda cotiz" >Cotiz:</label>  <input type="text" id="cotiz" class="moneda cotiz" size="6" readonly style="text-align: center;" value="{cotiz}"  >
+    <input type="text" value="{clase}" size="8" id="clase" style="text-align: center" readonly="readonly">
+    <label class="limite_credito" title="Limite de Credito" >L.C:</label> <input type="text" id="limite_credito" size="8" readonly class="num limite_credito" value="0"  >
+    &nbsp;<span id="msg"></span>
+    </div> 
+ </div>   
+<!-- end:   cabecera_venta_existente -->
+ 
+
+<!-- begin: config -->
+<script> inicializar();  </script>
+<!-- end:   config -->   

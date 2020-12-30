@@ -1,0 +1,34 @@
+ 
+/* 
+    Created on : 21/02/2019, 11:45:29 AM
+    Author     : Ing.Douglas
+*/
+
+body{
+    margin: 0px;
+}      
+
+.contenedor {           
+   width: 30mm;           
+   height: 46mm;
+   border: 0px solid #000000;
+   margin-bottom:0mm;margin-top: 0mm;                                
+   position: relative;
+}
+
+ 
+.etiqueta_cuidados_continua_3cm{    
+    width: 30mm;
+    height: 7mm;
+    padding-right: 1mm;
+    padding-left: 1mm;
+    margin: 2mm auto;    
+}
+
+.etiq_head, .etiq_foot{
+    width: 30mm;
+    text-align: center;
+    font-family: tahoma;
+    font-size: 10px;
+    font-weight: bolder
+}

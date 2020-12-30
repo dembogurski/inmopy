@@ -1,0 +1,151 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="clientes/Extractos.css?_=xxxxxxxxxxx" />
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>     
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>      
+    <script type="text/javascript" src="clientes/Extractos.js?_=444444" ></script>  
+<!-- end:   header -->
+
+<!-- begin: body -->
+ 
+<div id="form" style="text-align: center; width: 800px;min-width: 40%;border: solid 1px;margin: 20 auto ">    
+    
+    <table id="extract" border="0"  cellspacing="6" cellpadding="0"   >
+            <tr class="titulo" ><th colspan="8" style="text-align: center">Extracto de Cuentas de Clientes</th></tr>
+            <tr><td colspan="8" id="msg"></td></tr>
+            <tr>
+                <td colspan="8" >
+                    <input type="hidden" id="codigo_cliente" value=""> <input type="hidden" id="moneda" value="G$">    
+                    <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" id="ruc_cliente"  size="20" maxlength="34" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" >
+                    <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre"  > <input type="button" value="Reporte de Deudores" onclick="reporteDeudores()">                                   
+                </td>
+            </tr>
+                 <tr>
+                     <td>
+                        <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer;position:absolute;width: 590px"  >
+                            <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="width: 100%" >
+                                <tr><th colspan="4" class="titulo">Clientes</th></tr>
+                                <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th> <th style="width: 10%">Categoria</th> </tr>
+                            </table>  
+                        </div>                            
+                    </td>
+                 </tr>
+            <tr>
+                <td style="width: 10%">Desde:</td> 
+                <td style="width: 10%"><input id="desde" class="fecha" type="text" size="10" value="01-01-2010"></td>  
+                <td style="width: 10%">Hasta:</td> 
+                <td style="width: 10%"><input id="hasta" class="fecha" type="text" size="10" value="31-12-2030"></td> 
+                <td style="width: 10%">Estado:</td> 
+                <td style="width: 10%">
+                    <select id="estado">
+                        <option value="%">Todos</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>                    
+                </td> 
+                <td style="width: 10%">Orden:</td> 
+                <td style="width: 10%">
+                    <select id="order">
+                        <option value="DocEntry">Factura</option>
+                        <option value="i.DueDate">Vencimiento</option>                        
+                    </select>                    
+                </td> 
+            </tr>
+                <tr>
+                    <td>
+                        Tipo: 
+                    </td>
+                    <td>
+                        <select name="tipoRep" id="tipoRep"><option>Extendido</option><option>Resumido(Aun no desarrollado)</option></select>
+                    </td>
+                    <td colspan="2">
+                        Vista para cliente: &nbsp; <input type="checkbox" id="vista_cliente" >
+                    </td>
+                     
+                    <td colspan="5" style="text-align: center">
+                            Preparar para Imprimir en:&nbsp;&nbsp;&nbsp;  <label>A4&nbsp;</label><input type="radio" value="9" name="paper_size" checked="checked" >&nbsp;<label>Oficio</label><input type="radio" value="14" name="paper_size" >
+                            <input type="button" value="Aceptar" onclick="verDetalleCuenta()"> 
+                    </td>
+                </tr>
+    </table>  
+     
+    <div>
+<!-- end:   body -->
+
+<!-- begin: extracto_cab -->
+
+ <link rel="stylesheet" type="text/css" href="Extractos.css" />
+ <link rel="stylesheet" type="text/css" href="../css/reportes.css" />
+ 
+ <input type="hidden" id="tipo_vista" value="{tipo_vista}">
+ 
+<table class="extracto" border="1">
+    <tr>
+        <th colspan="4">
+            <img src="../img/logo_small.png">
+        </th>  
+        <th colspan="14" class="titulo_extracto" >Extracto de Cuenta de Cliente</th>
+        <th colspan="3" style="font-size: 8px">
+            {usuario}-{hora}
+        </th>
+    </tr>
+    <tr style="font-size: 13px;height: 28px">
+        <td colspan="13" class="cli_data"><b>Cliente:</b>  &nbsp; {cliente} &nbsp;&nbsp; <b>RUC:</b>&nbsp;{ruc}</td>
+        <th colspan="8">Periodo: {desde} &harr; {hasta} </th>
+    </tr>
+    <tr class="titulo">
+        <th class="switch">Ref.</th><th>Suc</th><th>Factura</th><th>Cuota</th><th>Fecha</th><th>Venc.</th><th>Dias Atr.</th><th>T.M.</th><th>Total</th><th>Pagado</th><th>Saldo</th><th>Estado</th>
+        <th colspan="9" class="det_cab" style="background-color: #E6E6FA">Detalle de Pagos &nbsp; <input type="checkbox" id="switch_view" onclick="switch_view()"></th>
+    </tr>
+<!-- end:   extracto_cab -->
+
+<!-- begin: extracto_data -->    
+<tr class="data">
+   <td class="itemc switch">{DocEntry}</td><td class="itemc">{U_SUC}</td><td class="itemc" title="SUC:{U_SUC}">{FolioNum}</td><td class="itemc">{InstlmntID}</td><td class="itemc">{DocDate}</td><td class="itemc">{DueDate}</td><td class="itemc {atrasado}">{DiasAtraso}</td><td class="itemc">{DocCur}</td><td  class="num">{InsTotal}</td><td class="num">{Paid}</td><td class="num">{Saldo}</td><td class="itemc">{Estado}</td>
+    <th {visible} class="switch">N&deg;</th><th class="switch" {visible}>Suc</th><th {visible}>Recibo</th><th {visible} >Fecha</th> <th {visible}>Efectivo</th><th {visible}>Tarjetas</th><th {visible}>Cheques</th><th {visible} class="switch"  >TotalPag</th><th {visible}>Monto.Aplic.</th>
+</tr> 
+<!-- end:   extracto_data -->    
+
+
+<!-- begin: extracto_det_pago --> 
+<tr>
+    <td colspan="12" class="det_pago_vacio"></td> <td class="itemc switch">{PaimNum}</td> <td class="itemc switch">{suc}</td><td class="itemc">{Recibo}</td><td class="itemc">{PaimDate}</td><td class="num efectivo">{CashSum}</td><td class="num tarjeta">{CreditSum}</td><td class="num cheque">{CheckSum}</td><td class="num switch">{DocTotal}</td><td class="num">{SumApplied}</td>
+</tr> 
+<!-- end:   extracto_det_pago -->
+
+<!-- begin: extracto_data_nc -->   
+<tr>
+    <td colspan="17" class="det_pago_vacio" style="height: 6px"></td>
+</tr>
+<tr class="data">
+    <td colspan="12" class="det_pago_vacio"></td> 
+    <th colspan="9" >Reconciliaciones por Notas de Credito</th> 
+</tr>
+<tr class="data">    
+    <td colspan="12" class="det_pago_vacio"></td>  <th  class="switch">N&deg; Recon.</th><th   >Fecha</th> <th colspan="5" class="orin_sp_vacio" > Notas.  </th> <th > &Sigma;Valor N.C.</th> <th >Monto.Aplic.</th> 
+</tr>  
+<!-- end:   extracto_data_nc -->
+
+<!-- begin: nc_det_pago --> 
+<tr>     
+    <td colspan="12"  class="det_pago_vacio"></td> <td class="itemc switch">{id_rec} <img src="../img/l_arrow.png"  class="select" onclick=mostrarDocumento({id_rec},"RC")></td><td class="itemc">{recon_date}</td> <td class="orin_sp_vacio" colspan="5">{notas}</td> <td class="num">{total_nc}</td> <td class="num efectivo">{reconciliado}</td>
+</tr> 
+<!-- end:   nc_det_pago -->
+
+
+<!-- begin: separador --> 
+<tr>    <td  style="border-left: solid black 1px;border-top: 0px;border-right: 0px;border-bottom: 0px;height: 36px"> &nbsp;  </tr>
+<!-- end:   separador -->
+
+<!-- begin: totales --> 
+<tr style="font-size: 13px;font-weight: bolder">
+    <td colspan="2" class="switch">  <td colspan="6" class="det_total_vacio"></td><td class="num">{total_cuotas}</td><td class="num">{total_pagado}</td><td class="num">{saldo}</td><td colspan="9" class="det_total"></td><td class="num">{total_pagado_det}</td>
+</tr>
+<!-- end:   totales -->
+
+
+<!-- begin: extracto_foot --> 
+</table>
+ <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+ <script type="text/javascript" src="../clientes/Extractos.js?a=121254545" ></script>
+ 
+<!-- end:   extracto_foot -->

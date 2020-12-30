@@ -1,0 +1,29 @@
+
+<!-- begin: reservas_abiertas_cab -->
+ 
+<table id="reservas" border="1"  cellspacing="0" cellpadding="0"   >
+    <tr class="titulo_factura"><th colspan="9">Reservas de Abiertas de: &nbsp;{usuario} &nbsp;&nbsp; Sucursal: &nbsp; {suc}</th></tr>
+    <tr class="titulo"><th style="width: 5%">N&deg;</th>
+        <th style="width: 10%">Fecha</th>
+        <th style="width: 15%">CI/RUC</th>
+        <th style="width: 50%">Cliente</th> 
+        <th style="width: 10%">Total Neto</th>
+        <th style="width: 10%">Estado</th>
+    </tr>
+<!-- end:   reservas_abiertas_cab -->
+
+<!-- begin: reservas_abiertas_data -->
+<tr id="fact_{nro}" class="reserva_abierta" >
+    <td class="itemc" >{nro}</td>
+    <td class="itemc">{fecha}</td> 
+    <td class="item clicable"  title="Seleccionar">{ruc}</td> 
+    <td  class="item cliente clicable" title="Seleccionar">{cliente}</td>  
+    <td class="num clicable" style="font-weight: bolder">{total_neto}</td>
+    <td class="itemc">{estado}</td> 
+</tr> 
+<!-- end:   reservas_abiertas_data -->
+
+
+<!-- begin: reservas_abiertas_foot -->
+</table>
+<!-- end:   reservas_abiertas_foot -->

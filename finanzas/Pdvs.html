@@ -1,0 +1,150 @@
+<!-- begin: headers -->   
+    <head>  
+        <link rel="stylesheet" type="text/css" href="finanzas/Pdvs.css?_=0" />      
+        <link rel="stylesheet" type="text/css" href="js/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.dataTables.min.css">         
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"/>         
+    </head>  
+<!-- end:   headers -->
+
+<!-- begin: insert_edit_form -->     
+<div class="form" id="form_pdvs"></div>
+<!-- end:   insert_edit_form -->
+
+<!-- begin: data_header -->
+<div class="list_container">      
+    <table id="pdvs"  border="1" class="display responsive nowrap db_tablename"  >
+        <thead>
+            <tr>
+                <th>Codigo PDV</th><th>Suc</th><th>Tipo</th><th>Clase</th><th>Moneda</th><th></th>
+            </tr>
+        </thead>
+
+<!-- end:   data_header -->
+
+
+<!-- begin: data_line -->     
+    <tr> <td>{pdv_cod}</td> <td>{suc}</td> <td>{pdv_ubic}</td> <td>{tipo}</td> <td>{moneda}</td> <td class="itemc"><img class="edit" src="img/edit.png" onclick=editUI("{pdv_cod}") ></td>  </tr>
+<!-- end:   data_line -->
+
+
+<!-- begin: data_foot -->     
+
+        <tfoot>
+             
+        </tfoot>
+    </table> 
+</div>
+ 
+<!-- end:   data_foot -->
+
+<!-- begin: script -->      
+    <script type="text/javascript" src="js/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" language="javascript" src="js/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>        
+    <script type="text/javascript" language="javascript" src="js/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="js/functions.js" ></script>    
+    <script type="text/javascript" src="finanzas/Pdvs.js" ></script>
+    
+<!-- end:   script -->
+
+
+<!-- begin: edit_form_cab -->  
+<table border="0" class="form_table" id="edit_pdvs" style="width: auto">
+    <tr> <th colspan="2" class="form_title" > Actualizar Pdvs  </th> </tr> 
+<!-- end:   edit_form_cab -->
+
+
+<!-- begin: edit_form_data -->     
+<tr> <td class="form_label">Establecimiento:</td> <td>
+<select class="form_db_select PRI" id="form_suc" readonly="readonly"  >{value_of_suc}</select>
+</td>  </tr>
+<tr> <td class="form_label">Codigo PDV:</td> <td><input class="form_text PRI" type="text" id="form_pdv_cod"  readonly="readonly" required="required" size="4"  value="{value_of_pdv_cod}" >*</td>  </tr>
+
+<tr> <td class="form_label">Tipo:</td> <td>
+<select class="form_select PRI" id="form_pdv_ubic" readonly="readonly"  >{value_of_pdv_ubic}</select>
+</td>  </tr>
+<tr> <td class="form_label">Clase:</td> <td>
+<select class="form_select PRI" id="form_tipo" readonly="readonly"  >{value_of_tipo}</select>
+</td>  </tr>
+<tr> <td class="form_label">Moneda:</td> <td>
+<select class="form_db_select PRI" id="form_moneda" readonly="readonly"  >{value_of_moneda}</select>
+</td>  </tr>
+
+<!-- end:   edit_form_data -->
+
+
+<!-- begin: edit_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_pdvs" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value="Modificar Datos" onclick=updateData("edit_pdvs") id="pdvs_update_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="pdvs_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   edit_form_foot -->
+
+
+
+
+
+
+<!-- begin: add_form_cab -->  
+<table border="0" class="form_table" id="add_pdvs">
+    <tr> <th colspan="2" class="form_title" > (Nuevo Registro) Pdvs  </th> </tr> 
+<!-- end:   add_form_cab -->
+
+
+<!-- begin: add_form_data -->     
+<tr> <td class="form_label">Establecimiento:</td> <td>
+<select class="form_db_select PRI" id="form_suc"  >{value_of_suc}</select>
+</td>  </tr>
+
+<tr> <td class="form_label">Codigo PDV:</td> <td><input class="form_text PRI" type="text" id="form_pdv_cod"    required="required"  size="4"  value="" >*</td>  </tr>
+
+<tr> <td class="form_label">Tipo:</td> <td>
+<select class="form_select" id="form_pdv_ubic"  >
+<option value="Factura">Factura</option>
+<option value="
+Nota de Credito">Nota de Credito</option>
+<option value="
+Nota de Remision">Nota de Remision</option>
+<option value="
+Recibo">Recibo</option>
+<option value="
+Recibo Termico">Recibo Termico</option>
+<option value="
+Factura Conformada">Factura Conformada</option>
+</select>
+</td>  </tr>
+<tr> <td class="form_label">Clase:</td> <td>
+<select class="form_select" id="form_tipo"  >
+<option value="Manual">Manual</option>
+<option value="Pre-Impresa">Pre-Impresa</option>
+<option value="Termico">Termico</option>
+</select>
+</td>  </tr>
+<tr> <td class="form_label">Moneda:</td> <td>
+<select class="form_db_select PRI" id="form_moneda"  >{value_of_moneda}</select>
+</td>  </tr>
+
+<!-- end:   add_form_data -->
+
+
+<!-- begin: add_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_pdvs" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value=" Grabar " onclick=addData("add_pdvs") id="pdvs_save_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="pdvs_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   add_form_foot -->
+
+
+<!-- begin: no_result -->     
+<div style="text-align: center;margin: 2cm auto"> Ningun registro para Pdvs <button type="button" id="add_button_proveedores" onclick="addUI()">Agregar un nuevo registro para (Pdvs)</button></div> 
+<!-- end:   no_result -->

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+       
+      <style>
+          .Diferido{
+              background-color: #F8BC27;
+          }
+          .Al_Dia{
+              background-color: #BEBEEE;
+          }
+          .cuenta{
+              display: none
+          }
+          .fecha_ins{
+              display: none
+          }
+          .factura{
+              display: none
+          }
+          .report_cab_ger td, .report_cab_ger th{
+              font-size: 9px;
+          }
+      </style>
+      <script language="javascript">
+          var cheq;
+          $(document).ready(function(){
+            $(".check_adm").click(function(){
+                var c = $(this).is(":checked"); 
+                $(this).parent().next().children().prop("checked",c);
+                var id_banco = $(this).parent().parent().attr("data-id_banco");
+                var cheque = $(this).parent().parent().attr("data-cheque");
+                recibidoAdm(id_banco,cheque,c);
+                entregar(id_banco,cheque,c);
+            });  
+            $(".check_ent").click(function(){
+                var c = $(this).is(":checked"); 
+                
+                var id_banco = $(this).parent().parent().attr("data-id_banco");
+                var cheque = $(this).parent().parent().attr("data-cheque");
+                if(c){
+                    $(this).parent().prev().children().prop("checked",c);
+                    recibidoAdm(id_banco,cheque,c)
+                }
+                entregar(id_banco,cheque,c);
+            });
+            $(".check_ger").click(function(){
+                var c = $(this).is(":checked");                 
+                var id_banco = $(this).parent().parent().attr("data-id_banco");
+                var cheque = $(this).parent().parent().attr("data-cheque");
+                recibirGerencia(id_banco,cheque,c);
+            });
+          });
+          
+          function recibidoAdm(id_banco,cheque,recibido){
+              var user = $("#user").val();
+              var estado = 'No';
+              if(recibido){
+                 estado = 'Si';   
+              }
+              $.ajax({
+                type: "POST",
+                url: "ChequesTerceros.class.php",
+                data: {"action":"recibidoAdmin","usuario":user,"id_banco":id_banco,cheque:cheque,recibido:estado}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                    $(".adm_"+cheque).html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                      var result = $.trim(objeto.responseText);  
+                      if(result == "Ok"){
+                           $(".adm_"+cheque).html("");                            
+                      }else{
+                         $(".adm_"+cheque).html("<img title='"+result+"' src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                      }
+                    }
+                },
+                error: function () {
+                    $(".adm_"+cheque).html("<img  src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                }
+             }); 
+              
+          } 
+          function entregar(id_banco,cheque,recibido){
+            var user = $("#user").val();
+            var estado = 'No';
+            if(recibido){
+               estado = 'Si';   
+            }
+            $.ajax({
+                type: "POST",
+                url: "ChequesTerceros.class.php",
+                data: {"action":"entregar","usuario":user,"id_banco":id_banco,cheque:cheque,recibido:estado}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                    $(".ent_"+cheque).html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                      var result = $.trim(objeto.responseText);  
+                      if(result == "Ok"){
+                         $(".ent_"+cheque).html(""); 
+                      }else{
+                         $(".ent_"+cheque).html("<img title='"+result+"' src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                      }
+                    }
+                },
+                error: function () {
+                    $(".ent_"+cheque).html("<img src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                }
+              });    
+          }
+          function recibirGerencia(id_banco,cheque,recibido){
+            var user = $("#user").val();
+            var estado = 'No';
+            if(recibido){
+               estado = 'Si';   
+            }
+            $.ajax({
+                type: "POST",
+                url: "ChequesTerceros.class.php",
+                data: {"action":"recibirGerencia","usuario":user,"id_banco":id_banco,cheque:cheque,recibido:estado}, 
+                async:true,
+                dataType: "html",
+                beforeSend: function(){
+                    $(".ger_"+cheque).html("<img src='../img/loading_fast.gif' width='16px' height='16px' >"); 
+                }, 
+                complete: function(objeto, exito){
+                    if(exito=="success"){                          
+                      var result = $.trim(objeto.responseText);  
+                      if(result == "Ok"){
+                         $(".ger_"+cheque).html(""); 
+                      }else{
+                         $(".ger_"+cheque).html("<img title='"+result+"' src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                      }
+                    }
+                },
+                error: function () {
+                    $(".ger_"+cheque).html("<img src='../img/warning_red_16.png' width='16px' height='16px' >"); 
+                }
+              });    
+          }fi
+          function imprimirCheque(nro_cheque,id_banco){
+              if(cheq!==undefined){
+                cheq.close();
+              }
+              var usuario = $("#user").val();                  
+              cheq = window.open("ChequesTerceros.class.php?action=imprimirCheque&nro_cheque="+nro_cheque+"&usuario="+usuario+"&id_banco="+id_banco+"",'_blank', 'width=1024,height=760');
+              $("#printer_"+nro_cheque+"_"+id_banco+"").attr("src","../img/printer-02_32x32.png");
+          }
+      </script>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="user" value="{user}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Cheques</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>N&deg;</th>
+        <th>Factura</th>
+        <th>Banco</th>
+        <th class="cuenta">Cuenta</th>
+        <th class="factura">Factura</th>
+        <th>Librador</th>
+        <th>Fecha Ins.</th>
+        <th>Fecha Emis.</th>
+        <th>Fecha Pago</th>
+        <th>Valor</th>
+        <th>Moneda</th> 
+        <th>Suc</th>
+        <th>Tipo</th>
+        <th>Rec.Adm</th>        
+        <th>Rec.Ger</th>
+        <th></th>
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr data-id_banco="{id_banco}" data-cheque="{nro}">
+    <td class="item" title="Cta: {cuenta}">{nro}</td>
+    <td class="item">{factura}</td>
+    <td class="item">{banco}</td>
+    <td class="item cuenta">{cuenta}</td>
+    <td class="itemc factura">{factura}</td>
+    <td class="item">{benef}</td>
+    <td class="itemc">{fecha_ins}</td>
+    <td class="itemc">{fecha_emis}</td>
+    <td class="item">{fecha_pago}</td>
+    <td class="num">{valor}</td>
+    <td class="itemc">{moneda}</td>
+     
+    <td class="itemc">{suc}</td> 
+    <td class="itemc {tipo}" >{tipo}</td>   
+    <td class="itemc">  {chek_adm}  <span class="adm_{nro}"> </span></td> 
+    <td class="itemc"> {chek_ger}  </td>
+    <td class="itemc"><img id="printer_{nro}_{id_banco}" src="../img/printer-01_32x32.png" width="24px" height="18px" style="cursor:pointer" onclick=imprimirCheque("{nro}","{id_banco}") ></td>
+</tr>    
+ 
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="2"></td>    
+    <td class="cuenta"></td>
+    <td class="factura"></td>
+    <td></td>
+    <td class="fecha_ins"></td>
+    <td></td>
+    <td></td>
+    
+    <td class="num">{t_monto}</td>
+    <td colspan="7"></td>  
+</tr> 
+</table>    
+ 
+<!-- end:   foot  -->
+
+
+
+<!-- begin: head_entrega -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+<input type="hidden" id="user" value="{user}">
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Entrega Cheques a Gerencia</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header report_cab_ger">    
+     
+    <tr>
+        <th>N&deg;</th>
+        <th>Banco</th>
+        <th class="cuenta">Cuenta</th>
+        <th class="factura">Factura</th>
+        <th>Librador</th>
+        <th class="fecha_ins">Fecha Ins.</th>
+        <th>Fecha Emis.</th>
+        <th>Fecha Pago</th>
+        <th>Valor</th>
+        <th>Moneda</th>         
+        <th>Suc</th>
+        <th>Tipo</th>
+        <th>Rec.Adm</th>         
+        <th>Rec.Ger</th>
+    </tr>
+     
+<!-- end:   head_entrega -->
+
+
+<!-- begin: data_entrega -->
+<tr data-id_banco="{id_banco}" data-cheque="{nro}">
+    <td class="item" title="Cta: {cuenta}">{nro}</td>
+    <td class="item">{banco}</td>
+    <td class="item cuenta">{cuenta}</td>
+    <td class="itemc factura">{factura}</td>
+    <td class="item">{benef}</td>
+    <td class="itemc">{fecha_ins}</td>
+    <td class="itemc fecha_ins">{fecha_emis}</td>
+    <td class="item">{fecha_pago}</td>
+    <td class="num">{valor}</td>
+    <td class="itemc">{moneda}</td>    
+    <td class="itemc">{suc}</td> 
+    <td class="itemc {tipo}" >{tipo}</td>   
+    <td class="itemc"><input type="checkbox" checked="checked" disabled="disabled" ></td>     
+    <td class="itemc"><input type="checkbox" {read_ger} {chek_ger} class="check_ger"><span class="ger_{nro}"> </span></td>
+</tr>    
+ 
+<!-- end:   data_entrega -->
+ 
+
+<!-- begin: foot_entrega -->
+<tr class="report_foot">
+    <td colspan="2"></td>    
+    <td class="cuenta"></td>
+    <td class="factura"></td>
+    <td></td>
+    <td class="fecha_ins"></td>
+    <td></td>
+    <td></td>    
+    <td class="num"><p>G$. {t_monto_gs}</p><p>U$. {t_monto_us}</p></td>    
+    <td colspan="5"></td>  
+</tr> 
+</table>    
+<br>
+<br>
+<table border="0" cellspacing="4" cellpadding="4" style="margin:0 auto">
+    <tr><td class="item"><b>Entregado por:</b></td><td>__________________________________</td><td class="item"><b>Recibido por:</b></td><td>__________________________________</td></tr>
+    <tr><td></td><td class="itemc"><b>Administracion</b></td><td></td><td class="itemc"><b>Gerencia Gral.</b></td></tr>
+</table>
+<!-- end:   foot_entrega  -->
+
+
+
+<!-- begin: datos_cheque -->
+<table border="1" cellspacing="0" cellpadding="2" style="border-collapse:collapse;width: 50%">
+    <tr> <th colspan="2" style="font-size:14px;heigth:34px">Marijoa</th></tr>    
+    <tr> <th colspan="2" style="font-size:18px;height: 40px"><b>Cheque N&deg;: {nro_cheque}</b></th></tr> 
+    <tr> <th colspan="2"><small>{user}-{time}</small></th></tr>    
+    <tr> <td class="item" style="width:26%">Ref:</td><td class="item">{ref}</td></tr>   
+    <tr> <td class="item">Banco:</td><td class="item">{banco}</td></tr>  
+    <tr> <td class="item">Cuenta:</td><td class="item">{cuenta}</td></tr>  
+    <tr> <td class="item">N&deg; Cheque:</td><td class="item">{nro_cheque}</td></tr> 
+    <tr> <td class="item">Concepto:</td><td class="item">{concepto}</td></tr> 
+    <tr> <td class="item">Librador:</td><td class="item">{librador}</td></tr>  
+    <tr> <td class="item">Fecha Reg:</td><td class="item">{fecha_reg}</td></tr>  
+    <tr> <td class="item">Fecha Emis:</td><td class="item">{fecha_emis}</td></tr>  
+    <tr> <td class="item">Fecha Pago:</td><td class="item">{fecha_pago}</td></tr>
+    <tr> <td class="item">Valor:</td><td class="item">{valor}~~~~</td></tr>  
+    <tr> <td class="item">Moneda:</td><td class="item">{moneda}</td></tr>  
+    <tr> <td class="item">Suc:</td><td class="item">{suc}</td></tr>  
+    <tr> <td class="item">Tipo:</td><td class="item">{tipo}</td></tr>  
+    <tr> <td class="item" colspan="2" style="height: 66px">
+            Retirado por:__________________________<br>
+            Fecha:___/___/_____
+        </td> 
+    </tr>
+    
+ </table>
+
+<!-- end:   datos_cheque -->

@@ -1,0 +1,109 @@
+
+/* 
+    Created on : 27/06/2015, 11:24:02 AM
+    Author     : Ing.Douglas
+*/
+
+.titulo_nota_credito{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+.detalle_nc{ 
+   height:28px;
+}
+#cabecera{
+    padding: 4px; 
+    display: inline;
+}
+/*
+#detalle_factura, #lista_convenios, #lista_cheques, #lista_cuotas  {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}*/
+
+#lista_clientes tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;
+}
+ 
+#area_carga{
+    display: none; 
+    padding-left: 4px;
+    padding-top: 10px;
+}
+#ui_clientes{
+    padding-left: 4px;
+}
+#lista_clientes{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 46%;
+}
+#cli_data{
+    padding-left: 4px;
+}
+.tr_cli_data{
+     background-color: #F0F0F0; //Casi blanco
+} 
+
+.error_cant{
+   border:solid red 1px; 
+}
+input#generarMovimientoCaja{
+    display: none;
+}
+span#NCGenMov{
+    margin: 225px 0;
+    position: relative;
+    
+}
+input#generarMovimientoCaja + label{
+    border: 1px solid  black;   
+    vertical-align: middle;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 200px;
+    padding: 3px;
+}
+
+input#generarMovimientoCaja + label:hover{
+    cursor: pointer;
+    text-shadow: 2px 2px 1px darkgray;
+    
+}
+
+input#generarMovimientoCaja:checked + label::after{
+    content: ' Si';    
+    font-weight: 900;
+    color: darkgreen;
+}
+input#generarMovimientoCaja + label::after{
+    content: ' No';
+    font-weight: 900;
+    color: red;
+}
+.fila_nota_credito{
+    background-color: whitesmoke
+}
+.Servicio{
+    background-color: #F5DA81;
+}
+.Articulo{
+    background-color: white;
+}
+.servicios{
+    display: none;
+}

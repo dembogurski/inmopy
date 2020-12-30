@@ -1,0 +1,369 @@
+
+/* 
+    Created on : 24/02/2015, 11:43:23 AM
+    Author     : Ing.Douglas
+*/
+
+
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+#cabecera{
+    padding: 0 4px 0px 4px; 
+    display: block;
+}
+#detalle_factura, #lista_convenios, #lista_cheques, #lista_cuotas, #lista_articulos_cab, #lista_articulos {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: white; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px; 
+}
+#lista_articulos_cab{
+    position: fixed;
+}
+#lista_articulos td > span{
+    font-size: 18px;
+}
+#lista_articulos td{
+   width: 25%;
+}
+ 
+#lista_clientes tr:hover td{
+    background-color: white;
+    cursor:pointer;
+}
+.factura_inv{ /* Factura invisible antes de generarse*/
+    display: none;
+}
+.factura{ 
+    text-align: center; 
+    display: inline;
+}
+#area_carga{
+    display: none; 
+    padding-left: 4px;
+    padding-top: 10px;
+}
+#ui_clientes{
+    padding-left: 4px;
+}
+#lista_clientes{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 46%;
+}
+#cli_data{
+    padding-left: 4px;
+}
+.tr_cli_data{
+     background-color: #F0F0F0; //Casi blanco
+} 
+
+#ventas{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 90%;
+    width: 98%;
+    margin: 12 auto;
+}
+ 
+.venta_abierta{    
+    cursor:pointer;  
+    height: 36px;
+}
+.Servicio{
+    background-color: #F5DA81;
+}
+.Articulo{
+    background-color: white;
+}
+
+#ventas tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;     
+}
+.tr_cli_data{
+    height: 30px;
+}
+ 
+
+
+/*
+* Clases para el detalle de Factura
+*/
+td .item{
+    padding-left: 2px;
+}
+td .itemc{
+    text-align: center;
+}
+td.num{
+    padding-right: 2px;
+    text-align: right;
+}
+.codigo{
+    width: 12%
+}
+.descrip{
+    width: 40%
+}
+.cant,.precio,.subtotal{
+    width: 10%;
+}
+.um{
+    width: 5%;
+}
+.fx{
+    width: 4%;
+} 
+.descuento_h{
+    width: 6%;
+} 
+.delete{
+    width: 3%;
+}
+.popup_caja{
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    background:whitesmoke;
+    padding:2px;
+    border:1px solid gray;
+    text-align:center;
+    font-weight:bold;
+    min-width: 82%;
+    min-height: 400px;
+    height: auto;
+    margin-top: 0;
+    margin-left: 9%;
+    //margin-right: 9%;  
+}
+.factura_data{
+    padding: 4px 0px 4px 4px;
+    margin: 2px 0px 2px 0px;
+    text-align: left;
+    border: 1px solid gray;
+}
+
+.img_moneda{
+    margin-bottom: 2px;
+    height: 26px;
+    width: 28px;    
+}
+.img_moneda_venta{
+    margin-bottom: 2px;
+    height: 18px;
+    width: 20px;    
+}
+input[type="radio"]:checked{
+    transform: scale(1.5)
+}
+input[type="checkbox"]{
+    transform: scale(1.3)
+}
+
+.fraccionado{
+    background-color: lightskyblue;    
+    font-weight: bold;
+}
+.tr_cli_art{
+    height: 28px;   
+}
+.div_articulos{
+    display:none; 
+    cursor: copy ;
+    position: absolute;
+    margin-top:-8px;
+    margin-left: 50px;
+    width:30%;
+    height: 80%;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.ui-button:disabled{
+    color: rgb(211, 211, 211);
+}
+.forma_pago:hover{
+    background-color: lightskyblue;
+    cursor:pointer;
+    border-radius: 0 3px 3px 0;
+    padding:2px 2px 2px 0
+}
+.total_otra_moneda{
+    font-weight: bolder;
+    text-align: right;
+    height: 18px;
+    padding-right: 2px;
+}
+#moneda_extrangera{
+    margin-right:38px;
+    margin-top:-8px;
+}
+.tabla_stock_comprometido{ 
+    border-collapse: collapse;
+    border:solid gray 1px;    
+}
+.tabla_stock_comprometido td{
+    margin: 0 4px;
+    padding:3px; 
+}
+.same_code{
+   background-color: lightskyblue; 
+}
+#estado_fp{
+    color:red;
+    font-weight: bolder;
+    background: white;
+    height:26px;
+    width:26px;
+    padding:2px;
+    border-radius: 2px;
+    border:solid grey 1px;
+    display: none;
+}
+.limite_credito{
+    display: none;
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   
+{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+} 
+tr[id^="tr_"]{
+    counter-increment: codigos;
+}
+td.codigo_art::before{
+    content: counter(codigos, decimal);
+    counter-increment: section;
+    color: white;
+    background: gray;
+    margin-right: 4px;
+    padding: 0 3px 0 3px;
+}
+.anchorTitle {      
+    /* border radius */
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 3px #e6e6e6;
+    -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    /* other settings */
+    background-color: #fff;
+    border: solid 2px orange;
+    color: #333;
+    display: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    max-width: 700px;
+    padding: 5px 7px;
+    position: absolute;
+    margin-left:40px;
+    width:auto;
+}
+input#limite_credito.alerta{
+    animation: alerta 0.5s linear 1s infinite;
+}
+@keyframes alerta{
+    0%   {background-color: red;color: white;}
+    100% {background-color: orange;color: blue;}
+}
+
+.similar{
+    background-color: #F5DA81;
+}
+
+
+.Normal{
+    color:black;   
+    background-color: white;
+}
+.Arribos{
+    color:white;  
+    background-color: #006600;
+}
+.Oferta{
+    color:white; 
+    background-color: #FF0000;
+}
+.Retazo{
+    color:white;
+    background-color: #AD8BFE;
+}
+.Promocion{
+    color:black; 
+    background-color: orange;
+}
+.rounded{
+    border-radius: 2px;
+    padding: 2px 10px;
+    border:solid gray 1px;
+}
+#total_mts{
+   border-top:solid black 1px;
+   border-bottom:solid black 1px;
+   border-right: dashed black 2px;
+   border-left: dashed black 2px;
+   height: 42px;
+   width: 100%;
+   background-color: lightgray;  
+   margin-top: 2px;
+}
+
+#total_vender{
+    background-color: orange;
+    height: 98%;
+    width: 0;
+    border-right: dashed black 2px;
+}
+.falla_indic{
+    border-radius: 4px;
+    background: white;
+    font-weight: bolder;
+    font-size: 11px;
+    font-family: arial;
+    position: absolute;
+    margin-top: 12px;
+    padding:2px;
+    border:solid gray 1px;
+    margin-left: -20px;
+}
+.fp{
+    display: none;
+}
+.sedeco{
+    display: inline
+}
+ 

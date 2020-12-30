@@ -1,0 +1,256 @@
+
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="pedidos/SolicitudTrasladoMobile.css?_=hhhhhhhhhhhhhhhhh" />   
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>  
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js?_=666" ></script>
+    <script type="text/javascript" src="pedidos/SolicitudTrasladoMobile.js?_=hhhhhhhhhhhhhhhhhhhhhhhhhhhh" ></script>
+    
+<!-- end:   headers -->
+
+<!-- begin: cabecera_nota_pedido -->
+<div class="titulo" style="text-align: center">Solicitud de Traslado Mobile</div>
+<div style="margin-left: 4px; ">
+    <label for="tejidos" style="cursor: pointer"> Buscar Tejidos</label> <input  type="radio" class="tipo_busqueda" name="tipo_busqueda" id="tejidos" value="tejidos" checked="checked"> 
+    <label for="insumos" style="cursor: pointer">Buscar Insumos</label>  <input  type="radio" class="tipo_busqueda" name="tipo_busqueda" id="insumos" value="insumos">
+    
+    <label for="tipo_normal_cliente" style="cursor: pointer;margin-left: 80px">Pedido para reposicion</label> 
+    <label class="switch">
+        <input type="checkbox" id="tipo_normal_cliente" checked="checked">
+       <span class="slider round"></span>
+   </label>
+   <label for="tipo_normal_cliente" style="cursor: pointer">Para Cliente</label> 
+</div>
+<div id="cabecera" style="margin:10px 0 10px 4px"> 
+    <div id="cli_data"> 
+        <input type="hidden" id="codigo_cliente" value="" class="clidata">  
+        <label style="display:none" id="label_ruc" >R.U.C.:</label> <input style="display:none" type="text" id="ruc_cliente" tabindex="1"  size="14" maxlength="34" class="editable clidata" onchange="buscarCliente(this)" placeholder="Buscar Cliente"  > 
+        <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" tabindex="2" class="editable clidata" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="tipo" >
+        <label>Moneda:</label>
+        <select id="moneda" class="clidata" onchange="checkPreciosXMoneda()">
+            <option value="G$">G$</option>    
+            <option value="U$">U$</option>    
+        </select>
+        <label style="display: none">Cat:</label>  <input type="text" id="categoria" size="3" readonly style="text-align: center;display: none" value="1"  class="clidata" >  
+        <input type="button" id="fijar_cliente" value="Fijar" onclick="fijarCliente()" disabled="disabled">    
+        <input type="text" id="conexion" size="2" readonly="readonly" onclick="calcularLatencia()">
+    </div>    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer;position: absolute;width:80%;margin:-26 0 0 74"  >
+        <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th> <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div>      
+</div>   
+<!-- end:   cabecera_nota_pedido -->
+
+<!-- begin: area_carga_cab -->
+<div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;"></div>
+<input type="hidden" id="images_url" value="{images_url}">
+<input type="hidden" id="codigo" value="" data-sector=""> 
+<input type="hidden" id="um" value=""> 
+<input type="hidden" id="porc_valor_minimo" value="{porc_valor_minimo}">
+
+    <div id="area_carga" style="margin-left: 4px;display: none" >
+        <table border="0" style="border-collapse: collapse">               
+            <tr>
+                <td> 
+                  <label>Buscar:</label> 
+                </td>
+                <td>
+                    <select id="articulos_lote" onchange="cambiarFormaBusqueda()">
+                        <option value="articulo">Articulo:</option>
+                        <option value="lote">Lote:</option>
+                    </select>
+                    <input type="text" onclick="mostrarResultados()" id="descrip" value="" size="30"   class="buscador editable" tabindex="1"    >
+                     
+                    <label>Suc:</label> <select id="sucObjetivo"  onchange="buscarSucursales()" > <option value="%" data-informacion="Todos" selected="selected"  >*</option>{sucursales}</select> <label for="fijar_suc"><b>Fijar Suc:</b> </label><input type="checkbox" id="fijar_suc" onclick="fijarSuc()"    >
+                      
+                </td>
+                
+                <td rowspan="6" id="img_td" style="vertical-align: top;margin-left: 26px; " ></td>      
+                <td rowspan="6" id="selector" style="text-align: center ;vertical-align: middle;margin: 6px 6px 6px 12px; " >
+                    <img src="img/arrow-up.png" onclick="seleccionarArriba()" class="arrows" title="Seleccionar" >
+                    <br>
+                    <br>
+                    
+                    <br>
+                    <br>
+                    <img src="img/arrow-down.png" onclick="seleccionarAbajo()" class="arrows" title="Seleccionar" >   
+                </td>      
+            </tr>
+            <tr>
+                <td></td>
+                <td >
+                    <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;max-width: 90%;min-width: 50%"  >
+                        <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:2px 8px;width: 100%;background: white" >
+                           <tr><th colspan="3" class="titulo">Articulos</th></tr>
+                           <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>  <th style="width: 80%">Descripcion</th>  <th style="width: 10%">Precio</th> </tr>
+                        </table>       
+                    </div>  
+                </td>
+            </tr>
+            <tr>
+                <td><label>Cantidad > :   </label>  </td>
+                <td>
+                    <input type="text" class="num"  value="0"  id="cantidad" size="8" onchange="buscarSucursales()"  > 
+                  <label >Suc:  </label>
+                  <select id="suc" onchange="buscarColores()">
+                      <option value="%" data-informacion="Todos" >*</option>
+                      {sucursales}
+                  </select>
+                </td> 
+            </tr>
+            <tr>
+                <td><label>Color:  </label> </td>
+                <td> <select id="color" style="min-width: 160px" ></select> </td> 
+            </tr>
+            
+            <tr>
+                <td><label class="btejido" id="um_requerido" >Mts Requeridos:</label> </td>
+                <td>  
+                    <input type="text" class="num numeros editable btejido" tabindex="3" id="requeridos" onchange="selectItem()"   size="8"  >    
+                    <label class="btejido" for="autoselect"><b>Auto Marcar:</b> </label><input class="btejido" type="checkbox" id="autoselect" checked="checked" onclick="selectItem()" >
+                    <label for="disponibles"><b>Solo disponibles:</b> </label><input type="checkbox" id="disponibles" checked="checked" onclick="showOnlyDisponibles()"  >
+                    
+                    <input type="button" value="Listar" onclick="buscarLotes()"> 
+                </td> 
+                 
+            </tr>
+            <tr>
+                <td><label>Obs:  </label></td><td><input type="text" class="editable" tabindex="4" id="obs" data-next="mayorista" maxlength="60" size="40"  > 
+            </tr>
+            <tr>
+                <td><label class="btejido"><b>Tipo: </b> </label></td>
+                <td>
+                    <select id="mayorista" tabindex="5" data-next="urge" class="editable btejido">
+                        <option value="Si">Mayorista</option>
+                        <option value="No">Minorista</option>                         
+                    </select>     
+                <label><b>Urgente: </b> </label>
+                <select id="urge" tabindex="6" data-next="add_code" class="editable">
+                     <option>No</option>
+                     <option>Si</option>
+                </select>                  
+                  <label><b>Suma:</b> </label>    <input type="text" class="num numeros" tabindex="3" id="seleccionados"    size="8" readonly="readonly"  >  
+                </td>
+                <td style="text-align: center">
+                   <input type="button" id="add_code" value=" Agregar Marcados "  onclick="agregarLotes()" tabindex="7" disabled style="height:22px;font-size:9;font-weight: bold" data-info="Agregar esta Pieza al Pedido" >      
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <div id="result" class="info" style="width:80%;float:left"></div><span id="msg" ></span> 
+                </td>
+            </tr>
+        </table> 
+    </div> 
+
+    <div id="ui_lotes" class="fixed-table-container" title="Lista de Articulos" style="display:none;"  >
+        <div class="header-background"> 
+        <table class="lotes_head"  cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:0px;width: 98.8%" >
+            <tr class="titulo"> 
+                <td class="itemc" colspan="8">Piezas</td> 
+                <td class="itemc" colspan="3" ><label>Modificar precios similares</label><input type="checkbox" id="change_all" checked="checked"   ></td>
+                <th class="itemc" > <input class="actionButton" type="button" value="   x   " onclick="ocultarResultados()"/></th>
+            </tr>
+        <tr style="background-color: lightgray;z-index: 100"> 
+            <th style="width: 7%">Lote</th>  
+            <th style="width: 20%">Color</th>            
+            <th style="width: 15%">Dise&ntilde;o</th>
+            <th style="width: 10%">Cod.Color.Fab.</th>
+            <th style="width: 2%">Suc</th>
+            <th style="width: 3%">Imagen</th>
+            <th style="width: 5%;" >Stock</th>
+            <th style="width: 5%;" >Disponible</th>   
+            <th style="width: 5%;" >Cant.Pedir</th>            
+            <th style="width: 4%" class="precio_cat">Precio</th>
+            <th style="width: 5%;" >PrecioVenta</th>            
+            <th style="width: 5%">Info</th>    
+        </tr>
+       </table>
+       </div>
+        <div class="fixed-table-container-inner">        
+            <table border="1" class="lotes_sub_head tabla"  cellspacing="0" cellpadding="0"   style="overflow-y: auto;width: 100%;border-collapse:collapse"  > 
+            <thead>
+                <tr class="cabecera_oculta" style="background-color: lightgray;font-size: 0px;z-index: 10"> 
+                <th style="width: 7%">Lote</th>  
+                <th style="width: 20%">Color</th>            
+                <th style="width: 15%">Dise&ntilde;o</th>
+                <th style="width: 10%">Cod.Color.Fab.</th>
+                <th style="width: 2%">Suc</th>
+                <th style="width: 3%">Imagen</th>
+                <th style="width: 5%;" >Stock</th>
+                <th style="width: 5%;" >Disponible</th>   
+                <th style="width: 5%;" >Cant.Pedir</th>            
+                <th style="width: 4%" class="precio_cat">Precio</th>
+                <th style="width: 5%;" >PrecioVenta</th>            
+                <th style="width: 5%">Info</th>
+            </tr>                
+            </thead>
+            <tbody id="lista_lotes" >
+
+            </tbody>
+        </table>
+      </div>
+    </div> 
+
+<!-- end:   area_carga_cab -->   
+
+<!-- begin: mensaje -->
+
+<div style="text-align: center;">
+    <label for="show_all" style="cursor: pointer">Mostrar de todos los clientes</label> <input type="checkbox" id="show_all" onclick="show_all()" >
+    <img src="img/refresh-32.png" title="Actualizar" data-info="Ver todas las Solicitudes Abiertas" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick="mostrarTodo()">    </div>
+<div class="titulo" style="width: 90%;margin: 10 auto;border: solid gray 1px;text-align: center;background-color: lightskyblue">Solicitudes de Traslado Abiertas</div>
+<!-- end:   mensaje -->
+
+<!-- begin: solicitudes_abiertas_cab -->
+<div id="solicitudes"> 
+<!-- end:   solicitudes_abiertas_cab -->
+
+<!-- begin: solicitudes_abiertas_data -->
+<table border="1" class="solicitud_abierta_cab solicitud_{nro}" data-destino="{destino}"  data-nro="{nro}" style="border:1px solid gray;border-collapse: collapse;min-width: 90%;margin:4 auto;"> 
+    <tr style="background-color: lightgray">
+        <th>Nro</th> <th>Cod.Cli.</th><th>Cliente</th><th>Destino</th><th>Fecha</th><th>Estado</th> 
+    </tr>  
+    <tr style="background-color: white"> <th>{nro}</th> <th class="cod_cli">{cod_cli}</th><th style="text-align: left" onclick=seleccionarLista("{cod_cli}") class="{cod_cli}" data-nro="{nro}" >{cliente}</th><th class="destino_{nro}">{destino}</th><th>{fecha}</th><th class="estado" style="width:170px;height:28px">Abierta&nbsp;<input type="button" class="boton_env_{nro}" value="Enviar Solicitud" style="display:none;height:22px;font-size: 9px;cursor:pointer" onclick="enviarSolicitud({nro})"> 
+        <img src="img/trash_mini.png" class="trash" id="eliminar_{nro}" style="cursor:pointer;display:none" onclick="borrarNota({nro})">
+        </th> </tr>
+    <tr>
+        <td colspan="8">
+            <table border="1" id="sol_{nro}" class="solicitud_abierta" data-destino="{destino}" data-nro="{nro}" style="border:1px solid gray;border-collapse: collapse;min-width: 100%;">
+                <thead>
+                    <tr class="titulo"> <th>Lote</th><th>Descrip</th><th>Color</th><th>Cantidad</th><th>Precio Cat.</th><th>Precio Venta</th><th>Subtotal</th><th>Mayorista</th><th>Urgente</th><th>Obs</th><th></th>
+                    </tr> 
+                </thead>
+                <tbody>
+ <!-- end: solicitudes_abiertas_data -->                
+                
+<!-- begin: solicitudes_abiertas_detalle --> 
+<tr id="tr_{nro}" style="background-color: white"><td class="item  lote_{lote} fila_{nro} codigo_lote" name="lote"  >{lote}</td><td class="item">{descrip}</td><td class="item">{color}</td><td class="num">{cantidad}</td><td class="num">{precio}</td><td class="num subtotal">{subtotal}</td><td class="itemc">{mayorista}</td><td class="itemc">{urge}</td><td class="item">{obs}</td><td  class="itemc"><img src="img/trash_mini.png" class="trash" id="trash_{lote}" style="cursor:pointer;" onclick=borrarLote("{lote}","{nro}")  /></td></tr> 
+<!-- end:   solicitudes_abiertas_detalle -->                
+  
+<!-- begin: solicitudes_abiertas_fin_data -->
+</tbody>
+<tfoot>
+    <tr><td colspan="5" align="right">Total:</td><td align="right" class="sumSubtotal"></td>
+        <td colspan="3" style="text-align: center">
+            <img src="img/ticket_black.png" style="cursor:pointer" class="comp" id="comp_{nro}"  onclick="comprobanteTermico({nro})" height="24px">
+        </td>
+        <td ></td>
+    </tr>
+</tfoot>
+
+            </table>
+        </td>
+    </tr> 
+        
+</table>
+<br><br>
+<!-- end:  solicitudes_abiertas_fin_data --> 
+
+<!-- begin: solicitudes_abiertas_foot -->
+</div>
+<!-- end:   solicitudes_abiertas_foot -->
+
+

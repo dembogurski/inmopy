@@ -1,0 +1,69 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="bancos/ConciliacionExtractos.css?_=1535553341994" />
+    <link rel="stylesheet" type="text/css" href="utils/ajax-file-upload/style/style.css" />
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>    
+    <script type="text/javascript" src="bancos/ConciliacionExtractos.js?_=1535553341994" ></script>
+    <script type="text/javascript" src="utils/ajax-file-upload/js/jquery.form.min.js"></script>          
+<!-- end:   header -->
+     
+<!-- begin: body -->
+ <div id="form" style="text-align: center; width: 600px;min-width: 40%;border: solid 1px;margin: 20 auto "> 
+    
+    <table id="extract" border="0"  cellspacing="6" cellpadding="0"   >
+            <tr class="titulo" ><th colspan="8" style="text-align: center">Extracto de Cuentas de Clientes</th></tr>
+            <tr><td colspan="4" id="msg" style="text-align: center"></td></tr>
+            <tr>
+                <td>Banco:</td>
+                <td><select id="bancos" onchange="setCuenta()" class="sencible" >{bancos}</select> </td>
+                <td>Cuenta:</td>
+                <td><select id="cuenta" class="sencible" onchange="saveCuenta()">{cuentas}</select></td>
+            </tr> 
+            <tr>
+                <td style="width: 10%">Desde:</td> 
+                <td style="width: 10%"><input id="desde" class="fecha filt" type="text" size="10" value="" placeholder="__-__-____"></td>  
+                <td style="width: 10%">Hasta:</td> 
+                <td style="width: 10%"><input id="hasta" class="fecha filt" type="text" size="10" value="" placeholder="__-__-____">
+                    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick="getExtractos()">   
+                </td>  
+            </tr>
+                       
+            <tr>
+                <td colspan="4">
+                <div id="upload-wrapper">
+                <div align="center">
+                <h1>Seleccione el archivo del Extracto para Subir</h1>
+                <form action="bancos/ConciliacionExtractos.class.php?action=uploadFile" method="post" enctype="multipart/form-data" id="MyUploadForm">
+                    <input name="FileInput" id="FileInput" type="file" />
+                    <input name="banco" id="banco" type="hidden" value="" />
+                    <input name="cuenta_env" id="cuenta_env" type="hidden" value="" />
+                    <input type="submit"  id="submit-btn" value="Subir Archivo" />
+                    <img src="img/loading_fast.gif" id="loading-img" style="display:none;" alt="Favor espere"/>
+                </form>
+                <div id="progressbox" ><div id="progressbar"></div ><div id="statustxt">0%</div></div>
+                    <div id="output"></div>
+                </div>
+                </div>                    
+                </td>
+            </tr>
+             
+    </table>  
+    </div>  
+               
+<!-- end:   body -->
+
+<!-- begin: preview -->
+ 
+<div id="preview_container">    
+    <table id="preview" border="1">
+        <tr style="border:0px #f0f0f0">
+            <td colspan="6" style="border:0px #f0f0f0"></td>
+            <td colspan="3" style="text-align: center" >
+                <img class="ext_menu" title="Confirmar" src="img/ok.png" style="cursor:pointer;display:none" onclick="confirmar()"> &nbsp; &nbsp;&nbsp; 
+                <img class="ext_menu" src="img/trash_mini.png" style="cursor:pointer;display:none" onclick="eliminar()"></td>
+        </tr>
+        <tr class="titulo">
+            <th>Fecha Registro</th><th>Fecha Transac</th><th>Cod. Trans</th><th>Concepto</th><th>Debe</th><th>Haber</th><th>Confirmado</th><th>E_Sap</th><th><input type="checkbox" id="checkall"></th>
+        </tr>
+    </table>
+</div> 
+<!-- end:   preview -->

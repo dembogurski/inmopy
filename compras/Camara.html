@@ -1,0 +1,76 @@
+
+<!-- begin: headers -->
+    <!DOCTYPE html>
+
+    <link rel="stylesheet" type="text/css" href="../compras/camara.css" /> 
+    <script language="javascript" src="../js/jquery-2.1.3.min.js"> </script>
+    
+    <script type="text/javascript" src="../compras/camara.js" ></script> 
+    <script language="javascript" src="../js/ScriptCam/swfobject.js">  </script> 
+    <script language="javascript" src="../js/ScriptCam/scriptcam.js">  </script>
+       
+    <input type="hidden" id="base64" value="" >
+    <input type="hidden" id="lote" value="{lote}" >
+    <input type="hidden" id="AbsEntry" value="{AbsEntry}" >
+    <input type="hidden" id="AbsEntrys" value="{AbsEntrys}" >
+    <input type="hidden" id="replicarimg" value="{replicar}" >   
+    
+<!-- end:   headers -->
+
+
+
+<!-- begin: lote -->
+
+
+
+
+<table style="text-align: left; width: 99%;" border="1" cellpadding="0" cellspacing="0">
+    
+    <tr>
+        <th style="text-align: center;height: 33px"><big>Captura de Imagen</big></th>
+    </tr>
+   
+    <tr>
+        <td style="height:33px"> 
+            <label style="text-align: left; font-size: 20px;padding-left: 8px">Lote:</label>
+            <input type="text" size="12"  value="{lote}"  id="lote" readonly="readonly"  style="text-align: right;color:green;font-size: 20px" tabindex="1">
+            <label style="text-align: left; font-size: 20px;padding-left: 8px">Replicar imagen: </label><label style="font-size: 20px" id="label_replicar"></label>
+            <span style="text-align: center;color: green; font-size: 16;padding-left: 8px" id="msg"></span> 
+        </td>  
+    </tr>
+ 
+<!-- end:   lote -->
+ 
+<!-- begin: camara -->
+   
+</table>
+<div style="height:4px"></div>
+         <div style="width:640px;float:left;border:solid gray 1px" >
+	         <div id="webcam" > </div> 
+		 <div style="margin:5px;">
+		       <img src="../img/webcam.jpg" style="vertical-align:text-top"/>
+		       <select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:12px;height:22px;"></select> 
+		 </div>
+                 
+	</div> 
+&nbsp;<span style="bolder: solid gray 2px;padding: 4px"> <img src="../img/no_image.png" id="image" border="0" alt="" style="width:320px;height:240px;border:solid gray 1px;"/> </span>   <br>
+ 
+&nbsp;&nbsp;&nbsp; <input type="button" id="capturar" onclick="base64_toimage()" value="Capturar Imagen"> 
+ 
+<input type="button"  id="guardar" onclick="guardarImagen()" disabled value="Guardar Imagen">   <input type="button" value="Cerrar" onclick="cerrar()"> 
+<div >
+    &nbsp;&nbsp;&nbsp;
+    <table id="ultimas" border="0" cellspacing="3" cellpadding="3" style="margin-left:10px;border:1px goldenrod solid;-moz-border-radius: 3 3 3 3" >
+        <tr>
+            <td style="width: 80px;height:60px;"> </td>
+            <td style="width: 80px;height:60px;"> </td>
+            <td style="width: 80px;height:60px;"> </td>
+            <td style="width: 80px;height:60px;"> </td>
+        </tr>
+    </table>
+    
+    <div id="msg_img" style="height:36px"></div>  
+</div>
+<!-- end:   camara -->
+
+

@@ -1,0 +1,265 @@
+
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="compras/Fraccionar.css?_=00000000" />       
+    <link rel="stylesheet" type="text/css" href="css/image_efects.css" />
+    <script type="text/javascript" src="compras/Fraccionar.js?_=0000000000000457777777777777" ></script>
+<!-- end:   header -->
+
+<!-- begin: body -->
+<input type="hidden" id="images_url" value="{images_url}">
+<input type="hidden" id="del_falla" value="{del_falla}"> 
+ 
+<div>
+       
+     <table style="border:solid gray 1px;margin: 4px 0 0 4px;width:99%;padding: 4px;background-color: white" border="0" >
+         <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Medicion y Fraccionamientos</th></tr>
+        <tr>
+            <td style="width: 12%"><label>Codigo Lote:</label> </td> 
+            <td  colspan="2">
+                <input title="Ingrese aqui el codigo del Lote" type="text" size="12" id="lote" maxlength="36" onchange="buscarDatos()" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder" >&nbsp;
+                <img src="img/keypad32.png" border="0" onclick=showKeyPad("lote") style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                <label>Estado:</label>
+                <input type="text" readonly="readonly" size="10" id="estado" style="text-align: center">
+                <span id="msg"></span> 
+                <div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:absolute"></div>    
+            </td>
+            <td rowspan="4" style="width: 18%;text-align: center"><img id="img" alt="" src="img/no_image.png" style="display:none"  width="160"  ></td>
+        </tr>
+        <tr>
+            <td>
+                <label>Articulo:</label> 
+            </td> 
+            <td style="width: 70%" colspan="2"> <input type="text" size="7" id="codigo"   style="color:black;text-align: left" readonly="readonly" >
+                <label>Desc:</label><input type="text" id="descrip"  style="color:black;width:70%" readonly="readonly" >
+            </td> 
+            
+        </tr>
+        <tr>
+            <td>
+                <label>Suc:</label> 
+            </td> 
+            <td> 
+                <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" >  
+                <label>Gramaje:</label><input type="text" size="9" id="gram"  style="color:black;text-align: center" readonly="readonly" > 
+                <label>Gramaje Muestra:</label><input type="text" size="9" id="gramaje_m"  style="color:black;text-align: center" readonly="readonly" >
+                <label>Gramaje Ref:</label><input type="text" size="9" id="gramaje_ref"  style="color:black;text-align: center" readonly="readonly" >
+            </td> 
+        </tr>       
+        <tr>    
+            <td>
+               <label>Ancho:</label> 
+            </td>
+            <td>
+                <input type="text" size="10" id="anch"  style="color:black;text-align: center" readonly="readonly" >      
+                <label>Kg Desc:</label><input type="text" size="10" id="kg_desc"  style="color:black;text-align: center" readonly="readonly" >  
+                <input type="button" style="font-size: 11px;margin-left: 4cm" value="Mis Pendientes" onclick="verPendientes()" >
+            </td>            
+        </tr>  
+        <tr>
+            <td>
+                <label>Stock:</label>    
+            </td> 
+            <td colspan="3"> 
+                <input type="text" size="10" id="stock" style="color:green;text-align: center;font-weight: bolder" readonly="readonly" >
+                <input type="text" size="4" id="um"  style="color:black;text-align: center" readonly="readonly" >                 
+                <div id="msg_trab" style="width:70%;text-align:center;float:right;;margin:0;padding:0;height:28"></div>
+                <div id="politicas_sucursales" style="display:block" >
+                    <table style="border-collapse: collapse;" id="pol_x_suc" border="1"></table>
+                </div>
+            </td>
+        </tr>       
+          
+    </table>
+    
+</div>
+
+<div  style="text-align: center">
+     <table id="global" style="border:solid gray 1px;margin:  -1px 4px 4px 4px; width:99%;padding: 4px 0 0 0;background-color: white;" border="0" >        
+         
+         <tr style="width: 28%">
+             <td style="vertical-align: top" rowspan="2">
+                 <table id="cortes" style="width: 92%;border-collapse: collapse;" border="1">
+                     <tr style="height: 20px;" ><th colspan="3" style="text-align: center;background: LightSkyBlue">Orden de Fraccionamiento</th> 
+                     <tr class="titulo" style="height: 24px"> <th>Cantidad</th><th>Presentacion</th><th>Destino</th></tr>     
+                 </table>
+                 <table id="corteSinOrdenFrac" style="display: none" >
+                     <thead>
+                         <tr><th>Inserte la medida a cortar</th></tr>
+                     </thead>     
+                     <tbody>
+                         <tr>
+                             <td>
+                                <input id="cl_medida" type="text" size="4" /><img src="img/keypad32.png" onclick=showKeyPadGeneric("cl_medida") style="margin:0;width:28px;height:28px;cursor: pointer" title="Teclado Numerico" border="0">
+                            </td>
+                        </tr>
+                        <tr><td> <button onclick="medicionManualOrden()">Enviar</button> <button onclick="medicionLibre()">Medici&oacute;n Libre</button> </td></tr>
+                        <tr><td id="mtsSetterMsjLibre"></td></tr>
+                     </tbody>
+                 </table>
+                 
+                 <table border="1" style="width: 92%;margin-top: 26px;border-collapse: collapse;" id="fallas">
+                     <tr><th colspan="3" style="background-color: lightsteelblue">Fallas</th></tr>
+                     <tr class="titulo"><th>Fx</th><th>Mts</th><th style="display:{del_falla}">*</th></tr>
+                 </table>
+                 
+             </td>
+                   
+             <td  style="vertical-align: top;width: 72%" colspan="2">
+                 <div id="tabs">
+                 <ul>
+                     <li><a href="#area_trab" onclick="showHideChilds(true)">Area de Trabajo</a></li>
+                    <li><a href="#config" onclick="showHideChilds(false)">Configuracion</a></li>             
+                 </ul>
+                 <div id="area_trab"> 
+                     <table border="0" style="margin:0; padding: 0;display:none" id="area_frac"  >
+                     <tr>
+                        <td>Tara Grs:</td>
+                        <td><input id="tara" type="text" size="7" class="num calc" maxlength="14" onfocus=showKeyPadGeneric("tara")></td> 
+                        <td><input type="button" value="..." onclick=leerDatosBalanza("tara")></td>
+                        <td>Ancho:</td>
+                        <td><input id="ancho" type="text" size="7" class="num calc" maxlength="14"></td> 
+                        <td><img src="img/keypad32.png" border="0" onclick=showKeyPadGeneric("ancho") style="margin:0;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" ></td>
+                        <td style="width: 10%">&nbsp;</td>
+                     </tr>
+                     <tr>    
+                        <td>Metros:</td>
+                        <td><input type="text" id="metros" size="7" class="num calc" maxlength="14" onfocus=showKeyPadGeneric("metros") style="color:green"></td>
+                        <td><input type="button" value="..." onclick=leerMetrador("metros") ></td>                        
+                        <td>Peso Kg:</td>
+                        <td><input id="kg" type="text" size="7" class="num calc" maxlength="14" onfocus=showKeyPadGeneric("kg")></td> 
+                        <td><input type="button" value="..." onclick=leerDatosBalanza("kg")></td>
+                     </tr>
+                     <tr>
+                         <td>Gramos x M&#178;</td> <td><input id="gramaje_calc" type="text" size="7" readonly="readonly" class="num" maxlength="14" ></td> 
+                         <td colspan="2" id="mtsSetterMsj"></td>
+                         
+                     </tr>
+                     <tr>
+                         <td>Saldo:</td>                       
+                         <td><input type="text" size="7" id="saldo"  style="color:black;text-align: center" readonly="readonly" ></td> 
+                         <td style="font-size: 18px;text-align: center">FP:</td>
+                         <td><input type="checkbox" id="fp" ></td>
+                         <td colspan="2"><input type="button" id="fraccionar" value="Fraccionar" style="width:100%;margin-left: 1px" onclick="fraccionar()" disabled="disabled"></td>
+                     </tr>
+                     <tr>
+                         <td colspan="7">
+                            <div id="verificar" style="display:none;background-color: #F5DA81; position: absolute; border:1px solid gray;padding: 6px;text-align: center;z-index: 50;width: 400px;height:120">
+                                <div style="font-weight: bolder;background: orange; margin-bottom:10px">Supervisor</div>
+                                <label style="font-size: 18px">Contrase&ntilde;a:</label><input  id="passw" class="passw" type="password" size="24"  value=""><br>
+
+                                <input type="button"  class="verif_button"  value="Cancelar" onclick=javascript:$("#verificar").fadeOut()>    <input class="verif_button" type="button"   value="Aceptar"  onclick="autorizarFraccionamiento()"> <br>
+                                <span id="msg_pw"></span>
+                            </div>                             
+                         </td>
+                     </tr>
+                     <tr>
+                         <td colspan="7" class="fallas">
+                             
+                             <input type="button" value="F1" id="falla_f1" class="cm_mts cm_f1" onclick=leerMetrador("txtf1")> 
+                             <input type="text" size="4" id="txtf1" class="num falla txt_falla" disabled="disabled"   > 
+                             <img src="img/keypad32.png" border="0" onclick=showKeyPadFallas("txtf1") style="margin:0 20px -5px 0;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                             
+                             <input type="button" value="F2" id="falla_f2" class="cm_mts cm_f2" onclick=leerMetrador("txtf2")>
+                             <input type="text" size="4" id="txtf2" class="num falla txt_falla" disabled="disabled"  >
+                             <img src="img/keypad32.png" border="0" onclick=showKeyPadFallas("txtf2") style="margin:0 20px -5px 0;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                             
+                             <input type="button" value="F3" id="falla_f3" class="cm_mts cm_f3" onclick=leerMetrador("txtf3")>
+                             <input type="text" size="4" id="txtf3" class="num falla txt_falla" disabled="disabled"  >
+                             <img src="img/keypad32.png" border="0" onclick=showKeyPadFallas("txtf3") style="margin:0 20px -5px 0;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                         </td>
+                     </tr>
+                     <tr  style="display:none" >
+                         <td colspan="5">
+                             <input type="text" size="6" id="f1" class="txt_falla"  style="color:black;text-align: right" readonly="readonly">% 
+                             <input type="text" size="6" id="f2" class="txt_falla"  style="color:black;text-align: right" readonly="readonly">%
+                             <input type="text" size="6" id="f3" class="txt_falla"  style="color:black;text-align: right" readonly="readonly">%
+                         </td>
+                     </tr>
+                 </table> 
+                 </div>
+                    <div id="config">
+                        <label>Balanza:</label>
+                        <select id="balanza" onchange="cambiarBalanza()">
+                            <option>localhost</option>
+                            {ips_balanzas_alternativas}
+                        </select>
+                        <img src="img/button-add_blue.png" height="30" width="30"  onclick=addHost("balanza") style="margin-bottom: -8px" >
+                        
+                        <label style="font-size: 14px">Metrador:</label>
+                        <select id="metrador" onchange="cambiarMetrador()"  style="font-size: 14px">
+                            <option value="127.0.0.1" selected  style="font-size: 14px">localhost</option>
+                            {ips_metradores_alternativos}
+                        </select>
+                        <img src="img/button-add_blue.png" height="30" width="30"  onclick=addHost("metrador") style="margin-bottom: -8px" >
+                        <label>Puerto:</label>
+                         <select id="puerto">
+                            
+                        </select>
+                        <br><br>
+                        <label style="font-size: 14px">Impresora:</label> <select id="printers" style="font-size: 14px"  onchange="cambiarImpresora()" ></select><br>
+                        <label for="silent_print" style="font-size: 14px">Impresi&oacute;n directa</label> <input style="font-size: 14px" type="checkbox" id="silent_print"><br>
+                        <label for="etiquetaCuidado" style="font-size: 14px">Imprimir Etiqueta de Cuidado</label><input style="font-size: 14px" type="checkbox" id="etiquetaCuidado" checked>
+                        <label for="auto_close_window" style="font-size: 14px">Cerrar Ventana Post Impresion</label> <input style="font-size: 14px" type="checkbox" id="auto_close_window">
+                            
+                        <br>
+                    </div>
+                 </div>
+                 
+             </td> 
+         
+         </tr>
+         
+         <tr>
+            
+             <td>
+                <table border="1" id="fraccionados" style="margin:0; padding: 0;border-collapse: collapse;min-width: 76%;display:none" >
+                    <tr  style="background: LightSkyBlue"><th colspan="5">Fraccionados</th></tr>
+                    <tr class="titulo"><th>Lote</th><th>Cantidad</th>  <th>Presentacion</th> <th>Destino</th><th style="width: 40%"><img src="img/printer_mini.png" width="24" height="20"></th></tr>
+                    <tr id="tr_total_fracc" style="font-weight: bolder" ><td>Total:</td> <td id="total_fraccionados" class="lotes" >0</td>
+                        <td colspan="3" style="text-align: center">
+                            <input type="button" value="Etiqueta de Cuidado" onclick="imprimirEtiquetaCuidados()">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td > 
+                <div style="text-align: center;height: 50%;display: none" class="scrollButtons">
+                    <input type="button" onclick=moveScroll("-") value="" style="background-image: url(img/arrow-up.png);  width: 36px;height: 36px;background-repeat: none;position: fixed;top:65%;right: 50px">
+                </div>
+                <div style="text-align: center;height: 50%;display: none" class="scrollButtons">
+                    <input type="button" onclick=moveScroll("+") value="" style="background-image: url(img/arrow-down.png);width: 36px;height: 36px;background-repeat: none;;position: fixed;top:75%;right: 50px">
+                </div>
+            </td>  
+        </tr>
+          
+     </table>     
+</div>
+<!-- end:   body -->
+
+
+<!-- begin: pendientes_cab -->
+<html>
+<head>    
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css?_=12121212" /> 
+   <link rel="stylesheet" type="text/css" href="../compras/Fraccionar.css?_=12121212" /> 
+</head>
+<div class="priority_msg">Procesar de forma descendente, los que estan arriba tienen:  <label style="background-color: orange">Mas Alta prioridad </label> </div>
+  <table style="border-collapse: collapse;margin: 10px auto;padding: 0" border="1" >
+         <tr class="titulo" style="height: 20px" ><th colspan="6" style="text-align: center">Asisganciones Pendientes de Fraccionamiento</th></tr>     
+         
+         <tr style="background:rgb(221, 218, 205)"><th>Codigo</th><th>Lote</th><th>Descripcion</th><th>Color</th><th>Cortes</th><th>Prioridad <img src="../img/long-arrow-down.png" style="position: absolute;margin-right: -40px"></th></tr>
+<!-- end:   pendientes_cab -->
+ 
+
+<!-- begin: pendientes_data -->
+<tr>
+    <td style="height: 30px" class="itemc">{codigo}</td><td class="itemc">{lote}</td><td class="item">{descrip}</td><td  class="item">{color}</td><td class="itemc">{cortes}</td>
+</tr>
+<!-- end:   pendientes_data -->
+
+<!-- begin: pendientes_foot -->
+  </table>   
+<div class="priority_msg"><label style="background-color: green">Mas baja prioridad</label> </div>
+</html>
+<!-- end:   pendientes_foot -->

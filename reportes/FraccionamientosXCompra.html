@@ -1,0 +1,117 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+    .ref_data tr > td:nth-child(1),.ref_data tr > td:nth-child(3){
+        font-weight: bolder;
+    }
+    .datap th {
+       font-size: 12;
+       background: beige;
+    }
+    .red{
+        color:red;        
+    }
+    .green{
+        color: green;
+    }
+</style>
+
+<script language="javascript">
+   var ventana;
+     /*
+     var hist  = [];
+    
+     $(document).ready(function(){
+         //$("#loading").html("Ok");
+     });
+      */
+function  historial(lote){
+    
+    var suc = '%'; //$("#suc").val();     
+    var url = "../productos/HistorialMovimiento.class.php?lote="+lote+"&suc="+suc+"";
+    var title = "Historial de Movimiento de Lote";
+    var params = "width=980,height=480,scrollbars=yes,menubar=yes,alwaysRaised = yes,modal=yes,location=no";
+    
+    if(!ventana){        
+        ventana = window.open(url,title,params);
+    }else{
+        ventana.close();
+        ventana = window.open(url,title,params);
+    }  
+}
+</script>
+
+</head>
+ 
+<!-- end:   header -->
+ 
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="2" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Fraccionamientos por Compra</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr>
+        <td>
+            <table border="0" class="ref_data" cellspacing="0" cellpadding="0" style="margin-top:10px;font-size: 11px;min-width:60% ">
+                <tr><td>Ref.:</td><td>{ref}</td><td>Tipo:</td><td>{tipo}</td></tr>
+                <tr><td>Proveedor:</td><td>{proveedor}</td><td>Factura/Invoice:</td><td>{invoice}</td></tr>
+                <tr><td>Fecha Creacion.:</td><td>{fecha}</td><td>Fecha Factura:</td><td>{fecha_fact}</td></tr>
+                <tr><td>Moneda.:</td><td>{moneda}</td><td>Procedencia:</td><td>{origen}-{pais_origen}</td></tr>
+            </table>
+        </td>
+    </tr>
+</table>
+     
+<!-- end:   head -->    
+
+<!-- begin: cabecera --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>Codigo</th><th>Lote</th><th>Descripci&oacute;n</th><th>Color</th><th>Um</th><th>Gram.M</th><th>Cant.Comp.</th><th>Kg.Desc</th><th>Q.Ticket</th><th>Cant.Calc.</th><td colspan="8" style="text-align:center;background: whitesmoke">Fraccionamientos</td></tr>
+<!-- end:   cabecera -->
+
+<!-- begin: data -->  
+<tr class="datap"> 
+    <td class="frac" data-img="{img}">{codigo}</td><td class="item" style="cursor:pointer" onclick="historial({lote})">{lote}</td><td class="item">{descrip}</td><td class="item">{color}</td><td class="itemc">{um}</td><td class="num">{gramaje_m}</td><td class="num"> {cantidad} </td><td class="num"> {kg_desc} </td><td class="num">{quty_ticket}</td><td class="num">{cant_calc}</td>
+    <th>Usuario</th><th>Lote</th><th>Fecha</th><th>Kg</th><th>Tara</th><th>Ancho</th><th>Gram.</th><th>Cant.</th>
+</tr>
+<!-- end:   data -->
+
+<!-- begin: fracciones -->  
+<tr class="item" ><td colspan="10" style="border-width:0 1px 0px 1px"></td><td class="item">{usuario}</td><td class="item">{hijo}</td><td class="itemc">{fecha}</td><td class="num">{kg_desc}</td><td class="itemc">{tara}</td><td class="num">{ancho}</td><td class="num"> {gramaje} </td><td class="num">{cantidad}</td></tr>
+<!-- end:   fracciones -->
+
+<!-- begin: total_fracciones --> 
+<tr class="item" ><td colspan="13"       style="border-width:0 1px 0px 1px"></td>  <td   class="num"><b>{total_frac_kg}</b></td> <td colspan="3"> </td>     <td class="num"><b>{total_frac_mts}</b></td>
+<tr class="item" ><td colspan="13" style="border-width:0 1px 0px 1px"></td><td><b>Diff {umc}:</b></td> <td colspan="2" class="num {color_diff}"><b>{diff}</b></td>   <td class="num"></td>
+<!-- end:   total_fracciones -->
+ 
+<!-- begin: subtotal -->   
+<tr>
+    <td colspan="6"></td><td class="num"><b>{totalcant_c_padre}</b></td><td></td>
+    <td class="itemc" colspan="2"><b>Total Fraccionado {umc}:</b></td> <td  class="num">{subtotal_total_frac}</td>
+    <td class="itemc" colspan="2"><b>Procesado:</b></td><td class="num">{porc_frac}%</td>
+</tr> 
+<!-- end:   subtotal  -->
+
+<!-- begin: footer -->   
+<tr>
+    <td colspan="7"><b>Totales</b></td>
+    <td class="itemc"><b> </b></td>
+    <td></td>
+</tr>
+
+</table>  
+<!-- end:   footer  -->

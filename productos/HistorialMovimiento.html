@@ -1,0 +1,160 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="{fullpath}/productos/HistorialLote.css" />
+    <link rel="stylesheet" type="text/css" href="{fullpath}/css/reportes.css" />
+    <script type="text/javascript" src="{fullpath}/js/jquery-2.1.3.min.js" ></script>  
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input id="codigo" type="hidden" value="{codigo}" >
+<input id="lote" type="hidden" value="{lote}" >
+<input id="document_root" type="hidden" value="{fullpath}/productos/" >
+
+<table id="resumen_pedidos" border="1"  cellspacing="0" cellpadding="0"    style="margin: 10px;min-width: 94%;border-collapse: collapse"  >           
+    <tr><th colspan="14" style="background-color: #ecf0f1">Historial de Movimiento, Suc: <select id="suc" onchange="updateList()"><option value="linea">*</option></select> </th></tr> 
+    <tr>
+        <th colspan="14" style="background-color: lightskyblue">
+            
+            <span class="label">Articulo: </span>[{codigo}] {descrip}
+            <span class="label {no_mnj_x_lotes}">Lote: </span>{lote}             
+        </th>
+    </tr> 
+    <tr><th>ID</th><th>Suc</th><th>Usuario</th><th>Fecha</th><th>Tipo Doc</th><th>N&deg; Doc.</th><th>Cantidad</th> <th class="{no_mnj_x_lotes}" >Kg Desc.</th> <th class="{no_mnj_x_lotes}">Gramaje</th><th class="{no_mnj_x_lotes}">Ancho</th><th class="{no_mnj_x_lotes}">Tara</th><th>Saldo ({um})</th><th class="{no_mnj_x_lotes}">Kg Calc.</th> <th>Direccion</th></tr>
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr style="background-color: white" id="id_{id_hist}" data-fecha="{fecha_hora}" class="linea {linea} {suc}">  
+    <td class="itemc">{id_hist}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{usuario}</td>
+    <td class="itemc fecha">{fecha}</td>     
+    <td class="item" title="{DocType}">{tipo_doc}</td>
+    <td class="itemc">{nro_doc}</td>     
+    <td class="num Quantity">{cantidad}</td>    
+    
+    <td class="num {no_mnj_x_lotes}">{kg_desc}</td>
+    <td class="num {no_mnj_x_lotes}">{gramaje}</td>
+    <td class="num {no_mnj_x_lotes}">{ancho}</td>
+    <td class="num {no_mnj_x_lotes}">{tara}</td>
+    <td class="num">{saldo}</td>
+    <td class="num {no_mnj_x_lotes}">{kg_calc}</td>
+    <td class="itemc" style="background-color: {fondo};color:{color}">{direccion}</td> 
+</tr>
+<!-- end:   data -->
+
+<!-- begin: estado_venta -->
+<tr class="titulo"><th>Suc</th> <th>Estado Venta</th></tr>
+<tr> <td style="text-align: center">{suc_ev}</td> <td class="{estado_venta}" style="text-align: center">{estado_venta}</td> </tr>
+<!-- end:   estado_venta -->
+
+<!-- begin: total -->
+<tr> <td colspan="6">  </td>  <td class="num total" style="font-weight: bolder">{QuantityTotal}</td>  </tr>
+<!-- end:   total -->
+
+<!-- begin: footer -->
+</table>
+<script>
+    var sucs = {sucs};
+</script>
+<!-- end:   footer -->
+
+
+<!-- begin: script noeval -->
+ 
+<script>
+    if(sucs.length>0){
+        sucs.forEach(function(value,key){
+            $("<option/>",{
+                "id":'suc_'+value,
+                "value":value,
+                "text":value                
+            }).appendTo("select#suc")
+        });
+    }
+    function updateList(){
+        $("tr.linea").hide();
+        var suc = $("select#suc option:selected").val();
+        var total = 0;
+        $("."+suc).each(function(){
+          $(this).show();  
+          var mts = ($(this).find("td.Quantity").text()).replace(/\./g, '').replace(/\,/g, '.');
+          total += parseFloat(mts);
+          //console.log(total);
+        });
+        $("td.total").text(total.toFixed(2));
+        getModificacionesLote();
+    }
+    $("option#suc_"+opener.getSuc()).prop("selected","selected");
+    updateList();
+    
+    var ediciones = null;
+    function getModificacionesLote(){
+        var codigo = $("#codigo").val();
+        var lote = $("#lote").val();
+        
+        $(".linea").each(function(){
+            var id = $(this).attr("id");
+            var desde = $(this).attr("data-fecha");
+
+            var sig_id= $(this).closest('tr').next('tr');
+            var hasta = sig_id.attr("data-fecha");
+            if(hasta == undefined){
+                hasta = '2040-01-01 00:00:00';
+            }
+            //console.log("ID: "+id+"   "+desde);
+            var fullpath = $("#document_root").val();
+            $.ajax({
+                type: "POST",
+                url: ""+fullpath+"/HistorialMovimiento.class.php",
+                data: {action: "getModificacionesLote",codigo:codigo,lote:lote, id :id,desde:desde,hasta:hasta},
+                async: true,
+                dataType: "json",
+                beforeSend: function () {
+                   $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+                },
+                success: function (data) {   
+                    ediciones = data;   
+                    if(data.length > 0){
+                        var modif_table = "<table border='1' style='width:100%;border-collapse:collapse;font-size:12px;font-family:ariel' id='modif_"+id+"'> <tr style='background:#dddacd' ><th>Suc</th><th>Usuario</th><th>Fecha</th><th>Ancho</th><th>Tara</th><th>Gramaje</th><th>Kg</th><th>Estado Venta</th><th>Obs</th></tr></table>";
+                        var cab = '<tr id="cab_'+id+'" style="display:none" class="ediciones"><th colspan="6"> Modificaciones de datos </th> <th colspan="8">'+modif_table+'</th></tr>';
+        
+                        $("#"+id).after(cab);
+                        for(var i in data){
+                            var suc = data[i].suc;
+                            var usuario = data[i].usuario;
+                            var fecha = data[i].fecha;
+                            var ancho = getNoNull(data[i].ancho);
+                            var tara = getNoNull(data[i].tara);
+                            var gramaje = getNoNull(data[i].gramaje);
+                            var kg = getNoNull(data[i].kg);
+                            var estado_venta = getNoNull(data[i].estado_venta);
+                            var obs = getNoNull(data[i].obs);
+                            $("#modif_"+id).append('<tr> <td  class="itemc">'+suc+'</td><td class="itemc">'+usuario+'</td><td class="itemc">'+fecha+'</td><td class="num">'+ancho+'</td><td class="num">'+tara+'</td><td class="num">'+gramaje+'</td><td class="num">'+kg+'</td><td class="itemc">'+estado_venta+'</td><td class="item" style="width:30%">'+obs+'</td> </tr>');
+                        }
+                        $("#"+id).after("<tr><td colspan='14' style='text-align:right'><img onclick=slideModificaciones('"+id+"') title='Datos Modificados' src='../img/indicator.png' style='position:absolute;width:34px;margin-top:-17px;margin-left:-4px;cursor:pointer'></td></tr>");
+                    }
+                    $("#msg").html("Ok"); 
+                                     
+                },
+                error: function(e) {                 
+                    $("#msg").html("Error al obtener fallas  " + e  );   
+                   // errorMsg("Error al obtener fallas  " + e,10000);
+                }
+            });             
+            
+        }); 
+    }
+    function slideModificaciones(id){
+        $("#cab_"+id).slideToggle();
+    }
+    function getNoNull(data){
+        if (data !== null){
+            return data;
+        }else{
+            return "";
+        }
+    }
+</script>
+<!-- end: script -->
+ 

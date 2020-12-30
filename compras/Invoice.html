@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="shipmenttable.css" />  
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" />  
+ 
+<!-- end:   header -->
+
+<!-- begin: head -->
+<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;font-size: 14px">
+    <tr><th colspan="4" style="font-size: 24px;font-weight:bolder;text-align: center">{provider}</th> </tr>
+    <tr><td colspan="4" style="font-size: 10px;text-align:center" contenteditable="true">{address}</td> </tr>
+    <tr><td colspan="4" style="font-size: 11px;text-align:center;font-weight: bolder;" contenteditable="true">{phone} - {email}</td> </tr>
+    <tr>   
+    <tr>
+        <td colspan="4" style="font-size: 20px;font-weight: bold;text-align: center;color: #3385ff;padding:20 0 14 0">COMMERCIAL INVOICE</td>
+    </tr>
+    
+    <tr>  <td colspan="4"><hr></td> </tr>
+    <tr>
+        <td class="fbold">TO:</td><td>CORPORACION TEXTIL S.A.</td> <td  class="fbold">INVOICE N&deg;:</td><td>{invoice}</td>   
+    </tr>
+    <tr>
+        <td class="fbold">ADDRESS:</td><td>Avda. Irrazabal Esq. Gral Bruguez</td> <td  class="fbold">DATE:</td><td contenteditable="true">{date}</td>  
+    </tr> 
+    <tr>
+        <td class="fbold">CITY/STATE:</td><td>ENCARNACI&Oacute;N-ITAP&Uacute;A</td> <td  class="fbold">FROM:</td><td contenteditable="true">{City}-{Country}</td> 
+    </tr>
+    <tr>
+        <td class="fbold">COUNTRY:</td><td>PARAGUAY</td> <td  class="fbold">CURRENCY</td><td contenteditable="true">{currency}</td>
+    </tr>
+    <tr>
+        <td class="fbold">E-Mail:</td><td>info@corporaciontextil.com.py</td> <td  class="fbold">NET WEIGHT:</td><td contenteditable="true" >___Kg</td>
+    </tr>
+    <tr>
+        <td class="fbold">PHONE:</td><td>+59571202747</td>  <td  class="fbold">GROSS WEIGHT:</td><td contenteditable="true">___Kg</td>
+    </tr>
+    <tr>
+        <td class="fbold">TAX ID:</td><td>80001404-9</td> <td  class="fbold"></td><td> </td>      
+    </tr>
+    <tr>  <td colspan="4"><hr></td> </tr>
+</table>
+<!-- end:   head -->
+
+<!-- begin: table_header -->
+
+<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;border-collapse: collapse">
+     <tr class="inv_titulo"><th>BALES</th><th>PROVIDER</th><th>DESCRIPTION</th><th>QUANTITY</th><th>PRICE</th><th>UM</th><th>TOTAL VALUE</th></tr>
+        
+<!-- end:   table_header -->
+
+<!-- begin: table_data --> 
+        <tr>
+            <td class="itemc">{bales}</td><td class="item">{provider}</td><td class="item">{descrip}</td><td class="num">{qty}</td><td class="num">{price}</td><td class="itemc">{um}</td><td class="num">{subtotal}</td>
+        </tr> 
+<!-- end:   table_data -->
+
+
+<!-- begin: table_totals --> 
+<tr>
+    <td class="itemc"> </td><td class="item"> </td> <td class="item" colspan="4"  style="font-weight: bolder">{title}</td> <td class="num" style="font-weight: bolder">{total}</td>
+ </tr> 
+ 
+<!-- end:   table_totals -->
+
+<!-- begin: table_footer --> 
+ 
+</table>
+
+<table id="footer" border="0"  cellspacing="0" cellpadding="4" style="width: 70%;margin:10 0 50 0">
+    <tr style="font-weight: bolder"> <td  style="font-size: 11px;background-color:#dddacd;font-size: 12px;">Notes</td> </tr>    
+    <tr>
+        <td style="border: solid olive 1px;font-size: 11px">{notes}</td> 
+    </tr>
+</table>
+ 
+<!-- end:   table_footer -->
+
+
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="shipmenttable.css" />  
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" />  
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+    <script type="text/javascript" src="packing_list.js" ></script> 
+     
+<!-- end:   header -->
+
+<!-- begin: head -->
+<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;font-size: 14px">
+    <tr><th colspan="4" style="font-size: 24px;font-weight:bolder;text-align: center">{provider}</th> </tr>
+    <tr><td colspan="4" style="font-size: 10px;text-align:center" contenteditable="true">{address}</td> </tr>
+    <tr><td colspan="4" style="font-size: 11px;text-align:center;font-weight: bolder;" contenteditable="true">{phone} - {email}</td> </tr>
+    <tr>
+    <tr>
+        <td colspan="3"></td>
+        <td  style="font-size: 16px;font-weight: bold;text-align:center;color: black;padding:16 0 10 0;width:30%">
+            <div style="width: auto;padding: 10px;border: solid olive 1px;border-radius: 4px" >INVOICE N&deg;:<label style="font-weight: normal;">&nbsp;{invoice}</label> </div>
+        </td>
+    </tr>    
+    <tr>
+        <td colspan="4" style="font-size: 20px;font-weight: bold;text-align: center;color: #3385ff;padding:16 0 16 0">DETAILED PACKING LIST</td>
+    </tr> 
+    <tr>  <td colspan="4"><hr></td> </tr>
+</table>
+<!-- end:   head -->
+
+<!-- begin: detail_head -->
+<div style="width: 100%;font-weight: bolder;font-size: 16px;font-family: arial;background: #E7EBF2;padding:0px 4px 0px 0px;margin:0"  >{cod_prov}</div>  
+ <table border="1" cellspacing="0" cellpadding="0" style="width: 100%;border-collapse: collapse">
+     <tr class="inv_titulo"><th style="cursor: pointer" title="Consolid" onclick="consolidar()" >BALE</th><th>DESCRIPTION</th><th>COLOR</th><th>COLOR COD.</th><th>UM</th><th>PIECE</th><th>QUANTITY</th></tr>
+<!-- end:   detail_head -->
+
+<!-- begin: detail_row -->
+    
+ <tr>
+     <td class="bale_{provider_cod}_{bale} itemc" data-piece="{piece}">{bale}</td><td class="descrip_{provider_cod}_{bale}_{md5_descrip} item"  >{descrip}</td><td class="color0_{provider_cod}_{bale}_{md5_color} item">{color}</td><td class="color_cod_{provider_cod}_{bale}_{md5_color_cod_fab} item">{color_cod}</td><td class="um_{md5_um} itemc">{um}</td><td class="itemc">{piece}</td><td class="num">{cantidad}</td>
+ </tr> 
+<!-- end:   detail_row -->
+
+
+
+<!-- begin: detail_foot -->
+ <tr>
+    
+     <td colspan="7" style="text-align: right ;padding: 6;">
+         <table border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;width: auto;float:right" >
+             <tr class="inv_titulo"><th>UM:</th> <th style="display:{display_Mts}">Mts</th><th style="display:{display_Yds}">Yds</th> <th style="display:{display_Kg}">Kg</th> <th style="display:{display_Unid}">Unid</th> </tr>
+             <tr><th style="padding: 2 6 2 6" >Total Qty:</th> <td style="display:{display_Mts};text-align: center;padding: 2 6 2 6">{Mts}</td><td style="display:{display_Yds};text-align: center;padding: 2 6 2 6">{Yds}</td> <td style="display:{display_Kg};text-align: center;padding: 2 6 2 6">{Kg}</td> <td style="display:{display_Unid};text-align: center;padding: 2 6 2 6">Unid</th> </tr>
+         </table>
+     </td> 
+ </tr>
+ </table>
+<br><br>
+<!-- end:   detail_foot -->

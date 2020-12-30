@@ -1,0 +1,188 @@
+
+/* 
+    Created on : 29/03/2016, 10:01:50 AM
+    Author     : Ing.Douglas
+*/
+
+#shipmenttable {
+    margin: 15 auto;    
+    border-collapse: collapse;
+} 
+#shipmenttable td{
+    margin: 0;
+    padding: 2;
+}
+
+.cabecera{
+  background-color: lightgrey;    
+}
+.centrada{
+    text-align: center;
+}
+.der{
+    text-align: right;
+    margin-right: 2px
+}
+.editable_row{
+    border: solid gray 1px;
+    width: 99%;
+    height: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.selected{
+    background-color: royalblue;
+}
+
+#detalle_compra td{
+  padding: 2px 4px 2px 4px;
+}
+.filtro{
+    margin:0 20 -6 4;
+}
+
+.complete{
+    background-color: green;
+}
+.pending{
+  background-color:lightblue;   
+}
+.partial{
+    background-color:orange;   
+}
+.na{
+  background-color:red;   
+}
+.qty_error{
+    border:solid #ff3333 1px;     
+}
+
+input[type="radio"] {
+    transform: scale(1.8);
+}
+.invoice{
+    border-radius: 6px;
+    border: solid orange 1px;
+    background-color: white;
+    font-weight: bolder;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 4 auto;
+    padding: 4px;
+    width:80%;
+} 
+
+.invoice:hover{
+    background-color: lightskyblue;
+    border:solid gray 1px;
+    color:white;
+}
+.selected_invoice{
+    background-color: lightskyblue;
+    border:solid orange 2px;
+    color:black;
+}
+.add_button{
+    display:none;
+    color:green;
+    font-weight:bolder;    
+}
+.add_button:hover:enabled {    
+    color:black;
+    font-weight:bold;
+    background-color: lightskyblue;
+    cursor:pointer;
+}
+.printer{    
+    margin:0 0 -8 0;
+    cursor: pointer;
+}
+.selected_packing_row{
+    background-color: rgb(255, 255, 204); 
+}
+.noedit{
+    background-color: #E7EBF2;// Facebook Background
+    height: 28px;
+}
+.zebra0{
+    background-color: #E7EBF2;// Facebook Background
+    height: 28px;
+}
+.zebra1{
+    background-color: rgb(241, 248, 220); 
+    height: 28px;
+}
+
+.bale0{
+    background-color: #B7B038;// Facebook Background    
+}
+.bale1{
+    background-color: #F0E68C;     
+}
+
+.rotate{
+    -webkit-transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   { 
+    -webkit-transform:rotate(-60deg);
+    -moz-transform:rotate(-60deg); 
+    -o-transform:rotate(-60deg);
+} 
+
+.edit_bale{
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        background:rgb(255, 255, 204); 
+        padding:5px 20px 5px 5px;
+        border:1px solid #CCCCCC;
+        text-align:center;
+        font-weight:bold;
+        width: auto;         
+        display:none;
+        text-align: left;
+        max-height: 380;
+        overflow-y: auto
+}
+#edit_bale label{
+    font-weight: bold;
+}
+.error_field{
+    border:solid red 1px;
+}
+.child{
+    background-color: #F0E68C;
+}
+.chebox_prov{
+    font-size: 10px;
+}
+
+
+/* INVOICE */
+.fbold{
+    font-weight: bolder;
+    text-align: left;
+    margin: 4;
+}
+
+.inv_titulo{
+    background-color:#dddacd;
+    font-size: 13px;
+}
+
+.ui-menu-item{
+    font-size: 10px;
+}

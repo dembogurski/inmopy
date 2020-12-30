@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../css/reporte_defaults.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+    <style>
+        th {
+            padding: 0;
+            margin: 0;
+        }
+        
+        td p,
+        th p {
+            margin: 0;
+        }
+        
+        th p.user {
+            font-size: 16px;
+            text-align: center;
+            text-transform: capitalize;
+        }
+        
+        th p.date {
+            font-size: 10px;
+            font-weight: 100;
+        }
+        tr.datos:hover{
+            cursor: pointer;
+        }
+        tr.datos:hover td{
+            text-decoration: underline blue;
+        }
+        tr.exdata td{
+            padding: 0;
+        }
+        tr.exdata table{
+            width: 100%;
+            border: solid 1px gray;
+        }
+        tr.exdata th,tr.exdata td{
+            border: solid 1px gray;
+            padding: 0px 2px;
+        }
+        tr.exdata th{
+            font-size: 11px;
+            background-color: wheat;
+        }
+        svg{
+            margin-top: 2px;
+        }
+        svg:hover path:not(.ac){
+            stroke: brown;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(function() {
+         $("tr.datos").each(function() {
+            var usuario = $(this).data("usuario");
+            if($("select#usuarios option#"+usuario).length === 0){
+               $("<option>",{
+                  "id":usuario,
+                  "value":usuario,
+                  "text":usuario,
+               }).appendTo("select#usuarios");
+            }
+         });
+           sumar('todos');
+        });
+
+        function sumar(target) {
+           // console.log(target);
+         $("tr.datos, tr.exdata").hide();
+            var target = (target=='todos')?'':'.'+target;
+            var totalRollos = 0;
+            var totalPiezas = 0;
+            var totalMetros = 0;
+            $("tr"+target+".datos").each(function() {
+                  totalRollos += eval($($(this).find('td.rollos')).text());
+                  totalPiezas += eval($($(this).find('td.piezas')).text());
+                  totalMetros += eval(($(this).find('td.metros')).text());
+            });
+            $("#totalRollos").text(totalRollos.toFixed(0));
+            $("#totalPiezas").text(totalPiezas.toFixed(2));
+            $("#totalMetros").text(totalMetros.toFixed(2));
+            $("tr"+target+".datos, tr"+target+".exdata").show();
+        }
+        function verLotes(target, todos){
+            if(target.next(".exdata").length > 0){
+                target.next(".exdata").remove();
+                target.removeClass("expanded");
+            }else{
+                var verTodos = todos | false;
+                var data = {
+                    "action" : "lotes",
+                    "suc" : target.data('suc'),
+                    "fecha" : target.data('fecha'),
+                    "codigo" : target.find('.codigo').text(),
+                    "usuario" : target.data('usuario')
+                };
+                $.post("Fraccionamientos.class.php", data, function(data){
+                    target.addClass("expanded");
+                    target.after(data);
+                    if(verTodos && $(".datos:not(.expanded)").length > 0){
+                        verLotes($($(".datos:not(.expanded)").get(0)), true);
+                    }
+                },"html");
+            }
+        }
+        function limpiarTodo(){
+            $(".exdata").remove();
+            $(".datos").removeClass("expanded");
+        }
+        function verLotesTodos(){
+            verLotes($($(".datos:not(.expanded)").get(0)), true);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="main-body">
+        <div id="example">
+            <p style="text-align:center; color:#F00">Huvo un problema en la comunucaci&acute;n con el Servidor, contacte al departamento Informatico de persistir el problema.<br /> [onshow;block=p;when [var.sql_ok]=0]</p>
+            <table border="1" cellpadding="2" cellspacing="0" style="margin-left:auto; margin-right:auto;">
+                <tr>
+                    <td colspan="10">
+                        <table>
+                            <tr>
+                                <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th>
+                                <th style="width: 70%;" colspan="3">Reporte de Fraccionamientos</th>
+                                <th style="width: 15%;" rowspan="2">
+                                    <p class="user">[onshow.usuario]</p>
+                                    <p class="date">[onshow..now;frm='dd-mm-yyyy hh:nn:ss'] </p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                    <p>Per&iacute;odo [onshow.desde;frm='dd-mm-yyyy'] a [onshow.hasta;frm='dd-mm-yyyy']</p>
+                                </th>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><th colspan="6">Filtrar Usuario: <select id="usuarios" onchange="sumar($(this).val())"><option value="todos">Todos</option></select></th>
+                    <th>
+                        <svg onclick="verLotesTodos()" width="16" height="16" version="1.1" viewBox="0 0 4.2333332 4.2333335" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0 -292.77)"><path d="m4.0327 295.36h-3v-2.3838h3z" fill="none" stroke="#c8b7b7" stroke-width=".31369"/><path d="m3.6219 296.05h-3v-2.3838h3z" fill="#fff" stroke="#c8b7b7" stroke-width=".31369"/><path d="m3.2111 296.81h-3v-2.3838h3z" fill="#fff" stroke="#c8b7b7" stroke-width=".31369"/><path class="ac" d="m0.8088 295.36h1.8047v0.50939h-1.8047z" fill="#280b0b" stroke="#280b0b" stroke-width=".18049"/><path class="ac" id="mas" d="m1.9658 294.71v1.8047h-0.50939v-1.8047z" fill="#280b0b" stroke="#280b0b" stroke-width=".18049"/></g></svg>
+                        
+                        <svg onclick="limpiarTodo()" width="16" height="16" version="1.1" viewBox="0 0 4.2333332 4.2333335" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0 -292.77)"><path d="m4.0327 295.36h-3v-2.3838h3z" fill="none" stroke="#c8b7b7" stroke-width=".31369"/><path d="m3.6219 296.05h-3v-2.3838h3z" fill="#fff" stroke="#c8b7b7" stroke-width=".31369"/><path d="m3.2111 296.81h-3v-2.3838h3z" fill="#fff" stroke="#c8b7b7" stroke-width=".31369"/><path class="ac" d="m0.8088 295.36h1.8047v0.50939h-1.8047z" fill="#280b0b" stroke="#280b0b" stroke-width=".18049"/></g></svg>
+                    </th>
+                </tr>
+                <tr class="title-section2" style="background-color:#CACACA;">
+                    <th>Usuario</th>
+                    <th>Codigo</th>
+                    <th>Articulo</th>
+                    <th>Rollos</th>                    
+                    <th>Piezas</th>
+                    <th>Metros</th>
+                    <th>Media</th>
+                </tr>
+                <tr onclick="verLotes($(this))" class="[data.usuario] datos" data-suc="[data.suc]" data-fecha="[data.fecha]" data-usuario="[data.usuario]" style="background-color:#F0F0F0;">
+                    <td align="center" class="usuario">[data.usuario;block=tr]</td>
+                    <td align="center" class="codigo">[data.codigo]</td>
+                    <td align="left" class="articulo">[data.articulo]</td>
+                    <td align="right" class="rollos">[data.rollos]</td>
+                    <td align="right" class="piezas">[data.piezas]</td>
+                    <td align="right" class="metros">[data.metros]</td>
+                    <td align="right" class="media">[data.media]</td>
+                </tr>
+                <tr onclick="verLotes($(this))" class="[data.usuario] datos" data-suc="[data.suc]" data-fecha="[data.fecha]" data-usuario="[data.usuario]" style="background-color:rgb(169, 218, 181);">
+                        <td align="center" class="usuario">[data.usuario;block=tr]</td>
+                        <td align="center" class="codigo">[data.codigo]</td>
+                        <td align="left" class="articulo">[data.articulo]</td>
+                        <td align="right" class="rollos">[data.rollos]</td>
+                        <td align="right" class="piezas">[data.piezas]</td>
+                        <td align="right" class="metros">[data.metros]</td>
+                        <td align="right" class="media">[data.media]</td>
+                    </tr>
+                <tr>
+                    <td colspan="3">Totales</td>
+                    <td id="totalRollos" align="right"></td>
+                    <td id="totalPiezas" align="right"></td>
+                    <td id="totalMetros" align="right"></td>
+                    <td ></td>
+                </tr>
+            </table>
+            <p style="text-align:center;">Se encontraron [data.#] registros en total.</p>
+        </div>
+    </div>
+</body>
+
+</html>

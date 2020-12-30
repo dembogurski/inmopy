@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->
+      <link rel="stylesheet" type="text/css" href="caja/ingreso_egreso.css" /> 
+      <script type="text/javascript" src="caja/ingreso_egreso.js" ></script>
+      <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>
+<!-- end:   header -->
+
+
+
+<!-- begin: body -->
+<input type="hidden" id="auditor" value="{auditor}">
+    
+<div style="text-align: center; width: 40%;min-width: 480px;border: solid 1px;margin: 20 auto ">
+        <table id="ie" border="0"  cellspacing="6" cellpadding="0"   >
+            <tr class="titulo" ><th colspan="6" style="text-align: center">Ingreso y Egreso de Caja</th></tr>
+            <tr>
+                <td style="width: 15%">Caja de la Fecha:</td> 
+                <td><input id="desde" class="fecha" type="text" size="10" value="{hoy}"  ></td>  
+                <td >Sucursal:</tD> 
+                <td ><input id="suc" type="text" size="4" value="" readonly="readonly" style="text-align: center"></td>  
+            </tr>
+            <tr> 
+                  
+                <td colspan="1">Concepto:</td>
+                <td colspan="2">  
+                    <select id="concepto">
+                        {conceptos}					
+                    </select> 
+                </td>
+                <td>
+                    <div id="tipo_mov" class="E" ></div> 
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="1">Decimales:</td>
+                <td colspan="3">
+                    0<input type="range" id="decs" value="2" name="points" min="0" max="6" oninput="setDecs()">6 &nbsp;&nbsp; <label id="decval">2</label> 
+                </td>
+            </tr>
+         
+            <tr>
+                <td style="width: 10%">Monto:</td> 
+                <td colspan="3">
+                    <input id="monto" type="text" size="8" value="" onkeypress="return onlyNumbers(event)" class="valor" >
+                    Moneda: <select id="moneda" >{monedas}</select> 
+                    Cotiz:<input id="cotiz" type="text" size="4" value="1" onkeypress="return onlyNumbers(event)" readonly="readonly" class="valor" >
+                    Valor Gs: <input id="valor_gs" type="text" size="12" value="" readonly="readonly" class="valor">
+                </td>                   
+            </tr>             
+            <tr style="text-align: center">
+                <td colspan="6">
+                    <input type="button" value="Generar Movimiento" id="gen_mov" onclick="generarMovimiento()" disabled="disabled">
+                    <input type="button" value="Ver Flujo Efectivo" id="gen_mov" onclick="generarReporte()"  >                     
+                </td>
+            </tr>
+        </table>
+</div>
+  
+ 
+<!-- end:   body -->

@@ -1,0 +1,228 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+    <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .det_cab{
+        background-color: lightskyblue;
+        font-size: 11px;
+        font-family: arial;
+    }
+    .det_rem{
+        background-color: rgb(245,245,245);
+        font-size: 11px;
+        font-family: arial;
+    }
+    .resaltar{
+       color: #F3AA04;
+       background-color: #FFFF96;
+    }
+    .coincidencia{
+       color: white;
+       background-color: #009900;
+    }
+    .en_proceso{
+        background-color: #3498db;
+        color: white;
+    }
+    .pendiente{
+        background-color: #F3AA04;
+    }
+    .suspendido{
+        color: red;
+    }
+    
+    .despachado{
+        color: green;
+    }
+        
+</style>
+
+<script language="javascript">
+    var reporte;
+  function getHistorial(lotex,remplazo,fecha){       
+      
+      $.ajax({
+        type: "POST",
+        url: "TrackingPedidos.class.php",
+        data: {"action":"getHistorial","lote":lotex,remplazo:remplazo,fecha:fecha}, 
+        async:true,
+        dataType: "json",
+        beforeSend: function(){
+            $("#msg").html("<img src='img/loading_fast.gif' width='16px' height='16px' >"); 
+        },
+        success: function(data){  
+                     console.log(data.length);       
+            $(".fila_"+lotex).remove();
+            $(".no_rem").remove();
+            $("#detalle_"+lotex).fadeIn();
+            cambiarImg(lotex);
+            if(data.length > 0){  
+            for(var i in data) { 
+                var nro_rem = data[i].nro_rem;
+                var fecha = data[i].fecha;
+                var fecha_cierre = data[i].fecha_cierre;
+                var origen_d = data[i].origen_d;
+                var codigo = data[i].codigo;
+                var lote = data[i].lote;
+                var descrip = data[i].descrip;   
+                var cantidad = data[i].cantidad;              
+                var estado = data[i].estado;
+                var transportadora = data[i].transportadora;
+                var nro_levante = data[i].nro_levante;
+                var hora_cierre = data[i].hora_cierre;
+                if(lote == lotex ){
+                    $("#lote_"+lote).addClass("coincidencia");
+                }else{ // Remplazo es igual
+                    $("#remp_"+lote).addClass("coincidencia");
+                }
+                $("#remitos_lote_"+lotex).append("<tr class='fila_"+lotex+"'>\n\
+                    <td class='item'><img src='../img/r_arrow.png' hight='6' width='14' onclick='abrirRemision("+nro_rem+")' style='cursor:pointer'>"+nro_rem+"</td>\n\
+                    <td class='itemc'>"+fecha_cierre+"  "+hora_cierre+"</td>\n\
+                    <td class='itemc'>"+origen_d+"</td>\n\
+                    <td class='item'>"+transportadora+"</td>\n\
+                    <td class='itemc'>"+nro_levante+"</td>\n\
+                    <td class='item'>"+codigo+"</td>\n\
+                    <td class='item coincidencia'>"+lote+"</td>\n\
+                    <td class='item'>"+descrip+"</td>\n\
+                    <td class='num'>"+cantidad+"</td>\n\
+                    <td class='itemc'>"+estado+"</td>\n\ </tr>");    
+                
+            } 
+            }else{
+                 
+                 $("#remitos_lote_"+lotex).append("<tr class='no_rem'> <td class='itemc' colspan='8' style='text-align:center' >Sin remisiones posterior al pedido </td></tr>");    
+                  
+            }  
+            $("#msg").html(""); 
+            }
+        });
+  }  
+  function abrirRemision(n_nro){
+      if(reporte!==undefined){
+        reporte.close();
+    }   
+    reporte = window.open("Remisiones.class.php?n_nro="+n_nro, '_blank', 'width=1024,height=760');
+  }
+  function displayAll(nro){
+     var img = $("#img_"+nro).attr("src");
+     if(img == '../img/add.png'){// Poner (-)
+         $("#img_"+nro).attr("src","../img/substract.png");
+         $(".ped_"+nro).each(function(){
+            var lote = $(this).html();
+            var remplazo = $(this).attr("data-remp");
+            var fecha = $(this).attr("data-fecha");
+            getHistorial(lote,remplazo,fecha);            
+         }); 
+     }else{
+         $("#img_"+nro).attr("src","../img/add.png");
+         $(".ped_"+nro).each(function(){
+             var lote = $(this).attr("id").substring(5,60);
+            cambiarImg(lote);
+         }); 
+     }
+     
+         
+  }
+  
+  function cambiarImg(lote){
+    var img = $("#loteimg_"+lote).attr("src");
+    if(img == '../img/add.png'){
+          $("#loteimg_"+lote).attr("src","../img/substract.png");
+          
+    }else{
+          $("#loteimg_"+lote).attr("src","../img/add.png");    
+          $("#detalle_"+lote).fadeOut();  
+    }      
+  }
+  
+  function getIndividual(lote){     
+     var lote = $("#lote_"+lote).html();
+     var remplazo = $("#lote_"+lote).attr("data-remp");
+     var fecha = $("#lote_"+lote).attr("data-fecha");
+     var img = $("#loteimg_"+lote).attr("src");
+     if(img == '../img/substract.png'){
+         cambiarImg(lote);
+         //$("#detalle_"+lote).fadeOut();
+     }else{
+        getHistorial(lote,remplazo,fecha);
+     }
+  }
+  
+</script>
+
+</head>
+
+
+
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Tracking de Pedidos</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc_d} &nbsp;&nbsp;Filtro: {articulo}</td></tr>
+</table>
+     
+<!-- end:   head -->
+
+<!-- begin: cabecera -->
+
+<table border="1" cellspacing="0" cellpadding="0" class="report_header" style="width: 60%">     
+    <tr>
+        <th>N&deg;</th>
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Origen->Destino</th>         
+    </tr>
+<tr>
+    <td class="item">{nro}</td>
+    <td class="item">{usuario}</td>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{hora}</td>    
+    <td class="itemc">{origen_destino}</td>      
+</tr>     
+</table>
+
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="det_cab">  <th>Codigo</th><th>Lote</th><th>Descripci&oacute;n</th><th>Obs</th><th>Lote Remplazo</th><th>Cantidad</th><th>Mayorista</th><th>Urgente</th><th>Estado</th><th><img title="Desplegar todos" id="img_{nro}" src="../img/add.png" height="12" width="12" style="cursor:pointer" onclick="displayAll({nro})"></th></tr>
+<!-- end:   cabecera -->
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{codigo}</td>
+    <td id="lote_{lote}" class="item ped_{nro}" data-remp="{remplazo}" data-fecha="{fecha_ing}">{lote}</td>     
+    <td class="item">{descrip}</td>
+    <td class="item">{obs}</td>
+    <td class="item" id="remp_{remplazo}">{remplazo}</td>    
+    <td class="item">{cantidad}</td>
+    <td class="itemc">{mayorista}</td>
+    <td class="itemc">{urge}</td>
+    <td class="itemc {clase_estado}">{estado}</td>  
+    <td class="itemc"><img id="loteimg_{lote}" src="../img/add.png" height="12" width="12" onclick="getIndividual({lote})"></td>        
+</tr> 
+<tr id="detalle_{lote}" style="display:none">
+    <td colspan="9">
+        <table id="remitos_lote_{lote}" border="1" cellspacing="0" cellpadding="0"  style="width: 97%;border-collapse: collapse;margin:0 0 10px 3%"> 
+            <tr><th colspan="8" style="font-size:10px;background-color: rgb(230,230,230);">Detalle de Remisiones</th></tr>
+            <tr class="det_rem"> <th>N&deg;</th><th>FechaCierre</th><th>Origen Destino</th><th>Transportadora</th><th>Nro Levante</th><th>Codigo</th><th>Lote</th><th>Descripcion</th><th>Cantidad</th><th>Estado</th></tr>
+        </table>    
+    </td>    
+</tr>
+ 
+<!-- end:   data -->
+ 
+<!-- begin: foot --> 
+</table>  
+<br>
+<!-- end:   foot  -->

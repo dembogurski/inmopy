@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<!-- begin: header -->     
+      <link rel="stylesheet" type="text/css" href="produccion/SolicitudesTraslado.css?_=000" />
+      <script type="text/javascript" src="clientes/Clientes.js" ></script>   
+      <script type="text/javascript" src="produccion/SolicitudesTraslado.js?_=000000" ></script>        
+<!-- end:   header -->
+
+
+
+<!-- begin: body -->
+
+<div style="text-align: center; padding-top: 6px">
+    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick=genericLoad("produccion/SolicitudesTraslado.class.php")>    
+</div>
+    
+<span style="display:none" id="sucurs">{sucurs}</span> 
+
+<div style="text-align: center; width: 60%;min-width: 480px;border: solid 1px;margin: 20 auto ">
+    <table id="touchpc" class="tactil_pc" border="0"  cellspacing="6" cellpadding="0" style="margin:0 auto;width: auto"   >
+            <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Solicitudes de Traslado a {destino}</th></tr>
+            <tr>
+                <td colspan="4" style="text-align: center"> 
+                    <input  type="radio" class="tipo_busqueda" name="tipo_busqueda" id="tejidos" value="tejidos" onclick="getPedidosFiltrados()" checked="checked"><label for="tejidos" style="cursor: pointer"><span><span></span></span>Pedidos de Tejidos</label>
+                    <input  type="radio" class="tipo_busqueda" name="tipo_busqueda" id="insumos" value="insumos" onclick="getPedidosFiltrados()"><label for="insumos" style="cursor: pointer"><span><span></span></span>Pedidos de Insumos</label>                
+                </td>                
+            </tr>
+            <tr>
+                <td style="width: 10%">Desde:</td> 
+                <td style="width: 10%"><input id="desde" class="fecha" type="text" size="10" value="{fecha_ini}" onchange="getPedidosFiltrados()"></td>  
+                <td style="width: 10%">Hasta:</td> 
+                <td style="width: 20%"><input id="hasta" class="fecha" type="text" size="10" value="{hoy}" onchange="getPedidosFiltrados()"> 
+                    <select id="hora_cierre">
+                        <option value="23:59:59">23:59</option>
+                    </select>
+                </td>  
+            </tr>
+            <tr>
+                <td style="width: 10%">Origen:</td> 
+                <td colspan="3" >
+                    <select id="origen" onchange="getHorasCierrePedidos()" >
+                        <optgroup label="Suc     -     Fecha    -     Hombre   -   Picker   -   Indef"></optgroup>
+                        {sucursales}
+                    </select>
+                    <input type="checkbox" id="fijar" >   <label for="fijar">Fijar Suc</label> 
+                </td>
+                 
+            </tr> 
+            <tr>
+                <td style="width: 10%">Urgente:</td> 
+                <td style="width: 10%">
+                    <select id="urge" onchange="getPedidosFiltrados()" >
+                        <option value="%">*</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>                        
+                    </select>
+                    &nbsp;&nbsp; Tipo:
+                    <select id="tipo" onchange="getPedidosFiltrados()" >
+                        <option value="%">*</option>
+                        <option value="Si">Mayorista</option>
+                        <option value="No">Minorista</option>                        
+                    </select>
+                </td>
+                <td ><label>Estado:</label></td>
+                <td >
+                    <select id="estado" onclick="cambiarSucursales()" >
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Despachado">Despachado</option> 
+                        <option value="Suspendido">Suspendido</option> 
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <td ><label>Tipo Nivel:</label></td>
+                <td >
+                    <select id="nivel" onchange="getPedidosFiltrados()" >
+                        <option value="%">Todos</option>        
+                        <option value="Picker">Picker</option>        
+                        <option value="Hombre">Hombre</option>       
+                        <option value="Sin Ubic">Sin Ubic</option>
+                    </select>
+                </td>
+                <td id="msg"></td>
+            </tr>  
+            
+            <tr style="text-align: left;display: none">
+           
+                <td colspan="2">
+                    Preparar para Hoja: &nbsp;&nbsp;  <label>A4&nbsp;</label><input type="radio" value="9" name="paper_size"  >&nbsp;<label>Oficio</label><input checked="checked" type="radio" value="14" name="paper_size" >
+                </td>
+                 
+            </tr>
+            <tr>
+               <td colspan="4" style="text-align: center">
+                    <input type="button" value="Procesar Pedidos" onclick="verSolicitudes(false,true)">                     
+                </td>  
+            </tr>
+        </table>
+</div>
+
+<!-- end:   body -->
+
+<!-- begin: mobile -->
+
+<input type="hidden" id="images_url" value="{images_url}">
+
+
+<div style="text-align: center; padding-top: 6px">
+    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick=genericLoad("produccion/SolicitudesTraslado.class.php?mobile=true")>    
+</div>
+
+<div id="remisiones" style="display:none;position: absolute;width: 100%;height: 100%;background-color: rgba(20, 20, 20,0.9)"></div>
+
+<div style="text-align: center; width: auto;border: solid 1px;margin: 10px 4px 1px 4px " id="filters">
+        <table id="mobile" border="0"  cellspacing="6" cellpadding="0" style="width: 100%"   >    
+            <tr class="titulo" style="height: 20px" ><th colspan="4" style="text-align: center">Pedidos a {destino}</th></tr>
+            <tr>
+                <td style="width: 20%">Desde:</td> 
+                <td><input id="desde" class="fecha" type="text" size="10" value="{fecha_ini}"></td>  
+            </tr>
+            <tr>
+                <td>Hasta:</td> 
+                <td><input id="hasta" class="fecha" type="text" size="10" value="{hoy}">&nbsp;Hora: 
+                    <select id="hora" >  
+                        <option value="6">06</option>  
+                        <option value="7">07</option>  
+                        <option value="8">08</option>  
+                        <option value="9">09</option>  
+                        <option value="10">10</option>  
+                        <option value="11">11</option>  
+                        <option value="12">12</option>  
+                        <option value="13">13</option>  
+                        <option value="14">14</option>  
+                        <option value="15">15</option>  
+                        <option value="16">16</option>  
+                        <option value="17">17</option>  
+                        <option value="18">18</option>  
+                    </select>
+                    <select id="minuto" >                       
+                        <option value="00">00</option>
+                        <option value="10">10</option>  
+                        <option value="20">20</option>  
+                        <option value="30">30</option>  
+                        <option value="40">40</option>  
+                        <option value="50">50</option>                                               
+                    </select>
+                </td>  
+            </tr>
+            <tr>
+                <td>Origen:</td> 
+                <td>
+                    <div style="width: 90%;background-color: blueviolet;color:white; margin-top:-6px;margin-bottom: -2px;height:14;padding:0;text-align: center; font-size:10px">Suc [Fecha] Hombre | Picker | Sin Ubic </div> 
+                    <select id="origen" style="width: 90%;letter-spacing:2;text-align: center" >{sucursales}</select>
+                </td>
+            </tr>
+            <tr>
+                <td>Tipo:</td> 
+                <td>
+                    <select id="tipo" >
+                        <option value="%">*</option>
+                        <option value="Si">Mayorista</option>
+                        <option value="No">Minorista</option>                        
+                    </select>
+                </td> 
+            </tr> 
+            <tr>
+                <td>Urgente:</td> 
+                <td>
+                    <select id="urge" >
+                        <option value="%">*</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>                        
+                    </select>
+                </td>
+            </tr>
+            <tr style="display: none">
+                <td ><label>Estado:</label></td>
+                <td >
+                    <select id="estado" >
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Despachado">Despachado</option> 
+                        <option value="Suspendido">Suspendido</option> 
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <td ><label>Tipo Nivel:</label></td>
+                <td >
+                    <select id="nivel" >
+                        <option value="Hombre">Hombre</option>
+                        <option value="Picker">Picker</option>        
+                        <option value="Sin Ubic">Sin Ubic</option>
+                    </select>
+                </td>
+            </tr> 
+            
+            <tr style="text-align: left;display: none" >           
+                <td colspan="2" >
+                    Preparar para Hoja: &nbsp;&nbsp;  <label>A4&nbsp;</label><input type="radio" value="9" name="paper_size"  >&nbsp;<label>Oficio</label><input checked="checked" type="radio" value="14" name="paper_size" >
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="button" value="Ver Pedidos" onclick="verSolicitudes(true,false)">
+                </td>
+            </tr>
+        </table>
+</div>
+
+<div id="nodos" style="display:none">
+    <table border="0" style="width: 100%;margin:10px 6px 1px 2px" cellspacing="0" cellpadding="0"  >
+        <tr>
+            <th style="text-align: center;background-color: #2c3e50;color:white;height: 26px;letter-spacing:2px;font-size: 16px" colspan="3">
+                [<span id="porigen" style="font-size: 16px"></span>]&nbsp; Nodo: <span id="nodo" style="font-size: 16px"></span> &nbsp;Ubic: <span id="ubic" style="font-size: 16px"></span> 
+            </th>
+        </tr>
+        <tr>
+            <td class="mobile_td" id="pdescrip" colspan="3" style="height: 40px"></td>
+        </tr>
+        <tr>
+            <td  class="mobile_td llabel" style="width: 15%">Lote:</td>
+            <td data-codigo="" class="data" data-nro_pedido=""  style="width: auto">
+               <input type="text" size="10" id="plote"  class="data" readonly="readonly"  style="width:124px"> 
+            </td>
+            <td id="imagen" rowspan="3" style="text-align: center"></td>
+        </tr>
+         
+        <tr>
+            <td class="mobile_td llabel">Cant:</td>
+            <td> 
+                <table cellspacing="0" cellpadding="0" border="0" style="width: 100%" >
+                    <tr>
+                        <td>
+                            <input type="text" size="4" id="pcant"  class="data" style="text-align: right;padding-right: 2px" readonly="readonly"  >
+                        </td>
+                        <td>
+                           <div style="width: 80%;background-color: blueviolet;color:white;margin-left: 8px; margin-top:-6px;margin-bottom: -2px;height:14;padding:0;text-align: center; font-size:10px">Stock</div> 
+                           / <input type="text" size="4" id="pstock"  class="data" style="text-align: right;padding-right: 2px" readonly="readonly"  >
+                        </td>
+                    </tr>            
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="mobile_td llabel">Remp:</td><td  class="data" > <input type="number"  id="premp" class="data lote_rem" style="width:124px" >  </td>
+        </tr>
+        <tr>
+            <td class="mobile_td" colspan="3" style="text-align: center"  >
+                <img src="img/arrow-back.png" onclick="volver()" style="margin:-6px 10px -8px -20px;">
+                Ruta <input type="checkbox" id="mostrar_ruta" onclick="mostraRuta()">
+                <span id="pmayorista"></span> &nbsp;&nbsp; 
+                <span id="purge" ></span> &nbsp;&nbsp;
+                <input type="button" id="remitir" value="Remitir" onclick="remitir()">
+            </td>  
+        </tr>
+        <tr>
+            <td class="info" id="info" colspan="3" style="text-align: center"></td>
+         </tr>
+        <tr>
+            <td class="mobile_td" style="text-align: center;margin-top: 6px" colspan="3">
+                <img  style="margin-right: 30px;cursor: pointer" src="img/arrow-left.png" onclick="anterior()">
+                <span id="cursor" class="cursor"></span>
+                <img style="margin-left: 30px;cursor: pointer" src="img/arrow-right.png" onclick="siguiente()">
+            </td>
+        </tr>   
+         
+         
+         <tr>
+             <td class="mobile_td" colspan="3" style="text-align: center">
+                <img class="rotate_mobile" style="cursor:pointer" src="img/refresh-32.png" onclick="verSolicitudes(true,false)" height="24">
+             </td>
+         </tr>
+         <tr>
+            <td class="mobile_td"  colspan="3" style="text-align: center">
+                <label style="font-size: 20px;font-weight: bolder">Pend.:</label>&nbsp;<span style="font-size: 22px;font-weight: bolder;color:green" id="pend" ></span>  
+                &nbsp;&nbsp;<span id="camino">Camino + corto</span>
+            </td>
+         </tr>
+    </table>
+</div>
+
+<!-- end:   mobile -->

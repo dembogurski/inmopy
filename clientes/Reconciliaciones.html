@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="clientes/Reconciliaciones.css?_=121212" />     
+    <script type="text/javascript" src="clientes/Clientes.js?_=000000000" ></script>   
+    <script type="text/javascript" src="clientes/Reconciliaciones.js?_=00212121212" ></script>          
+    <script>
+        var is_mobile = {is_mobile};
+    </script>    
+<!-- end:   header -->
+
+<!-- begin: cotizaciones -->
+<div style="text-align: center; padding-top: 6px;display: none">
+    <label style="font-weight: bold">Cotizaciones:</label>&nbsp;&nbsp;
+    <label>Rs:</label><img src="img/rs.png" class="img_moneda" style="margin-bottom: -8px;"><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_rs" value="{cotiz_rs}">&nbsp;&nbsp;
+    <label>Ps:</label><img src="img/ps.png" class="img_moneda" style="margin-bottom: -8px;"><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_ps" value="{cotiz_ps}">&nbsp;&nbsp;
+    <label>Us:</label><img src="img/us.png" class="img_moneda" style="margin-bottom: -8px;"><input style="font-weight: bold;font-size: 14px;text-align: right;color:black" type="text" size="8"  readonly  id="cotiz_us" value="{cotiz_us}">&nbsp;&nbsp;
+    <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick=genericLoad("caja/CobroCuotas.class.php")>    
+</div>
+<!-- end:   cotizaciones -->
+ 
+<!-- begin: body -->
+ 
+<input type="hidden" class="fecha_hoy" value="{fecha_hoy}">
+ 
+
+<div id="cabecera" style="padding-top: 10px;padding-left: 10px"> 
+    <div id="cli_data"> 
+        <input type="hidden" id="codigo_cliente" value=""> <input type="hidden" id="moneda" value="G$">    
+        <label id="label_ruc">C.I./R.U.C.:</label> <input type="text" id="ruc_cliente" value="{ruc_cli}"  size="20" maxlength="34" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" >
+        <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="boton_generar" >
+         <label class="limite_credito" title="Limite de Credito">Lim.Cred.:</label> <input type="text" id="limite_credito" size="10" readonly class="num limite_credito" value="0"  > 
+         
+         <img src="img/refresh-32.png" title="Recargar" data-info="Recargar" class="rotate" style="height: 26px;width: 26px; margin-bottom: -8px;cursor: pointer" onclick=genericLoad("clientes/Reconciliaciones.class.php")> <br>
+         
+        <input type="text" class="fecha" value="{fecha_hoy}" size="10" id="fecha_cheque_diff" style="text-align:center;display:none" >
+       
+        &nbsp;<span id="msg"></span>
+    </div>
+    <span id="msg_intereses" >
+        Debe generar una Factura por los Intereses y cobrar antes de proceder al cobro de estas cuotas &nbsp;
+        <input type="button" value="Generar Factura por los Intereses" onclick="previewFacturaXIntereses()">
+    </span>
+    
+    <div id="detalle_intereses">        
+        <table id="table_detalle_intereses" border="1" style="width: 300px;border-collapse: collapse;margin: 4px">
+            <tr><th class="titulo" colspan="4">Detalle de Factura por Intereses</th></tr>
+            <tr><th>Ref.Ticket</th><th>Cuota</th><th>Interes</th></tr>
+        </table>
+    </div>
+    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer"  >
+        <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="width: 90%" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th>  <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div> 
+ </div>   
+<div id="cuotas_content" style="padding:10px 10px 10px 10px">
+    <table id="lista_cuotas" border="1"  cellspacing="0" cellpadding="0" >
+        <tr><th class="titulo_cuotas" colspan="14">Detalle de Cuenta</th></tr>
+        <tr class="titulo" > <th class="tSel" >Marcar</th> <th>N&deg; Folio FV</th><th class="tMon" >#</th><th>N&deg; Ref </th><th>Cuota</th><th>Fecha</th><th>Vencimiento</th><th>Ult.Pago</th><th class="tDA">D&iacute;as de Atraso</th><th>Valor Cuota</th> <th class="tPag">Pagado</th><th>Interes</th> <th colspan="2">Monto a Pagar</th> </tr>
+    
+        <tr id="pie" style="font-weight: bolder">
+            <td colspan="9">&nbsp;</td>
+            <td id="total_deuda" class="num">0</td>
+            <td ></td>
+            <td id="suma_interes" class="num">0</td>
+            <td id="total_a_pagar" class="num total_a_pagar">0</td>             
+        </tr>
+    </table>
+     
+</div>
+
+
+<div id="alerta_intereses">
+    <img src="img/warning_red_16.png" > Atencion! No se puede Reconciliar cuotas con intereses, cobre primero los interes o exonerelos antes de Reconciliar.
+</div>
+
+<div id="notas_credito_content" style="padding:30px 10px 10px 10px">
+    <table id="lista_notas_credito" border="1"  cellspacing="0" cellpadding="0" >
+        <tr><th class="titulo_cuotas" colspan="14">Notas de Credito</th></tr>
+        <tr class="titulo" > <th class="nc_sel" >Marcar</th> <th>N&deg; Folio NC</th><th class="nc_ref" >#</th><th>N&deg; Ref </th> <th>Fecha</th><th>Usuario</th><th>Clase</th><th class="nc_notas">Notas</th><th>Valor Total</th> <th class="nc_saldo">Saldo</th>  <th colspan="2">Monto a Pagar</th> </tr>
+    
+        <tr id="pie_nc" style="font-weight: bolder">
+            <td colspan="8">&nbsp;</td> 
+            <td id="valor_total_nc" class="num">0</td>
+            <td id="saldo_nc" class="num">0</td>
+            <td id="total_a_pagar_nc" class="num total_a_pagar_nc">0</td>             
+        </tr>
+    </table>
+     
+</div>
+
+
+
+<div style="margin: 10px 0 300px 0">
+    <table border="0" style="margin: 0 auto">
+        <tr>
+            <td>
+                <table id="diff_table" style="border-collapse: collapse;margin: 6px auto;background-color: white" border="1">
+                    <tr><td><b>Total Cuotas:</b></td><td class="num total_a_pagar" ></td> </tr>
+                    <tr><td><b>Total Notas Credito:</b></td><td class="num total_a_pagar_nc"></td></tr>
+                    <tr><td><b>Diferencia:</b></td><td class="num" id="diff"></td></tr> 
+                </table>
+            </td>
+            <td style="text-align: left;vertical-align: middle;padding-left: 30px">
+                <label><b>Notas</b></label><br>
+                <textarea id="notas" rows="3" cols="30"></textarea>
+            </td>
+            <td style="text-align: center;vertical-align: middle">
+                <input type="button" value=" Reconciliar " class="boton_reconciliar" id="reconciliar" onclick="reconciliar()" disabled="disabled">
+            </td>
+            <td>
+                <input type="button" value=" Imprimir Comprobante " class="boton_reconciliar" id="imprimir_rec" onclick="imprimirComprobante()" style="display:none" >
+            </td>
+        </tr>
+    </table>
+    
+</div>
+<!-- end:   body -->
+
+ 
+
+
+

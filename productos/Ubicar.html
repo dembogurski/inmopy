@@ -1,0 +1,109 @@
+
+<!-- begin: header -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="productos/Ubicar.css?_=44444" />    
+    <script type="text/javascript" src="productos/Ubicar.js?_=88888888888888" ></script>  
+<!-- end:   header -->
+
+
+
+<!-- begin: body -->
+
+<div id="dialog-confirm" title="Reubicar Pallet?" style="display: none;padding-top:10">
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 60px 0;"></span>
+    <span class="dialog">La Ubicacion actual del Pallet es: </span> 
+    <span id="ubic_actual" class="dialog_red"></span> 
+    <span class="dialog"><br>Desea reubicar el Pallet a:</span> 
+    <span id="ubic_new" class="dialog_red"></span> 
+</div>
+
+<input type="hidden" id="images_url" value="{images_url}">
+
+<div id="ubicar" >
+    <table id="ubic_table" border="0" style="margin:2px;padding:4px" >
+            <tr class="titulo" ><th colspan="2">Ubicacion de Productos</th></tr>
+            <tr id="fila_suc">
+                <td>Sucursal/Deposito:</td>
+                <td >
+                    <input type="text" id="deposito" value="" size="6" style="text-align: center" readonly="readonly"> 
+                    <img src="img/graph.png" id="graph_img" style="margin-left: 2cm;margin-bottom:-10px;cursor: pointer" height="32" onclick="verGrafo()"> &nbsp;
+                    <span id="planos"></span>
+                </td>
+            
+            </tr>
+            <tr>
+                <td style="width:30%">Tipo de Ubicacion:</td> 
+                <td colspan="2">
+                    <label class="label_tipo" for="estante">Estante </label> <input id="estante" type="radio" name="tipo" value="Estante" checked="checked" >
+                    &nbsp;
+                    &nbsp;
+                    <label class="label_tipo" for="sector">Sector </label>  <input id="sector"  type="radio" name="tipo" value="Sector">                    
+                </td> 
+                
+            </tr>
+            <tr>
+                <td id="tipo_ubic">
+                    
+                </td>
+                <td colspan="2">
+                    <select id="nombre" class="estante"></select>
+                    &nbsp;&nbsp;<label>Fila:</label><input type="text" id="fila" value="" size="6" style="text-align: center;height: 28px" readonly="readonly">
+                    &nbsp;&nbsp;<label>Col:</label><input type="text" id="col" value="" size="6" style="text-align: center;height: 28px" readonly="readonly">
+                    <span id="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span><label>Pallet N&deg;:</label><input type="text" id="pallet" value="" size="8" style="text-align: center;height: 28px" >
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input id="listar" type="button" value="Ver contenido" onclick="verContenido()" disabled="disabled">
+                    <input id="porc_util" style="display:none" type="button" value="Ver % utilizado" onclick="getPorcentajeUtilizado()"   >
+                </td>
+            </tr>
+    </table>           
+</div>
+<div style="text-align: center;margin-bottom: 18px">
+    <label style="font-weight: bolder;"> Acci&oacute;n:  </label> &nbsp;&nbsp;&nbsp; 
+    <label style="cursor: pointer" for="radio_ubicar">Ubicar </label> <input type="radio" class="accion" id="radio_ubicar" name="accion" value="Ubicar" checked="checked"> &nbsp;&nbsp;&nbsp; 
+    <label style="cursor: pointer" for="radio_quitar">Quitar </label> <input type="radio" class="accion" id="radio_quitar" name="accion" value="Quitar"> &nbsp;&nbsp;&nbsp; <img id="img_ubic" src="img/in_green.png" width="22" style="margin-bottom:-10px"> 
+</div>
+<div id="ubicacion_div">
+    <div id="titulo_ubic"></div>
+    <table id="ubicacion" border="1" style="margin: 0 auto"></table>
+</div>
+<div id="area_trab_div">
+    <table border="0" id="area_trab" cellspacing="0" cellpadding="0" style="width:100%" >
+        <tr>
+            <td>Lote:</td>
+            <td>
+                <div style="width: 170px;">
+                    <input type="text" id="lote" value=""   size="10" disabled="disabled" >&nbsp;
+                    <img src="img/keypad32.png" border="0" onclick="showKeyPad()" style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                </div>
+            </td>
+            <td>Cod:</td>
+            <td><input type="text" id="codigo" value="" class="dato"  size="12" readonly="readonly" style="text-align: center;width: 97%;"> </td>
+        </tr>
+        <tr>
+            <td>Descrip:</td>
+            <td colspan="3" ><input type="text" id="descrip" value="" class="dato"  style="width: 70%" readonly="readonly"  > <label>Stock:</label> <input class="dato" style="width: 80px;text-align: center" type="text" id="stock" value=""> </td>
+        </tr>
+        <tr>
+            <td>Obs:</td>
+            <td colspan="3" ><input type="text" id="obs" value="" class="dato"  style="width: 99%" > </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="vertical-align:top;padding-top:20px"  >
+                <div class="titulo" style="text-align: center;background:maroon;color:white">Ubicaci&oacute;n Anterior</div>
+                <div id="ant" style="font-size: 22px;font-family: lucida;padding-top: 20px"></div>
+            </td>
+            <td style="text-align: center" rowspan="2" ><img src="img/no-image.png" id="imagen_lote" alt="No se encontro la imagen" ></td>
+        </tr>
+        <tr>
+            <td colspan="3" id="resumen_cuad" style="text-align: left;font-size: 15"></td>
+        </tr> 
+        <tr>
+            <td colspan="4" id="msg_codigo"></td>
+        </tr>  
+    </table>
+    <div id="cuad_content">
+        
+     
+    </div>
+</div>
+<!-- end:   body -->
+

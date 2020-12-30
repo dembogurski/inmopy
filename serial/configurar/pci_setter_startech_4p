@@ -1,0 +1,15 @@
+#!/bin/bash
+#Crea el ttyS4
+makedev /dev ttyS4
+#Combierte en un nodo para que pueda recibir datos
+mknod -m 666 /dev/ttyS4 c 4 64
+#Setea los puertos
+/bin/setserial /dev/ttyS1 port 0xec00 uart 16550A irq 21
+/bin/setserial /dev/ttyS2 port 0xe880 uart 16550A irq 21
+/bin/setserial /dev/ttyS3 port 0xe800 uart 16550A irq 21
+/bin/setserial /dev/ttyS4 port 0xe480 uart 16550A irq 21
+
+chown apache /dev/ttyS1
+chown apache /dev/ttyS2
+chown apache /dev/ttyS3
+chown apache /dev/ttyS4

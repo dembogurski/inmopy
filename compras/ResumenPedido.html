@@ -1,0 +1,39 @@
+<!-- begin: headers -->
+<!DOCTYPE html>
+      <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+      <link rel="stylesheet" type="text/css" href="resumen_pedido.css" /> 
+      <script type="text/javascript" src="resumen_pedido.js" ></script>
+<!-- end:   headers -->
+
+
+<!-- begin: head -->
+
+
+<table id="resumen_pedidos" border="1"  cellspacing="0" cellpadding="0"    style="margin: 10px auto;min-width: 99%;border-collapse: collapse"  >
+           
+    <tr><th colspan="11" style="background-color: lightgray">Resumen de Pedidos de Compra N&deg;:{nro}</th></tr> 
+    <tr><th colspan="11" style="background-color: white">{usuario}&nbsp;&nbsp;&nbsp;&nbsp;{fecha}&nbsp;&nbsp;&nbsp;&nbsp;</th></tr> 
+            <tr class="titulo"><th>Codigo</th><th>Descrip</th><th>Color</th><th>Cantidad</th><th>Ventas</th><th >Precio Estimado</th><th>Valor Estimado</th></tr>  
+            
+<!-- end:   head -->
+
+<!-- begin: line -->
+<tr id="{id}" data-nro="{nro}" style="cursor: pointer;background-color: white"> 
+    <td class="itemc" >{codigo}</td>  
+    <td class="item"  >{descrip}</td> 
+    <td class="item" >{color}</td> 
+    <td class="num" >{cantidad}</td> 
+    <td class="num" title="{rango_ventas}" >{ventas}</td> 
+    <td class="num" >{precio_est}</td>
+    <td class="num" >{valor_est}</td> 
+</tr>
+<!-- end:   line -->
+
+
+<!-- begin: foot -->
+<tr> 
+    <td class="itemc" colspan="6" ></td>      
+    <td class="num" style="font-weight: bolder" >{valor_total_est}</td> 
+</tr>
+  </table>
+<!-- end:   foot -->

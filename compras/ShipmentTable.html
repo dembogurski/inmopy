@@ -1,0 +1,91 @@
+<!-- begin: header noeval -->
+    <link rel="stylesheet" type="text/css" href="compras/shipmenttable.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/datatables.css" />
+    <script type="text/javascript" src="js/datatables.js" ></script>  
+    <script type="text/javascript" src="compras/shipmenttable.js" ></script>  
+     
+   
+<!-- end:   header -->
+
+
+<!-- begin: table_header -->
+
+<div class="edit_bale" id="edit_bale" >
+    <table border="0" cellspacing="0" cellpadding="0" style="width: 145px">
+        <tr class="titulo"><th colspan="2">Gross Qty:<span id="gross"></span></th></tr>
+        <tr style="font-size: 10px">
+            <th>Bale N&deg;</th><th>Quantity</th>
+        </tr>
+        <tr>
+            <td><input id="bale_no" class="itemc bale" type="text" onkeypress="return onlyNumbers(event)" size="6" value=""></td><td><input type="text" id="qutyx" class="frac_row num" value="" size="6" onkeypress="return onlyNumbers(event)"> </td>
+        </tr>
+        
+        <tr id="prepend_this">
+            <td colspan="2"><input type="text" size="3" id="pieces_to_add" class="itemc" value="1" onkeypress="return onlyNumbers(event)"> 
+            <input type="button" id="add_piece" onclick="addPiece()"  value="(+) Add piece" style="font-size:10px;font-weight: bolder"></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="cancel" onclick="cancel()"  value="Cancel" style="font-size:10px;font-weight: bolder"></td>
+            <td style="text-align: right"><input type="button" id="save_bale"  value=" Save " onclick="savePieces()" style="font-size:10px;font-weight: bolder"></td>
+        </tr>
+         
+    </table>
+</div>
+
+<div style="text-align: center;margin: 10 auto;font-weight: bolder" class="titulo"  >Shipment Table for: {to_user}</div>
+
+<div id="shipment_table" style="margin: 10 30;width:auto;">
+
+<table id="shipmenttable" border="1"  cellspacing="0" cellpadding="0"    > 
+   <thead> 
+       <tr class="titulo"><th >Number</th> <th>Provider</th>  <th style="width: 10%">Date</th> <th style="width: 10%">Total</th> <th style="width: 4%">Priority</th> <th>Delivery Date</th><th>Volume M&sup3;</th><th>State</th></tr>
+   </thead>
+   <tbody>
+<!-- end:   table_header -->
+
+
+<!-- begin: table_data -->
+<tr id="tr_{id}" data-nro="{Number}" data-corp="{Provider}" data-moneda="{Currency}"  class="fila_prov {curr_class}" ><td class="centrada">{Number}</td> <td>{Provider} <input type="checkbox" class="selectable" disabled="disabled" ></td><td class="centrada">{Date}</td> <td class="der">{total}&nbsp;{Currency}</td> <td class="centrada" style="background-color: {Priority_Color}">{Priority}</td> <td class="centrada" id="{id}" onclick=enmascararTd("{id}") >{Delivery_Date}</td><td class="centrada" id="vol_{id}" onclick=enmascararVol("vol_{id}")>{Volume}</td><td class="centrada">{State}</td></tr> 
+<!-- end:   table_data -->
+
+
+<!-- begin: table_footer -->     
+    </tbody>
+     </table>
+    
+ </div>  
+<div id="midle_container" style="width: 99%;padding: 0 4 0 4">
+    <div id="content" style="height: auto;background-color: white;text-align: center;float:left;width: 70%;">
+        ....
+    </div>    
+    <div id="invoices_area" style="background-color:#FFFFCC;text-align: center;width: 30%;float:right;">
+        <div class="titulo">Open Invoices</div>
+        <div id="invoices"></div>
+        <input type="button" id="new_invoice" class="invoice_tools"  value=" Generate New Invoice " style="display:none" onclick="generarNuevoInvoice()">
+        <div style="background-color: #FFFFCC;padding: 10;display:none;padding: 2;margin: 4;border-radius: 6px;border:solid orange 1px" class="invoice_tools">
+            <label style="font-weight: bolder" >Invoice&nbsp;</label><img src="img/printer-01_32x32.png" class="printer" onclick="printInvoice()">
+            &nbsp;&nbsp;
+            <label style="font-weight: bolder">Packing List&nbsp;</label><img src="img/printer-02_32x32.png" class="printer" onclick="printPackingList()">
+            &nbsp;&nbsp;<input type="button" value="Close"  onclick="closeInvoice()"> &nbsp;&nbsp; <img src="img/trash.png" style="margin:0 0 -10 0" class="rotate" onclick="dropInvoice()">
+        </div>
+    </div>
+</div> 
+<br>
+
+<div id="div_distinct_corps" style="width:width: 99%;margin:36 10 2 4;background: white; text-align: left"></div>
+<div id="div_packing" style="width:width: 99%;margin:0 10 30 4;background: white; text-align: center">....</div>
+
+<table id="footer" border="0"  cellspacing="4" cellpadding="0" style="display:none;min-width: 60%;margin:0 10 30 10">
+    <tr style="font-weight: bolder"> <td class="titulo" style="width: 60%">Notes</td> <td  class="titulo">Expenses</td></tr>    
+    <tr>
+        <td id="notes">
+            <textarea id="inv_obs" cols="16" rows="5" style="width: 100%;height: 100%" onchange="updateNotes()"></textarea>
+            <div style="width: 100%" id="msg_obs"></div>
+        </td>
+        <td id="expenses"></td>
+    </tr>
+</table>
+ 
+
+<!-- end:   table_footer -->
+ 

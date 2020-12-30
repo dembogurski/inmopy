@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="compras/pedidos_compra_en_proceso.css" />   
+    <script type="text/javascript" src="compras/pedidos_compra_en_proceso.js" ></script>
+    <script>
+        colores = {colores};
+        pattern_codes = {pattern_codes};
+        patterns = {patterns};
+        //setTimeout("setAutocomplete()",1500);
+    </script>
+<!-- end:   header -->
+
+<!-- begin: titulo -->
+<div class="titulo" style="font-weight: bolder;font-size: 14px;margin:6 0 10 0;text-align: center">Pedidos en Proceso de Compra</div>  
+
+<div class="info_cli">Seleccione una Nota de Pedido para procesar</div>
+
+<div id="dialog-confirm" title="Confirma eliminar el registro?" style="display:none">
+  <span class="ui-icon ui-icon-alert"  style="float:left; margin:0 7px 20px 0;"></span><p id="msg_delete">Esta seguro de que desea eliminar este registro?</p>
+</div>
+ 
+<!-- end:   titulo -->
+
+
+<!-- begin: formulario -->
+<div id="formulario" style="font-weight: bolder;text-align: center;display:none;position: absolute;width: 540;border:solid gray 1px;z-index: 1">
+    <input type="hidden" id="unique_id" value="">
+    <table border="0" class="formulario" style="width: 98%;margin:4;padding: 4" >
+        <tr><th colspan="2"  class="titulo" >Formulario de Compra</th></tr>
+        <tr><td>Codigo:</td><td><input type="text" size="8" id="fcodigo" readonly="readonly"> &nbsp;<label>Producto Nuevo</label><input type="checkbox" id="prod_nuevo" onclick="productoNuevo()" >&nbsp;<span id="msgart"></span></td></tr>
+        <tr><td>Descrip:</td><td><input type="text" tabindex="1"  size="36" id="fdescrip" placeholder="Busque aqui" class="form" readonly="readonly"> 
+                <input type="button" class="toggle-button" value="Otro">                            
+            </td></tr>
+        <tr><td>Composicion:</td><td><input type="text" size="36" id="fcomp"  class="form"></td></tr>
+        <tr>
+            <td colspan="2">
+                <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute; width: 110%;height: 420;overflow-y: auto; z-index: 1; margin: 0 0 0 -5%;"  >
+                    <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:0;width: 100%;background-color: rgb(255, 255, 224)" >
+                        <tr><th colspan="6" class="titulo">Articulos</th><th style="width: 2%"  class="titulo"><img src="img/close.png" width="16" height="16" onclick="cerrarUIArticulos()"></th></tr>
+                        <tr style="background: LightSkyBlue"> <th style="width: 15%">Codigo</th>   <th style="width: 15%">Sector</th> <th colspan="2" style="width: 30%">Nombre Comercial</th>
+                        <th style="width: 10%">Ancho</th>   <th style="width: 10%">Composicion</th>  <th style="width: 10%">Precio</th>     
+                        </tr>
+                    </table>                     
+                </div>                 
+            </td>
+        </tr>
+        <tr><td>Catalogo:</td><td><input type="text" tabindex="2" size="8" id="fcod_cat" class="form">Cod.Color.:<input type="text" tabindex="3" size="8" id="fcolor_cod_fab" class="form"></td></tr>
+         
+        <tr><td>Color:</td><td><input type="text" tabindex="4" size="24" id="fcolor" class="form"></td></tr>
+        <tr><td>Color Comb.:</td><td><input type="text" tabindex="5" size="24" id="fcolor_comb" class="form"></td></tr>
+        <tr>
+            <td>Cantidad:</td><td><input type="text" tabindex="6" size="12" id="fcantidad" style="text-align: right" onkeypress="return onlyNumbers(event)" class="form numero"> 
+                &nbsp;Um: 
+                <input type="text" size="4" readonly="readonly" value="Mts" id="fum" style="text-align: center">
+                <img src="img/icon-arrow-right-b-32.png" style="margin:0px 0px -11px -14px;cursor:pointer;" onclick="setUm()">
+            </td>
+        </tr>
+        <tr>
+            <td>Precio:</td>
+            <td>
+                <input type="text" tabindex="7" size="12" id="fprecio" style="text-align: right" onkeypress="return onlyNumbers(event)" class="form numero">
+                <select id="moneda" onchange="cambiarMoneda()">
+                    <option value="Y$">Renminbi</option>
+                    <option value="U$">Dolares</option>                    
+                    <option value="G$">Guaranies</option>
+                    <option value="R$">Reales</option>
+                </select>
+                <span id="msg_mon"></span>
+            </td>
+        </tr>
+        <tr><td>Design:</td><td><input type="text" tabindex="8" size="36" id="fdesign"  class="form"><input type="button" value="..." onclick="selectDesigns(true)"></td></tr>
+        
+        <tr><td>Ancho:</td><td><input type="text" tabindex="9" size="8" id="fancho" style="text-align: right" onkeypress="return onlyNumbers(event)"  class="form numero">
+                Gramaje:<input type="text" size="8" tabindex="10" id="fgramaje" style="text-align: right" onkeypress="return onlyNumbers(event)"  class="form numero"></td></tr>         
+        <tr><td>Imagen: </td><td><input type="file" id="image-picker" accept="image/*" id="capture" capture="camera" onchange="loadImageFileAsURL()" ></td></tr>
+        <tr><td colspan="2"><input type="hidden" id="textAreaFileContents" value="">  </td></tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><span id="msg_form"></span></td>
+        </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="button" value="Cancelar" onclick="cerrarFormulario()">
+                    <input type="button" value="Aceptar" tabindex="11" disabled="disabled" id="guardar" onclick="guardarDatosCompra()">                    
+                </td>
+            </tr>
+    </table>
+</div>  
+
+<!-- end:   formulario -->
+
+
+<!-- begin: pedidos -->
+<div id="li_{nro}" class="lista notas"><b>N&deg;:</b> {nro} - <b>Estacion:</b> {temporada} - <b>Fecha de Cierre: </b>{fecha} 
+    <br><b>Estado: </b> {estado}  
+    &nbsp;<label><b>Tipo de Compra:</b></label><input type="button" class="select_nota" value="CORP" onclick=seleccionarNota({nro},"CORP")> &nbsp;
+    <input type="button" value="Global" class="select_nota" onclick=seleccionarNota({nro},"GLOB")>
+    &nbsp;&nbsp;
+    <input type="button" value="FanYi" class="select_nota" onclick=seleccionarNota({nro},"FANYI")>
+    <span style="width: 150px" id="msg_del"> <input type="button" value="Cerrar Pedido" onclick=cerrarNotaDePedido({nro})></span>
+</div> 
+<div class="proveedor" data-prioridad="1" style="display:none;width:100px;position: absolute;left:80px;top:-53px" onclick="setPrioridad()"></div>
+<!-- end:   pedidos -->
+
+<!-- begin: pedidos_body -->
+<div id="designs_container">
+    <div style="text-align: right;width:400px;position:fixed"><img src="img/close.png" onclick="hideDesigns()"></div>
+</div>
+<div style="display:none" class="panel">
+    <input class="new_corp" type="button" value="New Prov" onclick="newCorp()">
+    <input type="button" id="ocultarProv" value="-" onclick="ocultarProveedores()">
+    <label>Buscar Articulos:</label> <input type="text" size="12" placeholder="Buscar" id="buscarArticulos" onchange="getArticulosAComprar()">
+    <select id="articulos" onchange="getColoresAComprar()"></select><input type="button" onclick="comprar(0)" value="Comprar">
+    <span id="msg"></span>
+    
+    <div>
+        <table id="attr_art" class="tablas" border="1" style="width: 79%;margin-left:4">
+            <tr class="titulo" style="font-family: arial; font-size: 9;background: LightSkyBlue"><th>Ligamento</th><th>Estetica</th><th>Tipo</th><th>Acabado</th><th>Combinacion</th><th>Composicion</th><th>Ancho</th><th>Gramaje</th></tr>
+        </table>
+    </div>
+    
+    
+    <div id="color_div" style="height: 100px;overflow-y: auto;padding-top: 6">
+        <div style="float: left;width: 80%">
+            <table id="colores" class="tablas" border="1" style="width: 100%;margin-left:4"   >
+                <tr class="titulo" style="font-family: arial; font-size: 9"><th style="width: 60%">Color</th><th>Cantidad</th><th>Comprado Color</th><th>Comprado Color *</th><th>Precio Est.</th></tr>
+            </table>
+        </div>
+        <div style="float: right;width: 19%">
+            <input type="range" id="color_range" min="80" max="500" step="10" value="100" onchange="setColorsHeight()" >
+        </div>
+    </div>
+</div>
+
+<table border="0" style="width: 100%;display:none" class="area_compra">
+    <tr>
+        <th style="width:10%;" class="lista_corps titulo">Corps</th> <th class="titulo" id="titulo_corp">Articulos comprados de este Proveedor</th>
+    </tr>
+    <tr> 
+        <td  class="lista_corps" style="vertical-align: top" >
+            <div id="corps" ></div> 
+        </td>    
+        
+        <td id="area_compra" style="vertical-align: top;height: 100%" >  
+            <div style="height: 120px;overflow-y: auto;width: 80%;float:left" > 
+                <ol id="articulos_x_corp" style="text-align: left"></ol>
+            </div>
+            <div style="float: right;width: 18%;height: 94px;padding-top:10px">
+                <select id="tipo_res">
+                    <option value="Resumido">Resumido</option>
+                    <option value="Articulos">x Articulos</option>
+                </select>
+                <input type="button" value="Ver Resumen" onclick="verResumenCompra()">    
+                <input type="button" value="Galeria" onclick="gallery()">    
+            </div>
+
+                <table id="compras_x_corp" border="1"  class="tablas" style="width: 100%" >
+                    <tr class="titulo"><th>Catalogo</th><th>Color</th><th>Color.Comb.</th><th>Cantidad</th><th>Design</th><th>Comp.</th><th>Ancho</th><th>Gramaje</th><th>-</th></tr>
+                </table>             
+         </td>
+  </tr>
+</table>
+
+<!-- end:   pedidos_body -->

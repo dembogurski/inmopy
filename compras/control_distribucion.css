@@ -1,0 +1,16 @@
+
+/* 
+    Created on : 29/07/2016, 04:25:08 PM
+    Author     : Ing.Douglas
+*/
+[readonly]{
+    background-color: rgb(250, 250, 250);
+    font-size: 14px;
+    font-family: tahoma;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.ajuste{
+    display: none;
+}
+

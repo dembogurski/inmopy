@@ -1,0 +1,104 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>   
+  <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+</style>
+
+<script language="javascript">
+     
+ $(document).ready(function(){
+      $("#loading").html("");    
+ }); 
+     
+</script>
+
+</head>
+ 
+
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte {titulo}</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Origen: {suc_de} &nbsp;&nbsp; Destino: {suc_a}   <span id="loading"><img src="../img/loading_fast.gif"></span></td></tr>
+</table>
+     
+<!-- end:   head -->    
+
+<!-- begin: cabecera_remisiones --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>Fecha</th><th>Origen</th><th>Destino</th><th>Cant.Remisiones</th><th>Cant.Paquetes</th><th>Cant.Rollos</th><th>Cant.Piezas</th><th>Suma Metros</th><th>Suma KgEnv</th></tr>
+<!-- end:   cabecera_remisiones -->
+
+<!-- begin: remisiones_data --> 
+<tr>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{origen}</td>
+    <td class="itemc">{destino}</td>
+    <td class="itemc">{remisiones}</td>
+    <td class="itemc">{paquetes}</td>
+    <td class="itemc">{rollos}</td>
+    <td class="itemc">{piezas}</td>
+    <td class="num">{metros}</td>
+    <td class="num">{kilos}</td>
+</tr>
+<!-- end:   remisiones_data -->
+
+<!-- begin: pie_remisiones --> 
+<tr style="font-weight: bolder">
+    <td colspan="3"></td>
+    <td class="itemc">{t_remisiones}</td>
+    <td class="itemc">{t_paquetes}</td>
+    <td class="itemc">{t_rollos}</td>
+    <td class="itemc">{t_piezas}</td>
+    <td class="num">{t_metros}</td>
+    <td class="num">{t_kilos}</td>
+</tr>
+</table>
+<!-- end:   pie_remisiones -->
+
+
+
+
+<!-- begin: cabecera_pedidos --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>Fecha</th><th>Origen</th><th>Destino</th><th>Cant.Pedidos</th> <th>Cant.Piezas</th><th>Suma Metros</th> </tr>
+<!-- end:   cabecera_pedidos -->
+
+<!-- begin: pedidos_data --> 
+<tr>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{origen}</td>
+    <td class="itemc">{destino}</td>
+    <td class="itemc">{pedidos}</td>    
+    <td class="itemc">{piezas}</td>
+    <td class="num">{metros}</td>
+    
+</tr>
+<!-- end:   pedidos_data -->
+
+<!-- begin: pie_pedidos --> 
+<tr style="font-weight: bolder">
+    <td colspan="3"></td>
+    <td class="itemc">{t_pedidos}</td>     
+    <td class="itemc">{t_piezas}</td>
+    <td class="num">{t_metros}</td>
+     
+</tr>
+</table>
+<!-- end:   pie_pedidos -->

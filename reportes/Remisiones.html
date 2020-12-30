@@ -1,0 +1,137 @@
+<!-- begin: header noeval -->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../css/reporte_defaults.css" rel="stylesheet" type="text/css" />
+    <style>
+        table,th,td{
+            margin-left:auto; 
+            margin-right:auto;
+            border: 1px solid black;
+            font-size: 12px;
+        }
+        table.det{
+            width: 100%;
+        }
+        table.det th{
+            background-color: wheat;
+        }
+        td p.user{
+            text-transform: Capitalize;
+        }
+        td p.time{
+            font-size: 11px;
+            font-weight: 100;
+        }
+    </style>
+</head>
+<!-- end: header -->
+
+<!-- begin: sub_header -->
+<body>
+<div id="main-body">
+<div id="example">
+<table  cellpadding="2" cellspacing="0" style="">
+<tr>
+<td colspan="13">
+<table>
+<tr>
+<th style="width: 15%" colspan="2" rowspan="2"><img src="../img/logo_small.png"></th>
+<th style="width: 70%;" colspan="5">Reporte de Remisiones</th>
+<th style="font-size: 18px;width: 15%" colspan="2" rowspan="2"><p {style} class="user">{usuario}</p><p class="time">{time}</p></th>
+</tr>
+<tr {style} >
+<th colspan="5">Suc: {suc}, Per&iacute;odo {desde} a {hasta}</th>
+</tr>
+</table>
+</td>
+</tr>
+<!-- end: sub_header -->
+
+<!-- begin: header_rem -->
+<tr class="title-section2" style="background-color:#CACACA;">
+<th>Nro.</th>
+<th>Fecha Creaci&oacute;n</th>
+<th>Hora Creaci&oacute;n</th>
+<th>Usuario Env</th>
+<th>Usuario Rec</th>
+<th>Origen</th>
+<th>Destino</th>
+<th>Estado</th>
+<th>Transportadora</th>
+<th>Nro. Levante</th>
+<th>Bultos</th>
+<th>Fecha Cierre</th>
+<th>Hora Cierre</th>
+</tr>
+<!-- end: header_rem -->
+
+<!-- begin: header_data_rem -->
+<tr style="background-color:#F0F0F0;">
+<td align="center">{n_nro}</td>
+<td align="center">{fecha}</td>
+<td align="center">{hora}</td>
+<td align="center">{usuario}</td>
+<td align="center">{recepcionista}</td>
+<td align="center">{suc}</td>
+<td align="center">{suc_d}</td>
+<td align="center">{estado}</td>
+<td align="center">{transportadora}</td>
+<td align="center">{nro_levante}</td>
+<td align="center">{bultos}</td>
+<td align="center">{fecha_cierre}</td>
+<td align="center">{hora_cierre}</td>
+
+</tr>
+<!-- end: header_data_rem -->
+<!-- begin: data_rem_det_h -->
+<tr>
+<td colspan="13">
+<table class="det">
+<tr>
+<th align="center">Codigo</th>
+<th align="center">Lote</th>
+<th align="center">Descripci&oacute;n</th>
+<th align="center">Cantidad</th>
+<th align="center">Gramaje</th>
+<th align="center">Ancho</th>
+<th align="center">Tara</th>
+<th align="center">Kg Env</th>
+<th align="center">Kg Rec</th>
+<th align="center">Cant Calc Env</th>
+<th align="center">Cant Calc Rec</th>
+<th align="center">Estado</th>
+</tr>
+<!-- end: data_rem_det_h -->
+
+<!-- begin: data_rem_det -->
+<tr>
+<td align="center">{codigo}</td>
+<td align="center">{lote}</td>
+<td align="left">{descrip}</td>
+<td align="center">{cantidad}</td>
+<td align="center">{gramaje}</td>
+<td align="center">{ancho}</td>
+<td align="center">{tara}</td>
+<td align="center">{kg_env}</td>
+<td align="center">{kg_rec}</td>
+<td align="center">{cant_calc_env}</td>
+<td align="center">{cant_calc_rec}</td>
+<td align="center">{estado}</td>
+</tr>
+<!-- end: data_rem_det -->
+
+<!-- begin: data_rem_footer -->
+</table>
+</td>
+</tr>
+<!-- end: data_rem_footer -->
+
+<!-- begin: footer -->
+</table>
+</div>
+</div>
+</body>
+
+</html>
+<!-- end: footer -->

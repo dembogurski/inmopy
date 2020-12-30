@@ -1,0 +1,129 @@
+<!-- begin: headers -->   
+    <head>  
+        <link rel="stylesheet" type="text/css" href="finanzas/CentroCostos.css?_=0" />      
+        <link rel="stylesheet" type="text/css" href="js/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.dataTables.min.css">         
+        <link rel="stylesheet" type="text/css" href="js/DataTables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"/>         
+    </head>  
+<!-- end:   headers -->
+
+<!-- begin: insert_edit_form -->     
+<div class="form" id="form_centro_costos"></div>
+<!-- end:   insert_edit_form -->
+
+<!-- begin: data_header -->
+<div class="list_container">      
+    <table id="centro_costos"  border="1" class="display responsive nowrap db_tablename"  >
+        <thead>
+            <tr>
+                <th>Codigo Cc</th><th>Nombre</th><th>Clasif</th> <th>Estado</th><th></th>
+            </tr>
+        </thead>
+
+<!-- end:   data_header -->
+
+
+<!-- begin: data_line -->     
+    <tr> <td>{codigo_cc}</td> <td>{nombre}</td> <td>{clasif}</td>   <td>{estado}</td> <td class="itemc"><img class="edit" src="img/edit.png" onclick=editUI("{codigo_cc}") ></td>  </tr>
+<!-- end:   data_line -->
+
+
+<!-- begin: data_foot -->     
+
+        <tfoot>
+             
+        </tfoot>
+    </table> 
+</div>
+ 
+<!-- end:   data_foot -->
+
+<!-- begin: script -->      
+    <script type="text/javascript" src="js/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" language="javascript" src="js/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>        
+    <script type="text/javascript" language="javascript" src="js/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="js/functions.js" ></script>    
+    <script type="text/javascript" src="finanzas/CentroCostos.js?_=00000000000" ></script>
+    
+<!-- end:   script -->
+
+
+<!-- begin: edit_form_cab -->  
+<table border="0" class="form_table" id="edit_centro_costos" style="width: auto">
+    <tr> <th colspan="2" class="form_title" > Actualizar Centro Costos  </th> </tr> 
+<!-- end:   edit_form_cab -->
+
+
+<!-- begin: edit_form_data -->     
+<tr> <td class="form_label">Codigo Cc:</td> <td><input class="form_number PRI" type="number" id="form_codigo_cc"  readonly="readonly" required="required" size="10" onkeypress="return onlyNumbers(event)" value="{value_of_codigo_cc}" >*</td>  </tr>
+<tr> <td class="form_label">Nombre:</td> <td><input class="form_text" type="text" id="form_nombre"   required="required" size="100"  value="{value_of_nombre}" >*</td>  </tr>
+<tr> <td class="form_label">Clasif:</td> <td>
+<select class="form_select" id="form_clasif"   >{value_of_clasif}</select>
+</td>  </tr>
+<tr> <td class="form_label">Usuario:</td> <td><input class="form_text MUL" type="text" id="form_usuario"  readonly="readonly"  size="30"  value="{value_of_usuario}" ></td>  </tr>
+<tr> <td class="form_label">Estado:</td> <td>
+<select class="form_select" id="form_estado"   >{value_of_estado}</select>
+</td>  </tr>
+
+<!-- end:   edit_form_data -->
+
+
+<!-- begin: edit_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_centro_costos" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value="Modificar Datos" onclick=updateData("edit_centro_costos") id="centro_costos_update_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="centro_costos_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   edit_form_foot -->
+
+
+
+
+
+
+<!-- begin: add_form_cab -->  
+<table border="0" class="form_table" id="add_centro_costos">
+    <tr> <th colspan="2" class="form_title" > (Nuevo Registro) Centro Costos  </th> </tr> 
+<!-- end:   add_form_cab -->
+
+
+<!-- begin: add_form_data -->     
+<tr> <td class="form_label">Codigo Cc:</td> <td><input class="form_number PRI" type="number" id="form_codigo_cc"    required="required"  size="10" onkeypress="return onlyNumbers(event)" value="" >*</td>  </tr>
+<tr> <td class="form_label">Nombre:</td> <td><input class="form_text" type="text" id="form_nombre"    required="required"  size="100"  value="" >*</td>  </tr>
+<tr> <td class="form_label">Clasif:</td> <td>
+<select class="form_select" id="form_clasif"  >
+<option value="*">*</option>
+<option value="Definir">Definir</option>
+</select>
+</td>  </tr>
+<tr style="display: none"> <td class="form_label">Usuario:</td> <td><input class="form_text MUL" type="text" id="form_usuario"      size="30"  value="" ></td>  </tr>
+<tr> <td class="form_label">Estado:</td> <td>
+<select class="form_select" id="form_estado"  >
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>  </tr>
+
+<!-- end:   add_form_data -->
+
+
+<!-- begin: add_form_foot -->     
+<tr><td colspan="2" style="text-align: center" id="msg_centro_costos" ></td></tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <input type="button" value="Cancelar" onclick="closeForm()">
+            <input type="button" value=" Grabar " onclick=addData("add_centro_costos") id="centro_costos_save_button">
+            <input type="button" value=" Cerrar " onclick="closeForm()" id="centro_costos_close_button" style="display:none">
+        </td>
+    </tr>
+</table> 
+<!-- end:   add_form_foot -->
+
+
+<!-- begin: no_result -->     
+<div style="text-align: center;margin: 2cm auto"> Ningun registro para Centro Costos <button type="button" id="add_button_proveedores" onclick="addUI()">Agregar un nuevo registro para (Centro Costos)</button></div> 
+<!-- end:   no_result -->

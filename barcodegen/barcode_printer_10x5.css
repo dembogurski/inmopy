@@ -1,0 +1,65 @@
+
+/* 
+    Created on : 02/06/2016, 11:06:14 AM
+    Author     : Ing.Douglas
+*/        
+
+.etiqueta_10x5, .paquete_10x5, .paquete_10x5_cliente {   
+   width: 98mm;   
+   height: 48mm;
+   border: 1px solid #000000;
+   margin-bottom:0mm;margin-top: 0mm;
+   position: relative;
+}
+.etiqueta_10x5_cuidados{
+    width: 90mm;
+    height: 40mm;
+    padding-right: 2mm;
+    padding-left: 2mm;
+    margin: 2mm auto;    
+}
+
+.info {
+   white-space: nowrap; 
+   margin-left:2px;
+   width: 98mm; 
+   height: 4mm;
+   overflow: hidden;
+   text-overflow: ellipsis; 
+   border: 0px solid #000000;
+   font-size:12px;   
+}
+
+.articulo{
+    width: 16mm;
+    font-weight: bolder;
+    font-size:14px;
+    position: absolute;
+    right: 2px;
+    border:solid black 1px;
+    text-align: center;       
+}
+.lote{
+    text-align: center;
+    font-size:14px;
+    font-weight: bolder;
+    font-size:18px;
+}
+.barcode{
+    width: 82mm;
+    height: 18mm;       
+    padding-right: 2mm;
+    padding-left: 2mm
+}
+ 
+
+.config_popup{
+    margin: 20px auto;
+    display: none;
+}
+.selected{
+    background-color: orange;
+}
+.arrow{
+    cursor:pointer;
+}

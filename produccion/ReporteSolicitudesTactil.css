@@ -1,0 +1,280 @@
+
+/* 
+    Created on : 08/08/2017, 09:54:14 AM
+/* 
+    Created on : 21/12/2015, 04:29:00 PM
+    Author     : Ing.Douglas
+*/
+
+.anchorTitle {
+    /* border radius */
+    -moz-border-radius: 0px 0px 0px 8px ;
+    -webkit-border-radius: 0px 0px 0px 8px;
+    border-radius: 0px 0px 0px 8px;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 3px #e6e6e6;
+    -webkit-box-shadow: 2px 2px 3px #e6e6e6;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    /* other settings */
+    background-color: #fff;
+    border: solid 2px orange;
+    color: #333;
+    display: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    max-width: 500px;
+    padding: 5px 7px;
+    position: absolute;
+}
+.fila{
+    background-color: white;
+}
+
+.fila input[type="checkbox"]{
+    display: none;
+}
+.fila:not(input):hover{
+    cursor: pointer;
+    /*background-color: rgb(221,221,255);*/
+}
+
+input[type=checkbox]:not(:checked) + div.chVerif{
+    margin: 0 auto;
+    height: 8px;
+    width: 8px;
+    background-color: lightsteelblue;
+}
+
+input[type=checkbox]:checked + div.chVerif{
+    margin: 0 auto;
+    height: 8px;
+    width: 8px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    background-color: green;
+}
+
+.marcada{
+   background-color: rgb(221,221,255);
+}
+.urge{
+    background-color: orange;
+}
+#message_frame{   
+    width:auto;
+    height: auto;
+    background-color: #fcefa1;
+    top:60px;
+    left:30%;
+    position:absolute;
+    cursor:move;
+    font-family: arial;
+    font-size:11px;
+    z-index: 1;
+    padding:2px;
+    border:solid gold 1px;
+    padding:2px;
+    display: none;
+}
+.descripInfo{
+    font-weight: 0px;
+    font-size: 11px;
+    color: darkslateblue;
+}
+.nombre_art{
+  border: solid gray 1px;
+  background-color: #fcefa1;
+  padding: 2px
+}
+.insertar:hover {
+    color:blue;
+    cursor:pointer;
+}
+
+.cargando{
+   background-color: greenyellow;   
+}
+div.filtro{
+    position: relative;
+    display:inline-block;
+    margin-left: 2px;
+    margin-top: 3px;
+    vertical-align: bottom;
+}
+div.filtro input{
+    margin: 0;
+    padding: 0;
+    height: 16px;
+    width: 16px;
+    border: none;
+    font-size: 0;
+    background: url("../img/filtro16x_.png") no-repeat scroll 0 0 transparent;
+    background-position: 0px 0px; 
+    cursor: pointer;
+}
+div.filtro input:hover{
+    background-position: -16px 0px; 
+}
+ 
+div.filtro #nro_filtro{
+    display: none;
+    position: absolute;
+    background-color: lightgray;
+    padding: 2px;
+    left:4px;
+    width: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+div.filtro #ubic_filtro{
+    display: none;
+    position: absolute;
+    background-color: lightgray;
+    padding: 2px;
+    left:-240px;
+    width: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+div.filtro ul li{
+    list-style: none;
+    font-weight: 100;
+    font-size: 12px;
+    padding:0 3px;
+    text-align: center;    
+    border: 1px solid lightgray;         
+    list-style: outside none none;
+    width: auto;
+    text-align: center;    
+    padding: 14px 5px;
+    margin: 0px;
+    background-color: oldlace;
+}
+div.filtro ul li:hover{
+    cursor: pointer;
+    background-color: lightskyblue;
+    font-weight: bolder
+}
+.firma{
+    margin: 35px auto;
+}
+.firma td{
+    min-width: 100px;
+    text-align: center;
+}
+.line{
+    border-bottom: dotted 1px black;
+    width: 200px;
+    
+}
+#cantidad{
+    font-weight: 900;
+}
+ul#estados{
+    position: absolute;
+    top: 28px;
+    background-color: white;
+    padding: 2px;
+    list-style: none;
+    display: none;
+    vertical-align: middle;    
+    font-weight: bolder;
+    height: 90px;     
+    margin-top: 8px;
+    font-size:14px;
+    background-color: wheat;
+}
+ul#estados li{
+    background-color: lightsteelblue;
+    height: 25px;
+    margin: 3px 0px;
+}
+ul#estados li::before{
+    content: '\25C7    ';
+    vertical-align: middle;    
+    font-weight: bolder;
+    height: 30px;     
+    margin-top: 8px;
+    font-size:14px
+}
+ul#estados li:hover{
+    cursor: pointer;
+    background-color: lightsteelblue;
+}
+ul#estados li:hover:before{
+    content: '\25C8    ';
+    vertical-align: top;
+    color: green;
+    font-size: 8px;
+}
+    
+.imagen_design{    
+    height: 26px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51); 
+}
+.obs_div{
+    margin-top: 3px;
+}
+.diff_stock{
+    border:solid orangered 1px;
+}
+.tachado{
+    text-decoration: line-through;
+}
+#msg{
+    position: absolute;
+    border: solid orange 1px;
+    background-color: #FFFFE0;
+    padding:8px 4px 4px 4px;
+    display: none;
+    height: 20px;
+}
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}   
+
+.rotate:hover   
+{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}   
+
+#conexion{
+    border:solid black 1px;
+    border-radius: 9px; 
+    padding: 6px;
+    width: 16px;
+    height:16px;
+}
+
+#generador_orden_frac{
+    background-color: white;
+    border: solid gray 1px;
+    position:  absolute;
+    display: none;
+    padding: 2px;
+}
+#generador_orden_frac td{
+    padding-left:2px;
+    padding-right: 2px;
+}

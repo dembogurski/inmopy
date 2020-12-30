@@ -1,0 +1,49 @@
+
+
+<!-- begin: header noeval -->
+<!DOCTYPE html>
+<head>
+    <style>
+        .tabla_cc{
+           border-collapse: collapse;   
+           background-color: whitesmoke;
+           width: 240px;
+        }        
+        .flag{
+            width: 20px
+        }
+        .tabla_cc td{
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .titulo_mon{
+            background-color: #dddacd;
+            font-size: 11px
+        }
+    </style>
+
+    <script language="javascript">
+     
+    </script>
+</head>
+<!-- end:   header -->
+
+<!-- begin: head -->
+<table border="1" class="tabla_cc" >   
+    <tr><th colspan="3" style="text-align: center"><img src="img/logo_cambios_chaco.png" style="width:100px" ></th></tr>
+    <tr><th colspan="3" style="text-align: center;font-size: 11px;padding: 4px" title="Doble click para cerrar">Ult. actualizacion: {updated}</th></tr>
+    <tr class="titulo_mon">
+        <th>Moneda</th>
+        <th>Compra</th>
+        <th>Venta</th>
+    </tr>
+<!-- end:   head -->
+
+<!-- begin: data -->
+<tr><td><img src="img/{moneda}.png" class="flag"></td> <td>{compra}</td><td>{venta}</td></tr>
+<!-- end:   data -->
+
+<!-- begin: foot -->
+</table>
+<!-- end:   foot -->

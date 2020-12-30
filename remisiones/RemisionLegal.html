@@ -1,0 +1,184 @@
+ 
+<!-- begin: general_header -->
+    <!DOCTYPE html> 
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script> 
+    <script type="text/javascript" src="RemisionLegal.js" ></script>   
+    <link rel="stylesheet" type="text/css" href="RemisionLegal.css" />
+     
+<!-- end:   general_header -->
+
+
+<!-- begin: start_marco -->
+
+<input type="hidden" id="suc" value="{suc}" >
+<input type="hidden" id="usuario" value="{usuario}" >
+
+<div id="marco" class="marco" style="margin:4.6cm 1cm 2cm 1cm;" >       
+ 
+<!-- end:   start_marco -->
+
+
+<!-- begin: cabecera -->
+<table class="curveb" border="0" cellspacing="2" cellpadding="0" width="100%" style="background: white"   >       
+     <tr>
+          <td colspan="2">
+            <fieldset>
+              <legend><b>DESTINATARIO DE LA MERCADERIA</b></legend>
+              <table border="0" cellspacing="1" cellpadding="0"  class="transp_data" >
+                  <tr> <td><b>Fecha Emision:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{fecha}</td> </tr>
+                  <tr ><td><b>Nombre o Razon Social:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cliente}</td><td style="vertical-align: top"><b>CI o RUC:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ruc_cli}</td> </tr>
+                  <tr> <td> <b>Domicilio:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{destino}-{ciudad_des}</td> </tr>
+              </table>
+            </fieldset>
+          </td>
+     </tr>   
+
+      <tr>
+         <td colspan="2">
+          <fieldset>
+              <legend><b>DATOS DE TRASLADO</b></legend>
+               <table border="0" cellspacing="1" cellpadding="0"  class="transp_data" >
+                  <tr><td><b>Motivo</b> <b>Traslado:</b> {motivo}</td>
+                      <td><b><b>N&deg; Timbrado:</b> </b>{timbrado}</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td><td><b>Fecha Expedici&oacute;n:</b> {exp}</td>
+                  </tr>
+                  <tr><td><b>Comprobante Venta N&deg; y Tipo:</b>{comprobante}</td> </tr>
+              </table>
+          </fieldset>
+          </td>
+      </tr>
+
+      <tr>  
+         <td colspan="2">
+          <fieldset>
+              <table border="0" cellspacing="1" cellpadding="0"   class="transp_data" >      
+                <tr>
+                    <td ><b>Inicio Traslado:</b></td> <td style="width: auto">{fecha}</td>
+                    <td><b>Fin Traslado:</b></td> <td style="width:auto">{fecha_fin_transp}</td>
+                </tr>
+                <tr> <td style="vertical-align: top"><b>Direcci&oacute;n de punto de Partida:</b></td> <td>{origen}</td>   <td style="vertical-align: top"><b>Direcci&oacute;n de punto de Llegada:</b></td> <td>{destino}</td></tr>
+                 <tr> <td style="vertical-align: top"><b>Ciudad:</b></td> <td>{ciudad_ori}</td>   <td style="vertical-align: top"><b>Ciudad:</b></td> <td>{ciudad_des}</td></tr>
+                 <tr> <td style="vertical-align: top"><b>Departamento:</b></td> <td>{depar_orig}</td>   <td style="vertical-align: top"><b>Departamento:</b></td> <td>{depar_des} </td></tr>
+
+              </table>
+          </fieldset>
+         </td>
+      </tr>
+
+      <tr>  
+         <td colspan="2">
+          <fieldset>
+              <table border="0" cellspacing="1" cellpadding="0" class="transp_data" style="background-color: white" >      
+                <tr><td><b>Kilometros estimado de Recorrido:</b> <input type="text" style="border-width: 0;font-size: 10px;height: 14px" value="{km_rec}~~~" size="30"></td></tr>
+                <tr><td><b>Cambio de fecha de termino y/o punto de llegada:</b> <input type="text" style="border-width: 0px;width: 40%;height: 14px;font-size: 10px"  size="50"></td></tr>
+                <tr><td><b>Motivo:</b> <input type="text" style="border-width: 0px;width: 80%;height: 14px;font-size: 10px" size="100" ></td></tr>
+              </table>
+          </fieldset>
+         </td>
+      </tr>
+
+
+     <tr>  
+         <td colspan="2" >
+          <fieldset>
+              <legend><b>DATOS DEL VEHICULO DE TRANSPORTE Y CONDUCTOR</b></legend>
+             <table border="0" cellspacing="1" cellpadding="0" class="transp_data" >     
+
+                 <tr> <td ><b>Raz&oacute;n Social:</b></td> <td>{transportadora}</td>   <td  style="width: 16%"><b>RUC Transportadora:</b></td> <td colspan="2">{transp_ruc}</td></tr>
+                <tr> <td style="width: 20%"><b>Nombre y Apellido Chofer:</b></td> <td>{chofer}</td>   <td><b>Marca del Vehiculo:</b></td> <td colspan="2">{marca}</td></tr>
+                <tr><td><b>C.I Chofer:</b></td> <td>{ci_chofer}</td> <td><b>N&deg; Chapa:</b>  {nro_chapa}</td>  <td style="width: 10%"><b>N&deg; RUA:</b></td> <td>{rua}</td>  </tr>
+              
+            </table>
+          </fieldset>
+         </td>
+     </tr>
+     
+</table>
+<!-- end:   cabecera -->
+
+
+ 
+<!-- begin: cabecera_detalle -->
+<table border="0" cellspacing="0" cellpadding="0" width="100%"  style="margin-top: 1px">
+        
+         
+            <td class="curveb">
+               <table border="0" cellspacing="0" cellpadding="0" width="100%" >        
+                 <tr class="cab_det" style="text-align:center" >
+                     <td style="width:7%;height:18px" class="der_ab">C&Oacute;DIGO</td>                     
+                     <td class="der_ab" style="width:47%">DESCRIPCI&Oacute;N</td>  
+                     <td style="width:9%;" class="der_ab">PIEZAS</td>
+                     <td class="der_ab" style="width:4%;text-align:center"  >UM.</td>
+                     <td style="width:7%;" class="der_ab">CANT.</td> 
+                 </tr>
+<!-- end:   cabecera_detalle -->
+
+
+<!-- begin: detalle -->
+
+        <tr class="fila">
+           <td class="item"  >&nbsp; {codigo} </td>
+           
+           <td class="item" >{descrip}</td> 
+           <td class="item" style="text-align:center" > {piezas} </td>     
+           <td class="item" style="text-align:center" >{um}</td>
+           <td class="item_num">{cantidad}</td>
+              
+        </tr>
+
+<!-- end:   detalle -->
+
+<!-- begin: detalle_vacio -->
+
+        <tr  class="fila">
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+           <td class="item"      style="text-align:center" >/</td>
+            
+        </tr>
+
+<!-- end:   detalle_vacio -->
+
+<!-- begin: pie_detalle -->
+               <tr>
+                   <td style="padding-left:4px;text-align: left;font-size: 12px" class="subtotal" colspan="2" >
+                       <b>N&deg; Levante:</b> {nro_levante}&nbsp;&nbsp;&nbsp;
+                       &nbsp;&nbsp;<b>Total Paquetes:</b>&nbsp;{paquetes}&nbsp;~~~
+                   </td>  
+                   <td class="item" style="border-style:solid;border-width: 1px 1px 0px 0px;font-size: 10px;text-align: center">{total_piezas}</td>
+                   <td style="border-style:solid;border-width: 1px 1px 0px 0px; "></td>
+                   <td class="item_num" style="border-style:solid;border-width: 1px 0px 0px 0px;font-size: 10px">{total_cant}</td>
+               </tr>
+                
+                 
+               </table>
+            </td>
+        </tr>
+</table>
+<!-- end:   pie_detalle -->
+
+ 
+
+<!-- begin: end_marco -->
+ 
+<fieldset class="curveb" style="text-align: center;margin: 0;padding: 4px 0 0 4px">
+    <legend>Recibido por: </legend>
+    Firma: _____________________  Aclaraci&oacute;n y N&deg; C.I.: __________________________________
+</fieldset>
+ 
+</div>
+<script>
+    self.print();
+</script>
+<!-- end:   end_marco -->
+
+
+<!-- begin: no_imprimir -->
+<script>
+    alert("Se supero la cantidad maxima de Lineas imprimibles en la factura");
+    window.close();
+</script>
+<!-- end:   no_imprimir -->

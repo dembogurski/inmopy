@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!-- begin: header noeval -->
+      <link rel="stylesheet" type="text/css" href="../../css/reportes.css" /> 
+      <script type="text/javascript" src="../../js/jquery-1.11.2.min.js" ></script>
+      <script type="text/javascript" src="../../js/reportes.js" ></script>
+      <style>
+          .Diferido{
+              background-color: #F8BC27;
+          }
+          .Al_Dia{
+              background-color: #BEBEEE;
+          }
+      </style>
+<!-- end:   header -->
+
+
+<!-- begin: head -->
+<input type="hidden" id="papar_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Cheques</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc}</td></tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+     
+    <tr>
+        <th>N&deg;</th>
+        <th>Banco</th>
+        <th>Cuenta</th>
+        <th>Ticket/Factura</th>
+        <th>Beneficiario</th>
+        <th>Fecha Ins.</th>
+        <th>Fecha Emis.</th>
+        <th>Fecha Pago</th>
+        <th>Valor</th>
+        <th>Moneda</th>        
+        <th>Suc</th>
+        <th>Tipo</th>
+    </tr>
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<tr>
+    <td class="item">{nro}</td>
+    <td class="item">{banco}</td>
+    <td class="item">{cuenta}</td>
+    <td class="itemc">{factura}</td>
+    <td class="item">{benef}</td>
+    <td class="itemc">{fecha_ins}</td>
+    <td class="item">{fecha_emis}</td>
+    <td class="item">{fecha_pago}</td>
+    <td class="num">{valor}</td>
+    <td class="itemc">{moneda}</td>    
+    <td class="itemc">{suc}</td> 
+    <td class="itemc {tipo}" >{tipo}</td>
+</tr>    
+ 
+<!-- end:   data -->
+ 
+
+<!-- begin: foot -->
+<tr class="report_foot">
+    <td colspan="8"></td>
+    <td class="num">{t_monto}</td>
+    <td colspan="2"></td>      
+    <td colspan="2"></td> 
+</tr> 
+</table>    
+
+<br>
+<br>
+
+<table style="width: 80%;">
+    <tr>
+        <td>Cant Cheques enviados:__________</td>
+    </tr>
+    <tr>
+        <td>Enviado por:______________________________</td>
+    </tr>
+    <tr>
+        <td>Recibido por:______________________________</td>
+    </tr>
+</table>
+<!-- end:   foot  -->

@@ -1,0 +1,36 @@
+
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="permisos/permisos.css" />
+    <script type="text/javascript" src="permisos/permisos.js?_=xxxxxxxxxxxxxxxxxxxxxxxxxxx" ></script>         
+<!-- end:   header -->
+
+<!-- begin: grupos_cab -->
+<table id="tabla_grupos" border="1"  cellspacing="0" cellpadding="0" style="min-width: 60%;border-collapse: collapse"  >
+    <tr class="titulo_grupo"><th colspan="8">Grupos de Usuarios</th></tr>
+    <tr class="titulo"><th style="width: 10%">ID</th> <th  style="width: 20%">Nombre</th> <th  style="width: 70%">Descripci&oacute;n</th>   </tr>
+
+<!-- end:   grupos_cab -->
+
+<!-- begin: ventas_abiertas_cab --> 
+
+<!-- begin: grupos_data -->
+<tr id="{id}" class="grupo" style="background-color: white" ><td class="itemc">{id} <td class="item">{nombre}</td> <td class="item">{descrip}</td>   </tr> 
+<!-- end:   grupos_data -->
+
+
+<!-- begin: grupos_foot -->
+</table>
+<div style="text-align: center"> <input type="button" id="mostrar" onclick="mostrarGrupos()" value="Mostrar todos los Grupos"  style="display: none"  > </div>
+<br>
+
+<div id="msg_permisos" style="text-align: center"></div>
+<div id="filters" style="text-align: center"></div>
+<br>
+<div id="contenedor_permisos" style="text-align: center;display: none;width: 100%;">
+    <table id="tabla_permisos" border="1"  cellspacing="0" cellpadding="0" style="min-width: 70%;margin: 0 auto;border-collapse: collapse"   >
+        <tr class="titulo_grupo"><th colspan="8">Permisos del grupo <span id="span_grupo"></span></th></tr>
+        <tr class="titulo"><th style="width: 10%">ID</th> <th style="width: 40%">Permiso</th> <th  style="min-width: 360px">Trustee</th>   </tr>
+    </table>  
+</div>
+
+<!-- end:   grupos_foot -->

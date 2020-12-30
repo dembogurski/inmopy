@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Reporte de Panel de Turnos</title>
+   <link href="../css/reporte_defaults.css" rel="stylesheet" type="text/css" />
+   <style>
+      table{
+         margin: 0 auto;
+         empty-cells: show;
+         border-collapse: collapse;
+      }
+      th,td{
+         border: solid 1px gray;
+      }
+   </style>
+</head>
+<body>
+   <table>
+      <thead>
+         <tr>
+            <td colspan="9">
+                  <table>
+                        <tr>
+                           <th style="width: 15%" colspan="2" rowspan="2"><img src="../img/logo_small.png"></th>
+                           <th style="width: 70%;" colspan="5">Reporte de Panel de Turnos</th>
+                           <th style="font-size: 18px;width: 15%" colspan="2" rowspan="2">[onshow.usuario]</th>
+                        </tr>
+                        <tr>
+                           <th colspan="5">Suc: [onshow.suc], Per&iacute;odo [onshow.desde;frm='dd-mm-yyyy'] a [onshow.hasta;frm='dd-mm-yyyy']</th>
+
+                        </tr>
+                  </table>
+            </td>
+         </tr>
+         <tr>
+            <th>Turno</th><th>Fecha</th><th>Hora</th><th>Hora Llamada</th><th>Delay</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td class="turno" align="center">[data.turno;block=tr]</td>
+            <td class="fecha" align="center">[data.fecha]</td>
+            <td class="hora" align="center">[data.hora]</td>
+            <td class="hora_llamada" align="center">[data.hora_llamada]</td>
+            <td class="delay" align="center">[data.delay]</td>
+         </tr>
+         <tr style="background-color:#FFCFB9;">
+            <td colspan="9">[data;block=tr;nodata] No se pudo obtener resultados con los parametros actuales.</td>
+         </tr>
+      </tbody>
+   </table> 
+   <table>
+      <tr>
+         <td>[moda.rep;block=tr] Repeticiones de [moda.diff_ant] minutos. <div style="display: inline;font-weight: 900;background-color:lightgray;color: blue;">[onshow.modaAC;if [val]=[moda.diff_ant] ;then '-- Moda --';else '']</div></td>
+      </tr>
+   </table>  
+   
+   <table>
+      <tr>
+         <th>Grupo</th><th>Repeticiones</th>
+      </tr>
+      <tr><td align="center">5</td><td>[onshow.hasta5]</td></tr>
+      <tr><td align="center">5-10</td><td>[onshow.entre5y10]</td></tr>
+      <tr><td align="center">10-15</td><td>[onshow.entre10y15]</td></tr>
+      <tr><td align="center">>15</td><td>[onshow.mayora15]</td></tr>
+   </table>
+</body>
+</html>

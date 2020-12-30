@@ -1,0 +1,51 @@
+<html>
+<head>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+  $.getJSON( "gphoto.php",{"function":"camList"}, function( data ) {
+    var items = [];
+    $.each( data, function(i, val) {
+      items.push( "<option>" + val + "</option>" );
+    });
+   
+    $( "<select/>", {
+      "id": "cam_name",
+      "name":"cam_name",
+      html: items.join( "" )
+    }).appendTo( "#captura" );
+  });
+});
+function getImage(){
+  var file = $("#file").val();
+  var cam_name = $("#cam_name").val();
+  $.getJSON("gphoto.php",{"file":file,"cam_name":cam_name},function(data){
+    if(data.msj !== "Error"){
+      $("<img/>",{
+        "heigth":"640",
+        "width":"480",
+        "onclick":"openImg(this)",
+        "src":"http://"+data.img
+      }).appendTo("#gallery");
+    }
+  });
+}
+function openImg(element){
+	var myWindow = window.open(element.getAttribute("alt"),"_blank");
+	myWindow.document.write("<div id='image'></div>");
+	var img = document.createElement("img");
+	img.src=element.src;
+	myWindow.document.getElementById("image").appendChild(img);
+}
+</script> 
+</head>
+<body>
+<div id="captura">
+<input name="file" id="file" type="text" />
+<input  type="button" value="Captura" onclick="getImage()" />
+</div>
+<div id="gallery">
+ 
+</div>
+</body>
+</html>

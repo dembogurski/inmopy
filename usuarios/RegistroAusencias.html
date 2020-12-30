@@ -1,0 +1,164 @@
+
+<!-- begin: header -->
+ <link rel="stylesheet" type="text/css" href="usuarios/RegistroAusencias.css?_=1517493407983" />  
+ <script type="text/javascript" src="usuarios/RegistroAusencias.js?_=000000000000" ></script>
+ <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script> 
+<!-- end:   header -->
+
+
+<!-- begin: form -->
+<table class="tabla" border="0" style="margin:10px auto; border: 1px solid gray;pading:4px;background-color: whitesmoke;width: 60%">
+    <tr>
+        <th colspan="4" class="titulo"> Registro de Ausencias</th>
+    </tr>
+    <tr>
+        <td>Funcionario:</td> <td colspan="3"><select id="usuario">{usuarios}</select></td>
+    </tr>
+    
+    <tr>
+        <td>Tipo de Permiso:</td> <td colspan="3">
+            <select id="tipo_permiso" class="calculate">
+                <option value="xDia">Dias de Ausencia</option>
+                <option value="xhora">Horas de Ausencia</option>
+            </select>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>Fecha Desde:</td> 
+        <td>
+            <input type="text" id="fecha_desde" class="desde_hasta calculate"  style="text-align: center" size="10" >
+            <input type="time" id="hora_desde" min="07:00" max="18:00"  class="calculate"  style="text-align: center"   >
+        </td>
+        <td>Fecha Hasta:</td> 
+        <td>
+            <input type="text" id="fecha_hasta" class="desde_hasta calculate"  style="text-align: center" size="10" >
+            <input type="time" id="hora_hasta" min="07:00" max="18:00" class="calculate"  style="text-align: center"   >
+        </td>
+    </tr>
+    <tr>
+        <td>Fecha Retorno:</td> 
+        <td>
+            <input type="text" id="fecha_ret" class="desde_hasta"  style="text-align: center" size="10" >
+            <input type="time" id="hora_ret" min="07:00" max="18:00" class="calculate"  style="text-align: center"   >
+        </td>
+        <td>Tipo Licencia:</td> 
+        <td>
+            <select id="tipo_lic" class="calculate">
+                <option value="Licencia Legal">Licencia Legal</option>
+                <option value="Con Descuento">Con descuento</option>
+                <option value="Sin Descuento">Sin descuento</option>
+            </select>    
+        </td>         
+    </tr>
+    
+    <tr>
+        <td>Total Horas:</td>
+        <td><input type="text" id="total_horas" value="" size="6" readonly="readonly"  > </td>
+        <td>Valor x Hora:</td>
+        <td><input type="text" id="valor_hora" style="text-align: center" value="9137" size="10" readonly="readonly"> </td>        
+    </tr>
+    <tr>
+       <td>Valor Descuento:</td>
+       <td><input type="text" id="valor_desc" value="" style="text-align: center" size="12" readonly="readonly"> </td>      
+       <td>Suc:</td>
+       <td><select style="display={display}" id="target_suc"><option value="%">Todos</option>{sucs}</select></td>
+    </tr>
+    <tr>
+        <td>Motivo:</td> <td colspan="3"><textarea placeholder="Ingrese aqui el Motivo" id="motivo" cols="120" rows="3" style="width: 90%"></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="4" style="text-align: center">
+           <input style="margin-left: 100px" id="registrar" type="button" value="Registrar" onclick="registrar()" >
+           <input style="margin-left: 100px;display:{display}" id="reporte" type="button" value="Ver Reporte" onclick="verReporte()" >
+       </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: center" id="msg"></td>
+    </tr>
+</table>  
+<!-- end:   form -->
+
+
+<!-- begin: registro -->
+<table class="tabla" id="registro" border="1" style="margin:20px auto; border: 1px solid gray;pading:4px;background-color: whitesmoke;width: 80%;border-collapse: collapse">
+    <tr>
+        <th colspan="14" class="titulo"> Mis Registros </th>
+    </tr>
+    
+    <tr style="background-color: lightsteelblue">
+        <th>ID</th>               
+        <th>Superior</th> 
+        <th>Funcionario</th>
+        <th>Fecha Reg</th>              
+        <th>Fecha Salida</th>       
+        <th>Fecha Hasta</th>       
+        <th>Fecha Retorno</th>  
+        <th>Cant. Horas</th> 
+        <th>Tipo Lic.</th>       
+        <th>Tipo Perm.</th>       
+        <th>Motivo</th>   
+        <th>Descuento</th> 
+        <th colspan="2"></th>    
+    </tr>
+ </table>  
+<!-- end:   registro -->
+
+
+
+<!-- begin: imprimir -->
+<table class="report_cab" border="0" cellspacing="0" cellpadding="0"> 
+    <tr>
+        <th style="width: 15%;height: 60px" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;font-size: 28px">Solicitud de Permiso</th>
+        <th style="font-size: 14px;width: 15%;text-align: center" rowspan="2"><b>N&deg;:&nbsp;</b>{nro}</th> 
+    </tr>   
+</table>
+<div>
+    
+    <table border="0" cellspacing="0" cellpadding="0" style="margin-top: 50px;margin-left: 10px;width:100%">
+        <tr>
+            <td style="width: 10%"><b>Fecha:</b></td>
+            <td style="width: 10%">{fecha}</td>
+            <td style="width: 80%"></td>
+        </tr>        
+    </table>
+      
+    <p style="padding: 10px;margin:20px 0px;text-align: justify;line-height: 30px;font-family: monospace">
+        Yo: <b>{funcionario}</b>, con documento de Identidad <b>N&deg;:</b> {doc} solicito permiso para ausentarme desde la fecha:
+    {desde} hasta la fecha: {hasta}, por el siguiente motivo:<b><i>{motivo}</i></b>
+    retornando a mis labores en fecha {fecha_ret} horas.
+    </p>
+    
+    <table border="0" cellspacing="4" cellpadding="0" style="margin-top: 50px;margin-left: 10px;width:100%">
+        <tr>
+            <td style="width: 20%"><b>Tipo Licencia:</b></td><td style="width: 20%">{tipo_lic}</td><td style="width: 60%"></td>
+        </tr>
+        <tr>
+            <td style="width: 20%"><b>Tipo Permiso:</b></td><td style="width: 20%">{tipo_perm}</td><td style="width: 60%"></td>
+        </tr>
+        <tr>
+            <td style="width: 20%"><b>Cant. {dias_horas}:</b></td><td style="width: 20%">{cant_horas_dias}</td><td style="width: 60%"></td>
+        </tr>
+        
+    </table>
+    
+    <div style="text-align: center;margin-top: 50px">
+        <table style="width: 100%">
+            <tr>
+                <td style="text-align: center;width: 33%">________________________</td> 
+                <td style="text-align: center;width: 34%">________________________</td> 
+                <td style="text-align: center;width: 33%">________________________</td> 
+            </tr>
+            
+            <tr>
+                <td style="text-align: center;width: 50%">Empleado</td> 
+                <td style="text-align: center;width: 50%">Superior</td>
+                <td style="text-align: center;width: 50%">RRHH</td>
+            </tr>
+            
+        </table>         
+                   
+    </div>
+</div>    
+<!-- end:   imprimir -->

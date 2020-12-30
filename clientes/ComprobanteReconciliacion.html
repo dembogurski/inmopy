@@ -1,0 +1,62 @@
+<!-- begin: header -->
+    <link rel="stylesheet" type="text/css" href="../css/reportes.css" />         
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;height: 40px">Comprobante de Reconciliacion</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2"> <big><big><b>N&deg; {id_rec}</b></big></big> <br>{user}<br>{time}</th> 
+    </tr>  
+     
+    <tr>
+        <td>
+            <table>
+                <tr><td class="item"><b>Cliente:</b></td><td colspan="2" class="item">{cliente}</td></tr>
+                <tr><td class="item"><b>RUC:</b></td><td class="item">{ruc}</td> <td class="item"><b>Fecha:</b></td><td class="item">{fecha}</td></tr>
+                 
+            </table>
+        </td>
+        
+    </tr>
+</table>
+     
+<!-- end:   head -->   
+
+
+<!-- begin: factura_cab --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr><th colspan="9">Documentos Reconciliados</th></tr>
+    <tr class="report_header"><th>#</th><th>Tipo Doc.</th><th>N&deg; Doc.</th><th>N&deg; Cuota </th><th>Fecha</th><th>Valor Total</th><th>Vencimiento</th><th>Valor Cuota</th> <th>Monto Aplicado</th></tr>
+<!-- end:   factura_cab -->
+
+<!-- begin: factura_data -->  
+<tr><td class="item">{id}</td><td class="itemc">{tipo_doc}</td><td class="itemc">{nro_doc}</td><td class="itemc">{id_det}</td><td class="itemc">{fecha_fac}</td><td class="num">{valor_factura}</td><td class="itemc">{vencimiento}</td><td class="num">{valor_cuota}</td> <td class="num">{aplicado}</td> </tr>
+<!-- end:   factura_data -->
+
+
+
+
+<!-- begin: nc_cab --> 
+ 
+ 
+<!-- end:   nc_cab -->
+
+<!-- begin: nc_data -->  
+<tr><td class="item">{id}</td><td class="itemc">{tipo_doc}</td><td class="itemc">{nro_doc}</td><td class="itemc">{id_det}</td><td class="itemc">{fecha_nc}</td><td class="num">{valor_nc}</td><td class="item" colspan="2">{notas}</td>  <td class="num">{aplicado}</td> </tr>
+<!-- end:   nc_data -->
+
+
+<!-- begin: foot --> 
+<tr><td colspan="8"></td><td class="num"><b>0</b></td></tr>
+</table>
+
+<div style="margin-top: 30px">
+    Elaborado por:  ___________________________ Firma:____________________________
+</div>
+<!-- end:   foot -->

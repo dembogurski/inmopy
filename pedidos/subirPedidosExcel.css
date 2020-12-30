@@ -1,0 +1,317 @@
+a {
+    font-size: 12px;
+    text-align: right;
+}
+
+#headerData {
+    width: 250px;
+    margin: 11px auto;
+}
+
+div#upploadForm {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 250px;
+    min-height: 5px;
+    margin: 11px auto;
+    padding: 7px 13px 0.3px;
+    background-color: lightblue;
+}
+
+div#upploadForm form {
+    margin: 0px;
+    padding: 0px;
+}
+
+div#upploadForm hr {
+    margin: 5px;
+    border: none;
+}
+
+div#upploadForm #toggleView {
+    background: url("../js/jquery-ui/images/ui-icons_888888_256x240.png") no-repeat scroll 0 0 transparent;
+    font-size: 0px;
+    height: 16px;
+    width: 16px;
+    float: right;
+    margin: -9px -13px;
+}
+
+div#upploadForm #toggleView.ocultar {
+    background-position: -1px -16px;
+}
+
+div#upploadForm #toggleView.mostrar {
+    background-position: -66px -16px;
+}
+
+div#upploadForm #filedata {
+    padding: 0;
+    margin: 0;
+}
+
+div#upploadForm input[type="submit"] {
+    margin: 0 28%;
+    text-align: center;
+}
+
+div#upploadForm input[type=checkbox] {
+    display: none;
+}
+
+div#upploadForm input[type=checkbox]:checked+label::after {
+    content: ' Si';
+    color: black;
+}
+
+div#upploadForm input[type=checkbox]+label::after {
+    content: ' No';
+    color: black;
+}
+
+div#upploadForm label {
+    padding: 1px 7px;
+    background-color: lightskyblue;
+    border: solid 1px white;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+div#upploadForm label:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    text-shadow: 1px 1px 3px white;
+    border: solid 1px white;
+}
+
+div#upploadForm input[type='file'] {
+    display: none;
+}
+
+#upploadInfo {
+    width: 470px;
+    margin: 2px auto;
+}
+
+.info,
+.fileError {
+    padding: 1px 3px 0px 7px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 2px 0px;
+}
+
+.info {
+    background-color: lightgrey;
+}
+
+.fileError {
+    background-color: darkred;
+    color: white;
+}
+
+#headerData th {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: lightblue;
+    padding: 1px 13px;
+}
+
+#headerData td {
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: lightcyan;
+    padding: 1px 13px;
+}
+
+#excelData {
+    margin: 0px auto;
+}
+
+#excelData tbody tr.edit {
+    background-color: lightskyblue;
+}
+
+#excelData,
+#excelData th,
+#excelData td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#excelData th,
+#excelData td {
+    padding: 1px 5px;
+    margin: 0;
+}
+
+[data-check="error"] {
+    border: solid 1px red;
+}
+
+[data-check="ok"] {
+    border: solid 1px green;
+}
+
+.label {
+    text-align: right;
+}
+
+.edit {
+    min-width: 200px;
+}
+
+.error {
+    background-color: lightgray;
+    color: red;
+}
+
+.file_ok span {
+    color: green;
+}
+
+.file_error span {
+    color: red;
+}
+
+#editar,
+#borrar,
+.buscar {
+    border: none;
+    background: url("../js/jquery-ui/images/ui-icons_888888_256x240.png") no-repeat scroll 0 0 transparent;
+    width: 16px;
+    height: 16px;
+    font-size: 0px;
+    margin: 0 3px;
+}
+
+.buscar {
+    background-color: white;
+    background-position: -160px -113px;
+    display: none;
+}
+
+.buscar:hover {
+    background: url("../js/jquery-ui/images/ui-icons_2e83ff_256x240.png") no-repeat scroll 0 0 transparent;
+    background-position: -160px -114px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.verif {
+    text-align: center;
+}
+
+#editar {
+    background-position: -66px -114px;
+}
+
+#editar:hover,
+#borrar:hover {
+    background: url("../js/jquery-ui/images/ui-icons_222222_256x240.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+}
+
+#editar:hover {
+    background-position: -66px -114px;
+}
+
+#borrar {
+    background-position: -178px -99px;
+}
+
+#borrar:hover {
+    background-position: -178px -99px;
+}
+
+#editPoUp {
+    position: absolute;
+    background-color: white;
+    left: 30%;
+}
+
+#editPoUp * {
+    border-collapse: collapse;
+    vertical-align: middle;
+}
+
+#editPoUp td {
+    background-color: darkgray;
+}
+
+#editPoUp th:hover,
+#editPoUp td:hover {
+    cursor: move;
+}
+
+#editPoUp th {
+    background-color: lightslategrey;
+}
+
+#closeEditPoUp {
+    background: url("../js/jquery-ui/images/ui-icons_cd0a0a_256x240.png") no-repeat scroll 0 0 transparent;
+    width: 16px;
+    height: 16px;
+    font-size: 0px;
+    margin: 0 3px;
+    background-position: -82px -130px;
+    float: right;
+}
+
+input[readonly] {
+    border: none;
+    font-size: 10px;
+    padding: 0;
+    background: rgba(76, 175, 80, 0.1);
+    text-align: center;
+    width: 256px;
+}
+
+.actionButton {
+    text-align: right;
+}
+
+.loader {
+    margin: 5px 0;
+    float: left;
+    border: 3px solid #f3f3f3;
+    border-radius: 100%;
+    border-top: 3px solid blue;
+    border-bottom: 3px solid blue;
+    width: 4px;
+    height: 4px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

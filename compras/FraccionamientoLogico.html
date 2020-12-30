@@ -1,0 +1,157 @@
+<!-- begin: headers -->
+<!DOCTYPE html>
+
+      <link rel="stylesheet" type="text/css" href="compras/FraccionamientoLogico.css" />  
+      <link rel="stylesheet" type="text/css" href="css/datatables.css" />  
+      <script type="text/javascript" src="js/datatables.min.js" ></script> 
+      <script type="text/javascript" src="compras/FraccionamientoLogico.js?_=sssssssssseeeeeeeee" ></script> 
+      
+      <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js" ></script> 
+       
+      <script>
+          sucursales = {sucs};
+      </script>
+<!-- end:   headers -->
+
+
+<!-- begin: head -->
+
+<div style="text-align: left;margin: 10px 0px 0px 0px">  
+    
+    <label style="font-size: 15px;font-weight: bolder">En Transito/Recibida/Cerrada</label><input type="radio" name="radio_estado" value="Cerrada"  disabled="disabled"    >        
+</div>
+<div  style="background-color: lightgray;text-align: center">Mercader&iacuteas para Fraccionar </div>
+<br>
+<div style="margin: 0 10px">
+<table id="lista_invoices" border="1"  cellspacing="0" cellpadding="0"    style="margin: 0 auto;min-width: 90%"  >
+           
+    <thead>
+      <tr class="titulo">
+          <th style="width: 5%">N&deg;</th>
+          <th style="width: 10%">Invoice</th>
+          <th style="width: 5%">Suc</th>
+          <th style="width: 5%">Usuario</th>
+          <th style="width: 5%">Cod.Prov.</th>
+          <th style="width: 25%">Proveedor</th>
+          <th style="width: 10%">Fecha</th>
+          <th style="width: 5%">Moneda</th>
+          <th style="width: 10%">Tipo</th>
+          <th style="width: 5%">Origen</th>
+          <th style="width: 5%">SAP Doc</th>
+          <th style="width: 5%">Estado</th>          
+      </tr>  
+    </thead>      
+    <tbody>
+<!-- end:   head -->
+
+<!-- begin: line -->
+<tr id="{id}" data-sap_doc="{sap_doc}" style="cursor: pointer;background-color: white"  > 
+    <td class="itemc clicable" >{id}</td>
+    <td class="item clicable" >{invoice}</td>  
+    <td class="itemc clicable" >{suc}</td>  
+    <td class="itemc clicable" >{usuario}</td>  
+    <td class="item clicable"  >{cod_prov}</td> 
+    <td class="item clicable" >{proveedor}</td> 
+    <td class="itemc clicable" >{fecha}</td> 
+    <td class="itemc clicable" >{moneda}</td>
+    <td class="itemc" >{origen}</td>
+    <td class="itemc" >{pais_origen}</td>
+    <td class="itemc" >{sap_doc}</td> 
+    <td class="itemc" >{estado}</td>     
+</tr>
+<!-- end:   line -->
+
+
+<!-- begin: foot -->
+</tbody>
+  </table>
+    </div>
+<!-- end:   foot -->
+
+  
+
+<!-- begin: detalle -->  
+<div id="politicas_sucursales">
+    <table style="border-collapse: collapse;" id="pol_x_suc" border="1"></table>
+</div>
+<div id="aux">
+    <label>&Sigma; Unit:</label><input type="text" size="6" id="unit" readonly="readonly" class="itemc">
+    <label>Falt.:</label><input type="text" size="4" id="faltante" readonly="readonly" class="itemc">
+    <label>&Sigma; Total:</label><input type="text" size="6" class="itemc" id="total" readonly="readonly">
+</div> 
+<table id="detalle_entrada" border="1"  cellspacing="0" cellpadding="0" width="99%" style="margin: 0 0 0 4px"  >
+           
+            <tr><th colspan="5" style="background-color: lightgray">Detalle de Entrada</th></tr>  
+            <tr class="titulo">
+                <th style="width: auto" >Articulos</th>                              
+                <th style="width: auto">Pedidos</th>
+                
+                <th style="width: auto;background-color: whitesmoke;padding:4px 0"> 
+                    <input type="button" id="asig_sist"  value="Asignacion Asistida" onclick="asignacionAsistida()" disabled="disabled" style="font-size: 9px;height:20px;padding:0;margin: 0">
+                    <input type="button" id="robot" class="botones_asign" value="Asignar con Robot" onclick="autoAsignar()" disabled="disabled" style="font-size: 9px;height:20px;padding:0;margin: 0">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <img src="img/r_arrow.png" width="20" height="14" onclick="asignarLotes()" style="cursor: pointer" title="Asignar a Este Cliente" style="margin-top: -3px" >                   
+                </th> 
+                
+                <th style="width: auto;background-color: whitesmoke"><img class="delete" title="Borrar Lotes" style="cursor:pointer" src="img/trash_mini.png" onclick="borrarLotesAsignados()"></th> 
+            </tr> 
+            <tr>
+                <td  class="rezizable" id="articulos" style="vertical-align: top" ></td>          
+                <td  class="rezizable" style="vertical-align: top;" >
+                    <table id="pedidos" border="1" style="border-collapse: collapse;width: 100%">                         
+                        <tr class="titulo" style="font-size: 13;background: #5900B3;color:white"> <th>Cliente</th><th>Suc</th><th>Color</th><th>Cant.Pedida</th><th>Asignada</th><th>Presentacion</th><th>Selec.</th></tr>
+                    </table> 
+                    <div style="text-align: center;margin-top: 50px"><input id="add_minorista_button" onclick=addPedidoMinorista("00") disabled="disabled" type="button" value="Agregar Pedido Minorista a Produccion para este Articulo"></div>
+                </td>  
+                <td class="rezizable" style="vertical-align: top;">
+                    <div id="lotes_container" style="height:580px;overflow-y: auto">                        
+                        <table id="lotes" border="1" style="border-collapse: collapse;width: 100%">
+                            <th class="titulo" style="width: auto;" colspan="6">Lotes sin asignar</th> 
+                            <tr class="titulo" style="font-size: 13;background: LightSkyBlue"> <th>Lote</th><th>Ubic</th><th>Color | Cod. Color Fabrica | Dise&ntilde;o</th><th>Cant.</th><th>Pol.Cortes</th><th><input type="checkbox" id="checkall" onclick="checkAll()"></th></tr>
+                        </table>
+                    </div>    
+                </td>  
+                <td class="rezizable" style="vertical-align: top;width:20%">                     
+                    <table id="lotes_cli" border="1" style="border-collapse: collapse;width: 100%">
+                        <th class="titulo" style="width: 30%;" colspan="6">Piezas asignados</th> 
+                        <tr class="titulo" style="font-size: 13;background: rgb(107, 142, 35);color:whitesmoke"> <th>Lote</th><th>Color</th><th>Cant.</th><th>Presentacion</th><th>Destino</th><th><input type="checkbox" id="checkall_asigned" onclick="checkAllAsigned()"></th></tr>
+                    </table>
+                </td>
+            </tr>
+         </table>  
+
+<!-- end:   detalle -->  
+
+<!-- begin: area_carga_foot -->
+
+   
+<!-- end:   area_carga_foot -->
+
+
+
+<!-- begin: cabecera_entrada_existente -->
+<div id="cabecera" style="margin: 0 4px 0 4px"> 
+    <div id="cli_data"  > 
+    <input type="hidden" id="codigo_proveedor" value="{codigo_proveedor}">
+    <label>N&deg; Ref: </label> <input type="text" size="7"  readonly="readonly" id="ref" value="{ref}"> <label>N&deg; SAP: </label><input type="text" size="7"  readonly="readonly" id="sap_doc" value="{sap_doc}">
+    <label>C.I./R.U.C.:</label> <input type="text" id="ruc_proveedor" readonly="readonly"  size="20" maxlength="34" onchange="buscarProveedor(this)" placeholder="Buscar Proveedor" data-next="nombre_prov"  value="{ruc_proveedor}"  >
+    <label>Proveedor:</label>   <input type="text" id="nombre_proveedor" readonly="readonly" size="46" onchange="buscarProveedor(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="boton_generar" value="{nombre_proveedor}" ><br>
+    
+    <label>N&deg; Factura/Invoice:</label><input  type="text" id="invoice" readonly="readonly" size="16" style="text-align: left;" value="{invoice}" >
+    <label>Fecha Factura:</label><input id="fecha" class="fecha" type="text" readonly="readonly" size="10" value="{fecha}">
+    <label>Moneda:</label> <select  id="moneda"  onclick="controlarCotizacion()" >{monedas}</select>   
+    <label>Cotiz:</label>  <input type="text" id="cotiz" readonly="readonly"  size="6" class=""   style="text-align: center;" value="{cotiz}"  >
+    <label>Tipo:</label>
+    <select id="tipo_doc_sap" disabled="disabled">
+         {tipo_doc_sap}
+    </select><img src="img/info.png" width="18" height="18" alt="" style="cursor: pointer;margin-bottom: -2px" onclick="infoTipo()"> <br>
+    <div id="msg_info" style="display:none"  >La Entrada de Mercaderias no genera Deuda con el Proveedor, la Factura de Proveedor Genera una Deuda Pendiente con el Proveedor</div>
+    <label>Pais Origen:</label><select id="pais" disabled="disabled" >{paises}</select>
+    <label>Ubicacion de Descarga:</label> <select  id="suc" disabled="disabled" >{sucursales}</select>   
+    <label>Estado:</label><input  type="text" id="estado" readonly="readonly" size="10" style="text-align: left;" value="{estado}" >
+    <span id="msg"></span>
+    </div> 
+ </div>      
+<!-- end:   cabecera_entrada_existente -->
+ 
+

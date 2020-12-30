@@ -1,0 +1,49 @@
+
+<!-- begin: header noeval -->
+    <!DOCTYPE html>
+    <link rel="stylesheet" type="text/css" href="css/main.css?_=000000000000000000" />  
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script> 
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js" ></script> 
+    <script type="text/javascript" src="js/main.js" ></script>   
+    <script type="text/javascript" src="js/functions.js" ></script>   
+    <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script>   
+    
+    <script language="javascript">
+        
+        $(function(){
+            var url = $("#url").val(); //alert(url);
+            var parameters = $("#parameters").val();
+            cargar(url,parameters);  
+        });        
+        
+        function cargar(url,parameters){ 
+               $.ajax({
+                   type: "POST",
+                   url: url,
+                   data: parameters,
+                   async:true,
+                   dataType: "html",
+                   beforeSend: function(objeto){                        
+                       $("#view").html("<img id='loading' src='img/loading.gif'>");
+                   },
+                   complete: function(objeto, exito){
+                       if(exito=="success"){ 
+                           $("#view").html(objeto.responseText );   
+                           configurar();
+                       }
+                   }
+               }); 
+
+       } 
+       function hideMenu(){}
+    </script> 
+    
+<!-- end:   header -->
+
+
+<!-- begin: view -->
+<input type="hidden" id="url" value="{url}">
+<input type="hidden" id="parameters" value="{parameters}">
+
+<div id="view" >Loading...</div> 
+<!-- end:   view -->

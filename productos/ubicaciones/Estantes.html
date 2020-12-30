@@ -1,0 +1,137 @@
+<!-- begin: header -->
+    
+   <link rel="stylesheet" type="text/css" href="../../js/jquery-ui/jquery-ui.css" /> 
+   <link rel="stylesheet" type="text/css" href="Estantes.css?_=0000000000000000" /> 
+   <script type="text/javascript" src="../../js/functions.js?_=4555" ></script> 
+   <script type="text/javascript" src="../../js/fabric.js?_=4212122" ></script> 
+   <script type="text/javascript" src="../../js/jquery-2.1.3.min.js?_=4555" ></script> 
+   <script type="text/javascript" src="../../js/jquery.svg.js?_=4555" ></script> 
+   <script type="text/javascript" src="../../js/jquery.maskedinput.min.js?_=4555" ></script> 
+   <script type="text/javascript" src="../../js/jquery-ui/jquery-ui.min.js?_=4555" ></script> 
+   <script type="text/javascript" src="Estantes.js?_=8/8888888888888888888888" ></script>  
+       
+<!-- end:   header -->
+
+
+<!-- begin: temporadas -->
+<div id="msg"></div>
+<input type="hidden" id="suc" value="{suc}" >
+<input type="hidden" id="usuario" value="{usuario}" >
+<input type="hidden" id="estante" value="{estante}" >
+<input type="hidden" id="permiso_modificar" value="{permiso_modificar}" >
+
+<div class="lotes_remitir_container">
+    <div style="text-align: center;background-color: #B0BED9;">Lotes por Remitir a 00 &nbsp; <span id="codigo_art_rem"></span></div>
+    <div class="bar camion_bar0"> <span id="msg_remitir" style="margin-right: 60px"></span>  <img id="truck_pedir" src="../../img/truck.png" style="cursor:pointer" height="20" onclick="remitirLotes()" > <img src="../../img/red_arrow_right.png"   height="18"> </div>
+    <div class="lotes_remitir">
+        <table border="1"   id="tabla_remision" >
+            <tr class="titulo"><th>Lote</th><th>Color</th><th>Dise&ntilde;o</th><th>Stock</th><th><input type="checkbox" id="check_all_remitir"> <img src="../../img/close.png" style="margin-top: -42px;margin-left:16px;position:absolute" onclick="cerrarVentanaRemision()"></th></tr>
+        </table>        
+    </div>        
+    <div style="padding-right: 64px;padding-bottom: 2px;text-align: right;background-color: whitesmoke" >
+        <label>Remitir:</label> <input type="text" id="total_req_remitir" size="8" value="0" readonly="readonly" style="height: 18;font-weight: bolder;text-align: right;margin-right: 60px" > 
+        <label>Total:</label><input type="text" id="total_remitir" readonly="readonly" size="8" style="height: 18;font-weight: bolder;text-align: right" >
+    </div>    
+</div>
+
+<div class="lotes_pedir_container">
+    <div style="text-align: center;background-color: #F0E68C;">Lotes  Disponibles en 00&nbsp; <span id="codigo_art_pedir"></span></div>
+    <div class="bar camion_bar1"> <span id="msg_pedir" style="margin-right: 60px"></span> <img src="../../img/green_arrow_left.png"   height="18"> <img id="truck_pedir" src="../../img/truckleft.png" onclick="generarPedidoLotes()" style="cursor:pointer" height="20"> </div>
+    <div class="lotes_pedir">        
+        <table border="1"   id="tabla_pedidos"  >
+            <tr class="titulo"><th>Lote</th><th>Color</th><th>Dise&ntilde;o</th><th>Stock</th><th>Pol.Cortes</th><th> <input type="checkbox" id="check_all_pedir"> <img src="../../img/close.png" style="margin-top: -42px;margin-left:16px;position:absolute" onclick="cerrarVentanaPedidos()"></th></tr>
+        </table>        
+    </div>
+    <div style="padding-right: 64px;padding-bottom: 2px;text-align: right;background-color: whitesmoke" >
+        <label>Pedir:</label> <input type="text" id="total_req_pedir" size="8" value="0" readonly="readonly" style="height: 18;font-weight: bolder;text-align: right;margin-right: 60px" > 
+        <label>Total:</label><input type="text" id="total_pedir" readonly="readonly" size="8" style="height: 18;font-weight: bolder;text-align: right" >
+    </div>
+</div>    
+
+<table border="0" style="width: 100%"  >
+    <tr>
+        <td style="vertical-align: bottom;width: 20%">
+            <div style="text-align: left">Mostrar ocupacion de bandejas por: </div>
+            <div style="text-align: left">Contenido actual: <input type="radio" name="tipo" value="Actual" checked="checked"> Temporada <input type="radio" name="tipo" value="Temporada"> </div><br>
+            <table border="1" id="temporadas_bloque" class="temporadas_bloque" >
+                <tr><th colspan="3" class="art_temp" >Temporadas del Bloque</th></tr>
+                <tr><th>N&deg;</th><th>Desde</th><th>Hasta</th></tr>              
+            </table>
+            <div style="width:90%;height:16px;text-align: center; display: none " id="add_remove_temporadas">
+                <img src="../../img/button_minus_blue.png" style="cursor:pointer" width="24" onclick=addSubTemporada("-")>
+                &nbsp;&nbsp;
+                <img src="../../img/button-add_blue.png"   style="cursor:pointer" width="24" onclick=addSubTemporada("+")>  
+            </div> 
+            <div style="padding-top: -6px">
+                <label>Mostrar contenido de cuadrantes</label><input type="checkbox" id="buscar_contenido" >
+                <img src="../../img/open_eye.png"   class="pendientes" width="24" onclick="definicionesPendientes()" title="Mostrar cuadrantes ya definidos en la Temporada seleccionada">  
+            </div>
+        </td>
+        <td style="vertical-align: top;width: 70%;text-align: center">
+            
+            <table border="1" class="resumen_x_articulo" >
+                <tr><th colspan="4" class="resumen_content" >Contenido actual de Articulos</th><th colspan="4" class="def_x_temp">Articulos Definidos x Temporada</th><th colspan="2" style="background: lightgrey">Diferencias</th></tr>
+                <tr><th style="width: 8%">Codigo</th><th  style="width: 23%">Descripcion</th><th style="width: 6%">&Sigma; Piezas</th><th style="width: 9%">&Sigma; Mts</th><th  style="width: 8%">Codigo</th><th style="width: 23%">Descripcion</th><th style="width: 6%">&Sigma; Piezas</th><th style="width: 9%">&Sigma; Mts</th><th style="width: 4%">Diff</th><th style="width: 4%">E/S</th></tr>              
+            </table>
+            <div style="height: 300px;;overflow-y: auto" class="contenedor_resumen">
+             <table border="1" id="resumen_x_articulo" class="resumen_x_articulo_det"></table>
+            </div> 
+        </td>        
+        <td>
+            <input type="range" id="altura" step="10" min="100" max="800" value="300" onchange="setAltura()" />
+        </td>
+    </tr>    
+</table>
+
+<!-- end:   temporadas -->
+
+<!-- begin: add_remove_temporadas -->
+ 
+<!-- end:   add_remove_temporadas -->
+
+<!-- begin: toolbar -->
+<div id="toolbar" >
+     
+    <table border="0" class="wrapper" >
+        <tr>
+            <th class="prop" colspan="2">Propiedades</th>
+            <th class="cont">Contenido Actual de Bandeja o Cuadrante </th>
+        </tr>
+        <tr>
+            <td style="vertical-align: top" >
+                <table border="1" class="cuadrante">
+                    <tr><th colspan="2" style="padding: 4px;background: #74b9ff;">Seleccionado</th></tr>
+                    <tr><th colspan="2" id="cuadrante" style="font-size: 34;font-family: cambria"></th></tr> 
+                </table>
+            </td>
+            
+            <td style="vertical-align: top;width:600px">
+               <table border="1" id="temporada_cuad" class="temporadas">
+                <tr><th colspan="9" class="art_temp">Articulos de Temporada</th></tr>
+                <tr><th>Temp.</th><th>Codigo</th><th>Descrip</th><th>Desde</th><th>Hasta</th><th>Capacidad</th><th>Um</th><th>Piezas</th><th><img src="../../img/r_arrow.png" title="Siguiente Temporada" onclick="sigTemporada()" style="cursor:pointer;width:18px"></th></tr>              
+                <tr class="art_search" >
+                    <td colspan="9" >
+                        <div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;width:40%;margin-top:-45px"  >
+                                <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:0;width: 100%;background: white" >
+                                    <tr><th colspan="5" class="titulo">Articulos</th></tr>
+                                    <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>   <th style="width: 20%">Sector</th> <th style="width: 50%">Nombre Comercial</th> <th style="width: 10%">Ancho</th> <th style="width: 10%">Precio</th>   </tr>
+                                </table>       
+                        </div>                        
+                    </td>
+                </tr>
+              </table>
+                <table id="copiar" style="display:none;margin-top: 4px;border:solid gray 1px;border-collapse:collapse" border="1" cellpadding="0" cellspacing="0" >
+                    <tr><th></th><th colspan="2">Temporada: </th></tr>
+                    <tr>
+                        <td id="defrowspan"><b>Copiar definiciones de temporada: <span id="temp_actual"></span> a:</b> </td>  
+                    </tr>                     
+                </table>
+                <div id="seleccionados" style="margin-top: 2px"></div>
+            </td>
+            <td id="cuad_content" style="vertical-align: top"></td>
+        </tr>
+     
+    </table>
+</div> 
+   
+<!-- end:   toolbar -->

@@ -1,0 +1,68 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+</style>
+
+<script language="javascript">
+     /*
+     var hist  = [];
+    
+     $(document).ready(function(){
+         //$("#loading").html("Ok");
+     });
+      */
+     
+</script>
+
+</head>
+     
+<!-- end:   header -->
+ 
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Fraccionamientos para Manteles</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc_d} &nbsp;&nbsp;Operario: {vendedor} &nbsp;&nbsp;  </td></tr>
+</table>
+     
+<!-- end:   head -->    
+
+<!-- begin: cabecera --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>Usuario</th><th>Fecha</th><th>Codigo</th><th>Descripci&oacute;n</th><th>Tipo</th><th>Medida</th><th>Unidades</th></tr>
+<!-- end:   cabecera -->
+
+<!-- begin: data --> 
+ 
+<tr><td class="item">{usuario}</td><td class="itemc">{fecha}</td><td class="itemc">{codigo}</td><td class="item">{descrip}</td><td class="itemc">{tipo_saldo}</td><td class="num">{medida}</td><td class="num">{unidades}</td></tr>
+
+<!-- end:   data -->
+
+
+<!-- begin: corte -->  
+ 
+<tr>
+    <td colspan="7" style="text-align: right"> <b>Articulos:</b> {Articulo} <b>Unid.</b> &nbsp;&nbsp;  <b>Retazos:</b>{Retazo} <b>Mts</b>  &nbsp;&nbsp;  <b>Ajustes:</b>{Ajuste} <b>Mts.</b> </td>
+</tr>
+<tr>
+    <td colspan="7">&nbsp;</td>
+</tr>
+<!-- end:   corte  -->
+
+<!-- begin: footer -->   
+</table>  
+<!-- end:   footer  -->

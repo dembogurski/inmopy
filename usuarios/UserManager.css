@@ -1,0 +1,144 @@
+table:not(.form){    
+    margin: 17px auto;
+    width: 37%;
+    min-width: 320px;    
+    border-collapse: collapse;    
+    border: solid 1px gray;   
+}
+thead,th{
+    text-align: center;
+    color: #333333;
+    background-color: #DDDACD;
+    font-weight: bold;    
+    padding: 4px;
+    border: solid 1px gray;
+}
+td{
+    margin: 0;
+    padding: 1px;
+    border: solid 1px gray;    
+}
+#work_area .form{ 
+    margin: 17px auto;
+    border-spacing: collapse;
+    border-spacing: 7px;
+    border: solid 1px gray;     
+    min-width: 231px;   
+    background-color: #EAEAE8;
+}
+.form tr,.form td,.form th{
+    border: none;
+}
+
+input:disabled ~ label::after{    
+    content: " > (Pri)";
+    font-size: 0.7em;
+    color:red;    
+}
+input[type="checkbox"] ~ label{
+    margin-top: -17px;
+    width: 220px;        
+    padding: 0px 17px 0px 3px;
+    display: inline-block;
+}
+input[type="checkbox"] ~ label:hover{
+    cursor: poiter;
+    letter-spacing: 0px;
+    background-color: #CECCC3;
+    font-weight: 700;
+    padding-left: 3px;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius:3px;
+}
+input[type="checkbox"] ~ label:hover:before{
+    content: '<';
+    color: red;
+}
+input[type="checkbox"] ~ label:hover:after{
+    content: ': 'attr(for);
+    color: blue;
+}
+input[type="checkbox"]:checked ~ label{
+    color: darkgreen;
+    font-weight: 700;
+    background-color: lightgrey;
+    border-radius: 3px;
+    -webkit-border-radius:3px;
+}
+tbody tr{
+    background-color: #EAEAE8;
+    transition: background-color 0.5s;
+    -webkit-transition: background-color 0.5s;
+}
+.list:hover{
+    background-color: #006600;
+    cursor: pointer;    
+    color:white
+}
+.list{
+    background-color: white
+}
+
+input[type="checkbox"]{
+    margin-left: 27px;
+}
+select{
+    height: 24px;
+}
+#popUp{
+   
+}
+#popUp label{
+    text-transform:capitalize;        
+}
+#popUp input{    
+    right: 0;
+}
+[class^='err']{        
+    margin-top: 6px;
+    margin-left: 1px;
+    font-size: 10px;
+    background-color: #EAEAE8;    
+    color:red;
+}
+.label{
+    text-align: left;
+}
+.foo{
+    text-align: center;
+}
+.inf_msj{
+    color: brown;
+    font-size: 12px; 
+    font-family: Courier New;
+}
+.titulo{
+    background-color: lightgray;
+}
+#ajaxLoader{
+    position: absolute;
+    top:80px;
+    left: 45%;
+    z-index: 1000;
+}
+button#limpiar_filtros{
+    height: 16px;
+    width: 16px;
+    background: url("../js/jquery-ui/images/ui-icons_2e83ff_256x240.png") no-repeat scroll 0 0 transparent;
+    margin: -20px 1px 0 15px;   
+    border: 1px solid gray;
+    border-radius: 3px;
+    font-size: 0;
+    background-position: -66px -81px;
+}
+button#limpiar_filtros:hover{
+    -webkit-animation:spin 0.2s linear;
+    -moz-animation:spin 0.2s linear;
+    animation:spin 0.2s linear;
+    cursor: pointer;
+    background-color:lightblue;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-180deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-180deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-180deg); transform:rotate(-180deg); } }

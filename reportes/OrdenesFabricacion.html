@@ -1,0 +1,143 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <style>
+       .progreess_container{
+           border:solid black 1px;
+           width: 200px;
+           float:right;
+           margin-right: 10px;
+       }
+       .progress{
+           background-color:green;
+           text-align: center;
+           color:white;           
+       } 
+       .progreess_container_produccion{
+           border:solid black 1px;
+           width: 200px;
+           float:right;
+           margin-right: 10px;
+       }
+       .progress_produccion{
+           background-color:orange;
+           text-align: center;
+           color:white;           
+       } 
+       .tabla{
+           border-collapse: collapse;
+           min-width: 60%
+       }
+       .tabla th{
+            font-weight: bolder;
+            font-size: 12px;
+            font-family: arial;
+            background-color: rgb(221, 218, 205);
+       }
+       .P::before{
+           background-color: yellow;
+           border:solid gray 1px;
+           content: "Planificado";
+           margin: 0 2px 0 2px
+       }
+       .R::before{
+           background-color: green;
+           border:solid gray 1px;
+           content: "Liberado";
+           color:white;
+           margin: 0 2px 0 2px
+       }
+       .L::before{
+           background-color: lightskyblue;
+           border:solid gray 1px;
+           content: "Cerrada";
+           margin: 0 2px 0 2px
+       }
+       .C::before{
+           background-color: orange;
+           border:solid gray 1px;
+           content: "Cancelada";
+           margin: 0 2px 0 2px
+       }
+   </style>
+   
+    
+</head>
+ 
+
+<!-- end:   header -->
+
+
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Ordenes de Fabricacion</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Estado: {estado}</td></tr>
+        
+</table>
+
+<div style="text-align:center;">
+    <input type="button" id="pendientes" value="Generar Pedidos pendientes en SAP" onclick="sincronizarOrdenFabric()" style="display:none;margin-bottom: 10px;">
+</div>
+   
+     
+<!-- end:   head -->
+
+
+<!-- begin: data -->
+<table border="1" cellspacing="0" cellpadding="0" class="report_header">
+   <tr>
+        <th>Nro Orden</th> 
+        <th>Cliente</th> 
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>Suc</th>
+        <th>Estado</th>
+    </tr>
+    
+<tr>
+    <td class="itemc nro_orden" data-estado="{estado}" data-cant="{cantidad}" data-medida="{medida}"  >{nro_orden}</td> 
+    <td class="item">{cliente}</td> 
+    <td class="item">{usuario}</td>
+    <td class="itemc">{fecha}</td>
+    <td class="itemc">{suc}</td>
+    <td class="itemc">{estado}</td>   
+</tr>    
+
+<tr style="background-color: lightskyblue;font-size: 11px;font-weight: bolder;text-align: center">    
+    <td>Codigo</td>
+    <td colspan="2">Descripci&oacute;n</td>    
+    <td>Cantidad</td>
+    <td>Medida</td>
+    <td colspan="2">Obs</td>
+</tr>
+<tr>
+    <td class="itemc">{codigo}</td>
+    <td class="item" colspan="2">{descrip} - {design}</td>     
+    <td class="num ">{cantidad}</td>
+    <td class="num">{medida}</td> 
+    <td class="item" colspan="3">{obs}</td>    
+</tr>
+</table>   
+<div id="estado_{nro_orden}" style="border:solid gray 1px;width: 100%;height: auto;margin-top:2px;min-height:60px "></div>    
+<br><br>
+ 
+<!-- end:   data -->
+  
+
+
+<!-- begin: footer noeval --> 
+<script language="javascript">
+   $(document).ready(function(){
+        
+   });  
+    
+</script>
+<!-- end:   footer  -->

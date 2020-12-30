@@ -1,0 +1,99 @@
+<!-- begin: header -->
+<link rel="stylesheet" type="text/css" href="reportes/ReportesUI.css" />     
+<!-- end:   header -->
+
+<!-- begin: filters -->
+<div id="rep_filters">
+    <table border="0" style="width: 100%" >
+        <tr>
+            <td style="width: 40%;text-align: center" ><img src="img/arrow-back.png" class="back_arrow" title="Mostrar Menu de Reportes"  onclick="mostrarMenu()" style="display:none;cursor: pointer" ></td>
+            <td style="width: 20%;font-size: 18px;font-weight: bolder;text-align: center">Area de Reportes</td>
+            <td style="width: 40%;padding-right: 1cm;text-align: right">
+                <label>Buscar:</label>  <input type="text" class="filter" size="28" placeholder="Filtrar reporte aqui"  >
+                <select class="filter" id="select_type">
+                    <option value="todos">Todos</option>
+                    <option value="ventas">Ventas</option>
+                    <option value="caja">Caja</option>
+                    <option value="empaque">Empaque</option>
+                    <option value="funcionarios">Funcionarios</option>   
+                    <option value="gerencia">Gerentes</option>  
+                    <option value="rrhh">RRHH</option>  
+                    <option value="logistica">Logistica</option>  
+                    <option value="stock">Stock</option>  
+                    <option value="administracion">Administracion</option>          
+                </select>
+            </td>
+        </tr>
+    </table>
+    
+</div>
+
+<div id="rep_container">
+<!-- end:   filters -->
+
+ 
+
+  
+
+<!-- begin: footer --> 
+</div>
+<div id="filters_area"><div>
+<script type="text/javascript"  src="reportes/ReportesUI.js?_=1509714337758MXX" ></script>    
+<script type="text/javascript" src="js/jquery.maskedinput.min.js"></script>
+<!-- end:   footer -->
+
+<!-- begin: button_factory -->
+<input type="button" class="rep_button {classes}" value="{nombre}" > 
+<!-- end:   button_factory -->
+
+
+<!-- begin: filter_header -->
+<form action="{action}" target="_self" id="filter_form" >
+<div style="text-align: center; width: 60%;min-width: 480px;border: solid 1px;margin: 20 auto; position: relative;">
+    <div class="titulo_form" >{titulo_filtro}</div>
+    <table id="filter_table" border="0"  cellspacing="4" cellpadding="0" >
+<!-- end:   filter_header -->
+
+
+
+<!-- begin: filter_footer -->
+   </table>   
+</div> 
+</form> 
+<div id="msg" style="text-align: center"></div>
+<!-- end:   filter_footer -->
+
+
+
+<!-- ##################   MACROS   ##################### -->
+
+<!-- begin: include_js -->
+     <script type="text/javascript" src="{url}" ></script> 
+<!-- end:   include_js -->
+ 
+<!-- begin: include_css -->
+    <link rel="stylesheet" type="text/css" href="{url}" />  
+<!-- end:   include_css -->
+
+<!-- begin: html -->
+    {html}
+<!-- end:   html -->
+
+
+<!-- begin: td -->
+ <td colspan="{colspan}" >{td_val}</td> 
+<!-- end:   td -->
+
+<!-- begin: fecha -->
+<td colspan="{cls1}" >{label_fecha}:</td> <td colspan="{cls2}"><input id="{id_fecha}" class="fecha" type="text" size="10" value="{fecha}" onblur=checkDate("{id_fecha}") onchange=checkDate("{id_fecha}") placeholder="__/__/____" ><a href=javascript:setCurrentDate("{id_fecha}") style="display:{display_set_now};font-size: 10px">Hoy</a></td>  
+<!-- end:   fecha -->
+
+<!-- begin: button -->
+    <input type="button" onclick="{call_func}" value="{value}" {attrs} >
+<!-- end:   button -->
+ 
+
+
+<!-- begin: example -->
+ 
+<!-- end:   example -->

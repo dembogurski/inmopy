@@ -1,0 +1,74 @@
+<!-- begin: header noeval -->
+<head>
+   <link rel="stylesheet" type="text/css" href="../css/reportes.css" /> 
+   <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
+   <script type="text/javascript" src="../js/functions.js" ></script>
+
+<style>
+    .sub_head{
+        font-size: 11px;
+        background-color: beige;            
+    }
+</style>
+
+<script language="javascript">
+     /*
+     var hist  = [];
+    
+     $(document).ready(function(){
+         //$("#loading").html("Ok");
+     });
+      */
+     
+</script>
+
+</head>
+ 
+<!-- end:   header -->
+ 
+
+<!-- begin: head -->
+<input type="hidden" id="paper_size" value="{papar_size}">
+ 
+<table class="report_cab" border="1" cellspacing="0" cellpadding="0" > 
+    <tr>
+        <th style="width: 15%" rowspan="2"><img src="../img/logo_small.png"></th> 
+        <th style="width: 70%;">Reporte de Fabricacion de Manteles</th>
+        <th style="font-size: 8px;width: 15%" rowspan="2">{user}-{time}</th> 
+    </tr> 
+    <tr><td style="text-align: center;font-size: 12px">Periodo: {desde} &#8596; {hasta} &nbsp;&nbsp;Sucursal: {suc_d} &nbsp;&nbsp;Operario: {operario} &nbsp;&nbsp;  </td></tr>
+</table>
+     
+<!-- end:   head -->    
+
+<!-- begin: cabecera --> 
+<table border="1" cellspacing="0" cellpadding="0" class="report_data" style="width: 100%;border-collapse: collapse;"> 
+    <tr class="report_header"><th>ID</th><th>Fecha Reg.</th><th>Usuario</th><th>Fecha Produccion</th><th>Operario</th><th>Codigo</th><th>Descripci&oacute;n</th><th>Unidades</th><th>Obs</th></tr>
+<!-- end:   cabecera -->
+
+<!-- begin: data --> 
+ 
+<tr><td class="item">{id}</td><td class="itemc">{fecha_reg}</td><td class="itemc">{usuario_reg}</td><td class="itemc">{fecha_prod}</td><td class="itemc">{usuario_prod}</td><td class="itemc">{codigo}</td><td class="item">{articulo}</td><td class="item">{obs}</td><td class="itemc">{cant_prod}</td></tr>
+
+<!-- end:   data -->
+
+
+<!-- begin: corte -->  
+ 
+ 
+<tr>
+    <td colspan="7"></td>
+    <td class="itemc"><b>{total}</b></td>
+</tr>
+<tr><td colspan="8" style="border:solid white 0px;height: 20px"> &nbsp;</td></tr>
+<!-- end:   corte  -->
+
+<!-- begin: footer -->   
+<tr>
+    <td colspan="7"><b>Total General</b></td>
+    <td class="itemc"><b>{total_gral}</b></td>
+    <td></td>
+</tr>
+
+</table>  
+<!-- end:   footer  -->

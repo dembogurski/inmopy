@@ -1,0 +1,143 @@
+<!-- begin: general_header noeval -->
+<!DOCTYPE html>
+<script type="text/javascript" src="../js/jquery-2.1.3.min.js" ></script>   
+<script type="text/javascript" src="../js/jquery-ui/jquery-ui.min.js" ></script>  
+<script type="text/javascript" src="pagare.js?_=1526647681172" ></script>     
+<link rel="stylesheet" type="text/css" href="pagare.css?_=1526647681172" />
+<script>
+    function docx(){
+        var datos = {};
+        $(".docx").each(function(){
+        if($(this).prop('tagName') == 'SPAN'){
+            datos[$(this).attr('id')] = $.trim($(this).text());
+
+        }else{
+            datos[$(this).data('target')] = $.trim($(this).val());    
+        }
+        
+        });
+        //$.post("pagare2docx.php",{"datos":JSON.stringify(datos)},function(){});
+
+        window.open("pagare2docx.php?datos="+JSON.stringify(datos));
+    }
+</script>
+<!-- end:   general_header -->
+
+
+<!-- begin: start_query0 -->
+<div id="image_container" class="auth" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;display:none"></div>
+<input type="hidden" id="papar_size" value="{papar_size}">
+<table style="text-align: left; width: 99%;" border="0" cellpadding="0" cellspacing="0">
+         
+    <thead>
+<tr> <td colspan="50"> 
+	<table style="text-align: left; width: 100%;" border="0"  cellpadding="0" cellspacing="0">
+	  <tbody>
+         <tr>
+            <td  colspan="3"> <img src="../img/{logo}" border="0" alt="" width="{w}" height="{h}" >  </td>    
+         </tr>
+
+		<tr>
+           <td width="25%"></td>
+           <td style="text-align: center;width:50%"><big style="font-weight: bold;">PAGAR&Eacute; A LA ORDEN</big><button class="descarga_docx" onclick="docx()"><img src="../img/docx.png" ></button> </td>
+		   <td style="text-align: left;width:25%;padding-left:6px">
+             <big>Ref.:&nbsp;<span class="docx" id="factura">{factura}</span> ~~~</big><br>
+             <big>N&deg;.:&nbsp;<span class="docx" id="pg_nro">{pg_nro}&nbsp;/&nbsp;{barra}</span> ~~~</big><br>
+             <small><small><span class="docx" id="user_time">{user} - {time}</span></small></small>
+           </td>
+		</tr>
+	  </tbody>
+	</table>
+</td></tr>
+<!-- end:   start_query0 -->
+
+<!-- begin: header0 -->
+ 
+</thead>
+<tfoot>
+	<tr><td colspan="50"></td></tr>
+</tfoot>
+<!-- end:   header0 -->
+
+<!-- begin: query0_data_row -->
+    <tr>
+    <td>
+     <table border="0" cellpadding="4" cellspacing="4" width="100%" style="font-size:17px;text-align:justify;">
+       <tr>
+        <td class="vencimiento"><b>VENCIMIENTO:&nbsp;&nbsp;
+            <input class="sub docx" style="text-align:center;font-weight: bolder;" type="text" size="1" maxlength="2" data-target="dia_venc" value="{query0_DIA_VENC}" />&nbsp;/&nbsp;
+            <input class="sub docx" style="text-align:center;font-weight: bolder;" type="text" size="10" maxlength="10" data-target="mes_venc" value="{query0_MES_VENC_LETRAS}" /> 
+            &nbsp;/&nbsp;&nbsp;
+            <input class="sub docx" style="text-align:center;font-weight: bolder;" type="text" size="4" maxlength="4" data-target="anio_venc" value="{query0_ANIO_VENC}" /> 
+            &nbsp;</b>
+        </td>
+        <td  class="vencimiento" style="text-align:right;width: 30%"><b>IMPORTE:&nbsp;<span class="docx" id="moneda_monto">{MONEDA}.&nbsp;&nbsp;{query0_MONTO}</span>&nbsp;~~~~ &nbsp;&nbsp;&nbsp;</b></td>
+       </tr>
+
+       <tr>
+           <td colspan="2" class="cuerpo" >Lugar y Fecha de emisi&oacute;n: 
+                <span class="docx" id="emision">{emp_ciu}, &nbsp;&nbsp;{dia_hoy} &nbsp;&nbsp;de &nbsp;&nbsp;{este_mes} &nbsp;&nbsp;de &nbsp;&nbsp;{este_anio}</span>&nbsp;
+            </td>
+       </tr>
+       <tr>
+           <td colspan="2" class="cuerpo">El d&iacute;a &nbsp;<span class="docx" id="dia_venc">{query0_DIA_VENC}</span>&nbsp;de&nbsp;<span class="docx" id="mes_venc_letras">{query0_MES_VENC_LETRAS}</span>&nbsp;de&nbsp;<span class="docx" id="anio_venc">{query0_ANIO_VENC}</span>&nbsp;
+        pagar&eacute;/mos solidariamente a <b><span class="docx" id="denominacion">{denominacion}</span></b>  o a su orden, sin protesto, la suma de <span class="docx" id="nombre_moneda">{NOMBRE_MONEDA}</span>  <span class="docx" id="monto_en_letras">{monto_en_letras}</span>, por igual valor recibido en Mercader&iacute;as  a mi/nuestra entera satisfacci&oacute;n.
+        <br><br>
+        El pago lo realizar&eacute; en el local de la firma {denominacion} ubicado en <b><span class="docx" id="emp_dir">{emp_dir}</span></b> <span class="docx" id="ciu_denom">{ciu_denom}</span> <b><span class="docx" id="emp_ciu">{emp_ciu}</span></b>. &nbsp; La falta de pago del capital a su vencimiento constituir&aacute; al deudor/deudores en mora autom&aacute;tica, de pleno derecho (art. 424 C.C.) 
+        sin necesidad de interpelaci&oacute;n judicial o extrajudicial alguna.
+        
+        En caso de mora se aplicar&aacute;, desde el d&iacute;a de vencimiento un inter&eacute;s moratorio del  2% mensual m&aacute;s un inter&eacute;s
+        punitorio adicional del 0,3% de la tasa a percibirse en concepto de inter&eacute;s moratorio. As&iacute; mismo el presente documento sirve
+        de suficiente autorizaci&oacute;n en forma expresa e irrevocable, otorgando suficiente mandato en los t&eacute;rminos del C&oacute;digo Civil, para que en caso de atraso
+        o mora superior a 90 (noventa) d&iacute;as se incluya mi/nuestro nombre personal y/o raz&oacute;n social que represento/amos en el registro general
+        de morosos de empresas dedicadas y especializadas en almacenar, procesar y/o divulgar informaci&oacute;n comercial. Una vez cancelada la deuda de capital, gastos e intereses,
+        la eliminaci&oacute;n de dicho registro se realizar&aacute; de acuerdo a lo dispuesto en la Ley N&deg; 1682/01 y su modificatoria Ley 1969/02. 
+        A todos los efectos Jur&iacute;dicos acepto/aceptamos la competencia de los Juzgados y Tribunales de la ciudad de Encarnaci&oacute;n, con expresa renuncia a cualquier otra
+        y constituyo/imos domicilio especial en el lugar se&ntilde;alado m&aacute;s abajo.
+        
+        </td>
+        </tr>
+        
+    </table>
+    </td>
+    </tr>
+
+    <tr><td>
+
+     <table  width="99%" border="0" cellpadding="2" cellspacing="2" class="tabla_datos_cli">
+         <tr><td class="cli_data" >Nombre y Apellido/Raz&oacute;n Social: </td> <td> <input placeholder="Escriba qui el Nombre del Cliente"  class="sub docx" type="text" size="66" data-target="cli_cliente" value="{cliente}" /></td> </tr>
+        <tr><td class="cli_data"  >C&eacute;dula de Identidad / RUC N&deg;: </td> <td ><input placeholder="Escriba aqui el N� de CI o RUC" class="sub docx" type="text" size="66" data-target="cli_ci" value="{ci}" /></td> </tr>
+        <tr><td class="cli_data"  >Domicilio: </td> <td  ><textarea class="sub docx" cols="66" data-target="cli_dir" rows="1" style="height:17px;width:349px;resize:none">{dir}</textarea></td> </tr>
+        <tr><td class="cli_data"  >Ciudad: </td> <td  ><input class="sub docx" placeholder="Escriba aqui la Ciudad" type="text" size="66" data-target="cli_ciudad" value="{ciudad}" /></td> </tr>
+        <tr><td class="cli_data"  >Tel&eacute;fono: </td> <td  ><input placeholder="Escriba aqui el Telefono" class="sub docx" type="text" size="66" data-target="cli_tel" value="{tel}" /></td> </tr>
+     </table> 
+    </td></tr>
+ 
+<!-- end:    query0_data_row -->
+<!-- begin: query0_total_row -->
+
+<!-- end:    query0_total_row -->
+<!-- begin: query0_subtotal_row -->
+        <tr><td colspan="1" align="center" style="height:40px;">&nbsp;</td></tr>
+        <tr><td  colspan="1"  align="center" >_______________________________________ </td></tr>
+        <tr><td  class="cuerpo"  colspan="2"  align="center" >{cliente}</td></tr>
+        <tr><td colspan="2" align="center"><b>Deudor/a</b></td></tr>
+        <tr  style="height:30px" ><td colspan="2">&nbsp;</td></tr>        	 
+		<tr class="autorizado_no"><td> 
+	 <table  width="99%" border="0" cellpadding="2" cellspacing="2" class="tabla_datos_cli">
+                <tr><td class="cli_data" colspan="2"  align="left" >Firma por&nbsp;  <label class="cuerpo">{cliente}</label>  <b>&nbsp;conforme a autorizaci&oacute;n anterior.</b></td></tr>
+                <tr><td class="cli_data" >Nombre y Apellido: </td> <td>                   <input id="nombre_auth"  placeholder="Haga clic en la flecha para buscar el autorizado" class="sub docx" data-target="autorizado" readonly="readonly" type="text" size="66" value="" onkeyup="verifAutorizado()" /> <img class="auth" src="../img/icon-arrow-right-b-32.png" height="16" width="16" style="cursor:pointer" onclick="getAutorizado()" >  </td> </tr>
+                <tr><td class="cli_data" >C&eacute;dula de Identidad / RUC N&deg;: </td> <td ><input id="ci_auth" placeholder="Haga clic en la Lupa para ver el registro de firmas" class="sub docx" data-target="autorizado_ruc" readonly="readonly" type="text" size="66" value="" onkeyup="verifAutorizado()" /><img id="lupa" class="auth" src="../img/find.png" height="18" width="18" style="cursor:pointer;display: none" onclick="verFirma()" ></td> </tr>  
+            </table> 
+	 </td></tr>
+        <tr class="autorizado_no" style="height:40px"><td>&nbsp;</td></tr>        
+	<tr class="autorizado_no"><td  colspan="2"   align="center" ><b>Firma: </b>_____________________________ </td></tr>	
+        <tr class="autorizado_no"><td colspan="2" align="center"><b>Autorizado</b><input type="hidden" id="cod_cli" value="{cod_cli}"></td></tr>
+		 
+		 
+<!-- end:    query0_subtotal_row -->
+<!-- begin: end_query0 -->
+    
+</table>
+
+<!-- end:   end_query0 -->

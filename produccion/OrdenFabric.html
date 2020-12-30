@@ -1,0 +1,296 @@
+<!-- begin: headers -->
+    <link rel="stylesheet" type="text/css" href="produccion/OrdenFabric.css?_=66666" />   
+    <script type="text/javascript" src="clientes/Clientes.js" ></script>   
+    <script type="text/javascript" src="produccion/OrdenFabric.js?_=5555555555555" ></script>
+          <script>     
+              designs = {designs};      
+              var bc_url = "{url}";
+              var operarios = {operarios}; 
+          </script>
+          
+<div class="div_operadores"></div>
+<div id="ubicaciones" style="display:none;position: absolute;padding:4px;border-radius: 3px;background: #ffc520">
+    <table id="tabla_ubic" border="1" style="border-collapse: collapse;background: white;width: 100%">
+        <tr><th>Ubic.</th><th style="width:50px">Mts</th><th style="width:50px">Piezas<img src="img/close.png" style="margin:-30px -20px 0 0;cursor:pointer" onclick="cerrarUbicaciones()"></th></tr>
+    </table>
+</div>  
+          
+<!-- end:   headers -->
+ 
+<!-- begin: cabecera_nota_pedido -->
+<input type="hidden" id="images_url" value="{images_url}">
+<div id="designs_container">    
+    <div style="text-align: right;width:409px;position:fixed;margin-top: -18px; background-color: lightskyblue;border:solid gray 1px;">
+        <div style="text-align:center;position:fixed;width:390px">Dise&ntilde;os de Materia Prima disponibles</div>
+        <img src="img/close.png" onclick="hideDesigns()" style="cursor:pointer">
+    </div>
+</div>
+
+<div class="titulo" style="text-align: center">Orden de Fabricacion</div>
+
+<div id="cabecera" style="margin:10px 0 10px 4px"> 
+    <div id="cli_data"> 
+        <input type="hidden" id="codigo_cliente" value="" class="clidata">  
+        <label id="label_ruc">R.U.C.:</label>&nbsp;&nbsp;&nbsp; <input type="text" id="ruc_cliente" tabindex="1"  size="20" maxlength="34" class="editable clidata" onchange="buscarCliente(this)" placeholder="Buscar Cliente" data-next="nombre_cliente" >
+        <label>Cliente:</label>   <input type="text" id="nombre_cliente" size="46" tabindex="2" class="editable clidata" onchange="buscarCliente(this)" placeholder="Busque agu&iacute; por el Nombre" data-next="tipo" >
+        <label style="display: none">Cat:</label>  <input type="text" id="categoria" size="3" readonly style="text-align: center;display: none" value="1"  class="clidata" >  
+        <input type="button" id="fijar_cliente" value="Fijar" onclick="fijarCliente()" disabled="disabled">
+        
+        <input type="text" id="conexion" size="2" readonly="readonly" onclick="calcularLatencia()" title="Conexi&oacute;n con el Servidor">
+        
+        <input type="button" id="mis_ordenes" value="Mis Ordenes" onclick="misOrdenes()" style="margin-left: 30px;font-size: 10px">
+    </div>    
+    <div id="ui_clientes" title="Lista de Clientes" style="display:none; cursor: pointer;position: absolute;width:80%;margin:-26 0 0 74"  >
+        <table id="lista_clientes" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;" >
+        <tr><th colspan="4" class="titulo">Clientes</th></tr>
+        <tr style="background-color: lightgray;"> <th style="width: 15%">Codigo</th>   <th style="width: 20%">C.I./R.U.C.</th> <th style="width: 55%">Cliente</th> <th style="width: 10%">Categoria</th> </tr>
+     </table>       
+    </div>      
+ </div>   
+<!-- end:   cabecera_nota_pedido -->
+
+
+<!-- begin: solicitudes_abiertas -->
+<img src="img/arrow-back.png" class="generar" onclick="showMenu()" style="cursor:pointer" title="Volver al Menu">
+<input type="button" id="generar" class="generar" value="Generar Orden de Fabricacion" onclick="generarOrden()"  style="display:none;margin-left: 150px">
+
+
+<div id="area_carga" style="display:none">
+    <table border="0">
+        <tr>
+            <td><label >Codigo Art:&nbsp; &nbsp;</label></td>
+            <td><input type="text" id="codigo" style="font-weight: bolder;text-transform: uppercase;" tabindex="4" data-next="precio_venta" class="editable requerido" value="" size="20" placeholder="Codigo Articulo"  > 
+            <td><label>Descripci&oacute;n&nbsp;&nbsp;&nbsp;</label></td>
+            <td><input type="text" id="descrip" size="64"  class="requerido"  readonly="readonly" > </td> 
+            <td  rowspan="2" id="img_design" ></td>
+        </tr>
+        <tr>
+            <td><label>Cantidad:</label></td>
+            <td>
+                <input type="text" id="cantidad" class="numeros requerido" size="8" style="text-align: right" onchange="getDesigns()"  > 
+                <input type="hidden" id="largo" value="">
+            </td>
+            
+            <td><label>Dise&ntilde;o:</label>  
+            
+            </td>
+            <td> 
+                <input type="text" id="design" size="20" class="requerido" readonly="readonly" >  
+                <input type="button" value="..." onclick="getDesigns()"> 
+            </td>
+        <tr>
+            <td><label>Obs:</label></td> <td colspan="3"> <input type="text" id="obs" value="" size="84" maxlength="2048" placeholder="Solo una observacion por Pedido" >  </td>  
+            <td>
+                <input type="button" id="insertar" value="Agregar" onclick="insertar()" disabled="disabled">
+            </td>
+        </tr>
+       
+    </table>
+<div id="ui_articulos" title="Lista de Articulos" style="display:none; cursor: pointer;position: absolute;width:auto;max-width: 90%"  >
+        <table id="lista_articulos" cellspacing="0" cellpadding ="0" border="1" style="border-collapse: collapse;margin:2px 78px;width: 100%;background: white" >
+           <tr><th colspan="7" class="titulo">Articulos</th></tr>
+           <tr style="background-color: lightgray;"> <th style="width: 10%">Codigo</th>  <th style="width: 30%">Descripcion</th> <th style="width: 10%">Largo x Ancho x Alto</th><th style="width: 40%">Especificaciones</th> <th style="width: 10%">Precio</th> </tr>
+        </table>       
+ </div>      
+</div> 
+
+<div class="titulo" style="margin-bottom: 4px;width:40%;font-weight: bolder;text-align: center;margin-left: 4px;background-color: lightskyblue">Orden de Fabricacion Abierta</div>
+<div id="solicitudes_abiertas" style="margin-left: 4px"></div>  
+
+ 
+<!-- end:   solicitudes_abiertas -->
+
+
+
+
+<!-- begin: ordenes_pendientes_head -->
+   <input type="hidden" id="images_url" value="{images_url}">
+   <div class="titulo" style="text-align: center;margin-bottom: 20px">Orden de Fabricacion Pendientes</div>
+   
+   <div id="asign_popup" >
+       <input type="hidden" id="nro_orden" value="0">
+       <input type="hidden" id="nro_orden_id_det" value="0">
+       <input type="hidden" id="nro_emision" value="0">
+       <input type="hidden" id="codigo_art" value="0">
+       <input type="hidden" id="requerido" value="0">
+       <input type="hidden" id="medida" value="0">
+       <input type="hidden" id="cant_pedida" value="0">
+       
+       
+       <table border="0" class="asign_form" cellspacing="2" cellpadding="0" style="border:solid gray 1px;margin: 0px auto; width:auto;padding: 1px;background-color: white;width: 100%" >
+           <tr class="titulo" style="height: 20px" > 
+               <td style="text-align: center;background-color: white">
+                   <img src="img/arrow-back.png"  onclick="cerrarPopup()" style="cursor:pointer" title="Volver al Menu"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <img class="img_linea img_ref" src="" alt="..." width="42"    ></td> 
+               <th colspan="3" style="text-align: center">Asignacion de Lotes a <span id="a_codigo"></span></th></tr>
+         
+            <tr>
+                <td style="width: 12%"><label>Lote:</label> </td> 
+                <td  colspan="2">
+                    <input title="Ingrese aqui el codigo del lote" type="text" size="12" id="lote" maxlength="36" style="color:blue;font-family: tahoma;font-size: 16px;font-weight: bolder;" >&nbsp;
+                    <img src="img/keypad32.png" border="0" onclick="showKeyPad()" style="margin:0 0 -8px -8px;width:28px;heigth:28px;cursor: pointer" title="Teclado Numerico" >
+                    <span id="stock_compr"></span>
+                    <span id="msg"></span> 
+                    <div id="stock_comprometido" title="Stock Comprometido" style="display: none;position:absolute"></div>    
+                </td>
+                <td rowspan="5"  style="vertical-align: top;;width:30%"  >
+                    <table id="permitidos" style="border-collapse: collapse;margin:0;padding: 2px;width: 100%" border="1" cellspacing="2" cellpadding="0" >
+                        <tr><th class="titulo" colspan="3">Articulos Permitidos</th></tr>     
+                        
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Codigo:</label> </td> <td> <input type="text" size="8" id="codigo"   style="color:black;text-align: left" readonly="readonly" >
+                <label>Suc:</label>  <input type="text" size="4" id="suc"   style="color:black;text-align: center" readonly="readonly" >   
+                </td> 
+                <td rowspan="4" style="width: 20%;text-align:center"><img id="img"  alt="" class="img_linea" src="img/no_image.png"    width="100"  ></td>
+            </tr>
+ 
+            <tr>
+                <td><label>Stock:</label> </td> <td> <input type="text" size="10" id="stock"   style="color:black;text-align: right" readonly="readonly" >
+                    <input type="text" size="4" id="um"  style="color:black;text-align: center" readonly="readonly" >
+                    <label>Consumo Mat. Prima:</label><input type="text" size="4" id="materia_prima"  style="color:black;text-align: center;font-weight: bolder" readonly="readonly" >
+                </td>
+            </tr>
+            <tr>
+                <td><label>Ancho:</label></td><td><input type="text" size="10" id="ancho"  style="color:black;text-align: right" readonly="readonly" >
+                <label>Gramaje:</label><input type="text" size="10" id="gramaje"  style="color:black;text-align: right" readonly="readonly" >
+                <label>M.T.Ref:</label><input type="text" size="2" id="mat_pri_ref"  style="color:black;text-align: center" readonly="readonly" >
+                </td>
+            </tr>  
+            <tr>
+                 <td><label>Descripci&oacute;n:</label> </td> 
+                 <td> <input type="text" id="descrip"  style="color:black;width:99%" readonly="readonly" >
+                    <input type="hidden" id="color" value="0">
+                    <input type="hidden" id="design" value="0">
+                 </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><b>Pedido:</b></label>
+                </td>
+                <td>
+                    <input type="text" size="5" id="pedido" value="" class="ped" readonly="readonly">
+                    <label><b>Asignado:</b></label><input type="text" size="6" id="tasign" value="" class="ped" readonly="readonly">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="msg" style="text-align: center;font-weight: bolder;font-color:red"></td>
+                <td style="text-align: center" >
+                    <input type="button" id="asignar" value="Asignar" onclick="asignarLote()" disabled="disabled" >
+                </td>
+            </tr>
+             
+       </table>    
+       
+       <table border="1" id="detalle_asign" style="border:solid gray 1px;margin: 10px auto; width:100%;padding: 6px;background-color: white;border-collapse: collapse" >
+           <tr><th colspan="6" class="titulo">Lotes Asignados</th></tr>
+           <tr><th>Codigo</th><th>Lote</th><th>Descripcion</th><th>Dise&ntilde;o</th><th>Cantidad</th><th>*</th></tr>
+       </table>
+       
+   </div>
+   
+<!-- end:   ordenes_pendientes_head -->
+
+
+<!-- begin: ordenes_pendientes_cab -->
+
+
+<div id="image_container" style="display:none;position:fixed;margin:0 auto;text-align: center;border:solid gray 1px;z-index: 10;display:none"> </div>
+
+<table class="orden orden_{nro_orden}" border="1" style="margin: 0 auto" >
+    <tr  class="titulo" ><th>N&deg;</th><th>Cliente</th><th style="width: 10%">Usuario</th><th>Fecha</th><th>N&deg; Emision</th><th colspan="4">Poner en Proceso:</th></tr>
+        <tr style="background-color: lightskyblue"> <td class="itemc">{nro_orden}</td> <td>{cliente}</td><td  class="itemc">{usuario}</td> <td  class="itemc">{fecha}</td>  
+            <th style="background-color: white" class="nro_emision" id="emis_{nro_orden}" data-nro_orden="{nro_orden}">{nro_emis}</th> 
+            <th  style="background-color: white" colspan="4">                
+                <input type="button"  value="Planificar" onclick="generarEmision({nro_orden})" id="boton_generar_{nro_orden}"  style="font-size: 11px;display:{display_planificar}">
+                <input type="button"  value="Poner en Proceso" id="poner_en_proc_{nro_emis}" onclick=ponerEnProduccion("{nro_orden}","{nro_emis}") style="font-size: 11px;display:{display_proc}">
+                <label style="color:red;display:{display_no_panif}" title="Consulte con su superior para Planificar" >Bloqueado</label>
+            </th> 
+        </tr>      
+        <tr> <th>Codigo</th><th>Descripcion</th><th>Dise&ntilde;o</th><th>Cantidad</th><th>Medida</th><th>% Asignacion</th><th>Agregar Piezas</th> <th>Asignado a</th>  </tr>
+<!-- end:   ordenes_pendientes_cab -->
+
+
+<!-- begin: ordenes_pendientes_det -->
+<tr> <td class="item codigo_ped_{nro_orden}"  >{codigo}</td> <td class="item">{descrip}</td><td class="itemc" style="padding: 2px"><img class="img_linea imagen_{nro_orden}_{id_det}" src="{design}" width="64" onclick=cargarImagenLote("{img}",this) data-img="{img}" ></td><td class="num cant_pedida_{nro_orden}_{id_det}">{cantidad}</td> <td class="medida_{nro_orden}_{id_det} num">{medida}</td> <td id="porc_asign_{nro_emis}_{id_det}" class="porc_asign" data-nro_emis="{nro_emis}" data-id_det="{id_det}" data-codigo="{codigo}"  data-cant="{cantidad}"></td>  <td class="itemc sap_doc"  id="nro_emis_{nro_emis}_{id_det}">
+        <img src="img/location.png" width="28" class="ubicacion" onclick=getUbicaciones("{img}","imagen_{nro_orden}_{id_det}","{codigo}")>
+        <input type="button" value="Agregar Piezas" class="agregar" data-estado="{estado}" id="btn_{nro_emis}_{id_det}" style="display:none"  onclick=agregarLotes("{codigo}","{nro_orden}","{id_det}","{nro_emis}")> </td><td class="itemc asigned_to operador_{nro_orden}">{asign}</td></tr>
+<!-- end:   ordenes_pendientes_det -->
+
+
+
+<!-- begin: ordenes_pendientes_foot -->
+<tr style="background: white">
+    <td ><b>Obs:</b></td><td colspan="7" style="height: 30px;background: #FFFFE0 ">{obs}</td>
+</tr>
+    </table>
+<div style="height: 40px">&nbsp; </div>
+<!-- end:   ordenes_pendientes_foot -->
+
+
+
+
+
+<!-- begin: mis_ordenes_titulo -->
+   <input type="hidden" id="images_url" value="{images_url}">
+   <div class="titulo" style="text-align: center;margin-bottom: 20px">Mis Ordenes de Fabricacion</div>  
+<!-- end:   mis_ordenes_titulo -->
+
+<!-- begin: mis_ordenes_cab -->
+<table class="orden orden_{nro_orden}" border="1" style="margin: 0 auto" >
+    <tr  class="titulo" ><th>N&deg;</th><th>Cliente</th><th style="width: 10%">Usuario</th><th>Fecha</th><th>N&deg; Emision</th><th colspan="4">Estado</th></tr>
+        <tr style="background-color: lightskyblue"> <td class="itemc">{nro_orden}</td> <td>{cliente}</td><td  class="itemc">{usuario}</td> <td  class="itemc">{fecha}</td>  
+            <th style="background-color: white" class="nro_emision" id="emis_{nro_orden}" data-nro_orden="{nro_orden}">{nro_emis}</th> 
+            <th  style="background-color: {fondo}" colspan="4">                
+                {estado}
+            </th> 
+        </tr>      
+        <tr> <th>Codigo</th><th>Descripcion</th><th>Dise&ntilde;o</th><th>Cantidad</th><th>Medida</th><th>Req. Mts</th><th>Mts Asign.</th>  <th>Asignado a</th>  </tr>
+<!-- end:   mis_ordenes_cab -->
+
+
+<!-- begin: mis_ordenes_det -->
+<tr style="background-color: white"> <td class="item codigo_ped_{nro_orden}"  >{codigo}</td> <td class="item">{descrip}</td><td class="itemc" style="padding: 2px"><img class="img_linea" src="{design}" width="50"></td><td class="num">{cantidad}</td> <td class="num">{medida}</td> <td class="req_{nro_orden} num" data-nro_orden="{nro_orden}">{mts}</td> <td class="num asigned" id="asigned_{codigo}-{nro_orden}" >0</td>  <td class="itemc">{asign}</td></tr>
+<!-- end:   mis_ordenes_det -->
+
+
+
+<!-- begin: mis_ordenes_foot -->
+    </table>
+
+<div style="height: 40px">&nbsp; </div>
+<!-- end:   mis_ordenes_foot -->
+
+<!-- Asignaciones -->
+
+
+<!-- begin: ordenes_asignadas_head -->
+   <div class="titulo" style="text-align: center;margin-bottom: 20px">Orden de Fabricacion Asignadas</div>
+<!-- end:   ordenes_asignadas_head -->
+
+
+<!-- begin: ordenes_asignadas_cab -->
+<table class="orden" border="1" style="margin: 0 auto;width: auto" >
+        <tr  class="titulo" ><th>N&deg;</th><th>Cliente</th><th style="width: 10%">Usuario</th><th>Fecha</th><th>Asignada a: {usuario}</th></tr>
+        <tr style="background-color: lightskyblue"> <td class="itemc">{nro_orden}</td> <td>{cliente}</td><td  class="itemc">{usuario}</td> <td  class="itemc">{fecha}</td>  
+            <th rowspan="3" style="background-color: white">                
+                <input type="button"  value="Ir a Emision para Produccion" onclick="emisionProduccion({nro_orden})" style="font-size: 11px">
+            </th> 
+        </tr>      
+        <tr> <th>Codigo</th><th>Descripcion</th><th>Dise&ntilde;o</th><th>Cantidad</th> </tr>
+<!-- end:   ordenes_asignadas_cab -->
+
+
+<!-- begin: ordenes_asignadas_det -->
+<tr style="background-color: white"> <td class="item" >{codigo}</td> <td class="item">{descrip}</td><td class="item">{design}</td><td class="num">{cantidad}</td></tr>
+<!-- end:   ordenes_asignadas_det -->
+
+
+
+<!-- begin: ordenes_asignadas_foot -->
+    </table>
+
+<div style="height: 40px">&nbsp; </div>
+<!-- end:   ordenes_asignadas_foot -->

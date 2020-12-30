@@ -1,0 +1,328 @@
+ 
+/* 
+    Created on : 21-jul-2020, 15:24:35
+    Author     : Doglas
+*/
+
+  
+.orden{
+    border-collapse: collapse;
+    min-width: 40%;
+    width: 90%
+}
+.fila{
+    background-color: white;
+}
+.detalle{
+    border-collapse: collapse;
+    width: 100%;
+}
+.detalle td{
+    background-color: white;
+}
+#conexion{
+    border:solid black 1px;
+    border-radius: 9px;
+    margin:2px 0 0 30px;
+    padding: 6px;
+    width: 16px;
+    height:16px;
+}
+
+#designs_container{
+    position: fixed;
+    z-index: 5;
+    background-color: #F5F5DC;
+    border: solid gray 1px;
+    border-radius: 4px;
+    /* overflow-y: auto;     */
+    height: 700px;
+    display:none;
+    width: 410px;
+}
+
+.design_div{
+    width: 110px;   
+    float:left;
+    border: solid gray 1px;
+    margin: 4px;
+    padding:4px;
+    background:whitesmoke;
+    cursor: pointer
+}
+.design_div:hover{
+    background-color: #d2dae2
+}
+.img_label{
+    font-weight: bolder;
+    font-size: 11px;
+}
+.imagen_design{
+    width: 106px;    
+    height: 120px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);
+ 
+}
+ 
+.imagen_design:hover { 
+    border: solid #e5e5e5 1px; 
+}
+
+#img_design, .img_linea{
+    border-radius: 3px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);
+}
+
+.art_selected{
+    background-color: goldenrod;
+}
+#asign_popup{
+    display:none;
+    background-color: #F5F5DC;
+    position:absolute;
+    margin: 0 auto;
+    width: 900px;
+    border:solid gray 1px
+}
+
+.tabla_porc_asign{
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;  
+}
+.cod_mat_pri{
+    font-size: 11px;
+    font-weight: bold;
+    width: 30%;
+    padding:0 2px 0 2px;
+}
+.cod_mat_pri:hover{
+    cursor: col-resize
+}
+
+.tabla_stock_comprometido{ 
+    border-collapse: collapse;
+    border:solid gray 1px;    
+    margin-left:-70px
+}
+.tabla_stock_comprometido td{
+    margin: 0 4px;
+    padding:3px; 
+}
+.incorrecto{
+    border:solid red 1px;
+}
+.correcto{
+    border:solid green 1px;
+    background-color: lightgreen;
+}
+.bloqueado{
+  color:red;   
+  font-weight: bolder;
+}
+.permitido{
+   background-color: green;   
+}
+
+.codigo_permitido{
+    cursor: pointer;
+}
+.ubicacion{
+    margin-right:  6px;
+    margin-left:  6px;
+    margin-bottom: -10px;
+    cursor:pointer
+}
+
+.add_person{
+    cursor: pointer
+}
+.div_operadores{
+    display: none;
+    width: 200px;
+    background-color: white;
+    position: absolute;
+    padding: 3px;
+    border-radius: 3px;
+    border:solid black 1px;
+}
+.tabla_operadores{
+    border-collapse: collapse;
+    width: 100%;
+    border:solid gray 1px;
+}
+
+.tabla_operadores td{
+    font-size: 14px;
+    font-weight: bolder;
+    padding: 4px;
+}
+.tabla_operadores tr:hover{
+    cursor:pointer;
+    background-color: #d2dae2;
+    font-size: 15px;
+}
+
+optgroup { 
+    font-style: normal; 
+}
+
+#suc option{
+   width: 160px;
+}
+ 
+#conexion{
+    border:solid black 1px;
+    border-radius: 9px;
+    margin:2px 0 0 30px;
+    padding: 6px;
+    width: 16px;
+    height:16px;
+}
+
+#galeria{ 
+    background-color: #F5F5DC;
+    border: solid gray 1px;
+    border-radius: 4px;
+    height: auto;
+    width: auto;
+}    
+
+.design_div{
+    width: 180px;   
+    float:left;
+    border: solid gray 1px;     
+    margin: 4px;
+    padding:4px;
+    background:whitesmoke;
+    cursor: pointer
+}
+.design_div:hover{
+    background-color: #d2dae2
+}
+.img_label{
+    font-weight: bolder;
+    font-size: 11px;
+}
+#image_container{
+    background-color: whitesmoke;
+    height:360px;
+    overflow-y:scroll
+}
+.imagen_design{
+    width: 178px;    
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51); 
+} 
+.imagen_design:hover { 
+    border: solid #e5e5e5 1px; 
+}
+
+#img_design, .img_linea{
+    border-radius: 3px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);
+}
+               
+.large_image{ 
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 25px rgb(232, 232, 232) inset, 0 1px 0 rgb(195, 195, 195), 0 2px 0 rgb(201, 201, 201), 0 2px 3px rgb(51, 51, 51);     
+}
+
+#piezas{
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+    margin-top: 0px;
+}
+.art_head th{
+    text-align: left;
+    margin-left: 2px; 
+} 
+#h_img{
+    text-decoration: none;
+}
+.comp_container{
+    padding:4px;
+    border-radius: 3px;
+    border-radius: 3px;
+    border:solid gray 1px;
+    background-color: whitesmoke;    
+    margin-left: -208px;
+    display:none;
+    position:absolute;
+}
+.table_stock_compr{
+    border-collapse: collapse;
+    
+}
+.noinvisible{
+    display: none
+}
+
+.Normal{
+    color:black;  
+    background-color: #4cd137;
+}
+.Arribos{
+    color:white;  
+    background-color: #fbc531;
+}
+.Oferta{
+    color:white; 
+    background-color: #00a8ff;    
+}
+.Retazo{
+    color:white;
+    background-color: #AD8BFE;
+}
+.Promocion{
+    color:black; 
+    background-color: orange;
+}
+.FP{
+    color:black; 
+    background-color: #c23616;  
+}
+.Bloqueado{
+    color:black; 
+    background-color: #006600; 
+}
+
+.titulo {
+    background-color: #dddacd;
+    font-size: 13px;
+}
+ 
+
+@media only screen and (max-width: 420px) {    
+.item.clicable_art {
+    height: 36px;   
+}
+#ui_articulos{
+    max-width: 100%;
+    width: 96%
+}
+#descrip{
+    width: 180px
+}
+.invisible{
+    display: none
+}
+}

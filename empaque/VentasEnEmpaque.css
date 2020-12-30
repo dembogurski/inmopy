@@ -1,0 +1,541 @@
+/* 
+    Created on : 07/05/2015, 11:48:24 AM
+    Author     : Ing.Douglas
+*/
+
+[disabled]{
+    color:black;
+}
+
+.titulo_factura{
+    text-align: center;
+    background: lightgray;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+#ventas{
+    width: auto;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 5px;
+    min-width: 80%; 
+    margin: 12px 12px;
+}
+
+.venta_empaque{
+    height:28px;
+    background-color: white; //Casi blanco
+}
+.venta_selected{
+    background-color: #EAE2FF; 
+}
+#ventas tr:hover td{
+    background-color: #dddacd;
+    cursor:pointer;     
+}
+
+.fila_selected{
+    background-color: #EAE2FF; 
+}
+.input_kg_med{
+    width:60px;
+    
+}
+ 
+#detalle_factura  {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #F0F0F0; //Casi blanco
+    border-color: #999999;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    margin-bottom: 10px;
+    background-color: rgb(250,250,250);
+}
+
+#detalle_factura tr:hover{
+    /*background-color: #dddacd; */
+    cursor:pointer;     
+} 
+
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s; 
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform; 
+    overflow:hidden; 
+}   
+
+.rotate:hover{ 
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg); 
+    -o-transform:rotate(360deg);
+}  
+
+.control_pupup{
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    background:whitesmoke;
+    padding:2px;
+    border:1px solid gray;
+    text-align:center;
+    font-weight:bold;
+    min-width: 98%;
+    min-height: 400px;
+    height: auto;
+    margin-top: 0;
+    margin-left: 8px; 
+}
+.image_container{
+    position: absolute;
+    width: 90px;    
+    z-index: 10;
+    border: solid black 1px;
+    text-align: center;
+}
+.stock_real{
+    width: 100%;
+    background-color: beige;
+    border-bottom: solid black 1px;
+    text-align: center;
+}
+
+.det_codigo:not(.fila_selected){
+    height: 26px;
+    background-color: white;
+}
+
+.codigo{
+    width: 8%;
+}
+.descrip{
+    width: 36%; 
+}
+.cantidad,gramaje,ancho,kg,cant_cal{
+    width: 8%
+}
+.sis_med{
+    width: 2%
+}
+.kg_med{
+  width: 6%;
+  min-width: 88px;
+}
+
+.delete,um{
+    width: 2%;
+}
+.estado{
+    width: 6%
+}
+
+.borde_rojo{
+    border:solid red 1px;
+}
+
+.borde_verde{
+   border:dashed green 2px; 
+}
+.balanza{
+    height:18px
+}
+ 
+.balanza_button{
+  background-image:url(../img/balanza1.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-position:center; 
+}
+.balanza_button_read{
+  background-image:url(../img/balanza3.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-position:center; 
+}
+.balanza_button_reading{
+  background-image:url(../img/loading_fast.gif);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-position:center; 
+}
+.balanza_button:focus{
+  background-image:url(../img/balanza2.png);
+  background-repeat:no-repeat;
+  border: 0 solid grey;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-position:center; 
+}
+.back{
+    width:26px;
+    height:24px;
+    margin-bottom: -6px;
+}
+
+.F{
+    background-color: orange;
+    padding:2px;
+}
+.FP{
+    background-color: orangered;
+    padding:2px
+}
+.F_FP{
+   background-color:lightsalmon;
+   padding: 2px;
+   border: solid red 3px;     
+}
+.xinfo{
+    display:none;
+    background-color: #F3F4F9;
+}
+th.xinfo{
+   background-color: #DDDACD;
+}
+.minibutton{
+    font-size: 10px;
+    height: 24px;        
+}
+.modificar{
+    width: 140px;
+    margin: 100px auto;
+    background-color: #F5DA81;
+    position: absolute;
+    border:1px solid gray;
+}
+#controlado:focus{
+  background-color: lightblue;    
+}
+
+.hot{
+    display: block;
+    color: rgb(60,60,60);
+    font: bold 8pt arial;
+    text-decoration: none;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: #eff0f2;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-top: 1px solid #f5f5f5;
+    -webkit-box-shadow: 
+            inset 0 0 25px #e8e8e8,
+            0 1px 0 #c3c3c3,
+            0 2px 0 #c9c9c9,
+            0 2px 3px #333;
+    -moz-box-shadow: 
+            inset 0 0 25px #e8e8e8,
+            0 1px 0 #c3c3c3,
+            0 2px 0 #c9c9c9,
+            0 2px 3px #333;
+    box-shadow: 
+            inset 0 0 25px #e8e8e8,
+            0 1px 0 #c3c3c3,
+            0 2px 0 #c9c9c9,
+            0 2px 3px #333;
+    text-shadow: 0px 1px 0px #f5f5f5;   
+}
+.guardado{
+    font-weight: bolder;
+} 
+.pr{
+   height: 24px;
+   background-color: lightgray;
+   color:black;
+   font-size: 10px;
+   border-radius: 3px;
+   margin: -5px 1px 5px 100px;
+   position: absolute;
+   border:solid gray 1px;
+   display: none;
+}
+.pr:hover{
+    color:white;
+    background-color: #239d60;
+    cursor:pointer;
+}
+
+div#procesandoXUsuarios{
+    position: relative;
+    margin: 0px 1px 3px;
+}
+div#pendientes{
+    position: absolute;
+    top: 0;
+    left: 125px;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 1px 5px;
+    vertical-align: top;
+}
+div#pendientes:hover{
+    cursor: pointer;
+    background-color: brown;
+    color: wheat;
+    font-weight: 900;
+}
+div#listaOP{
+    position: absolute;
+    display: none;
+    left: 155px;
+    top: 0;
+}
+div#listaOP ul li{
+    list-style: none;
+    background-color: lightsteelblue;
+    font-size: 14px;
+    margin: 1px 0px;
+    text-align: left;
+    padding: 0px 3px 1px 5px;
+    border-radius: 5px;
+}
+/*
+div#pendientes:hover~div#listaOP{
+    display: block;
+}*/
+
+/* Seccion Facturar al Vendedor*/
+a.manual{
+    text-decoration: none;
+    margin: 0;
+    padding: 0px 3px;
+    font-size: 16px;
+    border: 1px solid brown;
+    border-radius: 3px;
+    -webkit-transition: background-color 1s,color 2s; /* Safari */
+    transition: background-color 1s,color 2s;
+}
+a.manual:hover{
+    color: white;
+    background-color: darkolivegreen;
+}
+th.fact_vend,td.fact_vend{
+    display: none;
+}
+div.fact2vend{
+    position: relative;
+    height: 70%;
+    width: 100%;
+    padding: 5% 0 0 0;    
+}
+div.fact2vendFormContainer:empty{
+    display: none;
+}
+div.fact2vendFormContainer{
+    position: absolute;
+    top: 107%;
+    right: 80%;
+    min-width: 390px;
+    background-color: wheat;
+    padding: 0px;
+    margin: 0px;
+    border: solid 1px lightblue;
+    border-radius: 5px;
+    z-index: 1;
+}
+div.fact2vendFormContainer table{
+    width: 100%;
+    margin: 3px;
+    margin: 0px;
+    padding: 0px;
+}
+div.fact2vendFormContainer table th{  
+    padding: 1px;    
+}
+div.fact2vendFormContainer div.tableHeader{
+    white-space: nowrap;
+    position: relative;
+    font-size: 14px;
+    width: 100%;
+    background-color: gray;
+    vertical-align: bottom;
+    height: auto;
+    margin: 0;
+    padding: 3px 0;
+}
+button[id^='f2vadd_']:not(:disabled):hover{
+    cursor: pointer;
+    border-color:orange;
+    background-color: lightcyan;
+}
+button[id^='f2vadd_']:disabled:hover{
+    cursor: not-allowed;;
+}
+button[id^='f2vadd_']{
+    height: 20px;
+    width: 20px;
+    border: solid 1px gray;
+    border-radius: 3px;
+    padding: 1px;
+    background:url(/inmopy_sap/img/extraer.png)  0px no-repeat;
+}
+button[id^='f2vadd_']:disabled{
+    height: 20px;
+    width: 20px;
+    border: solid 1px gray;
+    border-radius: 3px;
+    padding: 1px;
+    border: solid 1px darkgray;
+    background:url(/inmopy_sap/img/extraer.png)  -16px no-repeat;
+}
+div.fact2vendFormContainer button#f2v_close{
+    height: 20px;
+    width: 20px;
+    color: white;
+    position: absolute;
+    right: 1px;
+    text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+}
+div.fact2vendFormContainer button#f2v_close:hover{
+    cursor: pointer;
+    color: red;
+}
+div.fact2vendFormContainer button#f2v_aplicar{
+    padding: 3px;
+    width: 60%;
+    color: white;
+    position: relative;
+    text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+    font-size: 16px;
+}
+div.fact2vendFormContainer button#f2v_aplicar img{
+    position: absolute;
+    right: 11px;
+    margin: 3px;
+}
+div.fact2vendFormContainer input, div.fact2vendFormContainer label{
+    width: 80%;
+    font-size: 16px;
+}
+div.fact2vendFormContainer table tr{
+    cursor: auto !important;
+}
+
+div.fact2vendFormContainer label:after{
+    content: "\A";
+    white-space: pre;
+}
+div.fallaEntrada{
+    width: 117px;
+}
+#eliminar,#todo{
+    display: none;
+}
+input#eliminar + label, input#todo + label{
+    padding: 2px;
+    border: solid 1px darkblue;
+    border-radius: 5px;
+}
+input#eliminar:hover + label, input#todo:hover + label{
+    color: blue;
+    background-color: darksalmon;
+    cursor: pointer;
+}
+input#eliminar + label:after{
+    content: 'Reemplazar';
+    margin-left: 7px;
+    color: green;
+}
+input#eliminar:checked + label:after{
+    content: 'Eliminar';
+    margin-left: 7px;
+    color: red;
+}
+input#todo + label:after{
+    content: 'Este Lote';
+    margin-left: 7px;
+    color: green;
+}
+input#todo:checked + label:after{
+    content: 'Todo';
+    margin-left: 7px;
+    color: red;
+}
+p.ok{
+    color: green;
+}
+
+#control_laser{
+   display:none;
+   border:solid gray 1px;
+   background-color: lightsteelblue;
+   margin: 0 auto;
+   position: absolute;
+   padding:10px;
+   font-size: 20px;
+   text-align: center;
+   z-index: 20;
+   width: 350px
+}
+
+.sound{
+    display: none;
+}
+.datos_remision{
+    display: none;        
+}
+
+section#nr_tramsportadora{
+    border: 1px solid darkseagreen;
+    padding: 0 3px;
+    max-width: 720px;
+    margin-left: 400px;   
+}
+section#nr_tramsportadora :not(li){
+    display: inline-block;
+    vertical-align: middle;
+    
+}
+div.transportadora, div.transportadora input{
+    position: relative;
+    width: 205px;
+    display: none
+}
+
+div.transportadora ul{    
+    list-style: none;
+    position: absolute;
+    background-color: wheat;
+    padding-left: 0px;
+    left: 3px;
+    width: 100%;
+    z-index: 1;
+}
+div.transportadora ul li{
+    margin: 6px 4px;
+    text-align: left;
+    
+}
+div.transportadora ul li:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+div.transportadora ul li:hover:before{
+    content: '>';
+    font-weight: 900;
+    margin-right: 3px;
+}
+p#transportadora span{
+    font-weight: 900;
+}
